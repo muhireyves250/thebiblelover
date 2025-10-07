@@ -1,9 +1,5 @@
 // API Configuration
-const API_BASE_URL = '/api';
-
-// Debug logging to help identify the issue
-console.log('API_BASE_URL:', API_BASE_URL);
-console.log('Current origin:', window.location.origin);
+const API_BASE_URL = 'http://localhost:5000/api';
 
 // Helper function to get auth token
 const getAuthToken = () => {
@@ -39,7 +35,6 @@ const getHeaders = (includeAuth = true) => {
 // Generic API request function
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
-  console.log('Making API request to:', url);
   const config = {
     headers: getHeaders(options.includeAuth !== false),
     ...options,
