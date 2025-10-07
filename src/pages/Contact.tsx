@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
+import { contactAPI } from '../services/api';
+import { useAPI } from '../hooks/useAPI';
 
 const Contact = () => {
   const [offset, setOffset] = useState(0);
@@ -28,6 +30,8 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { loading, error, execute } = useAPI();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -36,24 +40,22 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact form submitted:', formData);
     
-    // Save message to localStorage for dashboard
-    const message = {
-      id: Date.now().toString(),
-      ...formData,
-      timestamp: new Date().toISOString()
-    };
-    
-    const existingMessages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
-    existingMessages.push(message);
-    localStorage.setItem('contactMessages', JSON.stringify(existingMessages));
-    
-    // Reset form
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    alert('Thank you for your message! I\'ll get back to you soon.');
+    try {
+      // Ensure subject has a default value if empty
+      const submitData = {
+        ...formData,
+        subject: formData.subject.trim() || 'General Inquiry'
+      };
+      
+      await execute(() => contactAPI.submitContact(submitData));
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (err) {
+      console.error('Contact form error:', err);
+    }
   };
 
   return (
@@ -100,6 +102,19 @@ const Contact = () => {
             {/* Contact Form */}
             <div>
               <h3 className="text-xl font-serif text-gray-900 mb-6">Send a Message</h3>
+              
+              {isSubmitted && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-md">
+                  Thank you for your message! I'll get back to you soon.
+                </div>
+              )}
+              
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">
+                  {error}
+                </div>
+              )}
+              
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
@@ -135,7 +150,7 @@ const Contact = () => {
 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject
+                    Subject (Optional)
                   </label>
                   <input
                     type="text"
@@ -166,10 +181,20 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-amber-700 text-white py-3 px-6 rounded-md hover:bg-amber-800 transition-colors flex items-center justify-center space-x-2"
+                  disabled={loading}
+                  className="w-full bg-amber-700 text-white py-3 px-6 rounded-md hover:bg-amber-800 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="h-4 w-4" />
-                  <span>Send Message</span>
+                  {loading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </button>
               </form>
             </div>

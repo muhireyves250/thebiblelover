@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, CreditCard, DollarSign, Gift } from 'lucide-react';
+import { Heart, CreditCard, DollarSign, Gift, CheckCircle, AlertCircle } from 'lucide-react';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
+// @ts-ignore
+import { donationsAPI } from '../services/api';
 
 const Donate = () => {
   const [offset, setOffset] = useState(0);
@@ -30,6 +32,37 @@ const Donate = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recentDonations, setRecentDonations] = useState<any[]>([]);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loadingDonations, setLoadingDonations] = useState(true);
+
+  // Load recent donations
+  const loadRecentDonations = async () => {
+    setLoadingDonations(true);
+    try {
+      const response = await donationsAPI.getDonations({ limit: 5 });
+      if (response.success && response.data) {
+        setRecentDonations(response.data.donations || []);
+      }
+    } catch (error) {
+      console.error('Failed to load recent donations:', error);
+      // Fallback to localStorage if API fails
+      try {
+        const localDonations = JSON.parse(localStorage.getItem('donations') || '[]');
+        setRecentDonations(localDonations.slice(-5).reverse());
+      } catch (localError) {
+        console.error('Local storage also failed:', localError);
+        setRecentDonations([]);
+      }
+    } finally {
+      setLoadingDonations(false);
+    }
+  };
+
+  useEffect(() => {
+    loadRecentDonations();
+  }, []);
 
   const handleAmountSelect = (amount: string) => {
     setDonationAmount(amount);
@@ -52,71 +85,68 @@ const Donate = () => {
   const handleDonate = async () => {
     const amount = customAmount || donationAmount;
     
+    // Clear previous messages
+    setError('');
+    setSuccess('');
+    
     // Validation
     if (!amount) {
-      alert('Please select or enter a donation amount.');
+      setError('Please select or enter a donation amount.');
       return;
     }
     
     if (Number(amount) <= 0) {
-      alert('Please enter a valid donation amount.');
+      setError('Please enter a valid donation amount.');
       return;
     }
     
     if (Number(amount) > 10000) {
-      alert('Donation amount cannot exceed $10,000. Please contact us for larger donations.');
+      setError('Donation amount cannot exceed $10,000. Please contact us for larger donations.');
       return;
     }
     
     setIsSubmitting(true);
     
     try {
-      console.log('Processing donation:', { amount, donorInfo });
-      
-      // Save donation to localStorage for dashboard
-      const donation = {
-        id: Date.now().toString(),
-        amount: Number(amount),
+      // Prepare donation data
+      const donationData = {
         donorName: donorInfo.name || 'Anonymous',
-        donorEmail: donorInfo.email || '',
-        donorMessage: donorInfo.message || '',
-        timestamp: new Date().toISOString(),
-        date: new Date().toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric'
-        })
+        email: donorInfo.email || '',
+        amount: Number(amount),
+        currency: 'USD',
+        paymentMethod: 'STRIPE', // Default payment method
+        paymentId: `donation_${Date.now()}`, // Generate a unique payment ID
+        message: donorInfo.message || '',
+        isAnonymous: !donorInfo.name, // Anonymous if no name provided
+        status: 'PENDING' // Default status
       };
+
+      console.log('Submitting donation:', donationData);
       
-      // Save with error handling
-      try {
-        const existingDonations = JSON.parse(localStorage.getItem('donations') || '[]');
-        existingDonations.push(donation);
-        localStorage.setItem('donations', JSON.stringify(existingDonations));
-      } catch (storageError) {
-        console.error('Storage error:', storageError);
-        // Try sessionStorage as backup
-        try {
-          const existingDonations = JSON.parse(sessionStorage.getItem('donations_backup') || '[]');
-          existingDonations.push(donation);
-          sessionStorage.setItem('donations_backup', JSON.stringify(existingDonations));
-        } catch (sessionError) {
-          console.error('Session storage also failed:', sessionError);
-        }
+      // Submit to API
+      const response = await donationsAPI.submitDonation(donationData);
+      
+      if (response.success) {
+        const donorName = donorInfo.name || 'Anonymous';
+        setSuccess(`Thank you, ${donorName}! Your donation of $${amount} has been received. Your support helps keep The Bible Lover running and sharing inspiring content with our community.`);
+        
+        // Reset form
+        setDonationAmount('');
+        setCustomAmount('');
+        setDonorInfo({ name: '', email: '', message: '' });
+        
+        // Reload recent donations
+        await loadRecentDonations();
+        
+        // Clear success message after 5 seconds
+        setTimeout(() => setSuccess(''), 5000);
+      } else {
+        setError(response.message || 'Failed to process donation. Please try again.');
       }
       
-      // Success message
-      const donorName = donorInfo.name || 'Anonymous';
-      alert(`Thank you, ${donorName}! Your donation of $${amount} has been received. Your support helps keep The Bible Lover running and sharing inspiring content with our community.`);
-      
-      // Reset form
-      setDonationAmount('');
-      setCustomAmount('');
-      setDonorInfo({ name: '', email: '', message: '' });
-      
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error processing donation:', error);
-      alert('There was an error processing your donation. Please try again.');
+      setError(error.message || 'There was an error processing your donation. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -166,6 +196,22 @@ const Donate = () => {
             {/* Donation Form */}
             <div>
               <h3 className="text-xl font-serif text-gray-900 mb-6">Make a Donation</h3>
+              
+              {/* Success Message */}
+              {success && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-md flex items-start space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-green-800 text-sm">{success}</p>
+                </div>
+              )}
+              
+              {/* Error Message */}
+              {error && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md flex items-start space-x-3">
+                  <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                  <p className="text-red-800 text-sm">{error}</p>
+                </div>
+              )}
               
               {/* Amount Selection */}
               <div className="mb-6">
@@ -338,43 +384,35 @@ const Donate = () => {
               <div className="mt-8">
                 <h4 className="font-medium text-gray-900 mb-4">Recent Donations</h4>
                 <div className="space-y-3 max-h-48 overflow-y-auto">
-                  {(() => {
-                    try {
-                      const donations = JSON.parse(localStorage.getItem('donations') || '[]');
-                      const recentDonations = donations.slice(-5).reverse(); // Show last 5, most recent first
-                      
-                      if (recentDonations.length === 0) {
-                        return (
-                          <p className="text-sm text-gray-500 italic">No donations yet. Be the first to support us!</p>
-                        );
-                      }
-                      
-                      return recentDonations.map((donation: any) => (
-                        <div key={donation.id} className="flex justify-between items-center p-3 bg-white rounded-md border border-gray-200">
-                          <div>
-                            <p className="text-sm font-medium text-gray-900">
-                              {donation.donorName || 'Anonymous'}
-                            </p>
-                            <p className="text-xs text-gray-500">
-                              {donation.date || new Date(donation.timestamp).toLocaleDateString()}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-sm font-bold text-amber-700">${donation.amount}</p>
-                            {donation.donorMessage && (
-                              <p className="text-xs text-gray-500 italic max-w-32 truncate">
-                                "{donation.donorMessage}"
-                              </p>
-                            )}
-                          </div>
+                  {loadingDonations ? (
+                    <div className="flex items-center justify-center py-4">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-700"></div>
+                      <span className="ml-2 text-sm text-gray-500">Loading donations...</span>
+                    </div>
+                  ) : recentDonations.length === 0 ? (
+                    <p className="text-sm text-gray-500 italic">No donations yet. Be the first to support us!</p>
+                  ) : (
+                    recentDonations.map((donation: any) => (
+                      <div key={donation.id} className="flex justify-between items-center p-3 bg-white rounded-md border border-gray-200 hover:shadow-sm transition-shadow">
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">
+                            {donation.isAnonymous || !donation.donorName ? 'Anonymous' : donation.donorName}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {new Date(donation.createdAt).toLocaleDateString()}
+                          </p>
                         </div>
-                      ));
-                    } catch {
-                      return (
-                        <p className="text-sm text-gray-500 italic">Unable to load recent donations.</p>
-                      );
-                    }
-                  })()}
+                        <div className="text-right">
+                          <p className="text-sm font-bold text-amber-700">${donation.amount}</p>
+                          {donation.message && (
+                            <p className="text-xs text-gray-500 italic max-w-32 truncate" title={donation.message}>
+                              "{donation.message}"
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>

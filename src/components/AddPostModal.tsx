@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { X, Upload, Save, Image as ImageIcon } from 'lucide-react';
 import { cleanupOldStorage } from '../utils/storageManager';
+import { blogAPI } from '../services/api';
 
 interface AddPostModalProps {
   isOpen: boolean;
@@ -120,71 +121,54 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
       }
 
       const slug = generateSlug(formData.title);
-      const newPost = {
-        id: Date.now().toString(),
+      
+      // Prepare post data for API
+      const postData = {
         title: formData.title,
-        subtitle: formData.subtitle.trim(),
         slug: slug,
         excerpt: formData.excerpt.trim(),
         content: formData.content,
-        author: formData.author,
-        date: new Date().toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric' 
-        }),
-        readTime: formData.readTime,
-        image: formData.image,
-        views: 0,
-        likes: 0,
-        comments: 0
+        featuredImage: formData.image,
+        readTime: parseInt((formData.readTime || '5').toString()) || 5,
+        status: 'PUBLISHED',
+        category: 'OTHER',
+        tags: [],
+        seoTitle: formData.title,
+        seoDescription: formData.excerpt.trim(),
+        isFeatured: false
       };
 
-      console.log('Saving post with excerpt:', newPost.excerpt);
+      console.log('Saving post to database:', postData);
 
-      // Clean up old storage data before saving
-      cleanupOldStorage();
-
-      // Save to localStorage with quota handling
-      try {
-        const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-        existingPosts.push(newPost);
-        localStorage.setItem('blogPosts', JSON.stringify(existingPosts));
-      } catch (quotaError) {
-        console.error('Storage quota exceeded:', quotaError);
+      // Save to database via API
+      const response = await blogAPI.createPost(postData);
+      
+      if (response.success && response.data?.post) {
+        const savedPost = response.data.post;
+        console.log('Post saved successfully to database:', savedPost);
         
-        // Try to save with compressed data
+        // Clean up old storage data
+        cleanupOldStorage();
+
+        // Also save to localStorage for local caching
         try {
           const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-          existingPosts.push(newPost);
-          
-          // Compress the data by removing unnecessary whitespace
-          const compressedData = JSON.stringify(existingPosts);
-          localStorage.setItem('blogPosts', compressedData);
-        } catch (compressionError) {
-          console.error('Compression also failed:', compressionError);
-          
-          // Last resort: save to sessionStorage as backup
-          try {
-            const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-            existingPosts.push(newPost);
-            sessionStorage.setItem('blogPosts_backup', JSON.stringify(existingPosts));
-            
-            alert('Storage quota exceeded! Your post has been saved to temporary storage. Please create a backup and clear some data to continue using localStorage.');
-          } catch (sessionError) {
-            console.error('Session storage also failed:', sessionError);
-            throw new Error('Unable to save post due to storage limitations. Please clear some data or create a backup.');
-          }
+          existingPosts.push(savedPost);
+          localStorage.setItem('blogPosts', JSON.stringify(existingPosts));
+        } catch (quotaError) {
+          console.warn('Failed to save to localStorage:', quotaError);
         }
+
+        // Initialize post statistics in localStorage
+        localStorage.setItem(`post:${slug}:views`, '0');
+        localStorage.setItem(`post:${slug}:likes`, '0');
+        localStorage.setItem(`post:${slug}:comments`, '[]');
+
+        onSave(savedPost);
+      } else {
+        console.error('Failed to save post to database:', response);
+        throw new Error(response.message || 'Failed to save post to database');
       }
-
-      // Initialize post data in localStorage
-      localStorage.setItem(`post:${slug}:views`, '0');
-      localStorage.setItem(`post:${slug}:likes`, '0');
-      localStorage.setItem(`post:${slug}:comments`, '[]');
-
-      console.log('Post saved successfully:', newPost);
-      onSave(newPost);
       
       // Reset form
       setFormData({
@@ -219,21 +203,31 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">Add New Post</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X className="h-6 w-6" />
-          </button>
+      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-8 border-b border-amber-200 rounded-t-2xl">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+                <Save className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Add New Post</h2>
+                <p className="text-sm text-gray-600 font-medium">Create a new blog post for your website</p>
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-3 text-gray-500 hover:text-gray-700 hover:bg-white rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 hover:border-gray-300"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="p-8 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="title" className="block text-sm font-bold text-gray-700 mb-3">
                 Post Title *
               </label>
               <input
@@ -243,13 +237,14 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                autoComplete="off"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                 placeholder="Enter post title"
               />
             </div>
 
             <div>
-              <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="author" className="block text-sm font-bold text-gray-700 mb-3">
                 Author
               </label>
               <input
@@ -258,14 +253,15 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                 name="author"
                 value={formData.author}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                autoComplete="name"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                 placeholder="Author name"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="subtitle" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="subtitle" className="block text-sm font-bold text-gray-700 mb-3">
               Subtitle (Optional)
             </label>
             <input
@@ -274,13 +270,14 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               name="subtitle"
               value={formData.subtitle}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+              autoComplete="off"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
               placeholder="Optional subtitle for the post"
             />
           </div>
 
           <div>
-            <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="excerpt" className="block text-sm font-bold text-gray-700 mb-3">
               Excerpt *
             </label>
             <textarea
@@ -290,43 +287,45 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               onChange={handleChange}
               required
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent resize-none"
+              autoComplete="off"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white resize-none"
               placeholder="Brief description of the post..."
             />
           </div>
 
           <div>
-            <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="image" className="block text-sm font-bold text-gray-700 mb-3">
               Featured Image
             </label>
             
             {/* Upload Section */}
-            <div className="mb-4">
-              <div className="flex space-x-3">
+            <div className="mb-6">
+              <div className="flex space-x-4">
                 <input
                   type="url"
                   id="image"
                   name="image"
                   value={formData.image}
                   onChange={handleChange}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                  autoComplete="url"
+                  className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                   placeholder="https://example.com/image.jpg"
                 />
                 <button
                   type="button"
                   onClick={handleUploadClick}
                   disabled={isUploading}
-                  className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors flex items-center space-x-2 disabled:opacity-50"
+                  className="px-6 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-all duration-200 flex items-center space-x-2 disabled:opacity-50 bg-white hover:shadow-md"
                 >
                   {isUploading ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
-                      <span>Uploading...</span>
+                      <span className="font-semibold">Uploading...</span>
                     </>
                   ) : (
                     <>
-                      <Upload className="h-4 w-4" />
-                      <span>Upload</span>
+                      <Upload className="h-5 w-5" />
+                      <span className="font-semibold">Upload</span>
                     </>
                   )}
                 </button>
@@ -337,38 +336,43 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
+                name="featuredImage"
+                autoComplete="off"
                 onChange={handleFileUpload}
                 className="hidden"
               />
               
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-sm text-gray-600 mt-3 font-medium">
                 Upload an image (JPG, PNG, GIF) or paste an image URL. Max size: 5MB
               </p>
             </div>
 
             {/* Image Preview */}
             {formData.image && (
-              <div className="relative">
-                <div className="flex items-start space-x-3">
+              <div className="relative bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+                <div className="flex items-start space-x-4">
                   <img
                     src={formData.image}
                     alt="Preview"
-                    className="w-32 h-20 object-cover rounded border"
+                    className="w-40 h-24 object-cover rounded-xl border-2 border-white shadow-lg"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                     }}
                   />
                   <div className="flex-1">
-                    <p className="text-sm text-gray-600 mb-2">
-                      {uploadedImageUrl ? 'Uploaded image' : 'Image from URL'}
-                    </p>
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className={`w-3 h-3 rounded-full ${uploadedImageUrl ? 'bg-green-500' : 'bg-blue-500'}`}></div>
+                      <p className="text-sm font-semibold text-gray-700">
+                        {uploadedImageUrl ? 'Uploaded image' : 'Image from URL'}
+                      </p>
+                    </div>
                     {uploadedImageUrl && (
                       <button
                         type="button"
                         onClick={removeUploadedImage}
-                        className="text-red-600 hover:text-red-800 text-sm flex items-center space-x-1"
+                        className="text-red-600 hover:text-red-800 text-sm flex items-center space-x-2 font-medium hover:bg-red-50 px-3 py-1 rounded-lg transition-all duration-200"
                       >
-                        <X className="h-3 w-3" />
+                        <X className="h-4 w-4" />
                         <span>Remove uploaded image</span>
                       </button>
                     )}
@@ -381,17 +385,19 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             {!formData.image && (
               <div 
                 onClick={handleUploadClick}
-                className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-amber-400 hover:bg-amber-50 transition-colors cursor-pointer"
+                className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-amber-400 hover:bg-amber-50 transition-all duration-300 cursor-pointer group"
               >
-                <ImageIcon className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                <p className="text-sm text-gray-600 mb-1">Click to upload an image</p>
-                <p className="text-xs text-gray-500">or drag and drop</p>
+                <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-300">
+                  <ImageIcon className="h-8 w-8 text-gray-500 group-hover:text-amber-600 transition-colors duration-300" />
+                </div>
+                <p className="text-base font-semibold text-gray-700 mb-2">Click to upload an image</p>
+                <p className="text-sm text-gray-500">or drag and drop</p>
               </div>
             )}
           </div>
 
           <div>
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="content" className="block text-sm font-bold text-gray-700 mb-3">
               Content *
             </label>
             <textarea
@@ -401,17 +407,18 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               onChange={handleChange}
               required
               rows={12}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent resize-none"
+              autoComplete="off"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white resize-none"
               placeholder="Write your post content here..."
             />
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-600 mt-3 font-medium">
               You can use HTML tags for formatting (e.g., &lt;p&gt;, &lt;h3&gt;, &lt;blockquote&gt;)
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="readTime" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="readTime" className="block text-sm font-bold text-gray-700 mb-3">
                 Read Time
               </label>
               <input
@@ -420,36 +427,46 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                 name="readTime"
                 value={formData.readTime}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                autoComplete="off"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                 placeholder="e.g., 5 min read"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-bold text-gray-700 mb-3">
                 Generated Slug
               </label>
-              <div className="px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-sm text-gray-600">
+              <div className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700">
                 {formData.title ? generateSlug(formData.title) : 'Enter title to generate slug'}
               </div>
             </div>
           </div>
 
-          <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+          <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+              className="px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold hover:shadow-md border border-gray-200 hover:border-gray-300"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 bg-amber-700 text-white hover:bg-amber-800 rounded-md transition-colors flex items-center space-x-2 disabled:opacity-50"
+              className="px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700 rounded-xl transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
             >
-              <Save className="h-4 w-4" />
-              <span>{isSubmitting ? 'Saving...' : 'Save Post'}</span>
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <span>Saving...</span>
+                </>
+              ) : (
+                <>
+                  <Save className="h-5 w-5" />
+                  <span>Save Post</span>
+                </>
+              )}
             </button>
           </div>
         </form>

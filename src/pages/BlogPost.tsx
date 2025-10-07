@@ -1,206 +1,224 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Heart, MessageCircle, Eye, Share2 } from 'lucide-react';
-import Newsletter from '../components/Newsletter';
-import ShareModal from '../components/ShareModal';
+import { blogAPI } from '../services/api';
+import { useFetch } from '../hooks/useAPI';
+import { Heart } from 'lucide-react';
 
-const BlogPost = () => {
-  const { slug } = useParams();
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+const BlogPost: React.FC = () => {
+  const { slug = '' } = useParams<{ slug: string }>();
 
-  // Load blog posts from localStorage or use default posts
-  const getBlogPosts = () => {
-    const savedPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-    
-    // Default posts if none exist
-    const defaultPosts = {
-    "how-reading-changes-your-perspective": {
-      title: "How reading changes your perspective",
-      image: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      author: "Admin",
-      date: "Mar 22, 2023",
-      readTime: "1 min read",
-      views: 1547,
-      comments: 0,
-      likes: 37,
-      content: `
-        <p>Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that's current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
-        
-        <blockquote>"Do you have a design in mind for your blog? Whether you prefer a trendy postcard look or you're going for a more editorial style blog - there's a stunning layout for everyone."</blockquote>
-        
-        <p>You'll be posting loads of engaging content, so be sure to keep your blog organized with Categories that also allow visitors to explore more of what interests them.</p>
-        
-        <h3>Create Relevant Content</h3>
-        
-        <p>Writing a blog is a great way to position yourself as an authority in your field and captivate your readers' attention. Do you want to improve your site's SEO ranking? Consider topics that focus on relevant keywords and relate back to your website or business. You can also add hashtags (#vacation #dream #summer) throughout your posts to reach more people, and help visitors search for relevant content.</p>
-        
-        <p>Blogging gives your site a voice, so let your business' personality shine through. Choose a great image to feature in your post or add a video for extra engagement. Are you ready to get started? Simply create a new post now.</p>
-      `
-    },
-    "you-want-your-child-to-read-these-books": {
-      title: "You want your child to read these books",
-      image: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      author: "Admin",
-      date: "Mar 22, 2023",
-      readTime: "1 min read",
-      views: 325,
-      comments: 0,
-      likes: 22,
-      content: `
-        <p>Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading.</p>
-        <p>Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that's current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
-      `
-    },
-    "the-traitors-daughter": {
-      title: "The Traitor's Daughter",
-      image: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      author: "Admin",
-      date: "Mar 22, 2023",
-      readTime: "1 min read",
-      views: 314,
-      comments: 0,
-      likes: 23,
-      content: `
-        <p>Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading.</p>
-        <p>Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that's current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
-      `
-    },
-    "the-art-of-writing": {
-      title: "The art of writing",
-      image: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      author: "Admin",
-      date: "Mar 22, 2023",
-      readTime: "1 min read",
-      views: 632,
-      comments: 0,
-      likes: 28,
-      content: `
-        <p>Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading.</p>
-        <p>Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that's current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
-      `
-    },
-    "8-must-read-books": {
-      title: "8 must-read books",
-      image: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      author: "Admin",
-      date: "Mar 22, 2023",
-      readTime: "1 min read",
-      views: 358,
-      comments: 0,
-      likes: 22,
-      content: `
-        <p>Create a blog post subtitle that summarizes your post in a few short, punchy sentences and entices your audience to continue reading.</p>
-        
-        <p>Welcome to your blog post. Use this space to connect with your readers and potential customers in a way that's current and interesting. Think of it as an ongoing conversation where you can share updates about business, trends, news, and more.</p>
-      `
-    }
-    };
+  const { data, loading, error, refetch } = useFetch(() => blogAPI.getPost(slug), [slug]);
+  const post = data?.data?.post;
 
-    // Convert saved posts to the expected format
-    const savedPostsObj: any = {};
-    savedPosts.forEach((post: any) => {
-      savedPostsObj[post.slug] = {
-        title: post.title,
-        subtitle: post.subtitle || '',
-        image: post.image,
-        author: post.author,
-        date: post.date,
-        readTime: post.readTime,
-        views: Number(localStorage.getItem(`post:${post.slug}:views`) || '0'),
-        comments: JSON.parse(localStorage.getItem(`post:${post.slug}:comments`) || '[]').length,
-        likes: Number(localStorage.getItem(`post:${post.slug}:likes`) || '0'),
-        content: post.content
-      };
-    });
+  // Recent posts (we'll render as a horizontal slider)
+  const { data: recentData, loading: recentLoading } = useFetch(() => blogAPI.getPosts({ page: 1, limit: 10 }), []);
+  const recentPosts = (recentData?.data?.posts || []).filter((p: any) => p.slug !== slug);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const isHoveringRef = useRef<boolean>(false);
+  const isDraggingRef = useRef<boolean>(false);
+  const dragStartXRef = useRef<number>(0);
+  const dragScrollLeftRef = useRef<number>(0);
 
-    // Merge saved posts with default posts
-    return { ...defaultPosts, ...savedPostsObj };
-  };
-
-  const blogPosts = getBlogPosts();
-  const post = blogPosts[slug as keyof typeof blogPosts];
-
-  // Get recent posts (excluding current post)
-  const getRecentPosts = () => {
-    const allPosts = Object.entries(blogPosts)
-      .filter(([postSlug]) => postSlug !== slug) // Exclude current post
-      .map(([postSlug, postData]) => ({
-        slug: postSlug,
-        ...postData,
-        views: Number(localStorage.getItem(`post:${postSlug}:views`) || postData.views || 0),
-        likes: Number(localStorage.getItem(`post:${postSlug}:likes`) || postData.likes || 0),
-        comments: JSON.parse(localStorage.getItem(`post:${postSlug}:comments`) || '[]').length
-      }))
-      .sort((a, b) => {
-        // Sort by date (newest first) - you can adjust this logic
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      })
-      .slice(0, 3); // Get only 3 recent posts
-
-    return allPosts;
-  };
-
-  const recentPosts = getRecentPosts();
-
-  const likeKey = `post:${slug}:likes`;
-  const viewsKey = `post:${slug}:views`;
-  const commentsKey = `post:${slug}:comments`;
-  const likedKey = `post:${slug}:liked`;
-
-  const [likes, setLikes] = useState<number>(typeof window !== 'undefined' ? Number(localStorage.getItem(likeKey) || post?.likes || 0) : post?.likes || 0);
-  const [views, setViews] = useState<number>(typeof window !== 'undefined' ? Number(localStorage.getItem(viewsKey) || post?.views || 0) : post?.views || 0);
-  const [hasLiked, setHasLiked] = useState<boolean>(typeof window !== 'undefined' ? localStorage.getItem(likedKey) === 'true' : false);
-  const [commentText, setCommentText] = useState('');
-  const [comments, setComments] = useState<string[]>(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem(commentsKey) || '[]') : []);
-
+  // Enhanced auto-scroll with smooth animations and pause functionality
   useEffect(() => {
-    // increment view count once
-    if (typeof window !== 'undefined') {
-      const next = views + 1;
-      setViews(next);
-      localStorage.setItem(viewsKey, String(next));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const el = sliderRef.current;
+    if (!el || recentPosts.length <= 1) return;
+    
+    let rafId = 0;
+    let lastTs = 0;
+    let isScrolling = true;
+    const speedPxPerSec = 80; // Slower, more professional speed
+    let scrollDirection = 1; // 1 for right, -1 for left
+    
+    const step = (ts: number) => {
+      if (!lastTs) lastTs = ts;
+      const dt = (ts - lastTs) / 1000;
+      lastTs = ts;
+      
+      if (!isHoveringRef.current && !isDraggingRef.current && isScrolling) {
+        el.scrollLeft += speedPxPerSec * dt * scrollDirection;
+        
+        // Smooth loop with fade effect
+        const maxScroll = el.scrollWidth - el.clientWidth;
+        if (scrollDirection === 1 && el.scrollLeft >= maxScroll - 10) {
+          // Pause at the end, then reverse
+          setTimeout(() => {
+            scrollDirection = -1;
+          }, 2000);
+        } else if (scrollDirection === -1 && el.scrollLeft <= 10) {
+          // Pause at the beginning, then reverse
+          setTimeout(() => {
+            scrollDirection = 1;
+          }, 2000);
+        }
+      }
+      
+      rafId = requestAnimationFrame(step);
+    };
+    
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+  }, [recentPosts.length]);
 
-  const handleLike = () => {
-    console.log('Like button clicked in BlogPost', { hasLiked, likes, likeKey, likedKey });
+  // Drag-to-scroll handlers
+  const onDragStart = (clientX: number) => {
+    const el = sliderRef.current;
+    if (!el) return;
+    isDraggingRef.current = true;
+    dragStartXRef.current = clientX;
+    dragScrollLeftRef.current = el.scrollLeft;
+    el.classList.add('cursor-grabbing');
+    el.style.scrollBehavior = 'auto'; // Disable smooth scroll during drag
+  };
+  
+  const onDragMove = (clientX: number) => {
+    const el = sliderRef.current;
+    if (!el || !isDraggingRef.current) return;
+    const delta = clientX - dragStartXRef.current;
+    el.scrollLeft = dragScrollLeftRef.current - delta;
+  };
+  
+  const onDragEnd = () => {
+    const el = sliderRef.current;
+    if (!el) return;
+    isDraggingRef.current = false;
+    el.classList.remove('cursor-grabbing');
+    el.style.scrollBehavior = 'smooth'; // Re-enable smooth scroll
+  };
+
+  const scrollByAmount = (amount: number) => {
+    const el = sliderRef.current;
+    if (!el) return;
+    el.scrollBy({ 
+      left: amount, 
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest'
+    });
+  };
+
+  // Add scroll progress indicator
+  const [scrollProgress, setScrollProgress] = useState(0);
+  
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
     
-    if (hasLiked) {
-      console.log('Already liked, returning');
-      return; // Prevent multiple likes
-    }
+    const updateScrollProgress = () => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll > 0) {
+        setScrollProgress((el.scrollLeft / maxScroll) * 100);
+      }
+    };
     
-    const next = likes + 1;
-    console.log('Setting likes to:', next);
-    setLikes(next);
-    setHasLiked(true);
-    
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(likeKey, String(next));
-      localStorage.setItem(likedKey, 'true');
-      console.log('Saved to localStorage:', { likeKey: next, likedKey: 'true' });
+    el.addEventListener('scroll', updateScrollProgress);
+    return () => el.removeEventListener('scroll', updateScrollProgress);
+  }, [recentPosts.length]);
+
+  // Comments
+  const { data: commentsData, refetch: refetchComments } = useFetch(
+    () => (post?.id ? blogAPI.getComments(post.id) : Promise.resolve({ data: { comments: [] } })),
+    [post?.id]
+  );
+  const comments = commentsData?.data?.comments || [];
+
+  // Like state
+  const [isLiking, setIsLiking] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(post?.likes || 0);
+  const [isLiked, setIsLiked] = useState<boolean>(() => {
+    if (!post?.id) return false;
+    return localStorage.getItem(`liked:${post.id}`) === '1';
+  });
+
+  const handleLike = async () => {
+    if (!post?.id || isLiking) return;
+    setIsLiking(true);
+    try {
+      if (isLiked) {
+        const res = await blogAPI.unlikePost(post.id);
+        setLikeCount(res.data.likes);
+        setIsLiked(false);
+        localStorage.removeItem(`liked:${post.id}`);
+      } else {
+        const res = await blogAPI.likePost(post.id);
+        setLikeCount(res.data.likes);
+        setIsLiked(true);
+        localStorage.setItem(`liked:${post.id}`, '1');
+      }
+    } catch (e) {
+      // noop
+    } finally {
+      setIsLiking(false);
     }
   };
 
-  const handleAddComment = () => {
-    if (!commentText.trim()) return;
-    const next = [...comments, commentText.trim()];
-    setComments(next);
-    setCommentText('');
-    if (typeof window !== 'undefined') localStorage.setItem(commentsKey, JSON.stringify(next));
-    // notify other tabs/components to refresh counts
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('comments:updated', { detail: { slug } }));
+  // Comment form state
+  const [authorName, setAuthorName] = useState('');
+  const [authorEmail, setAuthorEmail] = useState('');
+  const [commentContent, setCommentContent] = useState('');
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+
+  const submitComment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!post?.id) return;
+    setIsSubmittingComment(true);
+    try {
+      await blogAPI.addComment(post.id, { authorName, authorEmail, content: commentContent });
+      setAuthorName('');
+      setAuthorEmail('');
+      setCommentContent('');
+      refetchComments();
+    } catch (err) {
+      // optionally show error toast
+    } finally {
+      setIsSubmittingComment(false);
     }
   };
+
+  const formattedDate = useMemo(() => {
+    if (!post?.publishedAt) return '';
+    return new Date(post.publishedAt).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  }, [post?.publishedAt]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="max-w-3xl mx-auto px-4 py-12">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-gray-200 rounded w-2/3"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+            <div className="h-64 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="max-w-3xl mx-auto px-4 py-12 text-center">
+          <h1 className="text-2xl font-serif text-gray-900 mb-3">Error loading post</h1>
+          <p className="text-gray-600 mb-6">{error}</p>
+          <button onClick={refetch} className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800">Try again</button>
+        </div>
+      </div>
+    );
+  }
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-serif text-gray-900 mb-4">Post not found</h1>
-          <p className="text-gray-600">The blog post you're looking for doesn't exist.</p>
+      <div className="min-h-screen bg-white">
+        <div className="max-w-3xl mx-auto px-4 py-12 text-center">
+          <h1 className="text-2xl font-serif text-gray-900 mb-3">Post not found</h1>
+          <p className="text-gray-600">We couldn't find the post you're looking for.</p>
         </div>
       </div>
     );
@@ -208,181 +226,303 @@ const BlogPost = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Breadcrumb */}
-      <div className="bg-gray-50 py-4">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-sm text-gray-500">All Posts</p>
-        </div>
-      </div>
+      <article className="max-w-3xl mx-auto px-4 py-12">
+        <header className="mb-8">
+          <h1 className="text-3xl font-serif text-gray-900 mb-3">{post.title}</h1>
+          <p className="text-gray-600 mb-4">{post.excerpt}</p>
 
-      {/* Blog Post Content */}
-      <article className="py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Author Info */}
-          <div className="flex items-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-gray-600">A</span>
+          <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gray-300 rounded-full overflow-hidden flex items-center justify-center">
+                {post.author?.profileImage ? (
+                  <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-[10px] font-medium text-gray-600">
+                    {(post.author?.name || 'A').charAt(0).toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <div>
+                <p className="text-gray-800">{post.author?.name || 'Unknown author'}</p>
+                <p className="text-gray-500">{formattedDate} • {post.readTime} min read</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-medium text-gray-900">{post.author}</p>
-              <p className="text-xs text-gray-500">{post.date} • {post.readTime}</p>
-            </div>
-            <button className="ml-auto p-1 hover:bg-gray-100 rounded">
-              <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-              </svg>
-            </button>
           </div>
+        </header>
 
-          {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-8 leading-tight">
-            {post.title}
-          </h1>
+        {post.featuredImage && (
+          <div className="mb-8">
+            <img src={post.featuredImage} alt={post.title} className="w-full h-auto object-contain" />
+          </div>
+        )}
 
-          {/* Subtitle - only show if post has a custom subtitle */}
-          {post.subtitle && (
-            <p className="text-lg text-gray-700 mb-8 font-medium">
-              {post.subtitle}
-            </p>
+        <section className="prose prose-amber max-w-none">
+          {/** Content may include HTML; prefer rendering as HTML if so */}
+          {/<[a-z][\s\S]*>/i.test(post.content) ? (
+            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          ) : (
+            <p className="text-gray-800 whitespace-pre-wrap leading-relaxed">{post.content}</p>
           )}
+        </section>
 
-          {/* Featured Image */}
-          <div className="mb-12">
-            <img 
-              src={post.image} 
-              alt={post.title}
-              className="w-full h-auto rounded-none"
-            />
-          </div>
-
-          {/* Content */}
-          <div 
-            className="prose prose-lg max-w-none mb-12"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
-
-          {/* Social Share */}
-          <div className="flex items-center justify-between mb-8 pb-8 border-b">
-            <div className="flex items-center space-x-2">
-              <Share2 className="w-4 h-4 text-gray-600" />
-              <span className="text-sm text-gray-600">Share this post</span>
-            </div>
-            <button
-              onClick={() => setIsShareModalOpen(true)}
-              className="flex items-center space-x-2 px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800 transition-colors"
-            >
-              <Share2 className="w-4 h-4" />
-              <span className="text-sm">Share</span>
-            </button>
-          </div>
-
-          {/* Engagement Stats */}
-          <div className="flex items-center justify-between text-sm text-gray-500 mb-12">
-            <div className="flex items-center space-x-4">
-              <span>{views} views</span>
-              <span>{comments.length} comments</span>
-            </div>
+        {/* Metrics under content */}
+        <div className="mt-8 pt-6 border-t border-gray-200">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+            <span className="inline-flex items-center gap-1">👁️ {post.views}</span>
+            <span className="inline-flex items-center gap-1">❤️ {likeCount}</span>
+            <span className="inline-flex items-center gap-1">💬 {post._count?.comments ?? comments.length}</span>
             <button 
               onClick={handleLike} 
-              disabled={hasLiked}
-              className={`flex items-center space-x-1 transition-colors ${
-                hasLiked 
-                  ? 'text-gray-400 cursor-not-allowed' 
-                  : 'text-red-500 hover:text-red-600'
-              }`} 
-              aria-label={hasLiked ? "Already liked" : "Like post"}
+              disabled={isLiking}
+              className={`ml-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-md border ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-700 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
+              aria-label={isLiked ? 'Unlike post' : 'Like post'}
             >
-              <span>{likes}</span>
-              <Heart className={`h-4 w-4 ${hasLiked ? 'fill-current' : ''}`} />
+              <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
+              {isLiked ? 'Unlike' : 'Like'}
             </button>
           </div>
+        </div>
 
-          {/* Recent Posts */}
-          <div className="mb-12">
-            <div className="flex items-center justify-between mb-8">
-              <h3 className="text-lg font-medium text-gray-900">Recent Posts</h3>
-              <Link to="/" className="text-sm text-gray-600 hover:text-gray-800">See All</Link>
-            </div>
-            
-            {recentPosts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {recentPosts.map((recentPost) => (
-                  <Link 
-                    key={recentPost.slug}
-                    to={`/blog/${recentPost.slug}`}
-                    className="group cursor-pointer block"
-                  >
-                    <img 
-                      src={recentPost.image} 
-                      alt={recentPost.title}
-                      className="w-full h-auto mb-3"
-                    />
-                    <h4 className="font-serif text-gray-900 group-hover:text-amber-700 transition-colors mb-2 line-clamp-2">
-                      {recentPost.title}
-                    </h4>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <div className="flex items-center space-x-2">
-                        <Eye className="w-3 h-3" />
-                        <span>{recentPost.views}</span>
-                        <MessageCircle className="w-3 h-3" />
-                        <span>{recentPost.comments}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <span>{recentPost.likes}</span>
-                        <Heart className="w-3 h-3" />
-                      </div>
+        {/* Comments */}
+        <section className="mt-12">
+          <h2 className="text-2xl font-serif text-gray-900 mb-6">Comments ({comments.length})</h2>
+          <div className="space-y-4 mb-10">
+            {comments.map((c: any) => (
+              <div key={c.id} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-semibold">
+                    {c.authorName?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm font-medium text-gray-900">{c.authorName || 'Anonymous'}</div>
+                      <div className="text-xs text-gray-400">{new Date(c.createdAt).toLocaleDateString()}</div>
                     </div>
-                  </Link>
-                ))}
+                    <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
+                  </div>
+                </div>
               </div>
-            ) : (
-              <div className="text-center py-8">
-                <p className="text-gray-500">No other posts available at the moment.</p>
-              </div>
+            ))}
+            {comments.length === 0 && (
+              <div className="border border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500">No comments yet. Be the first to comment!</div>
             )}
           </div>
 
-          {/* Comments Section */}
-          <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-6">Comments</h3>
-            <div className="space-y-6">
-              <div className="bg-gray-50 p-6 rounded-none">
-                <textarea
-                  placeholder="Write a comment..."
-                  className="w-full p-4 border border-gray-300 rounded-none resize-none h-24 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-transparent"
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
+          <form onSubmit={submitComment} className="space-y-5 bg-gray-50 border border-gray-200 p-5 rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="commentName" className="block text-sm text-gray-700 mb-1">Name</label>
+                <input
+                  id="commentName"
+                  name="commentName"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                 />
-                <div className="mt-4 text-right">
-                  <button onClick={handleAddComment} className="px-4 py-2 bg-amber-700 text-white text-sm hover:bg-amber-800">Post Comment</button>
+              </div>
+              <div>
+                <label htmlFor="commentEmail" className="block text-sm text-gray-700 mb-1">Email</label>
+                <input
+                  id="commentEmail"
+                  name="commentEmail"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={authorEmail}
+                  onChange={(e) => setAuthorEmail(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="commentContent" className="block text-sm text-gray-700 mb-1">Comment</label>
+              <textarea
+                id="commentContent"
+                name="commentContent"
+                rows={4}
+                required
+                autoComplete="off"
+                value={commentContent}
+                onChange={(e) => setCommentContent(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmittingComment}
+              className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800 disabled:opacity-50"
+            >
+              {isSubmittingComment ? 'Posting…' : 'Post Comment'}
+            </button>
+          </form>
+        </section>
+
+        {/* Recent Posts */}
+        <section className="mt-12">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-serif text-gray-900 mb-1">Recent Posts</h2>
+              <div className="w-16 h-0.5 bg-amber-700 rounded-full"></div>
+            </div>
+            {recentPosts.length > 3 && (
+              <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 text-xs text-gray-500">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span>Auto-scrolling</span>
+                </div>
+                <div className="w-16 h-1 bg-gray-200 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-amber-700 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${scrollProgress}%` }}
+                  ></div>
                 </div>
               </div>
-              {comments.length > 0 && (
-                <ul className="divide-y border border-gray-200">
-                  {comments.map((c, idx) => (
-                    <li key={idx} className="p-4 text-gray-800">{c}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            )}
           </div>
-        </div>
+          
+          {recentLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700"></div>
+              <span className="ml-2 text-gray-600">Loading recent posts...</span>
+            </div>
+          ) : recentPosts.length > 0 ? (
+            <div className="relative group">
+
+              {/* Controls - only show if there are enough posts to scroll */}
+              {recentPosts.length > 2 && (
+                <>
+                  <button
+                    type="button"
+                    aria-label="Scroll left"
+                    onClick={() => scrollByAmount(-300)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-20 h-10 w-10 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200/50 shadow-lg hover:bg-white hover:shadow-xl hover:scale-110 transition-all duration-300 ease-out opacity-0 group-hover:opacity-100"
+                  >
+                    <div className="flex items-center justify-center">
+                      <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Scroll right"
+                    onClick={() => scrollByAmount(300)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-20 h-10 w-10 rounded-full bg-white/95 backdrop-blur-sm border border-gray-200/50 shadow-lg hover:bg-white hover:shadow-xl hover:scale-110 transition-all duration-300 ease-out opacity-0 group-hover:opacity-100"
+                  >
+                    <div className="flex items-center justify-center">
+                      <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </button>
+                </>
+              )}
+
+              <div
+                ref={sliderRef}
+                className="overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth"
+                style={{ scrollBehavior: 'smooth' }}
+                onMouseEnter={() => (isHoveringRef.current = true)}
+                onMouseLeave={() => {
+                  isHoveringRef.current = false;
+                  onDragEnd();
+                }}
+                onMouseDown={(e) => onDragStart(e.clientX)}
+                onMouseMove={(e) => onDragMove(e.clientX)}
+                onMouseUp={onDragEnd}
+                onMouseLeaveCapture={onDragEnd}
+                onTouchStart={(e) => onDragStart(e.touches[0].clientX)}
+                onTouchMove={(e) => onDragMove(e.touches[0].clientX)}
+                onTouchEnd={onDragEnd}
+              >
+                <div className="flex gap-6 pr-4">
+                  {recentPosts.map((rp: any, index: number) => (
+                    <Link 
+                      key={rp.id} 
+                      to={`/blog/${rp.slug}`} 
+                      className="w-64 sm:w-72 flex-shrink-0 border border-gray-200/60 rounded-xl hover:shadow-xl hover:shadow-amber-100/50 hover:border-amber-200 transition-all duration-500 ease-out bg-white snap-start group transform hover:-translate-y-2 hover:scale-105"
+                      style={{
+                        animationDelay: `${index * 100}ms`,
+                        animation: 'fadeInUp 0.6s ease-out forwards'
+                      }}
+                    >
+                      {rp.featuredImage && (
+                        <div className="w-full h-40 bg-gray-50 overflow-hidden rounded-t-xl">
+                          <img 
+                            src={rp.featuredImage} 
+                            alt={rp.title} 
+                            className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110" 
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                      )}
+                      <div className="p-5">
+                        <div className="text-gray-900 font-semibold line-clamp-2 group-hover:text-amber-700 transition-colors duration-300 leading-tight">
+                          {rp.title}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-2 flex items-center">
+                          <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                          </svg>
+                          {new Date(rp.publishedAt).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric' 
+                          })}
+                        </div>
+                        <div className="flex items-center justify-between mt-3 text-xs text-gray-500">
+                          <div className="flex items-center space-x-3">
+                            <span className="flex items-center">
+                              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                              {rp.views || 0}
+                            </span>
+                            <span className="flex items-center">
+                              <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                              </svg>
+                              {rp.likes || 0}
+                            </span>
+                            <span className="flex items-center">
+                              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                              </svg>
+                              {(rp._count?.comments) || 0}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <div className="text-gray-500 mb-2">No other posts available</div>
+              <Link 
+                to="/posts" 
+                className="inline-block bg-amber-700 text-white px-4 py-2 rounded-md hover:bg-amber-800 transition-colors"
+              >
+                View All Posts
+              </Link>
+            </div>
+          )}
+        </section>
       </article>
-
-      <Newsletter />
-
-      {/* Share Modal */}
-      <ShareModal
-        isOpen={isShareModalOpen}
-        onClose={() => setIsShareModalOpen(false)}
-        post={{
-          title: post.title,
-          slug: post.slug,
-          excerpt: post.excerpt
-        }}
-      />
     </div>
   );
 };
 
 export default BlogPost;
+
+

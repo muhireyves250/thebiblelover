@@ -23,50 +23,98 @@ const About = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section with Profile Image */}
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      {/* Hero header with background image (same pattern as other pages) */}
       <section className="relative h-[520px] bg-cover bg-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-fixed"
           style={getParallaxStyle()}
-        >
-        </div>
-        
-        {/* Overlay */}
-        <div 
-          className="absolute inset-0"
-          style={getOverlayStyle()}
         />
-        
-        {/* Profile Image - positioned to overlap hero */}
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-10">
-          <img 
-            src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400&h=400&dpr=1"
-            alt="Profile"
-            className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white shadow-lg"
-          />
+        {/* Overlay for readability */}
+        <div className="absolute inset-0" style={getOverlayStyle()} />
+        {/* Centered card */}
+        <div className="relative z-10 flex items-center justify-center h-full">
+          <div className="bg-white border border-gray-200 px-10 md:px-16 py-10 text-center shadow-sm">
+            <h1 className="text-3xl md:text-5xl font-serif mb-4 tracking-wider text-gray-900">ABOUT</h1>
+            <p className="text-xs md:text-sm font-light tracking-[0.35em] uppercase text-gray-700">WHO WE ARE</p>
+          </div>
+        </div>
+      </section>
+      {/* Soft background accents */}
+      <div className="pointer-events-none absolute -top-24 -right-24 w-[520px] h-[520px] rounded-full bg-gradient-to-br from-amber-200 via-pink-100 to-transparent opacity-60 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 -left-24 w-[460px] h-[460px] rounded-full bg-gradient-to-tr from-indigo-100 via-teal-50 to-transparent opacity-60 blur-3xl" />
+      {/* Intro Section */}
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-serif text-gray-900 mb-4">About Us</h2>
+              <p className="text-gray-600 leading-relaxed">
+                Our company and culture are crafted for a delightful experience. We believe in
+                thoughtful design, clear communication, and building products that help people grow.
+              </p>
+            </div>
+            <div className="rounded overflow-hidden">
+              <img
+                src="https://images.pexels.com/photos/3182763/pexels-photo-3182763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="Team working"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Content Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-8 pt-16">
-            <h1 className="text-4xl md:text-5xl font-serif text-gray-900 tracking-wider">
-              ABOUT ME
-            </h1>
-            <p className="text-gray-700 text-lg leading-relaxed">
-              I'm a paragraph. Click here to add your own text and edit me. It's easy. Just click "Edit Text" or double click me 
-              to add your own content and make changes to the font. Feel free to drag and drop me anywhere you like on 
-              your page. I'm a great place for you to tell a story and let your users know a little more about you.
-            </p>
-            
-            <p className="text-gray-700 text-lg leading-relaxed">
-              This is a great space to write a long text about your company and your services. You can use this space to go 
-              into a little more detail about your company. Talk about your team and what services you provide. Tell your 
-              visitors the story of how you came up with the idea for your business and what makes you different from your 
-              competitors. Make your company stand out and show your visitors who you are.
-            </p>
+      {/* Mission Section */}
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div className="rounded overflow-hidden order-2 md:order-1">
+              <img
+                src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="Grow better"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+            <div className="order-1 md:order-2">
+              <h3 className="text-2xl md:text-3xl font-serif text-gray-900 mb-3">Our Mission: Helping Millions of Organizations Grow Better</h3>
+              <p className="text-gray-600 leading-relaxed">
+                We believe in growing better—aligning your success with the success of your customers.
+                We’re committed to building tools and experiences that deliver real value and lasting impact.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Story Section */}
+      <section className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
+            <div>
+              <h3 className="text-2xl md:text-3xl font-serif text-gray-900 mb-4">Our Story</h3>
+              <div className="space-y-4 text-gray-600 leading-relaxed">
+                <p>
+                  In 2004, we noticed a major shift in how people shop and purchase. Buyers wanted helpful
+                  information, not interruptions. That insight led to creating tools that put customers first.
+                </p>
+                <p>
+                  Since then, we’ve expanded beyond marketing into a crafted suite of products that create
+                  a frictionless customer experience. Our platform helps teams grow better with an AI‑powered
+                  foundation and a focus on long‑term relationships.
+                </p>
+                <p>
+                  Today, we’re proud to support millions of users as they scale with confidence.
+                </p>
+              </div>
+            </div>
+            <div className="rounded overflow-hidden">
+              <img
+                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                alt="Team story"
+                className="w-full h-auto object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>

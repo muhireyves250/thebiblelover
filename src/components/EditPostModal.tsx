@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Upload, Trash2 } from 'lucide-react';
-import { cleanupOldStorage } from '../utils/storageManager';
+import { X, Upload, Trash2, Edit } from 'lucide-react';
+import { blogAPI } from '../services/api';
 
 interface EditPostModalProps {
   isOpen: boolean;
@@ -18,7 +18,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
     author: '',
     image: '',
     readTime: '',
-    date: ''
+    date: '',
+    status: 'DRAFT',
+    category: 'OTHER',
+    tags: '',
+    seoTitle: '',
+    seoDescription: '',
+    isFeatured: false
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,10 +39,16 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
         subtitle: post.subtitle || '',
         excerpt: post.excerpt || '',
         content: post.content || '',
-        author: post.author || '',
-        image: post.image || '',
+        author: post.author?.name || '',
+        image: post.featuredImage || '',
         readTime: post.readTime || '',
-        date: post.date || ''
+        date: post.publishedAt ? new Date(post.publishedAt).toISOString().split('T')[0] : '',
+        status: (post.status || 'DRAFT'),
+        category: (post.category || 'OTHER'),
+        tags: post.tags ? post.tags.join(', ') : '',
+        seoTitle: post.seoTitle || '',
+        seoDescription: post.seoDescription || '',
+        isFeatured: post.isFeatured || false
       });
     }
   }, [post, isOpen]);
@@ -50,11 +62,11 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
       .trim();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     }));
   };
 
@@ -153,72 +165,25 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
         }
       }
 
-      const updatedPost = {
-        ...post,
+      const payload = {
         title: formData.title,
-        subtitle: formData.subtitle.trim(),
         slug: finalSlug,
         excerpt: formData.excerpt.trim(),
         content: formData.content,
-        author: formData.author,
-        readTime: formData.readTime,
-        image: formData.image,
-        date: formData.date,
-        // Preserve existing stats
-        views: post.views || 0,
-        likes: post.likes || 0,
-        comments: post.comments || 0
-      };
+        featuredImage: formData.image,
+        readTime: parseInt((formData.readTime || '5').toString()) || 5,
+        status: formData.status,
+        category: formData.category,
+        tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [],
+        seoTitle: formData.seoTitle || null,
+        seoDescription: formData.seoDescription || null,
+        isFeatured: formData.isFeatured
+      } as any;
 
-      console.log('Updating post with excerpt:', updatedPost.excerpt);
+      const response = await blogAPI.updatePost(post.id, payload);
+      const updatedFromServer = response?.data?.post;
 
-      // Clean up old storage data before saving
-      cleanupOldStorage();
-
-      // Update localStorage with quota handling
-      try {
-        const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-        const updatedPosts = existingPosts.map((p: any) => 
-          p.id === post.id ? updatedPost : p
-        );
-        localStorage.setItem('blogPosts', JSON.stringify(updatedPosts));
-        console.log('Post updated successfully:', updatedPost);
-      } catch (quotaError) {
-        console.error('Storage quota exceeded:', quotaError);
-        
-        // Try to save with compressed data
-        try {
-          const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-          const updatedPosts = existingPosts.map((p: any) => 
-            p.id === post.id ? updatedPost : p
-          );
-          
-          // Compress the data by removing unnecessary whitespace
-          const compressedData = JSON.stringify(updatedPosts);
-          localStorage.setItem('blogPosts', compressedData);
-          console.log('Post updated with compressed data');
-        } catch (compressionError) {
-          console.error('Compression also failed:', compressionError);
-          
-          // Last resort: save to sessionStorage as backup
-          try {
-            const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
-            const updatedPosts = existingPosts.map((p: any) => 
-              p.id === post.id ? updatedPost : p
-            );
-            sessionStorage.setItem('blogPosts_backup', JSON.stringify(updatedPosts));
-            
-            alert('Storage quota exceeded! Your post has been saved to temporary storage. Please create a backup and clear some data to continue using localStorage.');
-          } catch (sessionError) {
-            console.error('Session storage also failed:', sessionError);
-            alert('Unable to save post due to storage limitations. Please clear some data or create a backup.');
-            setIsSubmitting(false);
-            return;
-          }
-        }
-      }
-
-      onSave(updatedPost);
+      onSave(updatedFromServer || { ...post, title: formData.title, slug: finalSlug });
       onClose();
     } catch (error) {
       console.error('Error updating post:', error);
@@ -237,30 +202,47 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900">Edit Post</h2>
-            {post && (
-              <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
-                <span>👁️ {post.views || 0} views</span>
-                <span>❤️ {post.likes || 0} likes</span>
-                <span>💬 {post.comments || 0} comments</span>
+      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 border-b border-blue-200 rounded-t-2xl">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
+                <Edit className="h-6 w-6 text-white" />
               </div>
-            )}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Edit Post</h2>
+                <p className="text-sm text-gray-600 font-medium">Update your blog post content and settings</p>
+                {post && (
+                  <div className="flex items-center space-x-6 mt-3">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span className="text-sm font-semibold text-gray-700">👁️ {post.views || 0} views</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <span className="text-sm font-semibold text-gray-700">❤️ {post.likes || 0} likes</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
+                      <span className="text-sm font-semibold text-gray-700">💬 {post.comments || 0} comments</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-3 text-gray-500 hover:text-gray-700 hover:bg-white rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 hover:border-gray-300"
+            >
+              <X className="h-5 w-5" />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
-          >
-            <X className="h-6 w-6" />
-          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="p-8 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="title" className="block text-sm font-bold text-gray-700 mb-3">
                 Title *
               </label>
               <input
@@ -270,13 +252,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                 placeholder="Enter post title"
               />
             </div>
 
             <div>
-              <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="author" className="block text-sm font-bold text-gray-700 mb-3">
                 Author *
               </label>
               <input
@@ -286,7 +268,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.author}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                 placeholder="Author name"
               />
             </div>
@@ -294,24 +276,31 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           {/* Slug Preview */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-bold text-gray-700 mb-3">
               Generated Slug
             </label>
-            <div className="px-3 py-2 bg-gray-100 border border-gray-300 rounded-md text-sm text-gray-600">
+            <div className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700">
               {formData.title ? generateSlug(formData.title) : 'Enter title to generate slug'}
             </div>
             {post && formData.title && generateSlug(formData.title) !== post.slug && (
-              <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-                <p className="text-sm text-yellow-800">
-                  <strong>Warning:</strong> Changing the title will change the post URL. 
-                  The old URL will no longer work and statistics (views, likes, comments) will be preserved.
-                </p>
+              <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl">
+                <div className="flex items-start space-x-3">
+                  <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-white text-xs font-bold">!</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-yellow-800 mb-1">URL Change Warning</p>
+                    <p className="text-sm text-yellow-700">
+                      Changing the title will change the post URL. The old URL will no longer work and statistics (views, likes, comments) will be preserved.
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
 
           <div>
-            <label htmlFor="subtitle" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="subtitle" className="block text-sm font-bold text-gray-700 mb-3">
               Subtitle (Optional)
             </label>
             <input
@@ -320,13 +309,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               name="subtitle"
               value={formData.subtitle}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
               placeholder="Optional subtitle for the post"
             />
           </div>
 
           <div>
-            <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="excerpt" className="block text-sm font-bold text-gray-700 mb-3">
               Excerpt *
             </label>
             <textarea
@@ -336,13 +325,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               required
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white resize-none"
               placeholder="Brief description of the post"
             />
           </div>
 
           <div>
-            <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="content" className="block text-sm font-bold text-gray-700 mb-3">
               Content *
             </label>
             <textarea
@@ -352,14 +341,14 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               required
               rows={8}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white resize-none"
               placeholder="Write your post content here..."
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <label htmlFor="readTime" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="readTime" className="block text-sm font-bold text-gray-700 mb-3">
                 Read Time
               </label>
               <input
@@ -368,13 +357,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="readTime"
                 value={formData.readTime}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                 placeholder="e.g., 5 min read"
               />
             </div>
 
             <div>
-              <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="date" className="block text-sm font-bold text-gray-700 mb-3">
                 Publication Date
               </label>
               <input
@@ -383,13 +372,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                 placeholder="e.g., Mar 22, 2023"
               />
             </div>
 
             <div>
-              <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="image" className="block text-sm font-bold text-gray-700 mb-3">
                 Image URL
               </label>
               <input
@@ -398,15 +387,118 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="image"
                 value={formData.image}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
                 placeholder="https://example.com/image.jpg"
               />
             </div>
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <label htmlFor="status" className="block text-sm font-bold text-gray-700 mb-3">
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+              >
+                <option value="DRAFT">Draft</option>
+                <option value="PUBLISHED">Published</option>
+                <option value="ARCHIVED">Archived</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="category" className="block text-sm font-bold text-gray-700 mb-3">
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+              >
+                <option value="FAITH">Faith</option>
+                <option value="BIBLE_STUDY">Bible Study</option>
+                <option value="PRAYER">Prayer</option>
+                <option value="TESTIMONY">Testimony</option>
+                <option value="REFLECTION">Reflection</option>
+                <option value="OTHER">Other</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Tags */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-3">
+              Tags (comma-separated)
+            </label>
+            <input
+              type="text"
+              name="tags"
+              value={formData.tags}
+              onChange={handleChange}
+              placeholder="faith, bible, prayer"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+            />
+          </div>
+
+          {/* SEO Fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-3">
+                SEO Title
+              </label>
+              <input
+                type="text"
+                name="seoTitle"
+                value={formData.seoTitle}
+                onChange={handleChange}
+                placeholder="SEO optimized title"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-3">
+                Featured Post
+              </label>
+              <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                <input
+                  type="checkbox"
+                  name="isFeatured"
+                  checked={formData.isFeatured}
+                  onChange={handleChange}
+                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label className="text-sm font-semibold text-gray-700">
+                  Mark as featured post
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* SEO Description */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-3">
+              SEO Description
+            </label>
+            <textarea
+              name="seoDescription"
+              value={formData.seoDescription}
+              onChange={handleChange}
+              placeholder="SEO meta description"
+              rows={3}
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white resize-none"
+            />
+          </div>
+
           {/* Image Upload Section */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-bold text-gray-700 mb-3">
               Or Upload Image
             </label>
             <div className="flex items-center space-x-4">
@@ -414,19 +506,19 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 type="button"
                 onClick={handleUploadClick}
                 disabled={isUploading}
-                className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:ring-1 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
+                className="flex items-center space-x-3 px-6 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 bg-white hover:shadow-md transition-all duration-200"
               >
-                <Upload className="h-4 w-4" />
-                <span>{isUploading ? 'Uploading...' : 'Upload Image'}</span>
+                <Upload className="h-5 w-5" />
+                <span className="font-semibold">{isUploading ? 'Uploading...' : 'Upload Image'}</span>
               </button>
               {uploadedImageUrl && (
                 <button
                   type="button"
                   onClick={removeUploadedImage}
-                  className="flex items-center space-x-2 px-4 py-2 text-red-600 hover:text-red-800"
+                  className="flex items-center space-x-3 px-6 py-3 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 rounded-xl transition-all duration-200 border border-red-200 hover:border-red-300"
                 >
-                  <Trash2 className="h-4 w-4" />
-                  <span>Remove</span>
+                  <Trash2 className="h-5 w-5" />
+                  <span className="font-semibold">Remove</span>
                 </button>
               )}
             </div>
@@ -438,11 +530,11 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               className="hidden"
             />
             {uploadedImageUrl && (
-              <div className="mt-4">
+              <div className="mt-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
                 <img
                   src={uploadedImageUrl}
                   alt="Uploaded preview"
-                  className="w-32 h-32 object-cover rounded-lg border border-gray-200"
+                  className="w-40 h-40 object-cover rounded-xl border-2 border-white shadow-lg"
                 />
               </div>
             )}
@@ -451,31 +543,43 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           {/* Current Image Preview */}
           {formData.image && !uploadedImageUrl && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-bold text-gray-700 mb-3">
                 Current Image
               </label>
-              <img
-                src={formData.image}
-                alt="Current post image"
-                className="w-32 h-32 object-cover rounded-lg border border-gray-200"
-              />
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+                <img
+                  src={formData.image}
+                  alt="Current post image"
+                  className="w-40 h-40 object-cover rounded-xl border-2 border-white shadow-lg"
+                />
+              </div>
             </div>
           )}
 
-          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+          <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+              className="px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold hover:shadow-md border border-gray-200 hover:border-gray-300"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
+              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 rounded-xl transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
             >
-              {isSubmitting ? 'Updating...' : 'Update Post'}
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <span>Updating...</span>
+                </>
+              ) : (
+                <>
+                  <Edit className="h-5 w-5" />
+                  <span>Update Post</span>
+                </>
+              )}
             </button>
           </div>
         </form>

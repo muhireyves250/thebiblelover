@@ -1,0 +1,241 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  password     String
+  name         String
+  role         Role     @default(USER)
+  isActive     Boolean  @default(true)
+  lastLogin    DateTime?
+  profileImage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  blogPosts BlogPost[]
+
+  @@map("users")
+}
+
+model BlogPost {
+  id             String      @id @default(cuid())
+  title          String
+  slug           String      @unique
+  excerpt        String
+  content        String
+  featuredImage  String
+  authorId       String
+  category       Category    @default(OTHER)
+  tags           String[]
+  status         PostStatus  @default(DRAFT)
+  publishedAt    DateTime?
+  readTime       Int         @default(5)
+  views          Int         @default(0)
+  likes          Int         @default(0)
+  isFeatured     Boolean     @default(false)
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  // Relations
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments Comment[]
+
+  @@index([slug])
+  @@index([status, publishedAt])
+  @@index([category])
+  @@index([tags])
+  @@map("blog_posts")
+}
+
+model Contact {
+  id           String        @id @default(cuid())
+  name         String
+  email        String
+  subject      String
+  message      String
+  status       ContactStatus @default(NEW)
+  isRead       Boolean       @default(false)
+  repliedAt    DateTime?
+  replyMessage String?
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([status, createdAt])
+  @@map("contacts")
+}
+
+model Donation {
+  id            String         @id @default(cuid())
+  donorName     String
+  email         String
+  amount        Float
+  currency      Currency       @default(USD)
+  paymentMethod PaymentMethod  @default(STRIPE)
+  paymentId     String
+  status        DonationStatus @default(PENDING)
+  message       String?
+  isAnonymous   Boolean        @default(false)
+  receiptSent   Boolean        @default(false)
+  receiptEmail  String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@map("donations")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  authorName String
+  authorEmail String
+  postId    String
+  isApproved Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([isApproved])
+  @@map("comments")
+}
+
+model BibleVerse {
+  id          String   @id @default(cuid())
+  title       String?  // Optional title for the verse
+  book        String
+  chapter     Int
+  verse       Int
+  text        String
+  translation String   @default("NIV")
+  image       String?  // Optional image URL for the verse
+  isActive    Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
+  displayDate DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  verseOfTheDay VerseOfTheDay[]
+  shares VerseShare[]
+
+  @@index([book, chapter, verse])
+  @@index([isActive, isFeatured])
+  @@index([displayDate])
+  @@map("bible_verses")
+}
+
+model VerseOfTheDay {
+  id        String   @id @default(cuid())
+  verseId   String
+  date      DateTime @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  verse BibleVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
+  shares VerseShare[]
+
+  @@index([date, isActive])
+  @@map("verse_of_the_day")
+}
+
+model VerseShare {
+  id          String      @id @default(cuid())
+  verseId     String
+  verseOfTheDayId String?
+  shareType   ShareType
+  platform    String?
+  recipientEmail String?
+  shareUrl    String?
+  ipAddress   String?
+  userAgent   String?
+  isSuccessful Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  // Relations
+  verse BibleVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
+  verseOfTheDay VerseOfTheDay? @relation(fields: [verseOfTheDayId], references: [id], onDelete: Cascade)
+
+  @@index([verseId, createdAt])
+  @@index([shareType, createdAt])
+  @@map("verse_shares")
+}
+
+// Enums
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Category {
+  FAITH
+  BIBLE_STUDY
+  PRAYER
+  TESTIMONY
+  REFLECTION
+  OTHER
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ContactStatus {
+  NEW
+  READ
+  REPLIED
+  ARCHIVED
+}
+
+enum Currency {
+  USD
+  EUR
+  GBP
+  CAD
+  AUD
+}
+
+enum PaymentMethod {
+  STRIPE
+  PAYPAL
+  BANK_TRANSFER
+  OTHER
+}
+
+enum DonationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum ShareType {
+  SOCIAL_MEDIA
+  EMAIL
+  COPY_LINK
+  WHATSAPP
+  TELEGRAM
+  OTHER
+}
