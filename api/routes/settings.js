@@ -1,9 +1,96 @@
 import express from 'express';
+import { prisma } from '../lib/prisma.js';
 import { verifyToken, requireAdmin } from '../middleware/auth.js';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const router = express.Router();
 
-// Default settings (matching your frontend data structure)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DATA_FILE = path.join(__dirname, '../data/settings.json');
+
+// Helper to read settings
+async function getSettings() {
+  try {
+    // Try to get all settings from database
+    const dbSettings = await prisma.systemSetting.findMany();
+
+    // If database is empty, try to migrate from JSON file
+    if (dbSettings.length === 0) {
+      return await migrateFromJson();
+    }
+
+    // Convert array to object
+    const settingsObj = {};
+    dbSettings.forEach(s => {
+      settingsObj[s.key] = s.settings;
+    });
+
+    // Merge with defaults for missing keys and fields
+    const finalSettings = { ...defaultSettings };
+    Object.keys(settingsObj).forEach(key => {
+      if (typeof settingsObj[key] === 'object' && settingsObj[key] !== null && !Array.isArray(settingsObj[key])) {
+        finalSettings[key] = { ...finalSettings[key], ...settingsObj[key] };
+      } else {
+        finalSettings[key] = settingsObj[key];
+      }
+    });
+
+    return finalSettings;
+  } catch (error) {
+    console.error('Error reading settings from DB:', error);
+    return defaultSettings;
+  }
+}
+
+// Migration logic
+async function migrateFromJson() {
+  try {
+    let initialSettings = defaultSettings;
+
+    try {
+      const fileData = await fs.readFile(DATA_FILE, 'utf8');
+      const jsonSettings = JSON.parse(fileData);
+      initialSettings = { ...defaultSettings, ...jsonSettings };
+      console.log('✅ Found settings.json, migrating to database...');
+    } catch (err) {
+      console.log('ℹ️ No settings.json found, using defaults.');
+    }
+
+    // Save each category to DB
+    for (const [key, value] of Object.entries(initialSettings)) {
+      await prisma.systemSetting.upsert({
+        where: { key },
+        update: { settings: value },
+        create: { key, settings: value }
+      });
+    }
+
+    console.log('✅ Settings migrated to Neon database.');
+    return initialSettings;
+  } catch (error) {
+    console.error('Migration error:', error);
+    return defaultSettings;
+  }
+}
+
+// Helper to save setting category
+async function saveSettingCategory(key, settings) {
+  try {
+    await prisma.systemSetting.upsert({
+      where: { key },
+      update: { settings },
+      create: { key, settings }
+    });
+    return true;
+  } catch (error) {
+    console.error(`Error saving setting category ${key}:`, error);
+    return false;
+  }
+}
+
 const defaultSettings = {
   backgroundSettings: {
     imageUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
@@ -22,19 +109,43 @@ const defaultSettings = {
     linkedin: "#",
     youtube: "#",
     tiktok: "#"
+  },
+  aboutSection: {
+    title: "About Us",
+    content: "Our company and culture are crafted for a delightful experience. We believe in thoughtful design, clear communication, and building products that help people grow.",
+    imageUrl: "https://images.pexels.com/photos/3182763/pexels-photo-3182763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  storySection: {
+    title: "Our Story",
+    content: "It all started in 2004 with a simple observation: people wanted helpful information, not interruptions. Today, we're proud to support millions of users as they grow with confidence.",
+    imageUrl: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  missionSection: {
+    title: "Our Mission",
+    content: "We believe in growing better—aligning your success with the success of your customers. Our mission is to build tools that deliver real value and lasting impact.",
+    imageUrl: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  heroSection: {
+    videoUrl: '',
+    imageUrl: 'https://images.unsplash.com/photo-1507434912635-597d7dee9702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+    title: 'THE BIBLE LOVER',
+    content: 'READ ALL ABOUT IT'
+  },
+  whatsappSettings: {
+    phoneNumber: "1234567890",
+    message: "Hello! I would like to know more about your services.",
+    enabled: true
   }
 };
 
-// In-memory storage for settings (in production, use a database)
-let siteSettings = { ...defaultSettings };
-
 // Get all settings (public)
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
+    const settings = await getSettings();
     res.json({
       success: true,
       data: {
-        settings: siteSettings
+        settings
       }
     });
   } catch (error) {
@@ -48,11 +159,12 @@ router.get('/', (req, res) => {
 });
 
 // Get specific setting category (public)
-router.get('/:category', (req, res) => {
+router.get('/:category', async (req, res) => {
   try {
     const { category } = req.params;
-    
-    if (!siteSettings[category]) {
+    const settings = await getSettings();
+
+    if (!settings[category]) {
       return res.status(404).json({
         success: false,
         message: 'Setting category not found'
@@ -63,7 +175,7 @@ router.get('/:category', (req, res) => {
       success: true,
       data: {
         category,
-        settings: siteSettings[category]
+        settings: settings[category]
       }
     });
   } catch (error) {
@@ -82,49 +194,69 @@ router.put('/:category', verifyToken, requireAdmin, async (req, res) => {
     const { category } = req.params;
     const updates = req.body;
 
-    if (!siteSettings[category]) {
+    const allSettings = await getSettings();
+    const settings = allSettings[category] || {};
+
+    // Validate category
+    if (!['backgroundSettings', 'logoSettings', 'socialSettings', 'aboutSection', 'storySection', 'missionSection', 'whatsappSettings', 'heroSection'].includes(category)) {
       return res.status(404).json({
         success: false,
-        message: 'Setting category not found'
+        message: 'Setting category not found or invalid'
       });
     }
 
-    // Validate and update settings
+    // Merge updates
+    const updatedCategorySettings = { ...settings };
+
     switch (category) {
       case 'backgroundSettings':
-        if (updates.imageUrl) siteSettings.backgroundSettings.imageUrl = updates.imageUrl;
-        if (updates.opacity !== undefined) siteSettings.backgroundSettings.opacity = updates.opacity;
-        if (updates.overlayColor) siteSettings.backgroundSettings.overlayColor = updates.overlayColor;
+        if (updates.imageUrl) updatedCategorySettings.imageUrl = updates.imageUrl;
+        if (updates.opacity !== undefined) updatedCategorySettings.opacity = updates.opacity;
+        if (updates.overlayColor) updatedCategorySettings.overlayColor = updates.overlayColor;
         break;
 
       case 'logoSettings':
-        if (updates.logoUrl !== undefined) siteSettings.logoSettings.logoUrl = updates.logoUrl;
-        if (updates.logoText) siteSettings.logoSettings.logoText = updates.logoText;
-        if (updates.showText !== undefined) siteSettings.logoSettings.showText = updates.showText;
+        if (updates.logoUrl !== undefined) updatedCategorySettings.logoUrl = updates.logoUrl;
+        if (updates.logoText) updatedCategorySettings.logoText = updates.logoText;
+        if (updates.showText !== undefined) updatedCategorySettings.showText = updates.showText;
         break;
 
       case 'socialSettings':
-        if (updates.facebook !== undefined) siteSettings.socialSettings.facebook = updates.facebook;
-        if (updates.twitter !== undefined) siteSettings.socialSettings.twitter = updates.twitter;
-        if (updates.instagram !== undefined) siteSettings.socialSettings.instagram = updates.instagram;
-        if (updates.linkedin !== undefined) siteSettings.socialSettings.linkedin = updates.linkedin;
-        if (updates.youtube !== undefined) siteSettings.socialSettings.youtube = updates.youtube;
-        if (updates.tiktok !== undefined) siteSettings.socialSettings.tiktok = updates.tiktok;
+        ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube', 'tiktok'].forEach(platform => {
+          if (updates[platform] !== undefined) updatedCategorySettings[platform] = updates[platform];
+        });
         break;
 
-      default:
-        return res.status(400).json({
-          success: false,
-          message: 'Invalid setting category'
-        });
+      case 'aboutSection':
+      case 'storySection':
+      case 'missionSection':
+        if (updates.title !== undefined) updatedCategorySettings.title = updates.title;
+        if (updates.content !== undefined) updatedCategorySettings.content = updates.content;
+        if (updates.imageUrl !== undefined) updatedCategorySettings.imageUrl = updates.imageUrl;
+        break;
+
+      case 'heroSection':
+        if (updates.videoUrl !== undefined) updatedCategorySettings.videoUrl = updates.videoUrl;
+        if (updates.imageUrl !== undefined) updatedCategorySettings.imageUrl = updates.imageUrl;
+        if (updates.title !== undefined) updatedCategorySettings.title = updates.title;
+        if (updates.content !== undefined) updatedCategorySettings.content = updates.content;
+        break;
+
+      case 'whatsappSettings':
+        if (updates.phoneNumber !== undefined) updatedCategorySettings.phoneNumber = updates.phoneNumber;
+        if (updates.message !== undefined) updatedCategorySettings.message = updates.message;
+        if (updates.enabled !== undefined) updatedCategorySettings.enabled = updates.enabled;
+        break;
     }
+
+    await saveSettingCategory(category, updatedCategorySettings);
 
     res.json({
       success: true,
       message: 'Settings updated successfully',
       data: {
         category,
-        settings: siteSettings[category]
+        settings: updatedCategorySettings
       }
     });
   } catch (error) {
@@ -140,13 +272,15 @@ router.put('/:category', verifyToken, requireAdmin, async (req, res) => {
 // Reset settings to default (admin only)
 router.post('/reset', verifyToken, requireAdmin, async (req, res) => {
   try {
-    siteSettings = { ...defaultSettings };
+    for (const [key, value] of Object.entries(defaultSettings)) {
+      await saveSettingCategory(key, value);
+    }
 
     res.json({
       success: true,
       message: 'Settings reset to default successfully',
       data: {
-        settings: siteSettings
+        settings: defaultSettings
       }
     });
   } catch (error) {

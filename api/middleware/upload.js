@@ -1,45 +1,39 @@
 import multer from 'multer';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Use memory storage for files since we'll be saving to the database
+const storage = multer.memoryStorage();
 
-// Configure storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../uploads/images'));
-  },
-  filename: (req, file, cb) => {
-    // Generate unique filename with timestamp
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-
-// File filter to only allow images
-const fileFilter = (req, file, cb) => {
+// Image upload filter
+const imageFileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image/')) {
     cb(null, true);
   } else {
-    cb(new Error('Only image files are allowed!'), false);
+    cb(new Error('Only images are allowed!'), false);
   }
 };
 
-// Configure multer
-const upload = multer({
+// Video upload filter
+const videoFileFilter = (req, file, cb) => {
+  const allowedMimeTypes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'];
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only MP4, WebM, OGG, and MOV videos are allowed!'), false);
+  }
+};
+
+// Export middleware
+export const uploadSingle = multer({
   storage: storage,
-  limits: {
-    fileSize: 5 * 1024 * 1024, // 5MB limit
-  },
-  fileFilter: fileFilter
-});
+  fileFilter: imageFileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+}).single('image');
 
-// Middleware for single image upload
-export const uploadSingle = upload.single('image');
-
-// Middleware for multiple images
-export const uploadMultiple = upload.array('images', 5);
+export const uploadVideo = multer({
+  storage: storage,
+  fileFilter: videoFileFilter,
+  limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
+}).single('video');
 
 // Error handling middleware
 export const handleUploadError = (error, req, res, next) => {
@@ -47,26 +41,26 @@ export const handleUploadError = (error, req, res, next) => {
     if (error.code === 'LIMIT_FILE_SIZE') {
       return res.status(400).json({
         success: false,
-        message: 'File too large. Maximum size is 5MB.'
+        message: 'File too large. Maximum size is 50MB.'
       });
     }
     if (error.code === 'LIMIT_FILE_COUNT') {
       return res.status(400).json({
         success: false,
-        message: 'Too many files. Maximum is 5 files.'
+        message: 'Too many files.'
       });
     }
   }
-  
-  if (error.message === 'Only image files are allowed!') {
+
+  if (error.message === 'Only image and video files are allowed!') {
     return res.status(400).json({
       success: false,
-      message: 'Only image files are allowed!'
+      message: 'Only image and video files are allowed!'
     });
   }
-  
+
   next(error);
 };
 
-export default upload;
+
 

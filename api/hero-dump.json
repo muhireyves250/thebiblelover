@@ -1,0 +1,10 @@
+{
+  "id": "cmkigi00n0006p88d1r9oobme",
+  "key": "heroSection",
+  "settings": {
+    "imageUrl": "https://images.unsplash.com/photo-1507434912635-597d7dee9702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+    "videoUrl": "http://localhost:5000/api/upload/videos/video-1768661934855-139176212.mp4"
+  },
+  "createdAt": "2026-01-17T15:22:41.687Z",
+  "updatedAt": "2026-01-17T16:34:06.240Z"
+}

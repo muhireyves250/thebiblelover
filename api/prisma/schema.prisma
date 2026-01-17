@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,47 +8,43 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
+  id           String     @id @default(cuid())
+  email        String     @unique
   password     String
   name         String
-  role         Role     @default(USER)
-  isActive     Boolean  @default(true)
+  role         Role       @default(USER)
+  isActive     Boolean    @default(true)
   lastLogin    DateTime?
   profileImage String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  // Relations
-  blogPosts BlogPost[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  blogPosts    BlogPost[]
 
   @@map("users")
 }
 
 model BlogPost {
-  id             String      @id @default(cuid())
+  id             String     @id @default(cuid())
   title          String
-  slug           String      @unique
+  slug           String     @unique
   excerpt        String
   content        String
   featuredImage  String
   authorId       String
-  category       Category    @default(OTHER)
+  category       Category   @default(OTHER)
   tags           String[]
-  status         PostStatus  @default(DRAFT)
+  status         PostStatus @default(DRAFT)
   publishedAt    DateTime?
-  readTime       Int         @default(5)
-  views          Int         @default(0)
-  likes          Int         @default(0)
-  isFeatured     Boolean     @default(false)
+  readTime       Int        @default(5)
+  views          Int        @default(0)
+  likes          Int        @default(0)
+  isFeatured     Boolean    @default(false)
   seoTitle       String?
   seoDescription String?
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
-
-  // Relations
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  comments Comment[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  author         User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments       Comment[]
 
   @@index([slug])
   @@index([status, publishedAt])
@@ -101,17 +94,15 @@ model Donation {
 }
 
 model Comment {
-  id        String   @id @default(cuid())
-  content   String
-  authorName String
+  id          String   @id @default(cuid())
+  content     String
+  authorName  String
   authorEmail String
-  postId    String
-  isApproved Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  post BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId      String
+  isApproved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  post        BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@index([postId, createdAt])
   @@index([isApproved])
@@ -119,23 +110,22 @@ model Comment {
 }
 
 model BibleVerse {
-  id          String   @id @default(cuid())
-  title       String?  // Optional title for the verse
-  book        String
-  chapter     Int
-  verse       Int
-  text        String
-  translation String   @default("NIV")
-  image       String?  // Optional image URL for the verse
-  isActive    Boolean  @default(true)
-  isFeatured  Boolean  @default(false)
-  displayDate DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
+  id            String          @id @default(cuid())
+  title         String?
+  book          String
+  chapter       Int
+  verse         Int
+  text          String
+  translation   String          @default("NIV")
+  image         String?
+  isActive      Boolean         @default(true)
+  isFeatured    Boolean         @default(false)
+  shareCount    Int             @default(0)
+  displayDate   DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
   verseOfTheDay VerseOfTheDay[]
-  shares VerseShare[]
+  shares        VerseShare[]
 
   @@index([book, chapter, verse])
   @@index([isActive, isFeatured])
@@ -144,44 +134,64 @@ model BibleVerse {
 }
 
 model VerseOfTheDay {
-  id        String   @id @default(cuid())
+  id        String       @id @default(cuid())
   verseId   String
-  date      DateTime @unique
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  verse BibleVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
-  shares VerseShare[]
+  date      DateTime     @unique
+  isActive  Boolean      @default(true)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  verse     BibleVerse   @relation(fields: [verseId], references: [id], onDelete: Cascade)
+  shares    VerseShare[]
 
   @@index([date, isActive])
   @@map("verse_of_the_day")
 }
 
 model VerseShare {
-  id          String      @id @default(cuid())
-  verseId     String
+  id              String         @id @default(cuid())
+  verseId         String
   verseOfTheDayId String?
-  shareType   ShareType
-  platform    String?
-  recipientEmail String?
-  shareUrl    String?
-  ipAddress   String?
-  userAgent   String?
-  isSuccessful Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-
-  // Relations
-  verse BibleVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
-  verseOfTheDay VerseOfTheDay? @relation(fields: [verseOfTheDayId], references: [id], onDelete: Cascade)
+  shareType       ShareType
+  platform        String?
+  recipientEmail  String?
+  shareUrl        String?
+  ipAddress       String?
+  userAgent       String?
+  isSuccessful    Boolean        @default(true)
+  createdAt       DateTime       @default(now())
+  verse           BibleVerse     @relation(fields: [verseId], references: [id], onDelete: Cascade)
+  verseOfTheDay   VerseOfTheDay? @relation(fields: [verseOfTheDayId], references: [id], onDelete: Cascade)
 
   @@index([verseId, createdAt])
   @@index([shareType, createdAt])
   @@map("verse_shares")
 }
 
-// Enums
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  settings  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("system_settings")
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  filename     String   @unique
+  originalName String
+  mimeType     String
+  size         Int
+  url          String?  // Cloudinary secure URL
+  publicId     String?  // Cloudinary public ID for management/deletion
+  folder       String   // 'images' or 'videos'
+  createdAt    DateTime @default(now())
+
+  @@index([filename])
+  @@map("media")
+}
+
 enum Role {
   ADMIN
   USER

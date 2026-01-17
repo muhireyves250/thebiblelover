@@ -10,9 +10,9 @@ const router = express.Router();
 // Helper function to convert static URLs to Bible verse image API URLs
 const convertToApiUrl = (imageUrl, req = null) => {
   if (!imageUrl) return imageUrl;
-  
+
   let convertedUrl = imageUrl;
-  
+
   if (imageUrl.includes('/api/upload/images/')) {
     const filename = imageUrl.split('/api/upload/images/')[1];
     convertedUrl = `/api/bible-verses/images/${filename}`;
@@ -20,14 +20,14 @@ const convertToApiUrl = (imageUrl, req = null) => {
     const filename = imageUrl.split('/uploads/images/')[1];
     convertedUrl = `/api/bible-verses/images/${filename}`;
   }
-  
+
   // Convert to full URL if request object is provided
   if (req && convertedUrl.startsWith('/')) {
     const protocol = req.protocol || 'http';
     const host = req.get('host') || 'localhost:5000';
     convertedUrl = `${protocol}://${host}${convertedUrl}`;
   }
-  
+
   return convertedUrl;
 };
 
@@ -40,15 +40,15 @@ router.get('/health', (_req, res) => {
 router.post('/:id/share', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { 
-      shareType = 'COPY_LINK', 
-      platform = null, 
-      recipientEmail = null, 
-      shareUrl = null 
+    const {
+      shareType = 'COPY_LINK',
+      platform = null,
+      recipientEmail = null,
+      shareUrl = null
     } = req.body;
 
     // Get client IP and user agent for analytics
-    const ipAddress = req.ip || req.connection.remoteAddress || req.socket.remoteAddress || 
+    const ipAddress = req.ip || req.connection.remoteAddress || req.socket.remoteAddress ||
       (req.connection.socket ? req.connection.socket.remoteAddress : null) || 'unknown';
     const userAgent = req.get('User-Agent') || 'unknown';
 
@@ -61,32 +61,26 @@ router.post('/:id/share', async (req, res, next) => {
       });
     }
 
-    // Check if verse exists
-    const verse = await prisma.bibleVerse.findUnique({
-      where: { id },
-      select: { id: true, book: true, chapter: true, verse: true, text: true, translation: true }
-    });
-
-    if (!verse) {
-      return res.status(404).json({
-        success: false,
-        message: 'Bible verse not found'
-      });
-    }
-
-    // Create share record
-    const shareRecord = await prisma.verseShare.create({
-      data: {
-        verseId: id,
-        shareType: shareType,
-        platform: platform,
-        recipientEmail: recipientEmail,
-        shareUrl: shareUrl,
-        ipAddress: ipAddress,
-        userAgent: userAgent,
-        isSuccessful: true
-      }
-    });
+    // Check if verse exists and increment share count in one transaction
+    const [verse, shareRecord] = await prisma.$transaction([
+      prisma.bibleVerse.update({
+        where: { id },
+        data: { shareCount: { increment: 1 } },
+        select: { id: true, book: true, chapter: true, verse: true, text: true, translation: true, shareCount: true }
+      }),
+      prisma.verseShare.create({
+        data: {
+          verseId: id,
+          shareType: shareType,
+          platform: platform,
+          recipientEmail: recipientEmail,
+          shareUrl: shareUrl,
+          ipAddress: ipAddress,
+          userAgent: userAgent,
+          isSuccessful: true
+        }
+      })
+    ]);
 
     // Generate share URL if not provided
     let finalShareUrl = shareUrl;
@@ -119,6 +113,7 @@ router.post('/:id/share', async (req, res, next) => {
         shareText: shareText,
         shareDescription: shareDescription,
         platformUrls: shareUrls,
+        shareCount: verse.shareCount,
         verse: {
           id: verse.id,
           reference: `${verse.book} ${verse.chapter}:${verse.verse}`,
@@ -129,6 +124,12 @@ router.post('/:id/share', async (req, res, next) => {
     });
 
   } catch (err) {
+    if (err.code === 'P2025') {
+      return res.status(404).json({
+        success: false,
+        message: 'Bible verse not found'
+      });
+    }
     console.error('Error sharing verse:', err);
     next(err);
   }
@@ -218,18 +219,26 @@ router.get('/:id/shares', verifyToken, async (req, res, next) => {
 // Get all Bible verses (public)
 router.get('/', async (req, res, next) => {
   try {
-    const { page = 1, limit = 10, featured, includeInactive } = req.query;
+    const { page = 1, limit = 10, featured, includeInactive, search } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
-    
+
     const where = {};
-    
+
     // If includeInactive is not true, only show active verses (default behavior)
     if (includeInactive !== 'true') {
       where.isActive = true;
     }
-    
+
     if (featured === 'true') {
       where.isFeatured = true;
+    }
+
+    if (search) {
+      where.OR = [
+        { text: { contains: search, mode: 'insensitive' } },
+        { book: { contains: search, mode: 'insensitive' } },
+        { translation: { contains: search, mode: 'insensitive' } }
+      ];
     }
 
     const [verses, total] = await Promise.all([
@@ -269,9 +278,9 @@ router.get('/', async (req, res, next) => {
 router.get('/featured', async (req, res, next) => {
   try {
     const verse = await prisma.bibleVerse.findFirst({
-      where: { 
+      where: {
         isActive: true,
-        isFeatured: true 
+        isFeatured: true
       },
       orderBy: { createdAt: 'desc' }
     });
@@ -282,7 +291,7 @@ router.get('/featured', async (req, res, next) => {
         where: { isActive: true },
         orderBy: { createdAt: 'desc' }
       });
-      
+
       if (fallbackVerse) {
         // Transform the data to match frontend expectations
         const transformedVerse = {
@@ -296,7 +305,7 @@ router.get('/featured', async (req, res, next) => {
           data: { verse: transformedVerse }
         });
       }
-      
+
       return res.json({
         success: true,
         data: { verse: null }
@@ -356,7 +365,7 @@ router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
     }
 
     const { text, book, chapter, verse, translation, image, isActive, isFeatured } = req.body;
-    
+
     // If setting as active, deactivate all other verses first
     if (isActive) {
       await prisma.bibleVerse.updateMany({
@@ -364,7 +373,7 @@ router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
         data: { isActive: false }
       });
     }
-    
+
     const newVerse = await prisma.bibleVerse.create({
       data: {
         text,
@@ -416,7 +425,7 @@ router.put('/:id', verifyToken, validateBibleVerseUpdate, async (req, res, next)
     // If setting as active, deactivate all other verses first
     if (updateData.isActive === true) {
       await prisma.bibleVerse.updateMany({
-        where: { 
+        where: {
           isActive: true,
           id: { not: id } // Don't deactivate the current verse
         },
@@ -476,46 +485,11 @@ router.delete('/:id', verifyToken, async (req, res, next) => {
   }
 });
 
-// Share Bible verse (increment share count)
-router.post('/:id/share', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-
-    const verse = await prisma.bibleVerse.findUnique({
-      where: { id }
-    });
-
-    if (!verse) {
-      return res.status(404).json({
-        success: false,
-        message: 'Bible verse not found'
-      });
-    }
-
-    const updatedVerse = await prisma.bibleVerse.update({
-      where: { id },
-      data: {
-        shareCount: {
-          increment: 1
-        }
-      }
-    });
-
-    res.json({
-      success: true,
-      message: 'Share count updated',
-      data: { shareCount: updatedVerse.shareCount }
-    });
-  } catch (err) {
-    next(err);
-  }
-});
-
 // Serve bible verse images with proper CORS headers
-router.get('/images/:filename', (req, res, next) => {
+router.get('/images/:filename', async (req, res, next) => {
   try {
     const filename = req.params.filename;
-    
+
     // Validate filename to prevent directory traversal
     if (!filename || filename.includes('..') || filename.includes('/')) {
       return res.status(400).json({
@@ -523,40 +497,35 @@ router.get('/images/:filename', (req, res, next) => {
         message: 'Invalid filename'
       });
     }
-    
-    const imagePath = path.join(process.cwd(), 'uploads', 'images', filename);
-    
-    // Set comprehensive CORS headers specifically for bible verse images
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-    res.header('Access-Control-Allow-Credentials', 'false');
-    res.header('Access-Control-Max-Age', '86400'); // 24 hours
-    res.header('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
-    res.header('Content-Type', 'image/png'); // Set proper content type
-    
-    // Handle preflight requests
-    if (req.method === 'OPTIONS') {
-      return res.status(200).end();
-    }
-    
-    // Check if file exists first
-    if (!fs.existsSync(imagePath)) {
-      return res.status(404).json({
-        success: false,
-        message: 'Bible verse image not found'
-      });
-    }
-    
-    // Send the file
-    res.sendFile(imagePath, (err) => {
-      if (err && !res.headersSent) {
-        console.error('Error serving bible verse image:', err);
-        res.status(500).json({
-          success: false,
-          message: 'Failed to serve bible verse image'
-        });
+
+    // 1. Try to find in Database
+    const media = await prisma.media.findUnique({
+      where: { filename }
+    });
+
+    if (media) {
+      if (media.url) {
+        return res.redirect(media.url);
       }
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Content-Type', media.mimeType);
+      res.header('Cache-Control', 'public, max-age=31536000');
+      return res.send(media.data);
+    }
+
+    // 2. Fallback to local Disk (legacy files)
+    const imagePath = path.join(process.cwd(), 'uploads', 'images', filename);
+
+    if (fs.existsSync(imagePath)) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Cache-Control', 'public, max-age=31536000');
+      res.header('Content-Type', 'image/png'); // Default for legacy
+      return res.sendFile(imagePath);
+    }
+
+    res.status(404).json({
+      success: false,
+      message: 'Bible verse image not found'
     });
   } catch (err) {
     next(err);

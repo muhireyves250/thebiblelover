@@ -41,14 +41,6 @@ app.use(helmet({
 }));
 app.use(compression());
 
-// 📊 Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // max 100 requests per IP
-  message: 'Too many requests from this IP, please try again later.'
-});
-app.use('/api/', limiter);
-
 // 🌍 CORS configuration
 app.use(cors({
   origin: [
@@ -64,6 +56,14 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-bible-verse-image'],
   optionsSuccessStatus: 200
 }));
+
+// 📊 Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // Increased for dev/reloads
+  message: 'Too many requests from this IP, please try again later.'
+});
+app.use('/api/', limiter);
 
 // 📦 Body parsing middleware
 app.use(express.json({ limit: '10mb' }));

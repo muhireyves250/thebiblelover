@@ -1,0 +1,43 @@
+{
+  "whatsappSettings": {
+    "phoneNumber": "0790835295",
+    "message": "Hello! I would like to know more about your services.",
+    "enabled": true
+  },
+  "backgroundSettings": {
+    "imageUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    "opacity": 0.4,
+    "overlayColor": "rgba(0, 0, 0, 0.3)"
+  },
+  "logoSettings": {
+    "logoUrl": "",
+    "logoText": "The Bible Lover",
+    "showText": true
+  },
+  "socialSettings": {
+    "facebook": "#",
+    "twitter": "#",
+    "instagram": "#",
+    "linkedin": "#",
+    "youtube": "#",
+    "tiktok": "#"
+  },
+  "aboutSection": {
+    "title": "About Us",
+    "content": "Our company and culture are crafted for a delightful experience. We believe in thoughtful design, yves",
+    "imageUrl": "https://images.pexels.com/photos/3182763/pexels-photo-3182763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  "storySection": {
+    "title": "Our Story",
+    "content": "It all started in 2004 with a simple observation: people wanted helpful information, not interruptions. Today, we're proud to support millions of users as they grow with confidence.",
+    "imageUrl": "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  "missionSection": {
+    "title": "Our Mission",
+    "content": "We believe in growing better—aligning your success with the success of your customers. Our mission is to build tools that deliver real value and lasting impact.",
+    "imageUrl": "http://localhost:5000/api/upload/images/image-1768660662920-851821993.jpeg"
+  },
+  "heroSection": {
+    "videoUrl": "http://localhost:5000/api/upload/videos/video-1768661934855-139176212.mp4"
+  }
+}
