@@ -69,6 +69,8 @@ const Hero = () => {
                   loop
                   playsInline
                   controls
+                  preload="auto"
+                  webkit-playsinline="true"
                   className="w-full h-full object-cover"
                 />
               </div>
