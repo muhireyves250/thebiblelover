@@ -92,6 +92,25 @@ async function connectDatabase() {
 
 connectDatabase();
 
+// 🏠 Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Bible Project API is live! 🙏',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      blog: '/api/blog',
+      contact: '/api/contact',
+      donations: '/api/donations',
+      settings: '/api/settings',
+      bibleVerses: '/api/bible-verses',
+      upload: '/api/upload'
+    }
+  });
+});
+
 // 🩺 Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({
