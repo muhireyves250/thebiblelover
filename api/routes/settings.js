@@ -127,7 +127,7 @@ const defaultSettings = {
   },
   heroSection: {
     videoUrl: '',
-    imageUrl: 'https://images.unsplash.com/photo-1507434912635-597d7dee9702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+    imageUrl: 'https://images.pexels.com/photos/1112048/pexels-photo-1112048.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1',
     title: 'THE BIBLE LOVER',
     content: 'READ ALL ABOUT IT'
   },
