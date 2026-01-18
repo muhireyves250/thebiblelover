@@ -144,6 +144,37 @@ router.post('/video', verifyToken, requireAdmin, uploadVideo, handleUploadError,
   }
 });
 
+// List all uploaded files (admin only)
+router.get('/files', verifyToken, requireAdmin, async (req, res) => {
+  try {
+    const { type } = req.query; // 'images' or 'videos'
+
+    const where = {};
+    if (type) {
+      where.folder = type; // 'images' or 'videos'
+    }
+
+    const files = await prisma.media.findMany({
+      where,
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    res.json({
+      success: true,
+      count: files.length,
+      data: files
+    });
+  } catch (error) {
+    console.error('List files error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve files'
+    });
+  }
+});
+
 // Migrate existing local files to DB (admin only)
 router.post('/migrate', verifyToken, requireAdmin, async (req, res) => {
   try {
