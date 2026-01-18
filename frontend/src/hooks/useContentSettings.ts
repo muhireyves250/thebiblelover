@@ -37,7 +37,7 @@ export const useContentSettings = () => {
         missionSection: defaultSection,
         heroSection: {
             videoUrl: '',
-            imageUrl: 'https://images.unsplash.com/photo-1507434912635-597d7dee9702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+            imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
             title: 'THE BIBLE LOVER',
             content: 'READ ALL ABOUT IT'
         }
@@ -56,7 +56,7 @@ export const useContentSettings = () => {
                     data: {
                         settings: {
                             videoUrl: '',
-                            imageUrl: 'https://images.unsplash.com/photo-1507434912635-597d7dee9702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+                            imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
                             title: 'THE BIBLE LOVER',
                             content: 'READ ALL ABOUT IT'
                         }
@@ -70,7 +70,7 @@ export const useContentSettings = () => {
                 missionSection: mission.data.settings || defaultSection,
                 heroSection: hero.data.settings || {
                     videoUrl: '',
-                    imageUrl: 'https://images.unsplash.com/photo-1507434912635-597d7dee9702?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+                    imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
                     title: 'THE BIBLE LOVER',
                     content: 'READ ALL ABOUT IT'
                 }
