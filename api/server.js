@@ -9,6 +9,11 @@ import dotenv from 'dotenv';
 
 // Prisma client
 import { prisma } from './lib/prisma.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Routes
 import authRoutes from './routes/auth.js';
@@ -118,7 +123,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // 📁 Static files for uploads with CORS headers
-app.use('/uploads', staticCors, express.static('uploads'));
+app.use('/uploads', staticCors, express.static(path.join(__dirname, 'uploads')));
 
 // 📌 API routes
 app.use('/api/auth', authRoutes);

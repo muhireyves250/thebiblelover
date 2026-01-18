@@ -6,6 +6,10 @@ import cloudinary from '../lib/cloudinary.js';
 import streamifier from 'streamifier';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
@@ -237,7 +241,8 @@ const serveFile = async (req, res, folder) => {
     }
 
     // 2. Fallback to local Disk (legacy files)
-    const filePath = path.join(process.cwd(), 'uploads', folder, filename);
+    // Go up two levels from routes/upload.js to api/ then into uploads
+    const filePath = path.join(__dirname, '../../uploads', folder, filename);
 
     if (fs.existsSync(filePath)) {
       res.header('Access-Control-Allow-Origin', '*');
