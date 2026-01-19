@@ -42,7 +42,7 @@ const Footer = () => {
               {footerSettings.description}
             </p>
             <div className="flex items-center space-x-4">
-              {footerSettings.facebook && footerSettings.facebook !== '#' && (
+              {footerSettings.facebook && (
                 <a
                   href={footerSettings.facebook}
                   target="_blank"
@@ -53,7 +53,7 @@ const Footer = () => {
                   <Facebook className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
-              {footerSettings.twitter && footerSettings.twitter !== '#' && (
+              {footerSettings.twitter && (
                 <a
                   href={footerSettings.twitter}
                   target="_blank"
@@ -64,7 +64,7 @@ const Footer = () => {
                   <Twitter className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
-              {footerSettings.instagram && footerSettings.instagram !== '#' && (
+              {footerSettings.instagram && (
                 <a
                   href={footerSettings.instagram}
                   target="_blank"
@@ -75,7 +75,7 @@ const Footer = () => {
                   <Instagram className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
-              {footerSettings.linkedin && footerSettings.linkedin !== '#' && (
+              {footerSettings.linkedin && (
                 <a
                   href={footerSettings.linkedin}
                   target="_blank"
@@ -86,7 +86,7 @@ const Footer = () => {
                   <Linkedin className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
-              {footerSettings.youtube && footerSettings.youtube !== '#' && (
+              {footerSettings.youtube && (
                 <a
                   href={footerSettings.youtube}
                   target="_blank"
@@ -97,7 +97,7 @@ const Footer = () => {
                   <Youtube className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
-              {footerSettings.tiktok && footerSettings.tiktok !== '#' && (
+              {footerSettings.tiktok && (
                 <a
                   href={footerSettings.tiktok}
                   target="_blank"
@@ -110,7 +110,7 @@ const Footer = () => {
                   </svg>
                 </a>
               )}
-              {footerSettings.whatsapp && footerSettings.whatsapp !== '#' && (
+              {footerSettings.whatsapp && (
                 <a
                   href={footerSettings.whatsapp}
                   target="_blank"
