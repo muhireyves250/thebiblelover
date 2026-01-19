@@ -880,7 +880,7 @@ const Dashboard = () => {
                     </button>
                     <button
                       onClick={() => {
-                        setIsSocialModalOpen(true);
+                        setIsFooterModalOpen(true);
                         setSettingsDropdownOpen(false);
                       }}
                       className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-white hover:shadow-md hover:border hover:border-gray-200 transition-all duration-300"
