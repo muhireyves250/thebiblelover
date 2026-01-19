@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { settingsAPI } from '../services/api';
 
 interface BackgroundSettings {
   imageUrl: string;
@@ -16,24 +17,49 @@ const defaultBackgroundSettings: BackgroundSettings = {
 
 export const useBackgroundSettings = () => {
   const [backgroundSettings, setBackgroundSettings] = useState<BackgroundSettings>(defaultBackgroundSettings);
+  const [loading, setLoading] = useState(true);
+
+  const fetchBackgroundSettings = async () => {
+    try {
+      setLoading(true);
+      const response = await settingsAPI.getSettingCategory('backgroundSettings');
+      if (response.success && response.data.settings) {
+        const merged = { ...defaultBackgroundSettings, ...response.data.settings };
+        setBackgroundSettings(merged);
+        localStorage.setItem('backgroundSettings', JSON.stringify(merged));
+      } else {
+        // Fallback to localStorage if API fails but returns success: false
+        const savedSettings = localStorage.getItem('backgroundSettings');
+        if (savedSettings) {
+          setBackgroundSettings({ ...defaultBackgroundSettings, ...JSON.parse(savedSettings) });
+        }
+      }
+    } catch (error) {
+      console.error('Error loading background settings from API:', error);
+      // Final fallback to localStorage
+      const savedSettings = localStorage.getItem('backgroundSettings');
+      if (savedSettings) {
+        setBackgroundSettings({ ...defaultBackgroundSettings, ...JSON.parse(savedSettings) });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Load settings from localStorage on mount
-    const savedSettings = localStorage.getItem('backgroundSettings');
-    if (savedSettings) {
-      try {
-        const parsed = JSON.parse(savedSettings);
-        setBackgroundSettings({ ...defaultBackgroundSettings, ...parsed });
-      } catch (error) {
-        console.error('Error loading background settings:', error);
-      }
-    }
+    fetchBackgroundSettings();
   }, []);
 
-  const saveBackgroundSettings = (settings: Partial<BackgroundSettings>) => {
+  const saveBackgroundSettings = async (settings: Partial<BackgroundSettings>) => {
     const newSettings = { ...backgroundSettings, ...settings };
     setBackgroundSettings(newSettings);
     localStorage.setItem('backgroundSettings', JSON.stringify(newSettings));
+
+    try {
+      await settingsAPI.updateSettings('backgroundSettings', newSettings);
+    } catch (error) {
+      console.error('Error saving background settings to API:', error);
+    }
   };
 
   const getBackgroundStyle = () => {
@@ -53,9 +79,14 @@ export const useBackgroundSettings = () => {
     };
   };
 
-  const resetToDefault = () => {
+  const resetToDefault = async () => {
     setBackgroundSettings(defaultBackgroundSettings);
     localStorage.setItem('backgroundSettings', JSON.stringify(defaultBackgroundSettings));
+    try {
+      await settingsAPI.updateSettings('backgroundSettings', defaultBackgroundSettings);
+    } catch (error) {
+      console.error('Error resetting background settings on API:', error);
+    }
   };
 
   return {
@@ -63,6 +94,8 @@ export const useBackgroundSettings = () => {
     saveBackgroundSettings,
     getBackgroundStyle,
     getOverlayStyle,
-    resetToDefault
+    resetToDefault,
+    loading,
+    refreshSettings: fetchBackgroundSettings
   };
 };

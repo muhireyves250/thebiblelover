@@ -631,8 +631,8 @@ const Dashboard = () => {
     }
   };
 
-  const handleSaveBackground = (backgroundData: any) => {
-    saveBackgroundSettings(backgroundData);
+  const handleSaveBackground = async (backgroundData: any) => {
+    await saveBackgroundSettings(backgroundData);
   };
 
   const handleSaveLogo = (logoData: any) => {

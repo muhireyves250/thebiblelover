@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
 import { useContentSettings } from '../hooks/useContentSettings';
-import { optimizeCloudinaryUrl } from '../utils/media';
 
 const Hero = () => {
   const [offset, setOffset] = useState(0);
@@ -18,14 +17,9 @@ const Hero = () => {
 
   const getParallaxStyle = () => {
     const baseStyle = getBackgroundStyle();
-    const heroImage = settings?.heroSection?.imageUrl;
-    const optimizedImage = optimizeCloudinaryUrl(heroImage, { width: 1920 });
 
     return {
       ...baseStyle,
-      backgroundImage: heroImage ? `url(${optimizedImage})` : baseStyle.backgroundImage,
-      // If we have a custom hero image, we might want it to be more visible than the default background
-      opacity: heroImage ? 1 : baseStyle.opacity,
       backgroundPosition: `center calc(50% + ${offset}px)`,
       backgroundAttachment: 'fixed'
     };

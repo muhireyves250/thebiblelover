@@ -8,11 +8,11 @@ interface BackgroundSettingsModalProps {
   currentBackground?: string;
 }
 
-const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  onSave, 
-  currentBackground 
+const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
+  isOpen,
+  onClose,
+  onSave,
+  currentBackground
 }) => {
   const [settings, setSettings] = useState({
     imageUrl: '',
@@ -82,19 +82,29 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
 
   const removeUploadedImage = () => {
     setUploadedImageUrl(null);
-    setSettings(prev => ({ 
-      ...prev, 
-      imageUrl: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' 
+    setSettings(prev => ({
+      ...prev,
+      imageUrl: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     }));
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(settings);
-    onClose();
+    setIsSaving(true);
+    try {
+      await onSave(settings);
+      onClose();
+    } catch (error) {
+      console.error('Error saving background settings:', error);
+      alert('Failed to save settings. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const resetToDefault = () => {
@@ -173,7 +183,7 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                     <button
                       type="button"
                       onClick={handleUploadClick}
-                      disabled={isUploading}
+                      disabled={isUploading || isSaving}
                       className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:ring-1 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
                     >
                       <Upload className="h-4 w-4" />
@@ -183,7 +193,8 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                       <button
                         type="button"
                         onClick={removeUploadedImage}
-                        className="flex items-center space-x-2 px-4 py-2 text-red-600 hover:text-red-800"
+                        disabled={isSaving}
+                        className="flex items-center space-x-2 px-4 py-2 text-red-600 hover:text-red-800 disabled:opacity-50"
                       >
                         <Trash2 className="h-4 w-4" />
                         <span>Remove</span>
@@ -263,25 +274,31 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                   <button
                     type="button"
                     onClick={resetToDefault}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                    disabled={isSaving}
+                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50"
                   >
                     <RotateCcw className="h-4 w-4" />
                     <span>Reset to Default</span>
                   </button>
-                  
+
                   <div className="flex space-x-4">
                     <button
                       type="button"
                       onClick={onClose}
-                      className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                      disabled={isSaving}
+                      className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800 transition-colors"
+                      disabled={isSaving}
+                      className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50 flex items-center space-x-2"
                     >
-                      Save Settings
+                      {isSaving && (
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      )}
+                      <span>{isSaving ? 'Saving...' : 'Save Settings'}</span>
                     </button>
                   </div>
                 </div>
@@ -301,14 +318,14 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                   <span>{previewMode ? 'Hide' : 'Show'} Preview</span>
                 </button>
               </div>
-              
+
               {previewMode && (
                 <div className="relative h-64 rounded-lg overflow-hidden border border-gray-200">
-                  <div 
+                  <div
                     className="absolute inset-0"
                     style={getPreviewStyle()}
                   />
-                  <div 
+                  <div
                     className="absolute inset-0"
                     style={getPreviewOverlayStyle()}
                   />
@@ -320,7 +337,7 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                   </div>
                 </div>
               )}
-              
+
               {/* Current Image Preview */}
               {settings.imageUrl && (
                 <div>
