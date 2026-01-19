@@ -21,11 +21,20 @@ const convertToApiUrl = (imageUrl, req = null) => {
     convertedUrl = `/api/bible-verses/images/${filename}`;
   }
 
-  // Convert to full URL if request object is provided
-  if (req && convertedUrl.startsWith('/')) {
-    const protocol = req.protocol || 'http';
-    const host = req.get('host') || 'localhost:5000';
-    convertedUrl = `${protocol}://${host}${convertedUrl}`;
+  // Convert to full URL if request object is provided or if we have a base URL in env
+  if (convertedUrl.startsWith('/')) {
+    const baseUrl = process.env.APP_URL || process.env.API_URL;
+
+    if (baseUrl) {
+      // Remove trailing slash if exists
+      const sanitizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+      convertedUrl = `${sanitizedBaseUrl}${convertedUrl}`;
+    } else if (req) {
+      // Fallback to request host (useful for local dev)
+      const protocol = req.protocol || 'http';
+      const host = req.get('host') || 'localhost:5000';
+      convertedUrl = `${protocol}://${host}${convertedUrl}`;
+    }
   }
 
   return convertedUrl;
@@ -85,9 +94,15 @@ router.post('/:id/share', async (req, res, next) => {
     // Generate share URL if not provided
     let finalShareUrl = shareUrl;
     if (!finalShareUrl) {
-      const protocol = req.protocol || 'http';
-      const host = req.get('host') || 'localhost:5000';
-      finalShareUrl = `${protocol}://${host}/bible-verse/${id}`;
+      const baseUrl = process.env.APP_URL || process.env.API_URL;
+      if (baseUrl) {
+        const sanitizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+        finalShareUrl = `${sanitizedBaseUrl}/bible-verse/${id}`;
+      } else {
+        const protocol = req.protocol || 'http';
+        const host = req.get('host') || 'localhost:5000';
+        finalShareUrl = `${protocol}://${host}/bible-verse/${id}`;
+      }
     }
 
     // Generate share text

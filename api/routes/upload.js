@@ -61,6 +61,15 @@ router.post('/image', verifyToken, requireAdmin, uploadSingle, handleUploadError
       ? `/api/bible-verses/images/${filename}`
       : `/api/upload/images/${filename}`;
 
+    const baseUrl = process.env.APP_URL || process.env.API_URL;
+    let fullUrl;
+    if (baseUrl) {
+      const sanitizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+      fullUrl = `${sanitizedBaseUrl}${imageUrl}`;
+    } else {
+      fullUrl = `${req.protocol}://${req.get('host')}${imageUrl}`;
+    }
+
     res.json({
       success: true,
       message: 'Image uploaded to Cloudinary successfully',
@@ -70,7 +79,7 @@ router.post('/image', verifyToken, requireAdmin, uploadSingle, handleUploadError
         size: req.file.size,
         url: imageUrl,
         cloudinaryUrl: cloudinaryResult.secure_url,
-        fullUrl: `${req.protocol}://${req.get('host')}${imageUrl}`
+        fullUrl: fullUrl
       }
     });
   } catch (error) {
@@ -127,6 +136,15 @@ router.post('/video', verifyToken, requireAdmin, uploadVideo, handleUploadError,
 
     const videoUrl = `/api/upload/videos/${filename}`;
 
+    const baseUrl = process.env.APP_URL || process.env.API_URL;
+    let fullUrl;
+    if (baseUrl) {
+      const sanitizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+      fullUrl = `${sanitizedBaseUrl}${videoUrl}`;
+    } else {
+      fullUrl = `${req.protocol}://${req.get('host')}${videoUrl}`;
+    }
+
     res.json({
       success: true,
       message: 'Video uploaded to Cloudinary successfully',
@@ -136,7 +154,7 @@ router.post('/video', verifyToken, requireAdmin, uploadVideo, handleUploadError,
         size: req.file.size,
         url: videoUrl,
         cloudinaryUrl: cloudinaryResult.secure_url,
-        fullUrl: `${req.protocol}://${req.get('host')}${videoUrl}`
+        fullUrl: fullUrl
       }
     });
   } catch (error) {
