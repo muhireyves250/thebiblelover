@@ -142,7 +142,14 @@ const defaultSettings = {
     location: "New York, NY",
     responseTime: "Response within 24-48 hours",
     copyrightText: "© 2024 The Bible Lover. All rights reserved.",
-    madeWithText: "Made with for book lovers"
+    madeWithText: "Made with for book lovers",
+    facebook: "#",
+    twitter: "#",
+    instagram: "#",
+    linkedin: "#",
+    youtube: "#",
+    tiktok: "#",
+    whatsapp: "#"
   }
 };
 
@@ -263,6 +270,9 @@ router.put('/:category', verifyToken, requireAdmin, async (req, res) => {
         if (updates.responseTime !== undefined) updatedCategorySettings.responseTime = updates.responseTime;
         if (updates.copyrightText !== undefined) updatedCategorySettings.copyrightText = updates.copyrightText;
         if (updates.madeWithText !== undefined) updatedCategorySettings.madeWithText = updates.madeWithText;
+        ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube', 'tiktok', 'whatsapp'].forEach(platform => {
+          if (updates[platform] !== undefined) updatedCategorySettings[platform] = updates[platform];
+        });
         break;
     }
 

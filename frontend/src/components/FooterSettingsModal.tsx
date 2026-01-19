@@ -138,7 +138,7 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                     </div>
 
                     {/* Made With Text */}
-                    <div>
+                    <div className="pb-6 border-b border-gray-200">
                         <label htmlFor="madeWithText" className="block text-sm font-medium text-gray-700 mb-2">
                             "Made with" Text
                         </label>
@@ -150,6 +150,92 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                         />
+                    </div>
+
+                    {/* Social Media Links */}
+                    <div className="space-y-4">
+                        <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">Social Media Links</h3>
+                        <p className="text-xs text-gray-500">Enter full URLs (e.g., https://facebook.com/yourpage). Leave as # to use default or empty to hide.</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="facebook" className="block text-xs font-medium text-gray-700 mb-1">Facebook</label>
+                                <input
+                                    type="text"
+                                    id="facebook"
+                                    name="facebook"
+                                    value={settings.facebook}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="twitter" className="block text-xs font-medium text-gray-700 mb-1">Twitter</label>
+                                <input
+                                    type="text"
+                                    id="twitter"
+                                    name="twitter"
+                                    value={settings.twitter}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="instagram" className="block text-xs font-medium text-gray-700 mb-1">Instagram</label>
+                                <input
+                                    type="text"
+                                    id="instagram"
+                                    name="instagram"
+                                    value={settings.instagram}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="linkedin" className="block text-xs font-medium text-gray-700 mb-1">LinkedIn</label>
+                                <input
+                                    type="text"
+                                    id="linkedin"
+                                    name="linkedin"
+                                    value={settings.linkedin}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="youtube" className="block text-xs font-medium text-gray-700 mb-1">YouTube</label>
+                                <input
+                                    type="text"
+                                    id="youtube"
+                                    name="youtube"
+                                    value={settings.youtube}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="tiktok" className="block text-xs font-medium text-gray-700 mb-1">TikTok</label>
+                                <input
+                                    type="text"
+                                    id="tiktok"
+                                    name="tiktok"
+                                    value={settings.tiktok}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="whatsapp" className="block text-xs font-medium text-gray-700 mb-1">WhatsApp (URL or phone link)</label>
+                                <input
+                                    type="text"
+                                    id="whatsapp"
+                                    name="whatsapp"
+                                    value={settings.whatsapp}
+                                    onChange={handleChange}
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                />
+                            </div>
+                        </div>
                     </div>
 
                     {/* Action Buttons */}

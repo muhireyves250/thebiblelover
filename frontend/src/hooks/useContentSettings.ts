@@ -21,6 +21,13 @@ export interface FooterSettings {
     responseTime: string;
     copyrightText: string;
     madeWithText: string;
+    facebook: string;
+    twitter: string;
+    instagram: string;
+    linkedin: string;
+    youtube: string;
+    tiktok: string;
+    whatsapp: string;
 }
 
 export interface ContentSettings {
@@ -57,7 +64,14 @@ export const useContentSettings = () => {
             location: '',
             responseTime: '',
             copyrightText: '',
-            madeWithText: ''
+            madeWithText: '',
+            facebook: '',
+            twitter: '',
+            instagram: '',
+            linkedin: '',
+            youtube: '',
+            tiktok: '',
+            whatsapp: ''
         }
     });
     const [loading, setLoading] = useState(true);
@@ -88,7 +102,14 @@ export const useContentSettings = () => {
                             location: "New York, NY",
                             responseTime: "Response within 24-48 hours",
                             copyrightText: "© 2024 The Bible Lover. All rights reserved.",
-                            madeWithText: "Made with for book lovers"
+                            madeWithText: "Made with for book lovers",
+                            facebook: "#",
+                            twitter: "#",
+                            instagram: "#",
+                            linkedin: "#",
+                            youtube: "#",
+                            tiktok: "#",
+                            whatsapp: "#"
                         }
                     }
                 }))
@@ -110,7 +131,14 @@ export const useContentSettings = () => {
                     location: '',
                     responseTime: '',
                     copyrightText: '',
-                    madeWithText: ''
+                    madeWithText: '',
+                    facebook: '',
+                    twitter: '',
+                    instagram: '',
+                    linkedin: '',
+                    youtube: '',
+                    tiktok: '',
+                    whatsapp: ''
                 }
             });
             setError(null);
