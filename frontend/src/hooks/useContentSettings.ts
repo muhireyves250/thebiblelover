@@ -14,15 +14,25 @@ export interface HeroSection {
     content: string;
 }
 
+export interface FooterSettings {
+    description: string;
+    email: string;
+    location: string;
+    responseTime: string;
+    copyrightText: string;
+    madeWithText: string;
+}
+
 export interface ContentSettings {
     aboutSection: ContentSection;
     storySection: ContentSection;
     missionSection: ContentSection;
     heroSection: HeroSection;
+    footerSettings: FooterSettings;
     [key: string]: any;
 }
 
-export type SectionKey = 'aboutSection' | 'storySection' | 'missionSection' | 'heroSection';
+export type SectionKey = 'aboutSection' | 'storySection' | 'missionSection' | 'heroSection' | 'footerSettings';
 
 const defaultSection: ContentSection = {
     title: '',
@@ -40,6 +50,14 @@ export const useContentSettings = () => {
             imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
             title: 'THE BIBLE LOVER',
             content: 'READ ALL ABOUT IT'
+        },
+        footerSettings: {
+            description: '',
+            email: '',
+            location: '',
+            responseTime: '',
+            copyrightText: '',
+            madeWithText: ''
         }
     });
     const [loading, setLoading] = useState(true);
@@ -48,7 +66,7 @@ export const useContentSettings = () => {
     const fetchSettings = async () => {
         try {
             setLoading(true);
-            const [about, story, mission, hero] = await Promise.all([
+            const [about, story, mission, hero, footer] = await Promise.all([
                 settingsAPI.getSettingCategory('aboutSection'),
                 settingsAPI.getSettingCategory('storySection'),
                 settingsAPI.getSettingCategory('missionSection'),
@@ -59,6 +77,18 @@ export const useContentSettings = () => {
                             imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
                             title: 'THE BIBLE LOVER',
                             content: 'READ ALL ABOUT IT'
+                        }
+                    }
+                })),
+                settingsAPI.getSettingCategory('footerSettings').catch(() => ({
+                    data: {
+                        settings: {
+                            description: "Sharing the joy of reading and faith through thoughtful book reviews, inspiring content, and meaningful discussions about literature and spirituality.",
+                            email: "hello@thebiblelover.com",
+                            location: "New York, NY",
+                            responseTime: "Response within 24-48 hours",
+                            copyrightText: "© 2024 The Bible Lover. All rights reserved.",
+                            madeWithText: "Made with for book lovers"
                         }
                     }
                 }))
@@ -73,6 +103,14 @@ export const useContentSettings = () => {
                     imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
                     title: 'THE BIBLE LOVER',
                     content: 'READ ALL ABOUT IT'
+                },
+                footerSettings: footer.data.settings || {
+                    description: '',
+                    email: '',
+                    location: '',
+                    responseTime: '',
+                    copyrightText: '',
+                    madeWithText: ''
                 }
             });
             setError(null);
@@ -88,7 +126,7 @@ export const useContentSettings = () => {
         fetchSettings();
     }, []);
 
-    const saveSection = async (section: SectionKey, data: ContentSection | HeroSection | any) => {
+    const saveSection = async (section: SectionKey, data: ContentSection | HeroSection | FooterSettings | any) => {
         try {
             const response = await settingsAPI.updateSettings(section, data);
             if (response.success) {

@@ -34,6 +34,7 @@ import SocialSettingsModal from '../components/SocialSettingsModal';
 import BibleVerseManager from '../components/BibleVerseManager';
 import ContentSettingsModal from '../components/ContentSettingsModal';
 import WhatsAppSettingsModal from '../components/WhatsAppSettingsModal';
+import FooterSettingsModal from '../components/FooterSettingsModal';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import { useSocialSettings } from '../hooks/useSocialSettings';
@@ -42,6 +43,7 @@ import { getStorageInfo, clearAllBlogData } from '../utils/storageManager';
 import { blogAPI, contactAPI, donationsAPI } from '../services/api';
 // @ts-ignore
 import { useAuth } from '../hooks/useAPI';
+import { useContentSettings } from '../hooks/useContentSettings';
 
 interface DashboardStats {
   totalPosts: number;
@@ -133,11 +135,13 @@ const Dashboard = () => {
   const [isSocialModalOpen, setIsSocialModalOpen] = useState(false);
   const [isContentModalOpen, setIsContentModalOpen] = useState(false);
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
+  const [isFooterModalOpen, setIsFooterModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [deleteConfirmPost, setDeleteConfirmPost] = useState<any>(null);
   const [storageInfo, setStorageInfo] = useState<any>(null);
 
   const { backgroundSettings, saveBackgroundSettings } = useBackgroundSettings();
+  const { settings: contentSettings, saveSection } = useContentSettings();
   const { logoSettings, saveLogoSettings } = useLogoSettings();
   const { saveSocialSettings } = useSocialSettings();
   const [stats, setStats] = useState<DashboardStats>({
@@ -885,6 +889,18 @@ const Dashboard = () => {
                         <Share2 className="h-4 w-4 text-gray-600" />
                       </div>
                       <span>Social</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsFooterModalOpen(true);
+                        setSettingsDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center space-x-4 px-4 py-3 rounded-xl text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-white hover:shadow-md hover:border hover:border-gray-200 transition-all duration-300"
+                    >
+                      <div className="p-2 rounded-lg bg-gray-200 shadow-sm">
+                        <Layout className="h-4 w-4 text-gray-600" />
+                      </div>
+                      <span>Footer Content</span>
                     </button>
                   </div>
                 )}
@@ -2838,6 +2854,12 @@ const Dashboard = () => {
       <WhatsAppSettingsModal
         isOpen={isWhatsAppModalOpen}
         onClose={() => setIsWhatsAppModalOpen(false)}
+      />
+      <FooterSettingsModal
+        isOpen={isFooterModalOpen}
+        onClose={() => setIsFooterModalOpen(false)}
+        onSave={(data) => saveSection('footerSettings', data)}
+        initialSettings={contentSettings.footerSettings}
       />
     </div>
   );

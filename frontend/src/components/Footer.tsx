@@ -1,13 +1,15 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Mail, Heart, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { Facebook, Twitter, Heart, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import { useSocialSettings } from '../hooks/useSocialSettings';
+import { useContentSettings } from '../hooks/useContentSettings';
 
 const Footer = () => {
   const { logoSettings } = useLogoSettings();
   const { getSocialLinks } = useSocialSettings();
-  
+  const { settings: contentSettings } = useContentSettings();
+  const { footerSettings } = contentSettings;
+
   const socialLinks = getSocialLinks();
   return (
     <footer className="bg-gray-900 py-16">
@@ -41,74 +43,74 @@ const Footer = () => {
               )}
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-md">
-              Sharing the joy of reading and faith through thoughtful book reviews, inspiring content, and meaningful discussions about literature and spirituality.
+              {footerSettings.description}
             </p>
             <div className="flex items-center space-x-4">
               {socialLinks.facebook !== '#' && (
-                <a 
-                  href={socialLinks.facebook} 
-                  target="_blank" 
+                <a
+                  href={socialLinks.facebook}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" 
+                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
                   aria-label="Facebook"
                 >
                   <Facebook className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
               {socialLinks.twitter !== '#' && (
-                <a 
-                  href={socialLinks.twitter} 
-                  target="_blank" 
+                <a
+                  href={socialLinks.twitter}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" 
+                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
                   aria-label="Twitter"
                 >
                   <Twitter className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
               {socialLinks.instagram !== '#' && (
-                <a 
-                  href={socialLinks.instagram} 
-                  target="_blank" 
+                <a
+                  href={socialLinks.instagram}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" 
+                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
                   aria-label="Instagram"
                 >
                   <Instagram className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
               {socialLinks.linkedin !== '#' && (
-                <a 
-                  href={socialLinks.linkedin} 
-                  target="_blank" 
+                <a
+                  href={socialLinks.linkedin}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" 
+                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
               {socialLinks.youtube !== '#' && (
-                <a 
-                  href={socialLinks.youtube} 
-                  target="_blank" 
+                <a
+                  href={socialLinks.youtube}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" 
+                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
                   aria-label="YouTube"
                 >
                   <Youtube className="h-5 w-5 text-gray-300 hover:text-white transition-colors" />
                 </a>
               )}
               {socialLinks.tiktok !== '#' && (
-                <a 
-                  href={socialLinks.tiktok} 
-                  target="_blank" 
+                <a
+                  href={socialLinks.tiktok}
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500" 
+                  className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500"
                   aria-label="TikTok"
                 >
                   <svg className="h-5 w-5 text-gray-300 hover:text-white transition-colors" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
                   </svg>
                 </a>
               )}
@@ -141,19 +143,19 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          
+
           {/* Contact Info */}
           <div>
             <h3 className="text-white font-medium mb-4">Get in Touch</h3>
             <div className="space-y-3">
               <p className="text-gray-400 text-sm">
-                hello@thebiblelover.com
+                {footerSettings.email}
               </p>
               <p className="text-gray-400 text-sm">
-                New York, NY
+                {footerSettings.location}
               </p>
               <p className="text-gray-400 text-sm">
-                Response within 24-48 hours
+                {footerSettings.responseTime}
               </p>
             </div>
           </div>
@@ -163,12 +165,11 @@ const Footer = () => {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 The Bible Lover. All rights reserved.
+              {footerSettings.copyrightText}
             </div>
             <div className="flex items-center space-x-1 text-gray-400 text-sm">
-              <span>Made with</span>
+              <span>{footerSettings.madeWithText}</span>
               <Heart className="h-4 w-4 text-red-500" />
-              <span>for book lovers</span>
             </div>
           </div>
         </div>

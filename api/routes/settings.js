@@ -135,6 +135,14 @@ const defaultSettings = {
     phoneNumber: "1234567890",
     message: "Hello! I would like to know more about your services.",
     enabled: true
+  },
+  footerSettings: {
+    description: "Sharing the joy of reading and faith through thoughtful book reviews, inspiring content, and meaningful discussions about literature and spirituality.",
+    email: "hello@thebiblelover.com",
+    location: "New York, NY",
+    responseTime: "Response within 24-48 hours",
+    copyrightText: "© 2024 The Bible Lover. All rights reserved.",
+    madeWithText: "Made with for book lovers"
   }
 };
 
@@ -198,7 +206,7 @@ router.put('/:category', verifyToken, requireAdmin, async (req, res) => {
     const settings = allSettings[category] || {};
 
     // Validate category
-    if (!['backgroundSettings', 'logoSettings', 'socialSettings', 'aboutSection', 'storySection', 'missionSection', 'whatsappSettings', 'heroSection'].includes(category)) {
+    if (!['backgroundSettings', 'logoSettings', 'socialSettings', 'aboutSection', 'storySection', 'missionSection', 'whatsappSettings', 'heroSection', 'footerSettings'].includes(category)) {
       return res.status(404).json({
         success: false,
         message: 'Setting category not found or invalid'
@@ -246,6 +254,15 @@ router.put('/:category', verifyToken, requireAdmin, async (req, res) => {
         if (updates.phoneNumber !== undefined) updatedCategorySettings.phoneNumber = updates.phoneNumber;
         if (updates.message !== undefined) updatedCategorySettings.message = updates.message;
         if (updates.enabled !== undefined) updatedCategorySettings.enabled = updates.enabled;
+        break;
+
+      case 'footerSettings':
+        if (updates.description !== undefined) updatedCategorySettings.description = updates.description;
+        if (updates.email !== undefined) updatedCategorySettings.email = updates.email;
+        if (updates.location !== undefined) updatedCategorySettings.location = updates.location;
+        if (updates.responseTime !== undefined) updatedCategorySettings.responseTime = updates.responseTime;
+        if (updates.copyrightText !== undefined) updatedCategorySettings.copyrightText = updates.copyrightText;
+        if (updates.madeWithText !== undefined) updatedCategorySettings.madeWithText = updates.madeWithText;
         break;
     }
 
