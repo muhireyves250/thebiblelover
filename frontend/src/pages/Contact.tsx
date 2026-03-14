@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
+import SEO from '../components/SEO';
 import { contactAPI } from '../services/api';
 import { useAPI } from '../hooks/useAPI';
 
@@ -41,6 +42,10 @@ const Contact = () => {
 
   return (
     <div className="bg-white">
+      <SEO 
+        title="Contact Us" 
+        description="Have a question or want to share your thoughts? Get in touch with The Bible Lover. We'd love to hear from you."
+      />
       <PageHeader title="CONTACT" subtitle="GET IN TOUCH" />
 
       {/* Contact Content */}
@@ -50,7 +55,7 @@ const Contact = () => {
             <h2 className="text-2xl md:text-3xl font-serif text-gray-900 mb-6">
               Let's Connect
             </h2>
-            <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
+            <p className="text-gray-700 text-lg leading-relaxed max-w-2xl mx-auto">
               Have a question about a book, want to collaborate, or just want to share your thoughts? I'd love to hear from you.
             </p>
           </div>
@@ -166,7 +171,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-900">Email</h4>
-                    <p className="text-gray-600">hello@thebiblelover.com</p>
+                    <p className="text-gray-700">hello@thebiblelover.com</p>
                   </div>
                 </div>
 
@@ -176,7 +181,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-900">Phone</h4>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
+                    <p className="text-gray-700">+1 (555) 123-4567</p>
                   </div>
                 </div>
 
@@ -186,14 +191,14 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-medium text-gray-900">Location</h4>
-                    <p className="text-gray-600">New York, NY</p>
+                    <p className="text-gray-700">New York, NY</p>
                   </div>
                 </div>
               </div>
 
               <div className="mt-8 p-6 bg-gray-50 rounded-md">
                 <h4 className="font-medium text-gray-900 mb-3">Response Time</h4>
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-700 text-sm">
                   I typically respond to messages within 24-48 hours. For urgent inquiries,
                   please mention it in your message subject line.
                 </p>

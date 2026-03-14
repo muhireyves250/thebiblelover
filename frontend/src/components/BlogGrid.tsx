@@ -74,7 +74,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto" aria-live="polite">
           {postsToRender.map((post) => (
-            <BlogCard key={post.id} {...post} publishedAt={post.publishedAt || new Date().toISOString()} author={post.author || { name: 'Unknown', profileImage: undefined }} />
+            <BlogCard key={post.id} {...post} isPremium={post.isPremium} publishedAt={post.publishedAt || new Date().toISOString()} author={post.author || { name: 'Unknown', profileImage: undefined }} />
           ))}
         </div>
         {showViewAll && (

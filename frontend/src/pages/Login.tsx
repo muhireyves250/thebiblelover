@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, BookOpen } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Mail, Lock, LogIn, Sparkles, Heart, BookOpen, Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
 
@@ -11,16 +11,17 @@ const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { isAuthenticated, login } = useAuth();
+  const { user, isAuthenticated, login } = useAuth();
   const hasNavigatedRef = useRef(false);
 
   // Navigate once when authenticated (prevents rapid re-navigation loops)
   useEffect(() => {
-    if (isAuthenticated && !hasNavigatedRef.current) {
+    if (isAuthenticated && !hasNavigatedRef.current && user) {
       hasNavigatedRef.current = true;
-      navigate('/dashboard', { replace: true });
+      const destination = user.role === 'ADMIN' ? '/dashboard' : '/member-dashboard';
+      navigate(destination, { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,14 +30,14 @@ const Login: React.FC = () => {
 
     try {
       const response = await authAPI.login(email, password);
-      
-      if (response.success) {
+
+      if (response.success && response.data) {
         login(response.data.user, response.data.token);
         // navigation handled by effect to avoid duplicate navigations
       } else {
         setError(response.message || 'Login failed');
       }
-    } catch (error) {
+    } catch (error: any) {
       setError(error.message || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
@@ -129,9 +130,9 @@ const Login: React.FC = () => {
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <Link to="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
                   Forgot your password?
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -175,9 +176,9 @@ const Login: React.FC = () => {
         <div className="text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{' '}
-            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-              Contact the administrator
-            </a>
+            <Link to="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Join the family
+            </Link>
           </p>
         </div>
       </div>

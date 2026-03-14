@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /member-dashboard
+
+Sitemap: https://thebiblelover.com/sitemap.xml

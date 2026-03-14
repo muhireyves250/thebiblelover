@@ -4,9 +4,10 @@ import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
 interface PageHeaderProps {
     title: string;
     subtitle: string;
+    bgImage?: string;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, bgImage }) => {
     const [offset, setOffset] = useState(0);
     const { getBackgroundStyle, getOverlayStyle } = useBackgroundSettings();
 
@@ -19,6 +20,10 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
 
     const getParallaxStyle = () => {
         const baseStyle = getBackgroundStyle();
+
+        if (bgImage) {
+            baseStyle.backgroundImage = `url(${bgImage})`;
+        }
 
         return {
             ...baseStyle,
@@ -41,11 +46,11 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
             />
 
             <div className="relative z-10 flex items-center justify-center h-full px-4">
-                <div className="bg-white border border-gray-200 px-10 md:px-16 py-10 text-center shadow-sm">
-                    <h1 className="text-3xl md:text-5xl font-serif mb-4 tracking-wider text-gray-900 uppercase">
+                <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-10 md:px-16 py-10 text-center shadow-sm transition-colors duration-300">
+                    <h1 className="text-3xl md:text-5xl font-serif mb-4 tracking-wider text-gray-900 dark:text-gray-100 uppercase">
                         {title}
                     </h1>
-                    <p className="text-xs md:text-sm font-light tracking-[0.35em] uppercase text-gray-700">
+                    <p className="text-xs md:text-sm font-light tracking-[0.35em] uppercase text-gray-700 dark:text-gray-300">
                         {subtitle}
                     </p>
                 </div>

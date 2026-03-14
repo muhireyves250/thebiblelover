@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Upload, Trash2, Edit } from 'lucide-react';
+import { X, Upload, Trash2, Edit, Share2 } from 'lucide-react';
 import { blogAPI } from '../services/api';
 
 interface EditPostModalProps {
@@ -24,8 +24,12 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
     tags: '',
     seoTitle: '',
     seoDescription: '',
-    isFeatured: false
+    isFeatured: false,
+    isPremium: false,
+    publishedAt: ''
   });
+
+  const [isScheduled, setIsScheduled] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -48,8 +52,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
         tags: post.tags ? post.tags.join(', ') : '',
         seoTitle: post.seoTitle || '',
         seoDescription: post.seoDescription || '',
-        isFeatured: post.isFeatured || false
+        isFeatured: post.isFeatured || false,
+        isPremium: post.isPremium || false,
+        publishedAt: post.publishedAt ? new Date(post.publishedAt).toISOString().slice(0, 16) : ''
       });
+
+      const isFuture = post.publishedAt ? new Date(post.publishedAt) > new Date() : false;
+      setIsScheduled(isFuture);
     }
   }, [post, isOpen]);
 
@@ -101,9 +110,9 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
   const removeUploadedImage = () => {
     setUploadedImageUrl(null);
-    setFormData(prev => ({ 
-      ...prev, 
-      image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' 
+    setFormData(prev => ({
+      ...prev,
+      image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     }));
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -121,13 +130,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
         setIsSubmitting(false);
         return;
       }
-      
+
       if (!formData.excerpt.trim()) {
         alert('Please enter an excerpt for the post.');
         setIsSubmitting(false);
         return;
       }
-      
+
       if (!formData.content.trim()) {
         alert('Please enter content for the post.');
         setIsSubmitting(false);
@@ -136,28 +145,28 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
       const newSlug = generateSlug(formData.title);
       const oldSlug = post.slug;
-      
+
       // Check if slug has changed and handle potential conflicts
       let finalSlug = newSlug;
       if (newSlug !== oldSlug) {
         const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
         const slugExists = existingPosts.some((p: any) => p.slug === newSlug && p.id !== post.id);
-        
+
         if (slugExists) {
           // Add timestamp to make slug unique
           finalSlug = `${newSlug}-${Date.now()}`;
         }
-        
+
         // If slug changed, we need to update localStorage keys for views, likes, comments
         if (finalSlug !== oldSlug) {
           const views = localStorage.getItem(`post:${oldSlug}:views`);
           const likes = localStorage.getItem(`post:${oldSlug}:likes`);
           const comments = localStorage.getItem(`post:${oldSlug}:comments`);
-          
+
           if (views) localStorage.setItem(`post:${finalSlug}:views`, views);
           if (likes) localStorage.setItem(`post:${finalSlug}:likes`, likes);
           if (comments) localStorage.setItem(`post:${finalSlug}:comments`, comments);
-          
+
           // Remove old keys
           localStorage.removeItem(`post:${oldSlug}:views`);
           localStorage.removeItem(`post:${oldSlug}:likes`);
@@ -177,8 +186,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
         tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [],
         seoTitle: formData.seoTitle || null,
         seoDescription: formData.seoDescription || null,
-        isFeatured: formData.isFeatured
+        isFeatured: formData.isFeatured,
+        isPremium: formData.isPremium
       } as any;
+
+      if (isScheduled && formData.publishedAt) {
+        payload.publishedAt = formData.publishedAt;
+      }
 
       const response = await blogAPI.updatePost(post.id, payload);
       const updatedFromServer = response?.data?.post;
@@ -555,6 +569,108 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               </div>
             </div>
           )}
+
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mt-8 mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-sm font-bold text-gray-900">Schedule Post</h3>
+                <p className="text-sm text-gray-500">Publish this post at a future date and time</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsScheduled(!isScheduled)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${isScheduled ? 'bg-blue-600' : 'bg-gray-200'
+                  }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isScheduled ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                />
+              </button>
+            </div>
+
+            {isScheduled && (
+              <div className="space-y-4 animate-fadeIn">
+                <div className="pt-4 border-t border-gray-200">
+                  <label htmlFor="publishedAt" className="block text-sm font-bold text-gray-700 mb-3">
+                    Publication Date & Time *
+                  </label>
+                  <input
+                    type="datetime-local"
+                    id="publishedAt"
+                    name="publishedAt"
+                    value={formData.publishedAt}
+                    onChange={handleChange}
+                    required={isScheduled}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300"
+                  />
+                </div>
+
+                {formData.publishedAt && (
+                  <div className="p-3 bg-blue-50 border border-blue-100 rounded-lg flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                    <p className="text-xs font-semibold text-blue-800">
+                      {new Date(formData.publishedAt) > new Date() ? (
+                        <>Will publish in {Math.ceil((new Date(formData.publishedAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} days</>
+                      ) : (
+                        <span className="text-red-600">Selected date is in the past!</span>
+                      )}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Social Preview Section */}
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-8">
+            <div className="mb-6">
+              <h3 className="text-sm font-bold text-gray-900 flex items-center space-x-2">
+                <Share2 className="h-4 w-4 text-blue-600" />
+                <span>Live Social Preview</span>
+              </h3>
+              <p className="text-sm text-gray-500">How your post will look when shared on WhatsApp & Facebook</p>
+            </div>
+
+            <div className="max-w-sm mx-auto bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+              <div className="h-48 overflow-hidden bg-gray-100">
+                <img
+                  src={formData.image || 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                  alt="SEO Preview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-4 bg-gray-50 border-t border-gray-100">
+                <div className="text-[10px] uppercase tracking-wider font-bold text-gray-400 mb-1">thebiblelover.com</div>
+                <h4 className="text-base font-bold text-gray-900 line-clamp-1 mb-1">
+                  {formData.title || "Your Post Title"}
+                </h4>
+                <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                  {formData.excerpt || "A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible..."}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mt-8 mb-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-bold text-gray-900">Premium Content</h3>
+                <p className="text-sm text-gray-500">Only accessible to registered members</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, isPremium: !prev.isPremium }))}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${formData.isPremium ? 'bg-blue-600' : 'bg-gray-200'
+                  }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.isPremium ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                />
+              </button>
+            </div>
+          </div>
 
           <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200">
             <button

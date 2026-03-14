@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { X, Upload, Save, Image as ImageIcon } from 'lucide-react';
+import { X, Upload, Save, Image as ImageIcon, Share2 } from 'lucide-react';
 import { cleanupOldStorage } from '../utils/storageManager';
 import { blogAPI } from '../services/api';
 
@@ -17,8 +17,12 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
     content: '',
     author: 'Admin',
     image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    readTime: '1 min read'
+    readTime: '1 min read',
+    publishedAt: '',
+    isPremium: false
   });
+
+  const [isScheduled, setIsScheduled] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -36,10 +40,10 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target as HTMLInputElement;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     }));
   };
 
@@ -107,13 +111,13 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
         setIsSubmitting(false);
         return;
       }
-      
+
       if (!formData.excerpt.trim()) {
         alert('Please enter an excerpt for the post.');
         setIsSubmitting(false);
         return;
       }
-      
+
       if (!formData.content.trim()) {
         alert('Please enter content for the post.');
         setIsSubmitting(false);
@@ -121,7 +125,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
       }
 
       const slug = generateSlug(formData.title);
-      
+
       // Prepare post data for API
       const postData = {
         title: formData.title,
@@ -135,18 +139,23 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
         tags: [],
         seoTitle: formData.title,
         seoDescription: formData.excerpt.trim(),
-        isFeatured: false
+        isFeatured: false,
+        isPremium: formData.isPremium
       };
+
+      if (isScheduled && formData.publishedAt) {
+        postData.publishedAt = formData.publishedAt;
+      }
 
       console.log('Saving post to database:', postData);
 
       // Save to database via API
       const response = await blogAPI.createPost(postData);
-      
+
       if (response.success && response.data?.post) {
         const savedPost = response.data.post;
         console.log('Post saved successfully to database:', savedPost);
-        
+
         // Clean up old storage data
         cleanupOldStorage();
 
@@ -169,7 +178,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
         console.error('Failed to save post to database:', response);
         throw new Error(response.message || 'Failed to save post to database');
       }
-      
+
       // Reset form
       setFormData({
         title: '',
@@ -178,8 +187,11 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
         content: '',
         author: 'Admin',
         image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        readTime: '1 min read'
+        readTime: '1 min read',
+        publishedAt: '',
+        isPremium: false
       });
+      setIsScheduled(false);
       setUploadedImageUrl(null);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
@@ -297,7 +309,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             <label htmlFor="image" className="block text-sm font-bold text-gray-700 mb-3">
               Featured Image
             </label>
-            
+
             {/* Upload Section */}
             <div className="mb-6">
               <div className="flex space-x-4">
@@ -330,7 +342,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                   )}
                 </button>
               </div>
-              
+
               {/* Hidden file input */}
               <input
                 ref={fileInputRef}
@@ -341,7 +353,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                 onChange={handleFileUpload}
                 className="hidden"
               />
-              
+
               <p className="text-sm text-gray-600 mt-3 font-medium">
                 Upload an image (JPG, PNG, GIF) or paste an image URL. Max size: 5MB
               </p>
@@ -383,7 +395,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
 
             {/* Upload Area (when no image) */}
             {!formData.image && (
-              <div 
+              <div
                 onClick={handleUploadClick}
                 className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-amber-400 hover:bg-amber-50 transition-all duration-300 cursor-pointer group"
               >
@@ -443,6 +455,128 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             </div>
           </div>
 
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-sm font-bold text-gray-900">Schedule Post</h3>
+                <p className="text-sm text-gray-500">Publish this post at a future date and time</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsScheduled(!isScheduled)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${isScheduled ? 'bg-amber-600' : 'bg-gray-200'
+                  }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isScheduled ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                />
+              </button>
+            </div>
+
+            {isScheduled && (
+              <div className="space-y-4 animate-fadeIn">
+                <div className="pt-4 border-t border-gray-200">
+                  <label htmlFor="publishedAt" className="block text-sm font-bold text-gray-700 mb-3">
+                    Publication Date & Time *
+                  </label>
+                  <input
+                    type="datetime-local"
+                    id="publishedAt"
+                    name="publishedAt"
+                    value={formData.publishedAt}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-white hover:border-gray-300"
+                  />
+                </div>
+
+                {formData.publishedAt && (
+                  <div className="p-3 bg-amber-50 border border-amber-100 rounded-lg flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+                    <p className="text-xs font-semibold text-amber-800">
+                      {new Date(formData.publishedAt) > new Date() ? (
+                        <>Will publish in {Math.ceil((new Date(formData.publishedAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} days</>
+                      ) : (
+                        <span className="text-red-600">Selected date is in the past!</span>
+                      )}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Social Preview Section */}
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+            <div className="mb-6">
+              <h3 className="text-sm font-bold text-gray-900 flex items-center space-x-2">
+                <Share2 className="h-4 w-4 text-amber-600" />
+                <span>Live Social Preview</span>
+              </h3>
+              <p className="text-sm text-gray-500">How your post will look when shared on WhatsApp & Facebook</p>
+            </div>
+
+            <div className="max-w-sm mx-auto bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+              <div className="h-48 overflow-hidden bg-gray-100">
+                <img
+                  src={formData.image || 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                  alt="SEO Preview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-4 bg-gray-50 border-t border-gray-100">
+                <div className="text-[10px] uppercase tracking-wider font-bold text-gray-400 mb-1">thebiblelover.com</div>
+                <h4 className="text-base font-bold text-gray-900 line-clamp-1 mb-1">
+                  {formData.title || "Your Post Title"}
+                </h4>
+                <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                  {formData.excerpt || "A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible..."}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex items-center justify-center space-x-8">
+              <div className="flex flex-col items-center">
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                  <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+                </div>
+                <span className="text-[10px] font-bold text-gray-500">FACEBOOK</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.483 8.413-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.308 1.654zm6.59-4.819c1.414.843 2.99 1.287 4.606 1.287h.005c5.312 0 9.637-4.325 9.64-9.637 0-2.573-1.002-4.991-2.822-6.811-1.821-1.82-4.239-2.822-6.811-2.822-5.312 0-9.637 4.326-9.64 9.637 0 1.714.454 3.385 1.311 4.85l-.503 1.838 1.871-.491z" /></svg>
+                </div>
+                <span className="text-[10px] font-bold text-gray-500">WHATSAPP</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-10 h-10 bg-sky-100 rounded-full flex items-center justify-center mb-2">
+                  <svg className="w-5 h-5 text-sky-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" /></svg>
+                </div>
+                <span className="text-[10px] font-bold text-gray-500">TWITTER</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-bold text-gray-900">Premium Content</h3>
+                <p className="text-sm text-gray-500">Only accessible to registered members</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFormData(prev => ({ ...prev, isPremium: !prev.isPremium }))}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${formData.isPremium ? 'bg-amber-600' : 'bg-gray-200'
+                  }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.isPremium ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                />
+              </button>
+            </div>
+          </div>
+
           <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200">
             <button
               type="button"
@@ -470,8 +604,8 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

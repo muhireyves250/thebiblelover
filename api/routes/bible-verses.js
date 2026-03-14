@@ -256,6 +256,12 @@ router.get('/', async (req, res, next) => {
       ];
     }
 
+    // Explicit reference filters
+    const { book, chapter, verse } = req.query;
+    if (book) where.book = { equals: book, mode: 'insensitive' };
+    if (chapter) where.chapter = parseInt(chapter);
+    if (verse) where.verse = parseInt(verse);
+
     const [verses, total] = await Promise.all([
       prisma.bibleVerse.findMany({
         where,
@@ -289,9 +295,24 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// In-memory cache for high-traffic endpoints
+const memoryCache = {
+  featuredVerse: null,
+  featuredVerseExpiry: 0
+};
+
 // Get featured Bible verse (public)
 router.get('/featured', async (req, res, next) => {
   try {
+    const now = Date.now();
+    // Use cache if available and not expired (1 hour TTL)
+    if (memoryCache.featuredVerse && memoryCache.featuredVerseExpiry > now) {
+      return res.json({
+        success: true,
+        data: { verse: memoryCache.featuredVerse, source: 'cache' }
+      });
+    }
+
     const verse = await prisma.bibleVerse.findFirst({
       where: {
         isActive: true,
@@ -315,9 +336,13 @@ router.get('/featured', async (req, res, next) => {
           reference: `${fallbackVerse.book} ${fallbackVerse.chapter}:${fallbackVerse.verse}`,
           image: fallbackVerse.image ? convertToApiUrl(fallbackVerse.image, req) : fallbackVerse.image
         };
+        // Cache the fallback result for 1 hour
+        memoryCache.featuredVerse = transformedVerse;
+        memoryCache.featuredVerseExpiry = Date.now() + (60 * 60 * 1000);
+
         return res.json({
           success: true,
-          data: { verse: transformedVerse }
+          data: { verse: transformedVerse, source: 'database-fallback' }
         });
       }
 
@@ -335,9 +360,13 @@ router.get('/featured', async (req, res, next) => {
       image: verse.image ? convertToApiUrl(verse.image, req) : verse.image
     };
 
+    // Cache the result for 1 hour
+    memoryCache.featuredVerse = transformedVerse;
+    memoryCache.featuredVerseExpiry = Date.now() + (60 * 60 * 1000);
+
     res.json({
       success: true,
-      data: { verse: transformedVerse }
+      data: { verse: transformedVerse, source: 'database' }
     });
   } catch (err) {
     next(err);

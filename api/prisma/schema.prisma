@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -12,15 +12,174 @@ model User {
   email        String     @unique
   password     String
   name         String
-  role         Role       @default(USER)
+  role         String     @default("USER")
   isActive     Boolean    @default(true)
   lastLogin    DateTime?
   profileImage String?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   blogPosts    BlogPost[]
+  likes        Like[]
+  savedVerses  SavedVerse[]
+  prayerRequests PrayerRequest[]
+  prayerSupports PrayerSupport[]
+  forumTopics    ForumTopic[]
+  forumPosts     ForumPost[]
+  devotionals    Devotional[]   @relation("DevotionalAuthor")
+  createdEvents  Event[]        @relation("EventAuthor")
+  rsvps         Event[]        @relation("EventRSVPs")
+  notifications Notification[]
+  viewHistory  ViewHistory[]
+  receiveNewsletter   Boolean    @default(true)
+  receivePrayerAlerts Boolean    @default(true)
 
   @@map("users")
+}
+
+model ViewHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String   // 'POST', 'FORUM', 'DEVOTIONAL'
+  itemId    String   // The ID of the item viewed
+  title     String
+  link      String
+  viewedAt  DateTime @default(now())
+
+  @@index([userId, viewedAt])
+  @@map("view_history")
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // 'FORUM_REPLY', 'EVENT_UPDATE', 'PRAYER_SUPPORT', 'ADMIN_MESSAGE'
+  title     String
+  message   String
+  link      String?  // URL to redirect when clicked
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("notifications")
+}
+
+// ... existing models ...
+
+model Devotional {
+  id                 String   @id @default(uuid())
+  date               DateTime @unique // The specific day this devotional is for
+  title              String
+  content            String
+  scripture          String
+  reflectionQuestions String?
+  authorId           String
+  author             User     @relation("DevotionalAuthor", fields: [authorId], references: [id])
+  comments           Comment[]
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("devotionals")
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  date        DateTime
+  location    String   // Physical address or online link
+  type        String   // STUDY, WORSHIP, COMMUNITY, YOUTH
+  thumbnail   String?
+  authorId    String
+  author      User     @relation("EventAuthor", fields: [authorId], references: [id])
+  rsvps       User[]   @relation("EventRSVPs")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("events")
+}
+
+model ForumCategory {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  icon        String?      // Lucide icon name or emoji
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  topics      ForumTopic[]
+
+  @@map("forum_categories")
+}
+
+model ForumTopic {
+  id         String      @id @default(cuid())
+  categoryId String
+  authorId   String
+  title      String
+  content    String
+  isLocked   Boolean     @default(false)
+  isSticky   Boolean     @default(false)
+  views      Int         @default(0)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  category   ForumCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  author     User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  posts      ForumPost[]
+
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([createdAt])
+  @@map("forum_topics")
+}
+
+model ForumPost {
+  id        String     @id @default(cuid())
+  topicId   String
+  authorId  String
+  content   String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  topic     ForumTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([topicId])
+  @@index([authorId])
+  @@index([createdAt])
+  @@map("forum_posts")
+}
+
+
+model PrayerRequest {
+  id           String          @id @default(cuid())
+  userId       String
+  title        String
+  content      String
+  category     String          @default("GENERAL") // HEALING, FAMILY, GUIDANCE, THANKSGIVING, etc.
+  isAnonymous  Boolean         @default(false)
+  status       String          @default("ACTIVE")    // ACTIVE, ANSWERED, ARCHIVED
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  supports     PrayerSupport[]
+
+  @@index([userId])
+  @@index([status, createdAt])
+  @@index([category])
+  @@map("prayer_requests")
+}
+
+model PrayerSupport {
+  id              String        @id @default(cuid())
+  userId          String
+  prayerRequestId String
+  createdAt       DateTime      @default(now())
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  prayerRequest   PrayerRequest @relation(fields: [prayerRequestId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, prayerRequestId])
+  @@map("prayer_supports")
 }
 
 model BlogPost {
@@ -31,62 +190,63 @@ model BlogPost {
   content        String
   featuredImage  String
   authorId       String
-  category       Category   @default(OTHER)
-  tags           String[]
-  status         PostStatus @default(DRAFT)
+  category       String     @default("OTHER")
+  tags           String?
+  status         String     @default("DRAFT")
   publishedAt    DateTime?
   readTime       Int        @default(5)
   views          Int        @default(0)
   likes          Int        @default(0)
   isFeatured     Boolean    @default(false)
+  isPremium      Boolean    @default(false)
   seoTitle       String?
   seoDescription String?
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   author         User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments       Comment[]
+  userLikes      Like[]
 
   @@index([slug])
   @@index([status, publishedAt])
   @@index([category])
-  @@index([tags])
   @@map("blog_posts")
 }
 
 model Contact {
-  id           String        @id @default(cuid())
+  id           String    @id @default(cuid())
   name         String
   email        String
   subject      String
   message      String
-  status       ContactStatus @default(NEW)
-  isRead       Boolean       @default(false)
+  status       String    @default("NEW")
+  isRead       Boolean   @default(false)
   repliedAt    DateTime?
   replyMessage String?
   ipAddress    String?
   userAgent    String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@index([status, createdAt])
   @@map("contacts")
 }
 
 model Donation {
-  id            String         @id @default(cuid())
+  id            String   @id @default(cuid())
   donorName     String
   email         String
   amount        Float
-  currency      Currency       @default(USD)
-  paymentMethod PaymentMethod  @default(STRIPE)
+  currency      String   @default("USD")
+  paymentMethod String   @default("STRIPE")
   paymentId     String
-  status        DonationStatus @default(PENDING)
+  status        String   @default("PENDING")
   message       String?
-  isAnonymous   Boolean        @default(false)
-  receiptSent   Boolean        @default(false)
+  isAnonymous   Boolean  @default(false)
+  receiptSent   Boolean  @default(false)
   receiptEmail  String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@index([status, createdAt])
   @@index([email])
@@ -98,13 +258,16 @@ model Comment {
   content     String
   authorName  String
   authorEmail String
-  postId      String
+  postId      String?
+  devotionalId String?
   isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  post        BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post        BlogPost? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  devotional  Devotional? @relation(fields: [devotionalId], references: [id], onDelete: Cascade)
 
   @@index([postId, createdAt])
+  @@index([devotionalId, createdAt])
   @@index([isApproved])
   @@map("comments")
 }
@@ -126,6 +289,7 @@ model BibleVerse {
   updatedAt     DateTime        @updatedAt
   verseOfTheDay VerseOfTheDay[]
   shares        VerseShare[]
+  savedBy       SavedVerse[]
 
   @@index([book, chapter, verse])
   @@index([isActive, isFeatured])
@@ -151,7 +315,7 @@ model VerseShare {
   id              String         @id @default(cuid())
   verseId         String
   verseOfTheDayId String?
-  shareType       ShareType
+  shareType       String
   platform        String?
   recipientEmail  String?
   shareUrl        String?
@@ -170,11 +334,21 @@ model VerseShare {
 model SystemSetting {
   id        String   @id @default(cuid())
   key       String   @unique
-  settings  Json
+  settings  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("system_settings")
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("newsletter_subscribers")
 }
 
 model Media {
@@ -192,60 +366,26 @@ model Media {
   @@map("media")
 }
 
-enum Role {
-  ADMIN
-  USER
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@map("likes")
 }
 
-enum Category {
-  FAITH
-  BIBLE_STUDY
-  PRAYER
-  TESTIMONY
-  REFLECTION
-  OTHER
-}
+model SavedVerse {
+  id        String     @id @default(cuid())
+  userId    String
+  verseId   String
+  createdAt DateTime   @default(now())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verse     BibleVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
 
-enum PostStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-enum ContactStatus {
-  NEW
-  READ
-  REPLIED
-  ARCHIVED
-}
-
-enum Currency {
-  USD
-  EUR
-  GBP
-  CAD
-  AUD
-}
-
-enum PaymentMethod {
-  STRIPE
-  PAYPAL
-  BANK_TRANSFER
-  OTHER
-}
-
-enum DonationStatus {
-  PENDING
-  COMPLETED
-  FAILED
-  REFUNDED
-}
-
-enum ShareType {
-  SOCIAL_MEDIA
-  EMAIL
-  COPY_LINK
-  WHATSAPP
-  TELEGRAM
-  OTHER
+  @@unique([userId, verseId])
+  @@map("saved_verses")
 }

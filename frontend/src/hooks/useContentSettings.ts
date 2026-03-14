@@ -115,17 +115,19 @@ export const useContentSettings = () => {
                 }))
             ]);
 
+            console.log('useContentSettings - API responses:', { about, story, mission, hero, footer });
+
             setSettings({
-                aboutSection: about.data.settings || defaultSection,
-                storySection: story.data.settings || defaultSection,
-                missionSection: mission.data.settings || defaultSection,
-                heroSection: hero.data.settings || {
+                aboutSection: about?.data?.settings || defaultSection,
+                storySection: story?.data?.settings || defaultSection,
+                missionSection: mission?.data?.settings || defaultSection,
+                heroSection: hero?.data?.settings || {
                     videoUrl: '',
                     imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
                     title: 'THE BIBLE LOVER',
                     content: 'READ ALL ABOUT IT'
                 },
-                footerSettings: footer.data.settings || {
+                footerSettings: footer?.data?.settings || {
                     description: '',
                     email: '',
                     location: '',

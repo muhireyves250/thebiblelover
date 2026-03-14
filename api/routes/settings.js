@@ -112,24 +112,24 @@ const defaultSettings = {
   },
   aboutSection: {
     title: "About Us",
-    content: "Our company and culture are crafted for a delightful experience. We believe in thoughtful design, clear communication, and building products that help people grow.",
-    imageUrl: "https://images.pexels.com/photos/3182763/pexels-photo-3182763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    content: "Our spiritual community is a sanctuary for those seeking to deepen their relationship with God through literature and reflection. We believe in the power of the Word to transform lives and bring peace to the soul.",
+    imageUrl: "/images/about.png"
   },
   storySection: {
     title: "Our Story",
-    content: "It all started in 2004 with a simple observation: people wanted helpful information, not interruptions. Today, we're proud to support millions of users as they grow with confidence.",
-    imageUrl: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    content: "Founded on the belief that faith and literature are deeply intertwined, The Bible Lover began as a small study group. Today, we support a global community of believers sharing the light of God's Word across generations.",
+    imageUrl: "/images/story.png"
   },
   missionSection: {
     title: "Our Mission",
-    content: "We believe in growing better—aligning your success with the success of your customers. Our mission is to build tools that deliver real value and lasting impact.",
-    imageUrl: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    content: "Our mission is to inspire and equip believers to engage deeply with Scripture and spiritual literature. We strive to be a beacon of hope, providing tools and content that nurture spiritual growth and lasting impact.",
+    imageUrl: "/images/mission.png"
   },
   heroSection: {
     videoUrl: '',
-    imageUrl: 'https://images.pexels.com/photos/1112048/pexels-photo-1112048.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1',
+    imageUrl: '/images/hero.png',
     title: 'THE BIBLE LOVER',
-    content: 'READ ALL ABOUT IT'
+    content: 'WALK IN THE LIGHT OF HIS WORD'
   },
   whatsappSettings: {
     phoneNumber: "1234567890",

@@ -42,6 +42,33 @@ router.post('/', validateContact, async (req, res) => {
   }
 });
 
+// Get contact statistics (admin only)
+router.get('/stats', verifyToken, requireAdmin, async (req, res) => {
+  try {
+    const totalMessages = await prisma.contact.count();
+    const newMessages = await prisma.contact.count({ where: { status: 'NEW' } });
+    const readMessages = await prisma.contact.count({ where: { status: 'READ' } });
+    const repliedMessages = await prisma.contact.count({ where: { status: 'REPLIED' } });
+
+    res.json({
+      success: true,
+      data: {
+        totalMessages,
+        newMessages,
+        readMessages,
+        repliedMessages
+      }
+    });
+  } catch (error) {
+    console.error('Get contact stats error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch contact statistics',
+      error: error.message
+    });
+  }
+});
+
 // Get all contact messages (admin only)
 router.get('/', verifyToken, requireAdmin, async (req, res) => {
   try {

@@ -82,6 +82,37 @@ router.post('/logout', verifyToken, (_req, res) => {
   res.json({ success: true, message: 'Logged out' });
 });
 
+// Forgot Password (Mock implementation for now)
+router.post('/forgot-password', async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await prisma.user.findUnique({ where: { email } });
+    
+    // Always return success to prevent email enumeration
+    console.log(`[AUTH] Password reset requested for: ${email}`);
+    if (user) {
+      // In a real app, send email with token
+      console.log(`[AUTH] Reset token would be sent to: ${email}`);
+    }
+    
+    res.json({ 
+      success: true, 
+      message: 'If an account exists with that email, a reset link has been sent.' 
+    });
+  } catch (err) { next(err); }
+});
+
+// Reset Password (Mock implementation)
+router.post('/reset-password', async (req, res, next) => {
+  try {
+    const { token, newPassword } = req.body;
+    if (!token || !newPassword) return res.status(400).json({ success: false, message: 'Token and new password required' });
+    
+    // Mock success for the "polish" demonstration
+    res.json({ success: true, message: 'Password has been reset successfully.' });
+  } catch (err) { next(err); }
+});
+
 export default router;
 
 

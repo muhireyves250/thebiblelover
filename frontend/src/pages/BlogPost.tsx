@@ -1,18 +1,33 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { blogAPI } from '../services/api';
+import { blogAPI, authAPI, searchAPI } from '../services/api';
 import { useFetch } from '../hooks/useAPI';
 import { Heart } from 'lucide-react';
+import SEO from '../components/SEO';
+import ShareButtons from '../components/ShareButtons';
+import AudioReader from '../components/AudioReader';
+import BibleReference from '../components/BibleReference';
 
 const BlogPost: React.FC = () => {
   const { slug = '' } = useParams<{ slug: string }>();
 
-  const { data, loading, error, refetch } = useFetch(() => blogAPI.getPost(slug), [slug]);
-  const post = data?.data?.post;
+  const { data, loading, error, refetch } = useFetch<any>(() => blogAPI.getPost(slug), [slug]);
+  const post = data?.data?.post || data?.post;
+
+  useEffect(() => {
+    if (post?.id && post?.title) {
+      searchAPI.recordHistory({
+        type: 'POST',
+        itemId: post.id,
+        title: post.title,
+        link: `/blog/${post.slug}`
+      }).catch(() => { });
+    }
+  }, [post?.id, post?.title, post?.slug]);
 
   // Recent posts (we'll render as a horizontal slider)
-  const { data: recentData, loading: recentLoading } = useFetch(() => blogAPI.getPosts({ page: 1, limit: 10 }), []);
-  const recentPosts = (recentData?.data?.posts || []).filter((p: any) => p.slug !== slug);
+  const { data: recentData, loading: recentLoading } = useFetch<any>(() => blogAPI.getPosts({ page: 1, limit: 10 }), []);
+  const recentPosts = (recentData?.posts || []).filter((p: any) => p.slug !== slug);
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const isHoveringRef = useRef<boolean>(false);
   const isDraggingRef = useRef<boolean>(false);
@@ -114,11 +129,11 @@ const BlogPost: React.FC = () => {
   }, [recentPosts.length]);
 
   // Comments
-  const { data: commentsData, refetch: refetchComments } = useFetch(
+  const { data: commentsData, refetch: refetchComments } = useFetch<any>(
     () => (post?.id ? blogAPI.getComments(post.id) : Promise.resolve({ success: true, data: { comments: [] } })),
     [post?.id]
   );
-  const comments = commentsData?.data?.comments || [];
+  const comments = commentsData?.comments || [];
 
   // Like state
   const [isLiking, setIsLiking] = useState<boolean>(false);
@@ -224,16 +239,24 @@ const BlogPost: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {post && (
+        <SEO
+          title={post.title}
+          description={post.excerpt}
+          image={post.featuredImage}
+          type="article"
+        />
+      )}
       <article className="max-w-3xl mx-auto px-4 py-12">
         <header className="mb-8">
           <h1 className="text-3xl font-serif text-gray-900 mb-3">{post.title}</h1>
-          <p className="text-gray-600 mb-4">{post.excerpt}</p>
+          <p className="text-gray-700 mb-4">{post.excerpt}</p>
 
           <div className="flex items-center justify-between text-sm text-gray-500">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gray-300 rounded-full overflow-hidden flex items-center justify-center">
                 {post.author?.profileImage ? (
-                  <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" />
+                  <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 ) : (
                   <span className="text-[10px] font-medium text-gray-600">
                     {(post.author?.name || 'A').charAt(0).toUpperCase()}
@@ -242,7 +265,7 @@ const BlogPost: React.FC = () => {
               </div>
               <div>
                 <p className="text-gray-800">{post.author?.name || 'Unknown author'}</p>
-                <p className="text-gray-500">{formattedDate} • {post.readTime} min read</p>
+                <p className="text-gray-600">{formattedDate} • {post.readTime} min read</p>
               </div>
             </div>
           </div>
@@ -250,16 +273,68 @@ const BlogPost: React.FC = () => {
 
         {post.featuredImage && (
           <div className="mb-8">
-            <img src={post.featuredImage} alt={post.title} className="w-full h-auto object-contain" />
+            <img src={post.featuredImage} alt={post.title} className="w-full h-auto object-contain" loading="lazy" decoding="async" />
           </div>
         )}
 
-        <section className="prose prose-amber max-w-none">
-          {/** Content may include HTML; prefer rendering as HTML if so */}
-          {/<[a-z][\s\S]*>/i.test(post.content) ? (
-            <div dangerouslySetInnerHTML={{ __html: post.content }} />
+        <ShareButtons title={post.title} />
+
+        <AudioReader content={post.content} title={post.title} />
+
+        <section className="prose prose-amber max-w-none relative">
+          {post.isPremium && !authAPI.isAuthenticated() ? (
+            <div className="relative">
+              <div className="blur-sm select-none pointer-events-none opacity-50">
+                {post.excerpt}
+                <div className="h-40"></div>
+              </div>
+              <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col items-center justify-center bg-gradient-to-t from-white via-white/80 to-transparent pt-20 pb-10 text-center">
+                <div className="bg-white p-8 rounded-2xl shadow-2xl border border-amber-100 max-w-md mx-auto transform hover:scale-105 transition-transform duration-300">
+                  <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-serif text-gray-900 mb-3">Premium Content</h3>
+                  <p className="text-gray-700 mb-8 leading-relaxed">
+                    This deep dive is exclusive to our community members. Join us today to unlock full access to this and all other premium reflections.
+                  </p>
+                  <div className="flex flex-col space-y-3">
+                    <Link
+                      to="/register"
+                      className="w-full py-4 bg-amber-700 text-white rounded-xl font-bold hover:bg-amber-800 transition-all shadow-lg hover:shadow-amber-700/30"
+                    >
+                      Create Free Account
+                    </Link>
+                    <Link
+                      to="/login"
+                      className="w-full py-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors"
+                    >
+                      Already a member? Log In
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           ) : (
-            <p className="text-gray-800 whitespace-pre-wrap leading-relaxed">{post.content}</p>
+            <>
+            <BibleReference>
+              {/<[a-z][\s\S]*>/i.test(post.content) ? (
+                <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              ) : (
+                <div 
+                  className="text-gray-800 whitespace-pre-wrap leading-relaxed space-y-4 prose prose-amber max-w-none"
+                  dangerouslySetInnerHTML={{ 
+                    __html: post.content
+                      .replace(/^###\s+(.+)$/gm, '<h4 class="text-lg font-bold text-gray-900 mt-6 mb-2">$1</h4>')
+                      .replace(/^##\s+(.+)$/gm, '<h3 class="text-xl font-serif text-gray-900 mt-8 mb-3">$1</h3>')
+                      .replace(/^#\s+(.+)$/gm, '<h2 class="text-2xl font-serif text-gray-900 mt-10 mb-4">$1</h2>')
+                      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                  }} 
+                />
+              )}
+            </BibleReference>
+            </>
           )}
         </section>
 
@@ -294,7 +369,7 @@ const BlogPost: React.FC = () => {
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <div className="text-sm font-medium text-gray-900">{c.authorName || 'Anonymous'}</div>
-                      <div className="text-xs text-gray-400">{new Date(c.createdAt).toLocaleDateString()}</div>
+                      <div className="text-xs text-gray-500">{new Date(c.createdAt).toLocaleDateString()}</div>
                     </div>
                     <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
                   </div>
@@ -367,7 +442,7 @@ const BlogPost: React.FC = () => {
             </div>
             {recentPosts.length > 3 && (
               <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-1 text-xs text-gray-500">
+                <div className="flex items-center space-x-1 text-xs text-gray-600">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span>Auto-scrolling</span>
                 </div>
@@ -464,7 +539,7 @@ const BlogPost: React.FC = () => {
                         <div className="text-gray-900 font-semibold line-clamp-2 group-hover:text-amber-700 transition-colors duration-300 leading-tight">
                           {rp.title}
                         </div>
-                        <div className="text-xs text-gray-500 mt-2 flex items-center">
+                        <div className="text-xs text-gray-600 mt-2 flex items-center">
                           <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
                           </svg>

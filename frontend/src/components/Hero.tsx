@@ -30,6 +30,8 @@ const Hero = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
         style={getParallaxStyle()}
+        // @ts-ignore
+        fetchpriority="high"
       >
       </div>
 
@@ -40,12 +42,15 @@ const Hero = () => {
       />
 
       <div className="relative z-10 px-4 text-center">
-        <div className="bg-white border border-gray-200 px-10 md:px-16 py-10 shadow-sm">
-          <h1 className="text-3xl md:text-5xl font-serif mb-4 tracking-wider text-gray-900">
+        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-800 px-12 md:px-20 py-12 shadow-2xl transition-all duration-500 hover:scale-[1.02] rounded-3xl group">
+          <h1 className="text-4xl md:text-6xl editorial-title mb-6 tracking-tight text-gray-900 dark:text-gray-100 transform transition-transform group-hover:translate-y-[-2px]">
             {settings?.heroSection?.title || 'THE BIBLE LOVER'}
           </h1>
-          <p className="text-xs md:text-sm font-light tracking-[0.35em] uppercase text-gray-700">
-            {settings?.heroSection?.content || 'READ ALL ABOUT IT'}
+          <div className="w-24 h-1 bg-amber-600/30 mx-auto mb-6 rounded-full overflow-hidden">
+            <div className="w-1/2 h-full bg-amber-600 animate-shimmer-fast"></div>
+          </div>
+          <p className="text-xs md:text-sm font-medium tracking-[0.4em] uppercase text-amber-700 dark:text-amber-500">
+            {settings?.heroSection?.content || 'WALK IN THE LIGHT OF HIS WORD'}
           </p>
         </div>
       </div>
@@ -63,7 +68,7 @@ const Hero = () => {
                   loop
                   playsInline
                   controls
-                  preload="auto"
+                  preload="metadata"
                   webkit-playsinline="true"
                   className="w-full h-full object-cover"
                 />
