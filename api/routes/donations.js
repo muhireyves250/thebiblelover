@@ -4,7 +4,15 @@ import { verifyToken, requireAdmin } from '../middleware/auth.js';
 import { validateDonation } from '../middleware/validation.js';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Lazily construct the Stripe client so a missing/misconfigured
+// STRIPE_SECRET_KEY doesn't crash the whole server at startup — only
+// requests that actually need Stripe fail, with a clear error.
+let stripe = null;
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) return null;
+  if (!stripe) stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  return stripe;
+}
 
 const router = express.Router();
 
@@ -17,6 +25,14 @@ router.post('/create-payment-intent', async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'Invalid donation amount'
+      });
+    }
+
+    const stripe = getStripe();
+    if (!stripe) {
+      return res.status(503).json({
+        success: false,
+        message: 'Online payments are not configured yet. Please try again later.'
       });
     }
 
@@ -58,6 +74,13 @@ router.post('/', validateDonation, async (req, res) => {
 
     // Optional: Verify payment intent status with Stripe
     if (paymentIntentId) {
+      const stripe = getStripe();
+      if (!stripe) {
+        return res.status(503).json({
+          success: false,
+          message: 'Online payments are not configured yet. Please try again later.'
+        });
+      }
       const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
       if (paymentIntent.status !== 'succeeded') {
         return res.status(400).json({
@@ -321,8 +344,9 @@ router.post('/webhook', async (req, res) => {
   let event;
 
   try {
-    if (!sig || !endpointSecret) {
-      throw new Error('Missing stripe-signature or STRIPE_WEBHOOK_SECRET');
+    const stripe = getStripe();
+    if (!sig || !endpointSecret || !stripe) {
+      throw new Error('Missing stripe-signature, STRIPE_WEBHOOK_SECRET, or STRIPE_SECRET_KEY');
     }
 
     // Use the raw body preserved in server.js
