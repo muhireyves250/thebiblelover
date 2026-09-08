@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, CreditCard, Gift, CheckCircle, AlertCircle, ShieldCheck, Globe, Users, ArrowRight } from 'lucide-react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Heart, Gift, CheckCircle, AlertCircle, ShieldCheck, Globe, Users, ArrowRight } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import SEO from '../components/SEO';
 // @ts-ignore
 import { donationsAPI } from '../services/api';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-
 const DonationForm = ({ loadRecentDonations }: { loadRecentDonations: () => Promise<void> }) => {
-  const stripe = useStripe();
-  const elements = useElements();
   const [donationAmount, setDonationAmount] = useState('25');
   const [customAmount, setCustomAmount] = useState('');
   const [donorInfo, setDonorInfo] = useState({
@@ -52,73 +46,29 @@ const DonationForm = ({ loadRecentDonations }: { loadRecentDonations: () => Prom
       return;
     }
 
-    if (!stripe || !elements) {
-      setError('Payment system is currently unavailable. Please try again later.');
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
-      // 1. Create Payment Intent on backend
-      const intentResponse = await donationsAPI.createPaymentIntent({
-        amount: Number(amount),
+      const donationData = {
         donorName: donorInfo.name || 'Anonymous',
-        email: donorInfo.email,
-        message: donorInfo.message || ''
-      });
+        email: donorInfo.email || '',
+        amount: Number(amount),
+        currency: 'USD',
+        message: donorInfo.message || '',
+        isAnonymous: !donorInfo.name,
+      };
 
-      if (!intentResponse.success || !intentResponse.data) {
-        throw new Error(intentResponse.message || 'Failed to initialize payment');
-      }
+      const response = await donationsAPI.submitDonation(donationData);
 
-      const clientSecret = intentResponse.data.clientSecret;
-
-      // 2. Confirm payment with Stripe
-      const cardElement = elements.getElement(CardElement);
-      if (!cardElement) throw new Error('Card element not found');
-
-      const { paymentIntent, error: stripeError } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: cardElement,
-          billing_details: {
-            name: donorInfo.name || 'Anonymous',
-            email: donorInfo.email,
-          },
-        },
-      });
-
-      if (stripeError) {
-        throw new Error(stripeError.message);
-      }
-
-      if (paymentIntent.status === 'succeeded') {
-        // 3. Finalize donation in our database
-        const donationData = {
-          donorName: donorInfo.name || 'Anonymous',
-          email: donorInfo.email || '',
-          amount: Number(amount),
-          currency: 'USD',
-          paymentMethod: 'STRIPE',
-          paymentId: paymentIntent.id,
-          paymentIntentId: paymentIntent.id,
-          message: donorInfo.message || '',
-          isAnonymous: !donorInfo.name,
-        };
-
-        const response = await donationsAPI.submitDonation(donationData);
-
-        if (response.success) {
-          setSuccess(`Thank you for your generous gift of $${amount}! Your support makes this mission possible.`);
-          setDonationAmount('25');
-          setCustomAmount('');
-          setDonorInfo({ name: '', email: '', message: '' });
-          cardElement.clear();
-          await loadRecentDonations();
-          setTimeout(() => setSuccess(''), 8000);
-        } else {
-          setError(response.message || 'Payment succeeded but record failed. Please contact support.');
-        }
+      if (response.success) {
+        setSuccess(`Thank you for your generous pledge of $${amount}! We'll be in touch to arrange your gift.`);
+        setDonationAmount('25');
+        setCustomAmount('');
+        setDonorInfo({ name: '', email: '', message: '' });
+        await loadRecentDonations();
+        setTimeout(() => setSuccess(''), 8000);
+      } else {
+        setError(response.message || 'Failed to submit your pledge. Please try again.');
       }
     } catch (err: any) {
       console.error('Donation error:', err);
@@ -214,37 +164,14 @@ const DonationForm = ({ loadRecentDonations }: { loadRecentDonations: () => Prom
             name="email"
             value={donorInfo.email}
             onChange={handleDonorInfoChange}
-            placeholder="For receipt only"
+            placeholder="So we can follow up"
             required
             className="w-full bg-gray-50/50 border border-gray-100 rounded-xl py-4 px-6 focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
           />
         </div>
       </div>
 
-      {/* Card Element */}
       <div>
-        <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-3">Payment Details</label>
-        <div className="bg-gray-50/50 border border-gray-100 rounded-xl p-6 focus-within:bg-white focus-within:ring-4 focus-within:ring-amber-50 transition-all">
-          <CardElement
-            options={{
-              style: {
-                base: {
-                  fontSize: '16px',
-                  color: '#1f2937',
-                  '::placeholder': {
-                    color: '#9ca3af',
-                  },
-                },
-                invalid: {
-                  color: '#9e2146',
-                },
-              },
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="md:col-span-2">
         <label className="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-3">Leave a Message</label>
         <textarea
           name="message"
@@ -258,31 +185,30 @@ const DonationForm = ({ loadRecentDonations }: { loadRecentDonations: () => Prom
 
       <button
         type="submit"
-        disabled={isSubmitting || !stripe}
+        disabled={isSubmitting}
         className="w-full bg-amber-700 text-white rounded-2xl py-6 px-10 font-bold text-lg hover:bg-amber-800 transition-all shadow-xl shadow-amber-900/20 flex items-center justify-center gap-3 active:scale-95 disabled:opacity-50"
       >
         {isSubmitting ? (
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-            <span>Processing...</span>
+            <span>Submitting...</span>
           </div>
         ) : (
           <>
-            <span>Complete Donation</span>
+            <span>Pledge This Gift</span>
             <ArrowRight className="w-5 h-5" />
           </>
         )}
       </button>
 
+      <p className="text-center text-sm text-gray-400 -mt-4">
+        We'll reach out by email with instructions to complete your gift.
+      </p>
+
       <div className="flex items-center justify-center gap-6 pt-4 text-gray-400">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-4 h-4" />
-          <span className="text-xs font-bold uppercase tracking-wider">Secure SSL</span>
-        </div>
-        <div className="w-px h-4 bg-gray-100"></div>
-        <div className="flex items-center gap-2">
-          <CreditCard className="w-4 h-4" />
-          <span className="text-xs font-bold uppercase tracking-wider">Stripe Secure</span>
+          <span className="text-xs font-bold uppercase tracking-wider">Your Info Stays Private</span>
         </div>
       </div>
     </form>
@@ -320,8 +246,8 @@ const Donate = () => {
 
   return (
     <div className="bg-white min-h-screen">
-      <SEO 
-        title="Support the Mission" 
+      <SEO
+        title="Support the Mission"
         description="Your generosity helps us spread the word of God. Partner with The Bible Lover to build community and provide spiritual resources globally."
       />
       <PageHeader title="Support the Word" subtitle="FOSTERING FAITH THROUGH YOUR GENEROSITY" />
@@ -346,9 +272,7 @@ const Donate = () => {
                   </div>
                 </div>
 
-                <Elements stripe={stripePromise}>
-                  <DonationForm loadRecentDonations={loadRecentDonations} />
-                </Elements>
+                <DonationForm loadRecentDonations={loadRecentDonations} />
               </div>
             </div>
           </div>

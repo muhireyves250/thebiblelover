@@ -153,7 +153,6 @@ export const contactAPI: ContactAPI = {
 
 export const donationsAPI: DonationsAPI = {
   submitDonation: (data) => apiRequest('/donations', { method: 'POST', body: JSON.stringify(data) }),
-  createPaymentIntent: (data) => apiRequest('/donations/create-payment-intent', { method: 'POST', body: JSON.stringify(data) }),
   getDonations: (params) => {
     const query = new URLSearchParams(params as any).toString();
     return apiRequest(`/donations?${query}`);

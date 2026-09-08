@@ -160,7 +160,7 @@ const DonationsManager = ({
                                                 <span>•</span>
                                                 <div className="flex items-center space-x-1 px-2 py-0.5 bg-gray-100 rounded-full">
                                                     <CreditCard className="h-2 w-2" />
-                                                    <span className="font-medium">{donation.paymentMethod || 'STRIPE'}</span>
+                                                    <span className="font-medium">{donation.paymentMethod || 'OTHER'}</span>
                                                 </div>
                                                 <span>•</span>
                                                 <span className="text-gray-400">{new Date(donation.timestamp).toLocaleDateString()}</span>

@@ -41,8 +41,7 @@
     "node-cron": "^4.2.1",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.7",
-    "streamifier": "^0.1.1",
-    "stripe": "^20.4.0"
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "jest": "^29.7.0",

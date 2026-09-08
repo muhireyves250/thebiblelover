@@ -158,7 +158,7 @@ export const validateDonation = (req, res, next) => {
     email: Joi.string().email().required(),
     amount: Joi.number().positive().max(10000).required(),
     currency: Joi.string().valid('USD', 'EUR', 'GBP', 'CAD', 'AUD').default('USD'),
-    paymentMethod: Joi.string().valid('STRIPE', 'PAYPAL', 'BANK_TRANSFER', 'OTHER').default('STRIPE'),
+    paymentMethod: Joi.string().valid('PAYPAL', 'BANK_TRANSFER', 'OTHER').default('OTHER'),
     message: Joi.string().max(500).optional(),
     isAnonymous: Joi.boolean().default(false)
   });

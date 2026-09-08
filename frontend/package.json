@@ -11,8 +11,6 @@
     "sitemap": "node scripts/generate-sitemap.js"
   },
   "dependencies": {
-    "@stripe/react-stripe-js": "^4.0.2",
-    "@stripe/stripe-js": "^7.9.0",
     "framer-motion": "^12.36.0",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",

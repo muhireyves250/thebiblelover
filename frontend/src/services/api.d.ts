@@ -146,7 +146,6 @@ export interface ContactAPI {
 
 export interface DonationsAPI {
   submitDonation: (donationData: any) => Promise<ApiResponse>;
-  createPaymentIntent: (data: { amount: number; currency?: string; donorName?: string; email?: string; message?: string }) => Promise<ApiResponse<{ clientSecret: string }>>;
   getDonations: (params?: any) => Promise<ApiResponse<{ donations: Donation[] }>>;
   getDonation: (id: string) => Promise<ApiResponse<{ donation: Donation }>>;
   updateDonationStatus: (id: string, status: string) => Promise<ApiResponse>;
