@@ -1,5 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { settingsAPI } from '../services/api';
+import { getCached, setCached, dedupedFetch } from '../lib/dataCache';
+
+const CACHE_KEY = 'backgroundSettings';
+const TTL = 5 * 60 * 1000; // 5 minutes
 
 interface BackgroundSettings {
   imageUrl: string;
@@ -16,18 +20,22 @@ const defaultBackgroundSettings: BackgroundSettings = {
 };
 
 export const useBackgroundSettings = () => {
-  const [backgroundSettings, setBackgroundSettings] = useState<BackgroundSettings>(defaultBackgroundSettings);
-  const [loading, setLoading] = useState(true);
+  const cached = getCached<BackgroundSettings>(CACHE_KEY);
+  const [backgroundSettings, setBackgroundSettings] = useState<BackgroundSettings>(
+    cached?.data || defaultBackgroundSettings
+  );
+  const [loading, setLoading] = useState(!cached);
 
-  const fetchBackgroundSettings = async () => {
+  const fetchBackgroundSettings = useCallback(async (silent = false) => {
     try {
-      setLoading(true);
-      const response = await settingsAPI.getSettingCategory('backgroundSettings');
+      if (!silent) setLoading(true);
+      const response = await dedupedFetch(CACHE_KEY, () => settingsAPI.getSettingCategory('backgroundSettings'));
       if (response.success && response.data.settings) {
         const merged = { ...defaultBackgroundSettings, ...response.data.settings };
         setBackgroundSettings(merged);
+        setCached(CACHE_KEY, merged);
         localStorage.setItem('backgroundSettings', JSON.stringify(merged));
-      } else {
+      } else if (!silent) {
         // Fallback to localStorage if API fails but returns success: false
         const savedSettings = localStorage.getItem('backgroundSettings');
         if (savedSettings) {
@@ -36,23 +44,36 @@ export const useBackgroundSettings = () => {
       }
     } catch (error) {
       console.error('Error loading background settings from API:', error);
-      // Final fallback to localStorage
-      const savedSettings = localStorage.getItem('backgroundSettings');
-      if (savedSettings) {
-        setBackgroundSettings({ ...defaultBackgroundSettings, ...JSON.parse(savedSettings) });
+      if (!silent) {
+        // Final fallback to localStorage
+        const savedSettings = localStorage.getItem('backgroundSettings');
+        if (savedSettings) {
+          setBackgroundSettings({ ...defaultBackgroundSettings, ...JSON.parse(savedSettings) });
+        }
       }
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchBackgroundSettings();
+    const entry = getCached<BackgroundSettings>(CACHE_KEY);
+    if (entry) {
+      setBackgroundSettings(entry.data);
+      setLoading(false);
+      if (Date.now() - entry.timestamp > TTL) {
+        fetchBackgroundSettings(true); // stale — refresh quietly in the background
+      }
+    } else {
+      fetchBackgroundSettings(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveBackgroundSettings = async (settings: Partial<BackgroundSettings>) => {
     const newSettings = { ...backgroundSettings, ...settings };
     setBackgroundSettings(newSettings);
+    setCached(CACHE_KEY, newSettings);
     localStorage.setItem('backgroundSettings', JSON.stringify(newSettings));
 
     try {
@@ -81,6 +102,7 @@ export const useBackgroundSettings = () => {
 
   const resetToDefault = async () => {
     setBackgroundSettings(defaultBackgroundSettings);
+    setCached(CACHE_KEY, defaultBackgroundSettings);
     localStorage.setItem('backgroundSettings', JSON.stringify(defaultBackgroundSettings));
     try {
       await settingsAPI.updateSettings('backgroundSettings', defaultBackgroundSettings);

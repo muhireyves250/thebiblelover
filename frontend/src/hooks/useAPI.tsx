@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, createContext, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useRef, createContext, useContext } from 'react';
+import { getCached, setCached, dedupedFetch } from '../lib/dataCache';
 
 // Custom hook for API calls with loading states and error handling
 export const useAPI = <T = any,>() => {
@@ -53,6 +54,63 @@ export const useFetch = <T = any,>(apiCall: () => Promise<T>, dependencies: any[
 
   return { data, loading, error, refetch };
 };
+
+// Cached fetch: shows cached data immediately (no loading spinner) when available,
+// so navigating back to a page you've already visited feels instant, while quietly
+// revalidating in the background if the cached data has gone stale. Concurrent
+// callers with the same `key` (e.g. two components mounting at once) share a single
+// in-flight network request instead of duplicating it.
+export function useCachedFetch<T = any>(
+  key: string | null,
+  apiCall: () => Promise<T>,
+  options?: { ttl?: number }
+) {
+  const ttl = options?.ttl ?? 5 * 60 * 1000; // 5 minutes
+  const apiCallRef = useRef(apiCall);
+  apiCallRef.current = apiCall;
+
+  const initial = key ? getCached<T>(key) : undefined;
+  const [data, setData] = useState<T | null>(initial ? initial.data : null);
+  const [loading, setLoading] = useState<boolean>(!initial);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchData = useCallback(async (silent = false) => {
+    if (!key) return;
+    if (!silent) {
+      setLoading(true);
+      setError(null);
+    }
+    try {
+      const result = await dedupedFetch(key, () => apiCallRef.current());
+      setData(result);
+      setCached(key, result);
+      if (!silent) setError(null);
+    } catch (err: any) {
+      if (!silent) setError(err.message || 'Failed to fetch data');
+    } finally {
+      if (!silent) setLoading(false);
+    }
+  }, [key]);
+
+  useEffect(() => {
+    if (!key) return;
+    const entry = getCached<T>(key);
+    if (entry) {
+      setData(entry.data);
+      setLoading(false);
+      if (Date.now() - entry.timestamp > ttl) {
+        fetchData(true); // stale — refresh quietly in the background
+      }
+    } else {
+      fetchData(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  const refetch = useCallback(() => fetchData(false), [fetchData]);
+
+  return { data, loading, error, refetch };
+}
 
 const AuthContext = createContext<any>(null);
 

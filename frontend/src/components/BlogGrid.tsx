@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import BlogCard from './BlogCard';
 import { blogAPI } from '../services/api';
-import { useFetch } from '../hooks/useAPI';
+import { useCachedFetch } from '../hooks/useAPI';
 
 interface BlogGridProps {
   limit?: number;
@@ -10,7 +10,12 @@ interface BlogGridProps {
 }
 
 const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
-  const { data, loading, error, refetch } = useFetch(() => blogAPI.getPosts({ page: 1, limit: 1000 }));
+  // Shared cache key across Home and Posts pages — whichever loads first
+  // populates it, so navigating between them never re-fetches from scratch.
+  const { data, loading, error, refetch } = useCachedFetch(
+    'blogPosts:all',
+    () => blogAPI.getPosts({ page: 1, limit: 1000 })
+  );
   const blogPosts = data?.data?.posts || [];
   const initialCount = typeof limit === 'number' ? limit : 0;
   const [visibleCount, setVisibleCount] = useState<number>(initialCount);

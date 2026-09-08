@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -191,7 +191,7 @@ model BlogPost {
   featuredImage  String
   authorId       String
   category       String     @default("OTHER")
-  tags           String?
+  tags           String[]
   status         String     @default("DRAFT")
   publishedAt    DateTime?
   readTime       Int        @default(5)
@@ -334,7 +334,7 @@ model VerseShare {
 model SystemSetting {
   id        String   @id @default(cuid())
   key       String   @unique
-  settings  String
+  settings  Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

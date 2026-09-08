@@ -1,5 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { bibleVersesAPI } from '../services/api';
+import { getCached, setCached, dedupedFetch } from '../lib/dataCache';
+
+const CACHE_KEY = 'featuredVerse';
+const TTL = 5 * 60 * 1000; // 5 minutes
 
 // Type definitions
 interface BibleVerse {
@@ -21,27 +25,31 @@ interface UseBibleVerseReturn {
 }
 
 export const useBibleVerse = (): UseBibleVerseReturn => {
-  const [verse, setVerse] = useState<BibleVerse | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const cached = getCached<BibleVerse>(CACHE_KEY);
+  const [verse, setVerse] = useState<BibleVerse | null>(cached?.data || null);
+  const [loading, setLoading] = useState<boolean>(!cached);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchFeaturedVerse = async (): Promise<void> => {
+  const fetchFeaturedVerse = useCallback(async (silent = false): Promise<void> => {
     try {
-      setLoading(true);
-      setError(null);
-      const response = await (bibleVersesAPI as any).getFeaturedVerse();
+      if (!silent) {
+        setLoading(true);
+        setError(null);
+      }
+      const response = await dedupedFetch(CACHE_KEY, () => (bibleVersesAPI as any).getFeaturedVerse());
 
       if (response.success && response.data?.verse) {
         setVerse(response.data.verse);
-      } else {
+        setCached(CACHE_KEY, response.data.verse);
+      } else if (!silent) {
         setError('No featured verse found');
       }
     } catch (err: any) {
-      setError(err?.message || 'Failed to fetch Bible verse');
+      if (!silent) setError(err?.message || 'Failed to fetch Bible verse');
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
-  };
+  }, []);
 
   const shareVerse = async (verseId: string, shareType: string = 'COPY_LINK', platform?: string): Promise<{ success: boolean; data?: any; error?: string }> => {
     try {
@@ -53,7 +61,11 @@ export const useBibleVerse = (): UseBibleVerseReturn => {
       if (response.success) {
         // Update local share count if the featured verse is the one shared
         if (verse && verse.id === verseId && response.data.shareCount !== undefined) {
-          setVerse(prev => prev ? { ...prev, shareCount: response.data.shareCount } : null);
+          setVerse(prev => {
+            const next = prev ? { ...prev, shareCount: response.data.shareCount } : null;
+            if (next) setCached(CACHE_KEY, next);
+            return next;
+          });
         }
         return { success: true, data: response.data };
       } else {
@@ -82,7 +94,17 @@ export const useBibleVerse = (): UseBibleVerseReturn => {
   };
 
   useEffect(() => {
-    fetchFeaturedVerse();
+    const entry = getCached<BibleVerse>(CACHE_KEY);
+    if (entry) {
+      setVerse(entry.data);
+      setLoading(false);
+      if (Date.now() - entry.timestamp > TTL) {
+        fetchFeaturedVerse(true); // stale — refresh quietly in the background
+      }
+    } else {
+      fetchFeaturedVerse(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
