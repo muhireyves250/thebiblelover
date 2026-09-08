@@ -53,13 +53,19 @@ if (container) {
   console.error('CRITICAL: Root container not found!');
 }
 
-// Register Service Worker for PWA
+// A previous version of this app registered a cache-first service worker
+// that, on every redeploy, left returning visitors stuck loading a stale
+// index.html referencing deleted (content-hashed) JS/CSS files. We no
+// longer register one — this actively unregisters any leftover
+// installation and clears its caches so those visitors recover.
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(registration => {
-      console.log('SW registered: ', registration);
-    }).catch(registrationError => {
-      console.log('SW registration failed: ', registrationError);
-    });
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+      registrations.forEach(registration => registration.unregister());
+    }).catch(() => {});
+
+    if ('caches' in window) {
+      caches.keys().then(keys => keys.forEach(key => caches.delete(key))).catch(() => {});
+    }
   });
 }
