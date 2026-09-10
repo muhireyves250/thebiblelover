@@ -189,25 +189,25 @@ const HomeFeed: React.FC = () => {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <span className="px-3 py-1.5 bg-gray-100 rounded-md text-xs font-black uppercase tracking-widest text-gray-900">
-                  Broadcast
+                  Watch
                 </span>
                 <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
-                  Live Coverage
+                  Live Stream
                 </span>
               </div>
               <Link to="/posts" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-amber-700 hover:text-amber-800 transition-colors">
-                Full Coverage <ArrowRight className="w-3.5 h-3.5" />
+                Watch More <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             <FeaturedCard item={featured} />
           </div>
 
-          {/* Latest reports column */}
+          {/* Latest reflections column */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xs font-black uppercase tracking-widest text-amber-700">Latest Reports</h2>
+              <h2 className="text-xs font-black uppercase tracking-widest text-amber-700">Latest Reflections</h2>
               <Link to="/posts" className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors">
-                All News <ArrowRight className="w-3.5 h-3.5" />
+                View All <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
