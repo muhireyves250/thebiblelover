@@ -4,6 +4,7 @@ import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight } from 'luci
 import { useHomeFeed, type HomeFeedItem } from '../hooks/useHomeFeed';
 
 const PAGE_SIZE = 4;
+const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/channel/UCnZWkIVSWJwiFW6RhQLDgaA';
 
 const formatDateTime = (dateString: string) =>
   new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) +
@@ -142,6 +143,26 @@ const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   );
 };
 
+const NoVideoPlaceholder: React.FC = () => (
+  <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+    <div className="aspect-video bg-gray-50 flex flex-col items-center justify-center text-center px-8">
+      <span className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mb-4">
+        <Play className="w-6 h-6 text-amber-700 ml-0.5" fill="currentColor" />
+      </span>
+      <p className="text-sm font-bold text-gray-700 mb-1">No live stream right now</p>
+      <p className="text-xs text-gray-400 mb-4">Check our channel for the latest videos and teachings.</p>
+      <a
+        href={YOUTUBE_CHANNEL_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs font-black uppercase tracking-widest text-amber-700 hover:text-amber-800 transition-colors"
+      >
+        Visit Our Channel
+      </a>
+    </div>
+  </div>
+);
+
 const HomeFeedSkeleton: React.FC = () => (
   <section className="py-20 bg-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -172,11 +193,11 @@ const HomeFeed: React.FC = () => {
   const currentPage = Math.min(page, pages.length - 1);
   const visibleItems = pages[currentPage] || [];
 
-  if (loading && !featured) {
+  if (loading && !featured && items.length === 0) {
     return <HomeFeedSkeleton />;
   }
 
-  if (!featured) {
+  if (!featured && items.length === 0) {
     return null;
   }
 
@@ -195,11 +216,16 @@ const HomeFeed: React.FC = () => {
                   Live Stream
                 </span>
               </div>
-              <Link to="/posts" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-amber-700 hover:text-amber-800 transition-colors">
+              <a
+                href={YOUTUBE_CHANNEL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-amber-700 hover:text-amber-800 transition-colors"
+              >
                 Watch More <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+              </a>
             </div>
-            <FeaturedCard item={featured} />
+            {featured ? <FeaturedCard item={featured} /> : <NoVideoPlaceholder />}
           </div>
 
           {/* Latest reflections column */}
