@@ -23,3 +23,7 @@ services:
         sync: false
       - key: BACKEND_URL
         sync: false
+      - key: YOUTUBE_API_KEY
+        sync: false
+      - key: YOUTUBE_CHANNEL_ID
+        value: UCnZWkIVSWJwiFW6RhQLDgaA

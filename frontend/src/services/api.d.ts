@@ -335,7 +335,35 @@ export interface StatsAPI {
   getPlatformSummary: () => Promise<ApiResponse<PlatformSummary>>;
 }
 
+export interface HomeFeedPost {
+  type: 'POST';
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  thumbnail: string;
+  category: string;
+  publishedAt: string;
+  author?: { name: string; profileImage?: string };
+}
+
+export interface HomeFeedVideo {
+  type: 'VIDEO' | 'LIVE';
+  id: string;
+  title: string;
+  thumbnail: string;
+  publishedAt: string;
+  url: string;
+}
+
+export type HomeFeedItem = HomeFeedPost | HomeFeedVideo;
+
+export interface HomeFeedAPI {
+  getFeed: (limit?: number) => Promise<ApiResponse<{ featured: HomeFeedItem | null; items: HomeFeedItem[] }>>;
+}
+
 export declare const statsAPI: StatsAPI;
+export declare const homeFeedAPI: HomeFeedAPI;
 export declare const blogAPI: BlogAPI;
 export declare const contactAPI: ContactAPI;
 export declare const donationsAPI: DonationsAPI;
@@ -368,6 +396,7 @@ export interface API {
   search: SearchAPI;
   activity: ActivityAPI;
   stats: StatsAPI;
+  homeFeed: HomeFeedAPI;
 }
 
 declare const api: API;

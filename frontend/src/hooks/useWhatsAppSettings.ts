@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import { settingsAPI } from '../services/api';
+import { getCached, setCached, dedupedFetch } from '../lib/dataCache';
+
+const CACHE_KEY = 'whatsappSettings';
+const TTL = 5 * 60 * 1000; // 5 minutes
 
 export interface WhatsAppSettings {
     phoneNumber: string;
@@ -14,28 +18,42 @@ const defaultSettings: WhatsAppSettings = {
 };
 
 export const useWhatsAppSettings = () => {
-    const [settings, setSettings] = useState<WhatsAppSettings>(defaultSettings);
-    const [loading, setLoading] = useState(true);
+    const cached = getCached<WhatsAppSettings>(CACHE_KEY);
+    const [settings, setSettings] = useState<WhatsAppSettings>(cached?.data || defaultSettings);
+    const [loading, setLoading] = useState(!cached);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchSettings = async () => {
+    const fetchSettings = async (silent = false) => {
         try {
-            setLoading(true);
-            const response = await settingsAPI.getSettingCategory('whatsappSettings');
+            if (!silent) setLoading(true);
+            const response = await dedupedFetch(CACHE_KEY, () => settingsAPI.getSettingCategory('whatsappSettings'));
             if (response.success && response.data.settings) {
                 setSettings(response.data.settings);
+                setCached(CACHE_KEY, response.data.settings);
             }
-            setError(null);
+            if (!silent) setError(null);
         } catch (err: any) {
-            setError(err.message || 'Failed to fetch WhatsApp settings');
-            console.error(err);
+            if (!silent) {
+                setError(err.message || 'Failed to fetch WhatsApp settings');
+                console.error(err);
+            }
         } finally {
-            setLoading(false);
+            if (!silent) setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchSettings();
+        const entry = getCached<WhatsAppSettings>(CACHE_KEY);
+        if (entry) {
+            setSettings(entry.data);
+            setLoading(false);
+            if (Date.now() - entry.timestamp > TTL) {
+                fetchSettings(true); // stale — refresh quietly in the background
+            }
+        } else {
+            fetchSettings(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const saveSettings = async (newSettings: WhatsAppSettings) => {
@@ -43,6 +61,7 @@ export const useWhatsAppSettings = () => {
             const response = await settingsAPI.updateSettings('whatsappSettings', newSettings);
             if (response.success) {
                 setSettings(newSettings);
+                setCached(CACHE_KEY, newSettings);
                 return true;
             }
             return false;

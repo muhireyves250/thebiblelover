@@ -1,5 +1,5 @@
 import Hero from '../components/Hero';
-import BlogGrid from '../components/BlogGrid';
+import HomeFeed from '../components/HomeFeed';
 import Newsletter from '../components/Newsletter';
 import BibleVerseShareModal from '../components/BibleVerseShareModal';
 import { Link } from 'react-router-dom';
@@ -44,7 +44,7 @@ const Home = () => {
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
       <Hero />
-      <BlogGrid limit={6} showViewAll />
+      <HomeFeed />
 
       {/* Bible Verse Section */}
       <section className="py-20 bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 relative overflow-hidden" style={{ backgroundImage: "url('/images/hero.png')", backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed" }}>

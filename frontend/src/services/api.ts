@@ -302,6 +302,10 @@ export const statsAPI: StatsAPI = {
   getPlatformSummary: () => apiRequest('/stats/summary'),
 };
 
+export const homeFeedAPI = {
+  getFeed: (limit = 6) => apiRequest(`/home-feed?limit=${limit}`),
+};
+
 const apis: API = {
   auth: authAPI,
   blog: blogAPI,
@@ -319,6 +323,7 @@ const apis: API = {
   search: searchAPI,
   activity: activityAPI,
   stats: statsAPI,
+  homeFeed: homeFeedAPI,
 };
 
 export default apis;
