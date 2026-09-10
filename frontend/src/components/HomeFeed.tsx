@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight } from 'lucide-react';
 import { useHomeFeed, type HomeFeedItem } from '../hooks/useHomeFeed';
+import { useContentSettings } from '../hooks/useContentSettings';
 
 const PAGE_SIZE = 4;
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/channel/UCnZWkIVSWJwiFW6RhQLDgaA';
@@ -143,6 +144,61 @@ const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   );
 };
 
+// Fallback for the Watch slot when nothing's live and there's no recent
+// upload yet — reuses the video already configured in the Hero section.
+// Mirrors FeaturedCard's exact shell (image area, play button, headline
+// row, copy block) so the card doesn't change shape depending on source.
+const HeroVideoCard: React.FC<{ videoUrl: string; title: string }> = ({ videoUrl, title }) => {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+      <div className="relative aspect-video bg-gray-100 overflow-hidden">
+        {playing ? (
+          <video
+            src={videoUrl}
+            autoPlay
+            controls
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <>
+            <video
+              src={videoUrl}
+              muted
+              loop
+              autoPlay
+              playsInline
+              preload="metadata"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <button
+              onClick={() => setPlaying(true)}
+              aria-label="Play video"
+              className="absolute inset-0 flex items-center justify-center group"
+            >
+              <span className="flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-red-600/90 shadow-2xl group-hover:scale-110 group-hover:bg-red-600 transition-all duration-300">
+                <Play className="w-7 h-7 md:w-8 md:h-8 text-white ml-1" fill="currentColor" />
+              </span>
+            </button>
+          </>
+        )}
+      </div>
+
+      <div className="p-6">
+        <div className="flex items-start gap-3 mb-3">
+          <span className="mt-2 w-2 h-2 rounded-full bg-red-600 shrink-0" />
+          <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug">{title}</h3>
+        </div>
+        <p className="text-sm text-gray-500 leading-relaxed">
+          No live stream right now — here's a video from us while you wait.
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const NoVideoPlaceholder: React.FC = () => (
   <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
     <div className="aspect-video bg-gray-50 flex flex-col items-center justify-center text-center px-8">
@@ -180,6 +236,8 @@ const HomeFeedSkeleton: React.FC = () => (
 
 const HomeFeed: React.FC = () => {
   const { featured, items, loading } = useHomeFeed(13);
+  const { settings } = useContentSettings();
+  const heroVideoUrl = settings?.heroSection?.videoUrl;
   const [page, setPage] = useState(0);
 
   const pages = useMemo(() => {
@@ -225,7 +283,13 @@ const HomeFeed: React.FC = () => {
                 Watch More <ArrowRight className="w-3.5 h-3.5" />
               </a>
             </div>
-            {featured ? <FeaturedCard item={featured} /> : <NoVideoPlaceholder />}
+            {featured ? (
+              <FeaturedCard item={featured} />
+            ) : heroVideoUrl ? (
+              <HeroVideoCard videoUrl={heroVideoUrl} title={settings?.heroSection?.title || 'The Bible Lover'} />
+            ) : (
+              <NoVideoPlaceholder />
+            )}
           </div>
 
           {/* Latest reflections column */}
