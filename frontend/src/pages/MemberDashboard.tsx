@@ -34,7 +34,6 @@ const MemberDashboard: React.FC = () => {
         savedVerses: BibleVerse[];
         newsletterSubscription: boolean;
         prayerRequests: PrayerRequest[];
-        forumActivity: any[];
         joinedEvents: any[];
         recommendations: BlogPostType[];
         history: ViewHistory[];
@@ -77,7 +76,6 @@ const MemberDashboard: React.FC = () => {
                         savedVerses: dashRes.data.savedVerses || [],
                         newsletterSubscription: dashRes.data.newsletterSubscription ?? false,
                         prayerRequests: (prayerRes.success && prayerRes.data) ? prayerRes.data.requests || [] : [],
-                        forumActivity: dashRes.data.forumActivity || [],
                         joinedEvents: dashRes.data.joinedEvents || [],
                         recommendations: (recRes.success && recRes.data) ? recRes.data : [],
                         history: (historyRes.success && historyRes.data) ? historyRes.data : [],
@@ -539,36 +537,7 @@ const MemberDashboard: React.FC = () => {
 
                         {activeTab === 'activity' && (
                             <section className="animate-in fade-in slide-in-from-bottom-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                                    {/* Forum Activity */}
-                                    <div>
-                                        <div className="flex items-center gap-3 mb-8">
-                                            <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg">
-                                                <MessageSquare className="w-6 h-6 text-amber-600 dark:text-amber-500" />
-                                            </div>
-                                            <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Forum Activity</h2>
-                                        </div>
-
-                                        {!data || data.forumActivity.length === 0 ? (
-                                            <div className="glass-card p-12 text-center">
-                                                <p className="text-gray-500 dark:text-gray-400 italic font-serif">No forum activity yet.</p>
-                                            </div>
-                                        ) : (
-                                            <div className="space-y-4">
-                                                {data.forumActivity.map((activity) => (
-                                                    <Link
-                                                        key={activity.id}
-                                                        to={`/forum/topic/${activity.topicId}`}
-                                                        className="block glass-card p-6 !rounded-2xl hover:border-amber-500/30 group"
-                                                    >
-                                                        <h4 className="text-sm font-black text-amber-600 mb-2 uppercase tracking-wide truncate">In: {activity.topic?.title}</h4>
-                                                        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-1 italic group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">"{activity.content}"</p>
-                                                    </Link>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-
+                                <div className="grid grid-cols-1 gap-12">
                                     {/* Recently Viewed */}
                                     <div>
                                         <div className="flex items-center gap-3 mb-8">

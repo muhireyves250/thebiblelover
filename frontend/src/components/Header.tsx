@@ -21,7 +21,7 @@ const Header = () => {
   const { getSocialLinks } = useSocialSettings();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<{ posts: any[], topics: any[], devotionals: any[] } | null>(null);
+  const [searchResults, setSearchResults] = useState<{ posts: any[], events?: any[] } | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -115,13 +115,11 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-4 lg:space-x-5">
             {[
               { path: '/', label: 'Home' },
-              { path: '/devotional', label: 'Devotional' },
               { path: '/about', label: 'About' },
               { path: '/donate', label: 'Donate' },
               { path: '/contact', label: 'Contact' },
               { path: '/events', label: 'Events' },
-              { path: '/prayer-wall', label: 'Prayer Wall' },
-              { path: '/forum', label: 'Forum' }
+              { path: '/prayer-wall', label: 'Prayer Wall' }
             ].map((link) => {
               const isActive = link.path === '/' 
                 ? location.pathname === '/' 
@@ -194,19 +192,6 @@ const Header = () => {
                       </div>
                     ) : searchResults ? (
                       <div className="space-y-4">
-                        {searchResults.devotionals.length > 0 && (
-                          <div>
-                            <h3 className="px-3 py-1 text-[10px] font-black uppercase tracking-widest text-gray-400">Archived Manna</h3>
-                            {searchResults.devotionals.slice(0, 3).map(dev => (
-                              <Link key={dev.id} to={`/devotional?id=${dev.id}`} onClick={() => setShowDropdown(false)} className="flex items-center gap-3 p-3 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-xl transition-colors group mx-1">
-                                <div className="p-2 bg-emerald-100 dark:bg-emerald-900/40 rounded-lg group-hover:bg-white transition-colors border border-transparent group-hover:border-emerald-100">
-                                  <BookOpen className="w-4 h-4 text-emerald-600" />
-                                </div>
-                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">{dev.title}</span>
-                              </Link>
-                            ))}
-                          </div>
-                        )}
                         {searchResults.events && searchResults.events.length > 0 && (
                           <div>
                             <h3 className="px-3 py-1 text-[10px] font-black uppercase tracking-widest text-gray-400">Gatherings</h3>
@@ -282,7 +267,6 @@ const Header = () => {
               <Link to="/donate" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">Donate</Link>
               <Link to="/contact" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">Contact</Link>
               <Link to="/prayer-wall" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">Prayer Wall</Link>
-              <Link to="/forum" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">Forum</Link>
               <div className="flex items-center space-x-4 pt-4">
                 {socialLinks.facebook !== '#' && (
                   <a

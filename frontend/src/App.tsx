@@ -30,11 +30,6 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Posts = lazy(() => import('./pages/Posts'));
 const Search = lazy(() => import('./pages/Search'));
 const PrayerWall = lazy(() => import('./pages/PrayerWall'));
-const ForumHome = lazy(() => import('./pages/ForumHome'));
-const ForumCategory = lazy(() => import('./pages/ForumCategory'));
-const ForumTopic = lazy(() => import('./pages/ForumTopic'));
-const NewTopic = lazy(() => import('./pages/NewTopic'));
-const DailyDevotional = lazy(() => import('./pages/DailyDevotional'));
 const Events = lazy(() => import('./pages/Events'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Register = lazy(() => import('./pages/Register'));
@@ -120,42 +115,6 @@ function AppContent() {
               </PageTransition>
             } />
 
-            {/* Forum Routes */}
-            <Route path="/forum" element={
-              <PageTransition>
-                <Header />
-                <ForumHome />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/forum/category/:id" element={
-              <PageTransition>
-                <Header />
-                <ForumCategory />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/forum/topic/:id" element={
-              <PageTransition>
-                <Header />
-                <ForumTopic />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/forum/category/:categoryId/new" element={
-              <PageTransition>
-                <Header />
-                <NewTopic />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/devotional" element={
-              <PageTransition>
-                <Header />
-                <DailyDevotional />
-                <Footer />
-              </PageTransition>
-            } />
             <Route path="/events" element={
               <PageTransition>
                 <Header />

@@ -9,7 +9,7 @@ export interface ApiResponse<T = any> {
 
 export interface ViewHistory {
   id: string;
-  type: 'POST' | 'FORUM' | 'DEVOTIONAL';
+  type: 'POST';
   itemId: string;
   title: string;
   link: string;
@@ -218,7 +218,6 @@ export interface UserAPI {
     likedPosts: BlogPost[];
     savedVerses: BibleVerse[];
     newsletterSubscription: boolean;
-    forumActivity: (ForumPost & { topic: { id: string, title: string } })[];
     joinedEvents: Event[];
     stats: {
       posts: number;
@@ -268,72 +267,6 @@ export interface PrayerAPI {
   adminDelete: (id: string) => Promise<ApiResponse>;
 }
 
-export interface ForumCategory {
-  id: string;
-  name: string;
-  description?: string;
-  icon?: string;
-  order: number;
-  _count?: { topics: number };
-  topics?: ForumTopic[];
-}
-
-export interface ForumTopic {
-  id: string;
-  categoryId: string;
-  authorId: string;
-  title: string;
-  content: string;
-  isLocked: boolean;
-  isSticky: boolean;
-  views: number;
-  createdAt: string;
-  updatedAt: string;
-  author?: {
-    name: string;
-    profileImage?: string;
-    _count?: {
-        forumPosts: number;
-        prayerSupports: number;
-    };
-  };
-  category?: ForumCategory;
-  posts?: ForumPost[];
-  _count?: { posts: number };
-}
-
-export interface ForumPost {
-  id: string;
-  topicId: string;
-  authorId: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  author?: {
-    name: string;
-    profileImage?: string;
-    role: string;
-    _count?: {
-        forumPosts: number;
-        prayerSupports: number;
-    }
-  };
-}
-
-export interface Devotional {
-  id: string;
-  date: string;
-  title: string;
-  content: string;
-  scripture: string;
-  reflectionQuestions?: string;
-  authorId: string;
-  author?: {
-    name: string;
-    profileImage?: string;
-  };
-}
-
 export interface Event {
   id: string;
   title: string;
@@ -371,7 +304,7 @@ export interface EventAPI {
 export interface Notification {
   id: string;
   userId: string;
-  type: 'FORUM_REPLY' | 'EVENT_UPDATE' | 'PRAYER_SUPPORT' | 'ADMIN_MESSAGE';
+  type: 'EVENT_UPDATE' | 'PRAYER_SUPPORT' | 'ADMIN_MESSAGE';
   title: string;
   message: string;
   link?: string;
@@ -386,30 +319,8 @@ export interface NotificationAPI {
   deleteNotification: (id: string) => Promise<ApiResponse<void>>;
 }
 
-export interface DevotionalAPI {
-  getToday: () => Promise<ApiResponse<Devotional>>;
-  getArchive: (params?: { page?: number; limit?: number }) => Promise<ApiResponse<Devotional[]>>;
-  create: (data: Partial<Devotional>) => Promise<ApiResponse<Devotional>>;
-  update: (id: string, data: Partial<Devotional>) => Promise<ApiResponse<Devotional>>;
-  delete: (id: string) => Promise<ApiResponse<void>>;
-  addComment: (devotionalId: string, content: string) => Promise<ApiResponse<any>>;
-}
-
-export interface ForumAPI {
-  getCategories: () => Promise<ApiResponse<ForumCategory[]>>;
-  getCategoryTopics: (id: string, params?: { page?: number; limit?: number }) => Promise<ApiResponse<{ topics: ForumTopic[]; pagination: any }>>;
-  getTopic: (id: string) => Promise<ApiResponse<ForumTopic>>;
-  createTopic: (data: { categoryId: string; title: string; content: string }) => Promise<ApiResponse<ForumTopic>>;
-  deleteTopic: (id: string) => Promise<ApiResponse<void>>;
-  createPost: (topicId: string, data: { content: string }) => Promise<ApiResponse<ForumPost>>;
-  deletePost: (id: string) => Promise<ApiResponse<void>>;
-  adminCreateCategory: (data: Partial<ForumCategory>) => Promise<ApiResponse<ForumCategory>>;
-  adminUpdateCategory: (id: string, data: Partial<ForumCategory>) => Promise<ApiResponse<ForumCategory>>;
-  adminDeleteCategory: (id: string) => Promise<ApiResponse<void>>;
-}
-
 export interface SearchAPI {
-  search: (query: string) => Promise<ApiResponse<{ posts: any[]; topics: any[]; devotionals: any[]; events: any[] }>>;
+  search: (query: string) => Promise<ApiResponse<{ posts: any[]; events: any[] }>>;
   getRecommendations: () => Promise<ApiResponse<any[]>>;
   getHistory: () => Promise<ApiResponse<ViewHistory[]>>;
   recordHistory: (data: { type: string; itemId: string; title: string; link: string }) => Promise<ApiResponse<void>>;
@@ -436,8 +347,6 @@ export declare const healthAPI: HealthAPI;
 export declare const newsletterAPI: NewsletterAPI;
 export declare const userAPI: UserAPI;
 export declare const prayerAPI: PrayerAPI;
-export declare const forumAPI: ForumAPI;
-export declare const devotionalAPI: DevotionalAPI;
 export declare const eventAPI: EventAPI;
 export declare const searchAPI: SearchAPI;
 
@@ -454,8 +363,6 @@ export interface API {
   health: HealthAPI;
   user: UserAPI;
   prayer: PrayerAPI;
-  forum: ForumAPI;
-  devotionals: DevotionalAPI;
   events: EventAPI;
   notifications: NotificationAPI;
   search: SearchAPI;

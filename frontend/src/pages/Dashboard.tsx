@@ -43,21 +43,17 @@ import MessagesManager from '../components/MessagesManager';
 import StorageManager from '../components/StorageManager';
 import PrayerManager from '../components/PrayerManager';
 import EventManager from '../components/EventManager';
-import DevotionalManager from '../components/DevotionalManager';
-import ForumManager from '../components/ForumManager';
 import UserManager from '../components/UserManager';
 import NotificationCenter from '../components/NotificationCenter';
 import FooterSettingsModal from '../components/FooterSettingsModal';
 import AddEventModal from '../components/AddEventModal';
-import AddDevotionalModal from '../components/AddDevotionalModal';
-import ForumCategoryModal from '../components/ForumCategoryModal';
 import WhatsAppSettingsModal from '../components/WhatsAppSettingsModal';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import { useSocialSettings } from '../hooks/useSocialSettings';
 import { getStorageInfo, clearAllBlogData } from '../utils/storageManager';
 // @ts-ignore
-import { blogAPI, contactAPI, donationsAPI, prayerAPI, eventAPI, devotionalAPI, forumAPI, userAPI, statsAPI } from '../services/api';
+import { blogAPI, contactAPI, donationsAPI, prayerAPI, eventAPI, userAPI, statsAPI } from '../services/api';
 // @ts-ignore
 import { useAuth } from '../hooks/useAPI';
 import { useContentSettings } from '../hooks/useContentSettings';
@@ -160,11 +156,7 @@ const Dashboard = () => {
   const [isLogoModalOpen, setIsLogoModalOpen] = useState(false);
   const [isSocialModalOpen, setIsSocialModalOpen] = useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
-  const [isDevotionalModalOpen, setIsDevotionalModalOpen] = useState(false);
-  const [isForumModalOpen, setIsForumModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<any>(null);
-  const [selectedDevotional, setSelectedDevotional] = useState<any>(null);
-  const [selectedForumCategory, setSelectedForumCategory] = useState<any>(null);
   const [isContentModalOpen, setIsContentModalOpen] = useState(false);
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [isFooterModalOpen, setIsFooterModalOpen] = useState(false);
@@ -193,10 +185,7 @@ const Dashboard = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [prayers, setPrayers] = useState<any[]>([]);
   const [events, setEvents] = useState<any[]>([]);
-  const [devotionals, setDevotionals] = useState<any[]>([]);
-  const [forumCategories, setForumCategories] = useState<any[]>([]);
-  const [forumTopics, setForumTopics] = useState<any[]>([]);
-  
+
   const [showAllPrayers, setShowAllPrayers] = useState(false);
 
   useEffect(() => {
@@ -537,29 +526,13 @@ const Dashboard = () => {
         eventsData = res.data || [];
       } catch (err) { console.warn('Events API failed'); }
 
-      // Load Devotionals
-      let devotionalsData: any[] = [];
-      try {
-        const res = await devotionalAPI.getArchive();
-        devotionalsData = res.data || [];
-      } catch (err) { console.warn('Devotionals API failed'); }
-
-      // Load Forum
-      let categoriesData: any[] = [];
-      try {
-        const res = await forumAPI.getCategories();
-        categoriesData = res.data || [];
-      } catch (err) { console.warn('Forum categories API failed'); }
-
       setPosts(transformedPosts);
       setComments(transformedComments);
       setDonations(transformedDonations);
       setMessages(transformedMessages);
       setPrayers(prayersData);
       setEvents(eventsData);
-      setDevotionals(devotionalsData);
-      setForumCategories(categoriesData);
-      
+
       // Load Users
       let usersData: any[] = [];
       try {
@@ -827,8 +800,6 @@ const Dashboard = () => {
                   { id: 'bible-verses', label: 'Wisdom', icon: Sparkles, color: 'text-amber-500' },
                   { id: 'prayers', label: 'Intercessions', icon: Heart, color: 'text-red-500' },
                   { id: 'events', label: 'Gatherings', icon: Users, color: 'text-emerald-500' },
-                  { id: 'devotionals', label: 'Manna', icon: BookOpen, color: 'text-indigo-400' },
-                  { id: 'forum', label: 'Spheres', icon: MessageCircle, color: 'text-purple-400' },
                   { id: 'users', label: 'Disciples', icon: Users, color: 'text-amber-600' }
                 ].map(({ id, label, icon: Icon, color }) => (
                   <motion.button
@@ -1134,63 +1105,6 @@ const Dashboard = () => {
                 if (window.confirm('Silence this gathering?')) {
                   await eventAPI.delete(id);
                   loadDashboardData();
-                }
-              }}
-            />
-          )}
-
-          {/* Devotionals Tab */}
-          {activeTab === 'devotionals' && (
-            <DevotionalManager
-              devotionals={devotionals}
-              onAdd={() => {
-                setSelectedDevotional(null);
-                setIsDevotionalModalOpen(true);
-              }}
-              onEdit={(dev) => {
-                setSelectedDevotional(dev);
-                setIsDevotionalModalOpen(true);
-              }}
-              onDelete={async (id) => {
-                if (window.confirm('Exile this manuscript?')) {
-                  await devotionalAPI.delete(id);
-                  loadDashboardData();
-                }
-              }}
-            />
-          )}
-
-          {/* Forum Tab */}
-          {activeTab === 'forum' && (
-            <ForumManager
-              categories={forumCategories}
-              topics={forumTopics}
-              onAddCategory={() => {
-                setSelectedForumCategory(null);
-                setIsForumModalOpen(true);
-              }}
-              onEditCategory={(cat) => {
-                setSelectedForumCategory(cat);
-                setIsForumModalOpen(true);
-              }}
-              onDeleteCategory={async (id) => {
-                if (window.confirm('Shatter this sphere?')) {
-                  await forumAPI.adminDeleteCategory(id);
-                  loadDashboardData();
-                }
-              }}
-              onDeleteTopic={async (id) => {
-                if (window.confirm('Silence this discourse?')) {
-                  await forumAPI.deleteTopic(id);
-                  loadDashboardData();
-                }
-              }}
-              onToggleLock={async (id) => {
-                // Topic locking protocol
-                const topic = forumTopics.find(t => t.id === id);
-                if (topic) {
-                   // Add lock logic here if API supports it
-                   console.log('Locking topic:', id);
                 }
               }}
             />
@@ -1747,19 +1661,6 @@ const Dashboard = () => {
         eventToEdit={selectedEvent}
       />
 
-      <AddDevotionalModal
-        isOpen={isDevotionalModalOpen}
-        onClose={() => setIsDevotionalModalOpen(false)}
-        onSave={loadDashboardData}
-        devotionalToEdit={selectedDevotional}
-      />
-
-      <ForumCategoryModal
-        isOpen={isForumModalOpen}
-        onClose={() => setIsForumModalOpen(false)}
-        onSave={loadDashboardData}
-        categoryToEdit={selectedForumCategory}
-      />
     </div >
   );
 };

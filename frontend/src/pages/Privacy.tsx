@@ -64,7 +64,7 @@ const Privacy: React.FC = () => {
                             </li>
                             <li className="flex gap-4">
                                 <div className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500 shrink-0"></div>
-                                <span>Notify you of upcoming Gatherings (Events) and new Manna (Devotionals).</span>
+                                <span>Notify you of upcoming Gatherings (Events).</span>
                             </li>
                         </ul>
                     </section>

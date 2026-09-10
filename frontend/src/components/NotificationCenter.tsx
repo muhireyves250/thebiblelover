@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Bell, BellOff, ExternalLink, Calendar, MessageSquare, Heart, ShieldCheck } from 'lucide-react';
+import { Bell, BellOff, ExternalLink, Calendar, Heart, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { notificationAPI } from '../services/api';
 import type { Notification } from '../services/api.d';
@@ -63,7 +63,6 @@ const NotificationCenter = () => {
 
     const getIcon = (type: string) => {
         switch (type) {
-            case 'FORUM_REPLY': return <MessageSquare className="h-4 w-4 text-indigo-500" />;
             case 'EVENT_UPDATE': return <Calendar className="h-4 w-4 text-emerald-500" />;
             case 'PRAYER_SUPPORT': return <Heart className="h-4 w-4 text-rose-500 fill-rose-500/20" />;
             case 'ADMIN_MESSAGE': return <ShieldCheck className="h-4 w-4 text-amber-500" />;
@@ -112,7 +111,6 @@ const NotificationCenter = () => {
                                         if (notif.isRead) return 'hover:bg-gray-50';
                                         switch (type) {
                                             case 'PRAYER_SUPPORT': return 'bg-rose-50/30 hover:bg-rose-50/50';
-                                            case 'FORUM_REPLY': return 'bg-indigo-50/30 hover:bg-indigo-50/50';
                                             case 'EVENT_UPDATE': return 'bg-emerald-50/30 hover:bg-emerald-50/50';
                                             default: return 'bg-amber-50/20 hover:bg-amber-50/40';
                                         }

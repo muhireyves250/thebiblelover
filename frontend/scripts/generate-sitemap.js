@@ -15,16 +15,15 @@ const staticRoutes = [
   '/donate',
   '/contact',
   '/events',
-  '/forum',
   '/posts',
   '/login',
   '/signup',
 ];
 
-// In a real scenario, you would fetch dynamic IDs (blog posts, forum topics) from your API
+// In a real scenario, you would fetch dynamic IDs (blog post slugs) from your API
 // For this generation script, we'll placeholder them or rely on the user to run it with data
 const dynamicRoutes = [
-  // Example: '/posts/1', '/forum/topic/abc'
+  // Example: '/posts/1'
 ];
 
 const allRoutes = [...staticRoutes, ...dynamicRoutes];

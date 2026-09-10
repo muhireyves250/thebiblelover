@@ -11,8 +11,6 @@ import {
   NewsletterAPI,
   UserAPI,
   PrayerAPI,
-  ForumAPI,
-  DevotionalAPI,
   EventAPI,
   NotificationAPI,
   SearchAPI,
@@ -273,34 +271,6 @@ export const prayerAPI: PrayerAPI = {
   adminDelete: (id: string) => apiRequest(`/prayer-requests/admin/${id}`, { method: 'DELETE' }),
 };
 
-export const forumAPI: ForumAPI = {
-  getCategories: () => apiRequest('/forum/categories'),
-  getCategoryTopics: (id, params) => {
-    const query = new URLSearchParams(params as any).toString();
-    return apiRequest(`/forum/categories/${id}/topics?${query}`);
-  },
-  getTopic: (id) => apiRequest(`/forum/topics/${id}`),
-  createTopic: (data) => apiRequest('/forum/topics', { method: 'POST', body: JSON.stringify(data) }),
-  deleteTopic: (id) => apiRequest(`/forum/topics/${id}`, { method: 'DELETE' }),
-  createPost: (topicId, data) => apiRequest(`/forum/topics/${topicId}/posts`, { method: 'POST', body: JSON.stringify(data) }),
-  deletePost: (id) => apiRequest(`/forum/posts/${id}`, { method: 'DELETE' }),
-  adminCreateCategory: (data) => apiRequest('/forum/categories', { method: 'POST', body: JSON.stringify(data) }),
-  adminUpdateCategory: (id, data) => apiRequest(`/forum/categories/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  adminDeleteCategory: (id) => apiRequest(`/forum/categories/${id}`, { method: 'DELETE' }),
-};
-
-export const devotionalAPI: DevotionalAPI = {
-  getToday: () => apiRequest('/devotionals/today'),
-  getArchive: (params) => {
-    const query = new URLSearchParams(params as any).toString();
-    return apiRequest(`/devotionals/archive?${query}`);
-  },
-  create: (data) => apiRequest('/devotionals', { method: 'POST', body: JSON.stringify(data) }),
-  update: (id, data) => apiRequest(`/devotionals/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id) => apiRequest(`/devotionals/${id}`, { method: 'DELETE' }),
-  addComment: (id, content) => apiRequest(`/devotionals/${id}/comments`, { method: 'POST', body: JSON.stringify({ content }) }),
-};
-
 export const eventAPI: EventAPI = {
   getEvents: () => apiRequest('/events'),
   getEvent: (id) => apiRequest(`/events/${id}`),
@@ -344,8 +314,6 @@ const apis: API = {
   health: healthAPI,
   user: userAPI,
   prayer: prayerAPI,
-  forum: forumAPI,
-  devotionals: devotionalAPI,
   events: eventAPI,
   notifications: notificationAPI,
   search: searchAPI,

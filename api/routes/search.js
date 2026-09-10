@@ -8,46 +8,22 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     const { q } = req.query;
     if (!q) {
-        return res.json({ success: true, data: { posts: [], topics: [], devotionals: [], events: [] } });
+        return res.json({ success: true, data: { posts: [], events: [] } });
     }
 
     try {
-        const [posts, topics, devotionals] = await Promise.all([
+        const [posts, events] = await Promise.all([
             prisma.blogPost.findMany({
                 where: {
                     status: 'PUBLISHED',
                     OR: [
                         { title: { contains: q } },
                         { content: { contains: q } },
-                        { tags: { contains: q } }
+                        { tags: { has: q } }
                     ]
                 },
                 take: 5,
                 select: { id: true, title: true, slug: true, excerpt: true, featuredImage: true, category: true, publishedAt: true }
-            }),
-            prisma.forumTopic.findMany({
-                where: {
-                    OR: [
-                        { title: { contains: q } },
-                        { content: { contains: q } }
-                    ]
-                },
-                take: 5,
-                include: {
-                    author: { select: { name: true } },
-                    _count: { select: { posts: true } }
-                }
-            }),
-            prisma.devotional.findMany({
-                where: {
-                    OR: [
-                        { title: { contains: q } },
-                        { content: { contains: q } },
-                        { scripture: { contains: q } }
-                    ]
-                },
-                take: 5,
-                select: { id: true, title: true, date: true, scripture: true }
             }),
             prisma.event.findMany({
                 where: {
@@ -64,7 +40,7 @@ router.get('/', async (req, res) => {
 
         res.json({
             success: true,
-            data: { posts, topics, devotionals, events }
+            data: { posts, events }
         });
     } catch (error) {
         console.error('Search error:', error);

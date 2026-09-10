@@ -23,9 +23,6 @@ model User {
   savedVerses  SavedVerse[]
   prayerRequests PrayerRequest[]
   prayerSupports PrayerSupport[]
-  forumTopics    ForumTopic[]
-  forumPosts     ForumPost[]
-  devotionals    Devotional[]   @relation("DevotionalAuthor")
   createdEvents  Event[]        @relation("EventAuthor")
   rsvps         Event[]        @relation("EventRSVPs")
   notifications Notification[]
@@ -40,7 +37,7 @@ model ViewHistory {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type      String   // 'POST', 'FORUM', 'DEVOTIONAL'
+  type      String   // 'POST'
   itemId    String   // The ID of the item viewed
   title     String
   link      String
@@ -54,7 +51,7 @@ model Notification {
   id        String   @id @default(cuid())
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  type      String   // 'FORUM_REPLY', 'EVENT_UPDATE', 'PRAYER_SUPPORT', 'ADMIN_MESSAGE'
+  type      String   // 'EVENT_UPDATE', 'PRAYER_SUPPORT', 'ADMIN_MESSAGE'
   title     String
   message   String
   link      String?  // URL to redirect when clicked
@@ -63,24 +60,6 @@ model Notification {
   updatedAt DateTime @updatedAt
 
   @@map("notifications")
-}
-
-// ... existing models ...
-
-model Devotional {
-  id                 String   @id @default(uuid())
-  date               DateTime @unique // The specific day this devotional is for
-  title              String
-  content            String
-  scripture          String
-  reflectionQuestions String?
-  authorId           String
-  author             User     @relation("DevotionalAuthor", fields: [authorId], references: [id])
-  comments           Comment[]
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-
-  @@map("devotionals")
 }
 
 model Event {
@@ -99,57 +78,6 @@ model Event {
 
   @@map("events")
 }
-
-model ForumCategory {
-  id          String       @id @default(cuid())
-  name        String
-  description String?
-  icon        String?      // Lucide icon name or emoji
-  order       Int          @default(0)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  topics      ForumTopic[]
-
-  @@map("forum_categories")
-}
-
-model ForumTopic {
-  id         String      @id @default(cuid())
-  categoryId String
-  authorId   String
-  title      String
-  content    String
-  isLocked   Boolean     @default(false)
-  isSticky   Boolean     @default(false)
-  views      Int         @default(0)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  category   ForumCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  author     User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  posts      ForumPost[]
-
-  @@index([categoryId])
-  @@index([authorId])
-  @@index([createdAt])
-  @@map("forum_topics")
-}
-
-model ForumPost {
-  id        String     @id @default(cuid())
-  topicId   String
-  authorId  String
-  content   String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  topic     ForumTopic @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  @@index([topicId])
-  @@index([authorId])
-  @@index([createdAt])
-  @@map("forum_posts")
-}
-
 
 model PrayerRequest {
   id           String          @id @default(cuid())
@@ -259,15 +187,12 @@ model Comment {
   authorName  String
   authorEmail String
   postId      String?
-  devotionalId String?
   isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   post        BlogPost? @relation(fields: [postId], references: [id], onDelete: Cascade)
-  devotional  Devotional? @relation(fields: [devotionalId], references: [id], onDelete: Cascade)
 
   @@index([postId, createdAt])
-  @@index([devotionalId, createdAt])
   @@index([isApproved])
   @@map("comments")
 }

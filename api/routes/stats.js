@@ -8,19 +8,13 @@ router.get('/summary', async (req, res) => {
   try {
     const [
       totalUsers,
-      totalTopics,
-      totalInsights,
       totalPrayers,
       totalDonations,
-      totalDevotionals,
       totalEvents
     ] = await Promise.all([
       prisma.user.count(),
-      prisma.forumTopic.count(),
-      prisma.forumPost.count(),
       prisma.prayerSupport.count(),
       prisma.donation.count({ where: { status: 'COMPLETED' } }),
-      prisma.devotional.count(),
       prisma.event.count()
     ]);
 
@@ -28,14 +22,11 @@ router.get('/summary', async (req, res) => {
       success: true,
       data: {
         totalUsers,
-        totalTopics,
-        totalInsights,
         totalPrayers,
         totalDonations,
-        totalDevotionals,
         totalEvents,
         // Active souls calculation: users + recent activity factor
-        soulsActive: totalUsers + Math.floor(totalInsights / 2) + totalPrayers
+        soulsActive: totalUsers + totalPrayers
       }
     });
   } catch (error) {

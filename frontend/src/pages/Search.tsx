@@ -1,23 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import { Search as SearchIcon, BookOpen, FileText, Book, ArrowRight, MessageSquare, Clock, History } from 'lucide-react';
+import { Search as SearchIcon, FileText, Book, ArrowRight, Clock, History } from 'lucide-react';
 import api from '../services/api';
 import BlogCard from '../components/BlogCard';
 import type { ViewHistory } from '../services/api.d';
 
 interface SearchResults {
     posts: any[];
-    topics: any[];
-    devotionals: any[];
 }
 
-type Tab = 'all' | 'posts' | 'topics' | 'devotionals';
+type Tab = 'all' | 'posts';
 
 const Search = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const query = searchParams.get('q') || '';
-    const [results, setResults] = useState<SearchResults>({ posts: [], topics: [], devotionals: [] });
+    const [results, setResults] = useState<SearchResults>({ posts: [] });
     const [history, setHistory] = useState<ViewHistory[]>([]);
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState<Tab>('all');
@@ -41,7 +39,7 @@ const Search = () => {
             try {
                 const response = await api.search.search(query);
                 if (response.success) {
-                    setResults(response.data || { posts: [], topics: [], devotionals: [] });
+                    setResults(response.data || { posts: [] });
                 }
             } catch (err) {
                 console.error('Search error:', err);
@@ -53,7 +51,7 @@ const Search = () => {
         fetchData();
     }, [query]);
 
-    const hasResults = results.posts.length > 0 || results.topics.length > 0 || results.devotionals.length > 0;
+    const hasResults = results.posts.length > 0;
 
     const TabButton = ({ id, label, count, icon: Icon }: { id: Tab; label: string; count?: number; icon: any }) => (
         <button
@@ -89,7 +87,7 @@ const Search = () => {
                         <div className="text-center max-w-2xl mx-auto">
                             <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-6">What are you looking for today?</h1>
                             <p className="text-lg text-gray-600 mb-10 leading-relaxed">
-                                Search for bible verses, forum discussions, or read our latest reflections.
+                                Search for bible verses or read our latest reflections.
                             </p>
 
                             <form
@@ -126,9 +124,7 @@ const Search = () => {
                                             className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-gray-100 hover:border-amber-200 hover:shadow-lg transition-all group"
                                         >
                                             <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-amber-50 group-hover:text-amber-600 transition-colors">
-                                                {item.type === 'POST' ? <FileText className="w-6 h-6" /> :
-                                                    item.type === 'FORUM' ? <MessageSquare className="w-6 h-6" /> :
-                                                        <BookOpen className="w-6 h-6" />}
+                                                <FileText className="w-6 h-6" />
                                             </div>
                                             <div className="min-w-0">
                                                 <h3 className="font-bold text-gray-900 truncate group-hover:text-amber-700">{item.title}</h3>
@@ -147,10 +143,8 @@ const Search = () => {
                     <>
                         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
                             <div className="flex flex-wrap gap-3">
-                                <TabButton id="all" label="All Results" icon={Book} count={results.posts.length + results.topics.length + results.devotionals.length} />
+                                <TabButton id="all" label="All Results" icon={Book} count={results.posts.length} />
                                 <TabButton id="posts" label="Reflections" icon={FileText} count={results.posts.length} />
-                                <TabButton id="topics" label="Discussions" icon={MessageSquare} count={results.topics.length} />
-                                <TabButton id="devotionals" label="Devotionals" icon={BookOpen} count={results.devotionals.length} />
                             </div>
 
                             {!loading && (
@@ -202,76 +196,6 @@ const Search = () => {
                                         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                                             {results.posts.map((post: any) => (
                                                 <BlogCard key={post.id} {...post} author={post.author || { name: 'The Bible Lover' }} />
-                                            ))}
-                                        </div>
-                                    </section>
-                                )}
-
-                                {/* Forum Topics */}
-                                {(activeTab === 'all' || activeTab === 'topics') && results.topics.length > 0 && (
-                                    <section className="animate-in fade-in slide-in-from-bottom-4">
-                                        <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-blue-50 rounded-lg text-blue-700">
-                                                    <MessageSquare className="w-5 h-5" />
-                                                </div>
-                                                <h2 className="text-2xl font-serif text-gray-900">Community Discussions</h2>
-                                            </div>
-                                        </div>
-                                        <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
-                                            {results.topics.map((topic: any) => (
-                                                <Link
-                                                    key={topic.id}
-                                                    to={`/forum/topic/${topic.id}`}
-                                                    className="group bg-white p-6 rounded-3xl border border-gray-100 hover:border-blue-200 hover:shadow-lg transition-all flex justify-between items-center"
-                                                >
-                                                    <div className="min-w-0">
-                                                        <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-700 truncate mb-1">{topic.title}</h3>
-                                                        <div className="flex items-center gap-3 text-xs text-gray-500">
-                                                            <span className="font-bold">{topic.author?.name}</span>
-                                                            <span>•</span>
-                                                            <span>{new Date(topic.createdAt).toLocaleDateString()}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-2xl font-bold text-sm">
-                                                        <MessageSquare className="w-4 h-4" />
-                                                        {topic._count?.posts || 0}
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </section>
-                                )}
-
-                                {/* Devotionals */}
-                                {(activeTab === 'all' || activeTab === 'devotionals') && results.devotionals.length > 0 && (
-                                    <section className="animate-in fade-in slide-in-from-bottom-4">
-                                        <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-purple-50 rounded-lg text-purple-700">
-                                                    <BookOpen className="w-5 h-5" />
-                                                </div>
-                                                <h2 className="text-2xl font-serif text-gray-900">Daily Devotionals</h2>
-                                            </div>
-                                        </div>
-                                        <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                                            {results.devotionals.map((devotional: any) => (
-                                                <Link
-                                                    key={devotional.id}
-                                                    to={`/devotional?id=${devotional.id}`}
-                                                    className="bg-white p-8 rounded-[2.5rem] border border-gray-100 hover:border-purple-200 hover:shadow-xl transition-all group flex flex-col justify-between"
-                                                >
-                                                    <div>
-                                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-500 mb-4 block">
-                                                            {new Date(devotional.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                                                        </span>
-                                                        <h3 className="text-2xl font-serif text-gray-900 group-hover:text-purple-700 mb-4">{devotional.title}</h3>
-                                                        <p className="text-sm font-bold text-gray-500 italic mb-6">"{devotional.scripture}"</p>
-                                                    </div>
-                                                    <div className="flex items-center text-purple-600 font-bold text-sm gap-2 mt-auto">
-                                                        Read Devotional <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                                    </div>
-                                                </Link>
                                             ))}
                                         </div>
                                     </section>

@@ -36,7 +36,7 @@ const Terms: React.FC = () => {
                         <div className="p-8 border border-gray-100 rounded-3xl hover:bg-gray-50 transition-colors">
                             <Heart className="w-8 h-8 text-amber-600 mb-4" />
                             <h4 className="text-lg font-bold text-gray-900 mb-2">Respectful Dialogue</h4>
-                            <p className="text-sm text-gray-500 leading-relaxed">All forum posts and comments should be constructive and uplifting to the body of Christ.</p>
+                            <p className="text-sm text-gray-500 leading-relaxed">All comments should be constructive and uplifting to the body of Christ.</p>
                         </div>
                         <div className="p-8 border border-gray-100 rounded-3xl hover:bg-gray-50 transition-colors">
                             <ShieldCheck className="w-8 h-8 text-amber-600 mb-4" />

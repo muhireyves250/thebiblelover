@@ -298,7 +298,7 @@ const Donate = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-1">Build Community</h4>
-                    <p className="text-gray-500 text-sm leading-relaxed">Supporting events, discussion forums, and interactive content that brings believers together.</p>
+                    <p className="text-gray-500 text-sm leading-relaxed">Supporting events, community prayer, and interactive content that brings believers together.</p>
                   </div>
                 </div>
                 <div className="flex gap-6 group">

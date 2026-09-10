@@ -52,18 +52,6 @@ router.get('/dashboard', verifyToken, async (req, res) => {
             where: { email: user.email }
         });
 
-        // Get forum activity (last 5)
-        const forumActivity = await prisma.forumPost.findMany({
-            where: { authorId: userId },
-            take: 5,
-            orderBy: { createdAt: 'desc' },
-            include: {
-                topic: {
-                    select: { id: true, title: true }
-                }
-            }
-        });
-
         // Get joined events (upcoming)
         const joinedEvents = await prisma.user.findUnique({
             where: { id: userId },
@@ -78,7 +66,7 @@ router.get('/dashboard', verifyToken, async (req, res) => {
 
         // Get stats for badges
         const [postsCount, prayerSupportsCount, eventsCount] = await Promise.all([
-            prisma.forumPost.count({ where: { authorId: userId } }),
+            prisma.like.count({ where: { userId } }),
             prisma.prayerSupport.count({ where: { userId } }),
             prisma.user.findUnique({ where: { id: userId }, select: { _count: { select: { rsvps: true } } } })
         ]);
@@ -87,11 +75,11 @@ router.get('/dashboard', verifyToken, async (req, res) => {
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-        const [dailyForumPosts, dailyPrayerSupports] = await Promise.all([
-            prisma.forumPost.groupBy({
+        const [dailyLikes, dailyPrayerSupports] = await Promise.all([
+            prisma.like.groupBy({
                 by: ['createdAt'],
                 where: {
-                    authorId: userId,
+                    userId,
                     createdAt: { gte: sevenDaysAgo }
                 },
                 _count: true,
@@ -118,7 +106,7 @@ router.get('/dashboard', verifyToken, async (req, res) => {
             activityMap[label] = 0;
         }
 
-        [...dailyForumPosts, ...dailyPrayerSupports].forEach(item => {
+        [...dailyLikes, ...dailyPrayerSupports].forEach(item => {
             const label = days[new Date(item.createdAt).getDay()];
             if (activityMap[label] !== undefined) {
                 activityMap[label] += item._count || 1;
@@ -143,7 +131,6 @@ router.get('/dashboard', verifyToken, async (req, res) => {
                 likedPosts: likedPosts.map(l => l.post),
                 savedVerses: savedVerses.map(sv => sv.verse),
                 newsletterSubscription: !!newsletter?.isActive,
-                forumActivity,
                 joinedEvents: joinedEvents?.rsvps || [],
                 weeklyActivity,
                 donations,
@@ -287,7 +274,6 @@ router.get('/admin/all', verifyToken, requireAdmin, async (req, res) => {
                 createdAt: true,
                 _count: {
                     select: {
-                        forumPosts: true,
                         blogPosts: true,
                         rsvps: true
                     }
@@ -299,7 +285,7 @@ router.get('/admin/all', verifyToken, requireAdmin, async (req, res) => {
             ...user,
             _count: {
                 comments: 0, // User model in schema doesn't have direct comments relation
-                posts: (user._count.forumPosts || 0) + (user._count.blogPosts || 0),
+                posts: user._count.blogPosts || 0,
                 rsvps: user._count.rsvps || 0
             }
         }));

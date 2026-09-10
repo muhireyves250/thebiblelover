@@ -41,7 +41,7 @@ const Home = () => {
     <>
       <SEO 
         title="Home" 
-        description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections, daily devotionals, and spiritual growth resources."
+        description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
       <Hero />
       <BlogGrid limit={6} showViewAll />

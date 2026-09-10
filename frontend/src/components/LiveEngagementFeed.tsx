@@ -41,7 +41,6 @@ const LiveEngagementFeed: React.FC = () => {
       case 'DONATION': return <Heart className="h-4 w-4 text-rose-400" />;
       case 'COMMENT': return <MessageSquare className="h-4 w-4 text-amber-400" />;
       case 'PRAYER': return <Target className="h-4 w-4 text-emerald-400" />;
-      case 'FORUM': return <Zap className="h-4 w-4 text-purple-400" />;
       default: return <Zap className="h-4 w-4 text-amber-400" />;
     }
   };
@@ -52,7 +51,6 @@ const LiveEngagementFeed: React.FC = () => {
       case 'DONATION': return 'bg-rose-500/10 border-rose-500/20';
       case 'COMMENT': return 'bg-amber-500/10 border-amber-500/20';
       case 'PRAYER': return 'bg-emerald-500/10 border-emerald-500/20';
-      case 'FORUM': return 'bg-purple-500/10 border-purple-500/20';
       default: return 'bg-amber-500/10 border-amber-500/20';
     }
   };
