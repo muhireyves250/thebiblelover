@@ -35,8 +35,8 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   const video = isVideoLike(item);
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-      <div className="relative aspect-video bg-gray-100 overflow-hidden">
+    <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+      <div className="relative flex-1 min-h-[220px] bg-gray-100 overflow-hidden">
         {video && playing ? (
           <iframe
             className="absolute inset-0 w-full h-full"
@@ -148,12 +148,12 @@ const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
 // upload yet — reuses the video already configured in the Hero section.
 // Mirrors FeaturedCard's exact shell (image area, play button, headline
 // row, copy block) so the card doesn't change shape depending on source.
-const HeroVideoCard: React.FC<{ videoUrl: string; title: string }> = ({ videoUrl, title }) => {
+const HeroVideoCard: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-      <div className="relative aspect-video bg-gray-100 overflow-hidden">
+    <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+      <div className="relative flex-1 min-h-[220px] bg-gray-100 overflow-hidden">
         {playing ? (
           <video
             src={videoUrl}
@@ -189,10 +189,13 @@ const HeroVideoCard: React.FC<{ videoUrl: string; title: string }> = ({ videoUrl
       <div className="p-6">
         <div className="flex items-start gap-3 mb-3">
           <span className="mt-2 w-2 h-2 rounded-full bg-red-600 shrink-0" />
-          <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug">{title}</h3>
+          <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug">
+            A Word While You Wait
+          </h3>
         </div>
         <p className="text-sm text-gray-500 leading-relaxed">
-          No live stream right now — here's a video from us while you wait.
+          We're not live right now, but take a moment with this reflection from The Bible Lover.
+          Check back soon for our next broadcast, or explore our channel for more teachings.
         </p>
       </div>
     </div>
@@ -200,8 +203,8 @@ const HeroVideoCard: React.FC<{ videoUrl: string; title: string }> = ({ videoUrl
 };
 
 const NoVideoPlaceholder: React.FC = () => (
-  <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-    <div className="aspect-video bg-gray-50 flex flex-col items-center justify-center text-center px-8">
+  <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+    <div className="flex-1 min-h-[220px] bg-gray-50 flex flex-col items-center justify-center text-center px-8">
       <span className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mb-4">
         <Play className="w-6 h-6 text-amber-700 ml-0.5" fill="currentColor" />
       </span>
@@ -262,9 +265,9 @@ const HomeFeed: React.FC = () => {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
           {/* Featured / Broadcast column */}
-          <div>
+          <div className="flex flex-col h-full">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <span className="px-3 py-1.5 bg-gray-100 rounded-md text-xs font-black uppercase tracking-widest text-gray-900">
@@ -283,13 +286,15 @@ const HomeFeed: React.FC = () => {
                 Watch More <ArrowRight className="w-3.5 h-3.5" />
               </a>
             </div>
-            {featured ? (
-              <FeaturedCard item={featured} />
-            ) : heroVideoUrl ? (
-              <HeroVideoCard videoUrl={heroVideoUrl} title={settings?.heroSection?.title || 'The Bible Lover'} />
-            ) : (
-              <NoVideoPlaceholder />
-            )}
+            <div className="flex-1">
+              {featured ? (
+                <FeaturedCard item={featured} />
+              ) : heroVideoUrl ? (
+                <HeroVideoCard videoUrl={heroVideoUrl} />
+              ) : (
+                <NoVideoPlaceholder />
+              )}
+            </div>
           </div>
 
           {/* Latest reflections column */}
