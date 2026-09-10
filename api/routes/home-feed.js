@@ -24,7 +24,10 @@ router.get('/', async (req, res) => {
           featuredImage: true,
           category: true,
           publishedAt: true,
-          author: { select: { name: true, profileImage: true } }
+          views: true,
+          likes: true,
+          author: { select: { name: true, profileImage: true } },
+          _count: { select: { comments: true } }
         }
       }).catch(() => []),
       getLatestVideos(limit + 1).catch(() => []),
@@ -40,7 +43,10 @@ router.get('/', async (req, res) => {
       thumbnail: p.featuredImage,
       category: p.category,
       publishedAt: p.publishedAt,
-      author: p.author
+      author: p.author,
+      views: p.views,
+      likes: p.likes,
+      comments: p._count.comments
     }));
 
     const combined = [...postItems, ...videos].sort(

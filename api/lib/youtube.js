@@ -60,6 +60,7 @@ function mapPlaylistItem(item) {
     type: 'VIDEO',
     id: videoId,
     title: item.snippet.title,
+    excerpt: (item.snippet.description || '').slice(0, 220),
     thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url,
     publishedAt: item.snippet.publishedAt,
     url: `https://www.youtube.com/watch?v=${videoId}`
@@ -73,10 +74,34 @@ function mapLiveSearchItem(item) {
     type: 'LIVE',
     id: videoId,
     title: item.snippet.title,
+    excerpt: (item.snippet.description || '').slice(0, 220),
     thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url,
     publishedAt: item.snippet.publishedAt,
     url: `https://www.youtube.com/watch?v=${videoId}`
   };
+}
+
+// videos.list only costs 1 quota unit regardless of how many IDs/parts are
+// requested, so batching view/like/comment counts onto already-fetched
+// videos is essentially free compared to the calls that found them.
+async function attachStatistics(videos) {
+  if (videos.length === 0) return videos;
+
+  const data = await ytFetch('videos', {
+    part: 'statistics',
+    id: videos.map(v => v.id).join(',')
+  });
+
+  const statsById = new Map((data.items || []).map(i => [i.id, i.statistics]));
+  return videos.map(v => {
+    const stats = statsById.get(v.id);
+    return {
+      ...v,
+      views: stats ? parseInt(stats.viewCount, 10) || 0 : 0,
+      likes: stats ? parseInt(stats.likeCount, 10) || 0 : 0,
+      comments: stats ? parseInt(stats.commentCount, 10) || 0 : 0
+    };
+  });
 }
 
 export async function getLatestVideos(maxResults = 8) {
@@ -95,7 +120,7 @@ export async function getLatestVideos(maxResults = 8) {
     maxResults: String(maxResults)
   });
 
-  const videos = (data.items || []).map(mapPlaylistItem).filter(Boolean);
+  const videos = await attachStatistics((data.items || []).map(mapPlaylistItem).filter(Boolean));
   setCached(cacheKey, videos, 5 * 60 * 1000); // 5 minutes
   return videos;
 }
@@ -115,7 +140,8 @@ export async function getLiveVideo() {
     maxResults: '1'
   });
 
-  const live = (data.items || []).map(mapLiveSearchItem).find(Boolean) || null;
+  const found = (data.items || []).map(mapLiveSearchItem).find(Boolean) || null;
+  const live = found ? (await attachStatistics([found]))[0] : null;
   setCached(cacheKey, live || 'NONE', 60 * 1000); // 1 minute — live status changes fast
   return live;
 }

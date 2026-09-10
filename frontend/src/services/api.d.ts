@@ -345,15 +345,22 @@ export interface HomeFeedPost {
   category: string;
   publishedAt: string;
   author?: { name: string; profileImage?: string };
+  views: number;
+  likes: number;
+  comments: number;
 }
 
 export interface HomeFeedVideo {
   type: 'VIDEO' | 'LIVE';
   id: string;
   title: string;
+  excerpt: string;
   thumbnail: string;
   publishedAt: string;
   url: string;
+  views: number;
+  likes: number;
+  comments: number;
 }
 
 export type HomeFeedItem = HomeFeedPost | HomeFeedVideo;
