@@ -12,10 +12,10 @@ const IhemaLogo: React.FC<IhemaLogoProps> = ({ className = '' }) => (
       className="font-display text-3xl md:text-4xl uppercase text-white leading-[0.8]"
       style={{ letterSpacing: '-0.06em' }}
     >
-      Ihema
+      Vera
     </span>
     <span className="flex items-center justify-center gap-1.5 mt-1.5 text-[9px] md:text-[10px] font-bold uppercase tracking-[0.25em] text-white">
-      <span>Bible</span>
+      <span>Wear</span>
       <span className="flex flex-col items-center">
         <span className="flex items-center gap-1">
           <span className="w-[1px] h-1.5 bg-white" />
@@ -24,7 +24,7 @@ const IhemaLogo: React.FC<IhemaLogoProps> = ({ className = '' }) => (
         </span>
         <span className="w-[2px] h-2 bg-white -mt-px" />
       </span>
-      <span>Lover</span>
+      <span>Truth</span>
     </span>
   </div>
 );
