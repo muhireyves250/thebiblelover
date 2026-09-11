@@ -78,6 +78,34 @@ const Footer = () => {
             </div>
           </div>
 
+          {/* Navigate */}
+          <div className="lg:col-span-2">
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Navigate</h3>
+            <ul className="space-y-3">
+              {['Home', 'About', 'Contact', 'Donate'].map((item) => (
+                <li key={item}>
+                  <Link
+                    to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                    className="text-gray-600 hover:text-amber-700 transition-colors text-sm"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal / Connect */}
+          <div className="lg:col-span-2">
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Company</h3>
+            <ul className="space-y-3">
+              <li><Link to="/terms" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">Terms of Service</Link></li>
+              <li><Link to="/privacy" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">Privacy Policy</Link></li>
+              <li><span className="text-gray-600 text-sm">{footerSettings.email}</span></li>
+              <li><span className="text-gray-600 text-sm">{footerSettings.location}</span></li>
+            </ul>
+          </div>
+
           {/* Newsletter card */}
           <div className="lg:col-span-4">
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6">
@@ -129,34 +157,6 @@ const Footer = () => {
                 </form>
               )}
             </div>
-          </div>
-
-          {/* Navigate */}
-          <div className="lg:col-span-2">
-            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Navigate</h3>
-            <ul className="space-y-3">
-              {['Home', 'About', 'Contact', 'Donate'].map((item) => (
-                <li key={item}>
-                  <Link
-                    to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                    className="text-gray-600 hover:text-amber-700 transition-colors text-sm"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal / Connect */}
-          <div className="lg:col-span-2">
-            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Company</h3>
-            <ul className="space-y-3">
-              <li><Link to="/terms" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">Terms of Service</Link></li>
-              <li><Link to="/privacy" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">Privacy Policy</Link></li>
-              <li><span className="text-gray-600 text-sm">{footerSettings.email}</span></li>
-              <li><span className="text-gray-600 text-sm">{footerSettings.location}</span></li>
-            </ul>
           </div>
         </div>
 
