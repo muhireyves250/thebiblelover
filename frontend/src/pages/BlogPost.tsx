@@ -175,19 +175,21 @@ const BlogPost: React.FC = () => {
               {post.title}
             </h1>
 
-            <p className="text-gray-600 text-lg leading-relaxed mb-6">{post.excerpt}</p>
-
-            {post.featuredImage && (
-              <div className="mb-6 rounded-lg overflow-hidden border border-gray-200">
-                <img
-                  src={post.featuredImage}
-                  alt={post.title}
-                  className="w-full h-auto object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-            )}
+            <div className="mb-6">
+              {post.featuredImage && (
+                <div className="group relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                  <img
+                    src={post.featuredImage}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              )}
+              <p className="text-gray-600 text-lg leading-relaxed">{post.excerpt}</p>
+              <div className="clear-both" />
+            </div>
 
             <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
               <div className="flex items-center gap-3">
