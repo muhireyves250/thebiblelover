@@ -26,7 +26,8 @@ import {
   LogOut,
   Layout,
   MessageCircle,
-  Sparkles
+  Sparkles,
+  Mic
 } from 'lucide-react';
 import AddPostModal from '../components/AddPostModal';
 import EditPostModal from '../components/EditPostModal';
@@ -34,6 +35,7 @@ import BackgroundSettingsModal from '../components/BackgroundSettingsModal';
 import LogoSettingsModal from '../components/LogoSettingsModal';
 import SocialSettingsModal from '../components/SocialSettingsModal';
 import BibleVerseManager from '../components/BibleVerseManager';
+import AudioEpisodeManager from '../components/AudioEpisodeManager';
 import ContentSettingsModal from '../components/ContentSettingsModal';
 import DashboardOverview from '../components/DashboardOverview';
 import PostsManager from '../components/PostsManager';
@@ -798,6 +800,7 @@ const Dashboard = () => {
                   { id: 'donations', label: 'Seeds', icon: DollarSign, color: 'text-blue-500' },
                   { id: 'messages', label: 'Scrolls', icon: Mail, color: 'text-indigo-500' },
                   { id: 'bible-verses', label: 'Wisdom', icon: Sparkles, color: 'text-amber-500' },
+                  { id: 'audio-episodes', label: 'Morning/Evening', icon: Mic, color: 'text-amber-500' },
                   { id: 'prayers', label: 'Intercessions', icon: Heart, color: 'text-red-500' },
                   { id: 'events', label: 'Gatherings', icon: Users, color: 'text-emerald-500' },
                   { id: 'users', label: 'Disciples', icon: Users, color: 'text-amber-600' }
@@ -1514,6 +1517,13 @@ const Dashboard = () => {
       {
         activeTab === 'bible-verses' && (
           <BibleVerseManager />
+        )
+      }
+
+      {/* Audio Episodes Tab */}
+      {
+        activeTab === 'audio-episodes' && (
+          <AudioEpisodeManager />
         )
       }
 
