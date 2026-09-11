@@ -110,7 +110,6 @@ const Footer = () => {
           <div className="lg:col-span-4">
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6">
               <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 block mb-2">Stay Inspired</span>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Get the latest reflections straight to your inbox</h3>
               <p className="text-sm text-gray-600 mb-4">
                 Join our community and receive weekly spiritual insights, book reflections, and exclusive teachings.
               </p>
