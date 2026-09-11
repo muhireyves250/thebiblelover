@@ -54,12 +54,17 @@ const PageLoader = () => (
 
 function AppContent() {
   const location = useLocation();
+  // Key by pathname so navigating between different pages replays the page
+  // transition - EXCEPT for /blog/:slug, where keying by the full pathname
+  // would remount the entire BlogPost page (sidebar included) every time the
+  // slug changes, defeating its sticky sidebar / cached-loading behavior.
+  const routeKey = location.pathname.startsWith('/blog/') ? '/blog/:slug' : location.pathname;
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
       <Suspense fallback={<PageLoader />}>
         <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
+          <Routes location={location} key={routeKey}>
             <Route path="/" element={
               <PageTransition>
                 <Header />
