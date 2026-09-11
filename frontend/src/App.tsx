@@ -15,6 +15,22 @@ const PageViewTracker = () => {
   return null;
 };
 
+// Scroll to top on every navigation. Ordinarily a full route remount does
+// this implicitly, but detail pages (blog posts, episodes, verses, events)
+// intentionally stay mounted when their dynamic param changes (see
+// routeKey below) to preserve their sticky sidebar - so without this,
+// clicking a related-item link would leave the scroll position wherever
+// it was on the previous item instead of jumping back to the top.
+const ScrollToTop = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  return null;
+};
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Announcements from './components/Announcements';
@@ -259,6 +275,7 @@ function App() {
   return (
     <Router>
       <PageViewTracker />
+      <ScrollToTop />
       <AppContent />
     </Router>
   );
