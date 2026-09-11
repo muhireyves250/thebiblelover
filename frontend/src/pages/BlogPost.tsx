@@ -181,18 +181,18 @@ const BlogPost: React.FC = () => {
           {/* Main column */}
           <article className="lg:col-span-2">
           {loading ? (
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8 animate-pulse">
-              <div className="h-5 w-24 bg-gray-200 rounded mb-4" />
-              <div className="h-8 bg-gray-200 rounded w-3/4 mb-2" />
-              <div className="h-8 bg-gray-200 rounded w-1/2 mb-4" />
-              <div className="h-4 bg-gray-200 rounded w-full mb-2" />
-              <div className="h-4 bg-gray-200 rounded w-5/6 mb-6" />
-              <div className="w-1/2 h-64 md:h-80 bg-gray-200 rounded-lg float-left mr-6 mb-4" />
-              <div className="h-4 bg-gray-200 rounded w-full mb-2" />
-              <div className="h-4 bg-gray-200 rounded w-full mb-2" />
-              <div className="h-4 bg-gray-200 rounded w-5/6 mb-2" />
-              <div className="h-4 bg-gray-200 rounded w-full mb-2" />
-              <div className="h-4 bg-gray-200 rounded w-2/3" />
+            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
+              <div className="h-5 w-24 bg-gray-300 rounded animate-pulse mb-4" />
+              <div className="h-8 bg-gray-300 rounded animate-pulse w-3/4 mb-2" />
+              <div className="h-8 bg-gray-300 rounded animate-pulse w-1/2 mb-4" />
+              <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+              <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-6" />
+              <div className="w-1/2 h-64 md:h-80 bg-gray-300 rounded-lg animate-pulse float-left mr-6 mb-4" />
+              <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+              <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+              <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-2" />
+              <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+              <div className="h-4 bg-gray-300 rounded animate-pulse w-2/3" />
               <div className="clear-both" />
             </div>
           ) : (
