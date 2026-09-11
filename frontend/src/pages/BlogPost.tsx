@@ -285,10 +285,9 @@ const BlogPost: React.FC = () => {
                 <ShareButtons title={post.title} />
               </div>
             </div>
-          </div>
 
             {/* Comments */}
-            <section className="mt-8 bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8">
+            <section className="mt-8 pt-8 border-t border-gray-200">
               <h2 className="text-2xl font-serif text-gray-900 mb-6">Comments ({comments.length})</h2>
               <div className="space-y-4 mb-10">
                 {comments.map((c: any) => (
@@ -363,6 +362,7 @@ const BlogPost: React.FC = () => {
                 </button>
               </form>
             </section>
+          </div>
           </article>
 
           {/* Sidebar */}
