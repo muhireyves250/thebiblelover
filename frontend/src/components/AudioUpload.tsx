@@ -21,6 +21,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
@@ -64,6 +65,8 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
   };
 
   const startRecording = async () => {
+    if (isStarting || isRecording) return;
+    setIsStarting(true);
     setError(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -86,6 +89,8 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
       const msg = 'Microphone access was denied or is unavailable';
       setError(msg);
       onError?.(msg);
+    } finally {
+      setIsStarting(false);
     }
   };
 
@@ -109,7 +114,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
         <button
           type="button"
           onClick={() => setMode('upload')}
-          disabled={disabled}
+          disabled={disabled || isRecording || isStarting}
           className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wide border ${
             mode === 'upload' ? 'bg-amber-700 text-white border-amber-700' : 'bg-white text-gray-600 border-gray-300'
           }`}
@@ -119,7 +124,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
         <button
           type="button"
           onClick={() => setMode('record')}
-          disabled={disabled}
+          disabled={disabled || isRecording || isStarting}
           className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wide border ${
             mode === 'record' ? 'bg-amber-700 text-white border-amber-700' : 'bg-white text-gray-600 border-gray-300'
           }`}
@@ -181,13 +186,13 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
             <button
               type="button"
               onClick={isRecording ? stopRecording : startRecording}
-              disabled={disabled}
+              disabled={disabled || isStarting}
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-sm font-bold ${
                 isRecording ? 'bg-red-600 hover:bg-red-700' : 'bg-amber-700 hover:bg-amber-800'
               }`}
             >
               {isRecording ? <Square className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-              {isRecording ? 'Stop Recording' : 'Start Recording'}
+              {isStarting ? 'Starting...' : isRecording ? 'Stop Recording' : 'Start Recording'}
             </button>
           )}
         </div>
