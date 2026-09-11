@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
+import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
@@ -18,6 +18,7 @@ const PrayerWall = () => {
     const [requests, setRequests] = useState<PrayerRequest[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState('ALL');
+    const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -95,6 +96,7 @@ const PrayerWall = () => {
             if (response.success) {
                 setSuccess('Your prayer request has been shared with the community.');
                 setFormData({ title: '', content: '', category: 'GENERAL', isAnonymous: false, guestName: '', guestEmail: '' });
+                setShowForm(false);
                 loadRequests();
                 setTimeout(() => setSuccess(''), 5000);
             } else {
@@ -117,22 +119,33 @@ const PrayerWall = () => {
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 {/* Share a Testimony or Prayer Request */}
                 <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-10">
-                    <div className="mb-6">
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Share a Testimony or Prayer Request</span>
+                    <div className="flex items-center justify-between gap-4 flex-wrap">
+                        <div>
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+                                <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Share a Testimony or Prayer Request</span>
+                            </div>
+                            <p className="text-gray-500 text-sm italic">"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7</p>
                         </div>
-                        <p className="text-gray-500 text-sm italic">"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7</p>
+                        <button
+                            type="button"
+                            onClick={() => setShowForm(v => !v)}
+                            className="flex items-center gap-2 bg-amber-700 text-white px-5 py-2.5 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors shrink-0"
+                        >
+                            <Plus className={`h-4 w-4 transition-transform ${showForm ? 'rotate-45' : ''}`} />
+                            <span>{showForm ? 'Close' : 'Share a Request'}</span>
+                        </button>
                     </div>
 
                     {success && (
-                        <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm rounded-md flex items-center gap-3">
+                        <div className="mt-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm rounded-md flex items-center gap-3">
                             <CheckCircle className="h-5 w-5 shrink-0" />
                             <p className="font-medium">{success}</p>
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    {showForm && (
+                    <form onSubmit={handleSubmit} className="space-y-5 mt-6 pt-6 border-t border-gray-100">
                         {!currentUser && (
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
@@ -237,6 +250,7 @@ const PrayerWall = () => {
                             )}
                         </button>
                     </form>
+                    )}
                 </div>
 
                 {/* Filters */}
