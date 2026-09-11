@@ -58,10 +58,13 @@ const PageLoader = () => (
 function AppContent() {
   const location = useLocation();
   // Key by pathname so navigating between different pages replays the page
-  // transition - EXCEPT for /blog/:slug, where keying by the full pathname
-  // would remount the entire BlogPost page (sidebar included) every time the
-  // slug changes, defeating its sticky sidebar / cached-loading behavior.
-  const routeKey = location.pathname.startsWith('/blog/') ? '/blog/:slug' : location.pathname;
+  // transition - EXCEPT for detail pages with their own sticky sidebar
+  // (blog posts, episodes, verses, events), where keying by the full
+  // pathname would remount the whole page (sidebar included) every time the
+  // dynamic param changes, defeating the sidebar's sticky/in-place behavior.
+  const detailRoutePrefixes = ['/blog/', '/players/', '/verses/', '/events/'];
+  const matchedDetailPrefix = detailRoutePrefixes.find(prefix => location.pathname.startsWith(prefix));
+  const routeKey = matchedDetailPrefix ? `${matchedDetailPrefix}:id` : location.pathname;
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
