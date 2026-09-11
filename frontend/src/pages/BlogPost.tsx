@@ -288,7 +288,7 @@ const BlogPost: React.FC = () => {
           </div>
 
             {/* Comments */}
-            <section className="mt-12">
+            <section className="mt-8 bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8">
               <h2 className="text-2xl font-serif text-gray-900 mb-6">Comments ({comments.length})</h2>
               <div className="space-y-4 mb-10">
                 {comments.map((c: any) => (
