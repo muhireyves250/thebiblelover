@@ -34,6 +34,7 @@ import notificationRoutes from './routes/notifications.js';
 import searchRouter from './routes/search.js';
 import activityRoutes from './routes/activity.js';
 import homeFeedRoutes from './routes/home-feed.js';
+import audioEpisodeRoutes from './routes/audio-episodes.js';
 import statsRouter from './routes/stats.js';
 import { staticCors } from './middleware/staticCors.js';
 import { initCronJobs } from './lib/cronWorker.js';
@@ -151,6 +152,7 @@ app.use('/api/search', searchRouter);
 app.use('/api/stats', statsRouter);
 app.use('/api/activity', activityRoutes);
 app.use('/api/home-feed', homeFeedRoutes);
+app.use('/api/audio-episodes', audioEpisodeRoutes);
 
 // ❌ 404 handler
 app.use('*', (req, res) => {
