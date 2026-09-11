@@ -265,17 +265,21 @@ const BlogPost: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                <span className="inline-flex items-center gap-1.5 text-sm text-gray-500"><Eye className="w-4 h-4" /> {post.views}</span>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
+                  <Eye className="w-4 h-4" /> {post.views}
+                </span>
                 <button
                   onClick={handleLike}
                   disabled={isLiking}
-                  className={`inline-flex items-center gap-1.5 text-sm transition-colors ${isLiked ? 'text-red-600' : 'text-gray-500 hover:text-red-600'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 border rounded-full text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
                   aria-label={isLiked ? 'Unlike post' : 'Like post'}
                 >
-                  <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} /> {likeCount}
+                  <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} /> Like &middot; {likeCount}
                 </button>
-                <span className="inline-flex items-center gap-1.5 text-sm text-gray-500"><MessageCircle className="w-4 h-4" /> {post._count?.comments ?? comments.length}</span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
+                  <MessageCircle className="w-4 h-4" /> Comment &middot; {post._count?.comments ?? comments.length}
+                </span>
                 <ShareButtons title={post.title} />
               </div>
             </div>

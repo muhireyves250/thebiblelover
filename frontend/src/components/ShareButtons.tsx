@@ -26,7 +26,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({ title, url = window.locatio
     return (
         <button
             onClick={handleShare}
-            className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-amber-700 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600 hover:bg-gray-50 transition-colors"
         >
             {copied ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
             {copied ? 'Copied!' : 'Share'}
