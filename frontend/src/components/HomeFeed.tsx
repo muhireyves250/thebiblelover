@@ -39,7 +39,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   const video = isVideoLike(item);
 
   return (
-    <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-200">
+    <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
       <div className="relative flex-1 min-h-[220px] bg-gray-100 overflow-hidden">
         {video && playing ? (
           <iframe
@@ -113,7 +113,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
 const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   const video = isVideoLike(item);
   const card = (
-    <div className="bg-white rounded-lg overflow-hidden border border-gray-200 h-full hover:border-gray-300 transition-colors group">
+    <div className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-all group">
       <div className="relative h-36 bg-gray-100 overflow-hidden">
         <img
           src={item.thumbnail}
@@ -156,7 +156,7 @@ const HeroVideoCard: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-200">
+    <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
       <div className="relative flex-1 min-h-[220px] bg-gray-100 overflow-hidden">
         {playing ? (
           <video
@@ -207,7 +207,7 @@ const HeroVideoCard: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
 };
 
 const NoVideoPlaceholder: React.FC = () => (
-  <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-200">
+  <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
     <div className="flex-1 min-h-[220px] bg-gray-50 flex flex-col items-center justify-center text-center px-8">
       <span className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mb-4">
         <Play className="w-6 h-6 text-amber-700 ml-0.5" fill="currentColor" />
@@ -227,7 +227,7 @@ const NoVideoPlaceholder: React.FC = () => (
 );
 
 const ReportCardSkeleton: React.FC = () => (
-  <div className="bg-white rounded-lg overflow-hidden border border-gray-200 h-full">
+  <div className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm h-full">
     <div className="h-36 bg-gray-300 animate-pulse" />
     <div className="p-4">
       <div className="h-4 w-20 bg-gray-300 rounded animate-pulse mb-3" />
@@ -239,7 +239,7 @@ const ReportCardSkeleton: React.FC = () => (
 );
 
 const FeaturedCardSkeleton: React.FC = () => (
-  <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-200">
+  <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
     <div className="flex-1 min-h-[220px] bg-gray-300 animate-pulse" />
     <div className="p-6">
       <div className="flex items-start gap-3 mb-3">
@@ -254,7 +254,7 @@ const FeaturedCardSkeleton: React.FC = () => (
 );
 
 const NoReflectionsYet: React.FC = () => (
-  <div className="h-full min-h-[240px] flex flex-col items-center justify-center text-center bg-white rounded-xl border border-dashed border-gray-200 px-8">
+  <div className="h-full min-h-[240px] flex flex-col items-center justify-center text-center bg-white rounded-xl border border-dashed border-gray-300 px-8">
     <p className="text-sm font-bold text-gray-700 mb-1">No reflections yet</p>
     <p className="text-xs text-gray-400">Check back soon — new posts will show up here.</p>
   </div>

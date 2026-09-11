@@ -66,7 +66,7 @@ const LikeButton: React.FC<{ episode: AudioEpisode }> = ({ episode }) => {
 };
 
 const BigCard: React.FC<{ episode: AudioEpisode; playingId: string | null; onToggle: (e: AudioEpisode) => void }> = ({ episode, playingId, onToggle }) => (
-  <Link to={`/players/${episode.id}`} className="block bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 transition-colors">
+  <Link to={`/players/${episode.id}`} className="block bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm hover:border-gray-400 hover:shadow-md transition-all">
     <div className="relative h-64 bg-gray-100">
       <img src={episode.coverImage} alt={episode.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
       <button
@@ -88,7 +88,7 @@ const BigCard: React.FC<{ episode: AudioEpisode; playingId: string | null; onTog
 );
 
 const SmallCard: React.FC<{ episode: AudioEpisode }> = ({ episode }) => (
-  <Link to={`/players/${episode.id}`} className="flex items-center gap-4 bg-white border border-gray-200 rounded-lg p-3 hover:border-gray-300 transition-colors">
+  <Link to={`/players/${episode.id}`} className="flex items-center gap-4 bg-white border border-gray-300 rounded-lg p-3 shadow-sm hover:border-gray-400 hover:shadow-md transition-all">
     <img src={episode.coverImage} alt={episode.title} className="w-20 h-20 rounded object-cover shrink-0" loading="lazy" />
     <div className="min-w-0">
       <p className="text-sm font-bold text-gray-900 leading-snug line-clamp-2">{episode.title}</p>
@@ -113,7 +113,7 @@ const DeskColumn: React.FC<{ label: string; slot: 'MORNING' | 'EVENING'; episode
           {small && <SmallCard episode={small} />}
         </div>
       ) : (
-        <div className="h-64 flex items-center justify-center text-center text-sm text-gray-400 bg-white border border-dashed border-gray-200 rounded-lg">
+        <div className="h-64 flex items-center justify-center text-center text-sm text-gray-400 bg-white border border-dashed border-gray-300 rounded-lg">
           No {label.toLowerCase()} episodes yet
         </div>
       )}

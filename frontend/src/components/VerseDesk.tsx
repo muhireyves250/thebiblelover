@@ -47,7 +47,7 @@ const MetaRow: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
 );
 
 const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void; isSharing: boolean }> = ({ item, onShare, isSharing }) => (
-  <div className="h-full flex flex-col sm:flex-row bg-white border border-gray-200 rounded-lg overflow-hidden">
+  <div className="h-full flex flex-col sm:flex-row bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
     <div className="relative w-full sm:w-[45%] shrink-0 min-h-[220px] bg-gray-100 overflow-hidden">
       <img
         src={item.image || '/images/about.png'}
@@ -82,7 +82,7 @@ const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void;
 );
 
 const VerseCard: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
-  <div className="flex flex-1 bg-white border border-gray-200 rounded-lg overflow-hidden">
+  <div className="flex flex-1 bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
     <div className="relative w-28 sm:w-36 shrink-0 bg-gray-100 overflow-hidden">
       <img
         src={item.image || '/images/about.png'}
@@ -103,7 +103,7 @@ const VerseCard: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
 );
 
 const VerseCardSkeleton: React.FC = () => (
-  <div className="flex flex-1 bg-white border border-gray-200 rounded-lg overflow-hidden">
+  <div className="flex flex-1 bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
     <div className="w-28 sm:w-36 shrink-0 bg-gray-300 animate-pulse" />
     <div className="flex-1 p-4">
       <div className="h-3 w-16 bg-gray-300 rounded animate-pulse mb-3" />
@@ -115,7 +115,7 @@ const VerseCardSkeleton: React.FC = () => (
 );
 
 const NoVersesYet: React.FC = () => (
-  <div className="h-full min-h-[220px] flex flex-col items-center justify-center text-center bg-white rounded-lg border border-dashed border-gray-200 px-8">
+  <div className="h-full min-h-[220px] flex flex-col items-center justify-center text-center bg-white rounded-lg border border-dashed border-gray-300 px-8">
     <p className="text-sm font-bold text-gray-700 mb-1">No verses for this day</p>
     <p className="text-xs text-gray-400">Try another day, or check "All".</p>
   </div>
@@ -232,7 +232,7 @@ const VerseDesk: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
           <div className="lg:col-span-3">
             {!hasLoaded ? (
-              <div className="h-full flex flex-col sm:flex-row bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="h-full flex flex-col sm:flex-row bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
                 <div className="w-full sm:w-[45%] min-h-[220px] bg-gray-300 animate-pulse" />
                 <div className="flex-1 p-6">
                   <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
