@@ -8,6 +8,8 @@ const EventDetail = () => {
     const { id } = useParams<{ id: string }>();
     const [event, setEvent] = useState<Event | null>(null);
     const [loading, setLoading] = useState(true);
+    const [otherEvents, setOtherEvents] = useState<Event[]>([]);
+    const [otherEventsLoading, setOtherEventsLoading] = useState(true);
     const [isRSVPed, setIsRSVPed] = useState(false);
     const [currentUser, setCurrentUser] = useState<any>(null);
     const [showGuestForm, setShowGuestForm] = useState(false);
@@ -20,6 +22,15 @@ const EventDetail = () => {
         loadEvent();
         loadUser();
         if (id) setIsRSVPed(localStorage.getItem(`rsvped:${id}`) === '1');
+    }, [id]);
+
+    useEffect(() => {
+        setOtherEventsLoading(true);
+        eventAPI.getEvents().then((response) => {
+            if (response.success && response.data) {
+                setOtherEvents(response.data.filter((e) => e.id !== id).slice(0, 5));
+            }
+        }).finally(() => setOtherEventsLoading(false));
     }, [id]);
 
     const loadUser = async () => {
@@ -340,6 +351,60 @@ const EventDetail = () => {
                                 <Heart className="h-4 w-4" /> Save
                             </button>
                         </div>
+
+                        {/* Other Events */}
+                        {otherEventsLoading && otherEvents.length === 0 && (
+                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+                                <div className="h-3 w-24 bg-gray-200 rounded animate-pulse mb-4" />
+                                <div className="space-y-4">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="flex items-start gap-3">
+                                            <div className="w-16 h-16 rounded-md bg-gray-200 animate-pulse shrink-0" />
+                                            <div className="flex-1 space-y-2">
+                                                <div className="h-2.5 w-16 bg-gray-200 rounded animate-pulse" />
+                                                <div className="h-3.5 bg-gray-200 rounded animate-pulse w-full" />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {otherEvents.length > 0 && (
+                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Other Events</h3>
+                                    <Link to="/events" className="text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
+                                        See All &rarr;
+                                    </Link>
+                                </div>
+                                <div className="space-y-4">
+                                    {otherEvents.map((oe) => (
+                                        <Link key={oe.id} to={`/events/${oe.id}`} className="flex items-start gap-3 group">
+                                            <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                                                <img
+                                                    src={oe.thumbnail || 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=800'}
+                                                    alt={oe.title}
+                                                    className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                />
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <span className="block text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
+                                                    {oe.type}
+                                                </span>
+                                                <p className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
+                                                    {oe.title}
+                                                </p>
+                                                <span className="text-[11px] text-gray-400">
+                                                    {new Date(oe.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                </span>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </aside>
                 </div>
             </div>

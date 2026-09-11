@@ -24,7 +24,7 @@ async function main() {
             date: new Date(nextWeek.setHours(19, 0, 0, 0)),
             location: 'Main Sanctuary / Zoom Link: https://zoom.us/j/123456789',
             type: 'STUDY',
-            thumbnail: 'https://images.unsplash.com/photo-1504052434139-44b413697eb5?auto=format&fit=crop&q=80&w=800',
+            thumbnail: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800',
             authorId: admin.id
         },
         {
