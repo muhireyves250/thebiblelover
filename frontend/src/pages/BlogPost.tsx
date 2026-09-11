@@ -104,7 +104,15 @@ const BlogPost: React.FC = () => {
     });
   }, [post?.publishedAt]);
 
-  if (loading) {
+  {/*
+    loading/error/not-found only take over the WHOLE page on the very first
+    load (no post data yet). Once a post has been shown, navigating to a
+    different post (e.g. a Recent Stories link) keeps the previous post's
+    data on screen - including the sidebar - until the new post arrives,
+    instead of blanking the entire page (sidebar included) on every
+    navigation.
+  */}
+  if (loading && !post) {
     return (
       <div className="min-h-screen bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -121,7 +129,7 @@ const BlogPost: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (error && !post) {
     return (
       <div className="min-h-screen bg-white">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
