@@ -16,3 +16,4 @@ api/uploads/
 frontend/dist/
 api/package-lock.json
 frontend/package-lock.json
+.superpowers/
