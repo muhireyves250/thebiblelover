@@ -188,6 +188,7 @@ const BlogPost: React.FC = () => {
                     loading="lazy"
                     decoding="async"
                   />
+                  <AudioReader content={post.content} title={post.title} compact />
                 </div>
               )}
 
@@ -285,8 +286,6 @@ const BlogPost: React.FC = () => {
               </div>
             </div>
           </div>
-
-            <AudioReader content={post.content} title={post.title} />
 
             {/* Comments */}
             <section className="mt-12">

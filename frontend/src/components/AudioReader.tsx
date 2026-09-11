@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface AudioReaderProps {
   content: string;
   title?: string;
+  compact?: boolean;
 }
 
-const AudioReader: React.FC<AudioReaderProps> = ({ content, title }) => {
+const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = false }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
@@ -115,6 +116,30 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title }) => {
       speak();
     }
   };
+
+  if (compact) {
+    return (
+      <button
+        onClick={(!isSpeaking || isPaused) ? speak : pause}
+        aria-label={(!isSpeaking || isPaused) ? 'Play audio' : 'Pause audio'}
+        className="absolute inset-0 flex items-center justify-center group/audio"
+      >
+        <span className="absolute inset-0 bg-black/20 group-hover/audio:bg-black/30 transition-colors" />
+        <span
+          className={`relative flex items-center justify-center w-14 h-14 rounded-full bg-amber-700/90 group-hover/audio:bg-amber-700 shadow-lg transition-all duration-300 ${isSpeaking && !isPaused ? 'scale-110' : ''}`}
+        >
+          {(!isSpeaking || isPaused) ? (
+            <Play className="h-6 w-6 text-white fill-current ml-0.5" />
+          ) : (
+            <Pause className="h-6 w-6 text-white fill-current" />
+          )}
+        </span>
+        <span className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-black/70 rounded text-[10px] font-black uppercase tracking-widest text-white">
+          <Volume2 className="w-3 h-3" /> Listen
+        </span>
+      </button>
+    );
+  }
 
   return (
     <div className="w-full max-w-2xl mb-12">
