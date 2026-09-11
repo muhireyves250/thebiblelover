@@ -35,10 +35,39 @@ async function main() {
             type: 'WORSHIP',
             thumbnail: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&q=80&w=800',
             authorId: admin.id
+        },
+        {
+            title: 'Community Food Drive',
+            description: 'Help us pack and distribute meals for families in need across the city. Volunteers of all ages welcome - no experience necessary.',
+            date: new Date(new Date(nextWeek).setDate(nextWeek.getDate() + 6)),
+            location: 'Fellowship Hall',
+            type: 'COMMUNITY',
+            thumbnail: 'https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&q=80&w=800',
+            authorId: admin.id
+        },
+        {
+            title: 'Youth Game Night',
+            description: 'A night of games, snacks, and fellowship for middle and high schoolers. Bring a friend!',
+            date: new Date(new Date(nextWeek).setDate(nextWeek.getDate() + 10)),
+            location: 'Youth Center',
+            type: 'YOUTH',
+            thumbnail: 'https://images.unsplash.com/photo-1470075801209-17f9ec0cada6?auto=format&fit=crop&q=80&w=800',
+            authorId: admin.id
+        },
+        {
+            title: 'Sunday Morning Prayer Gathering',
+            description: 'Start the week grounded in prayer. We will lift up our community, our city, and one another before the service begins.',
+            date: new Date(new Date(nextWeek).setDate(nextWeek.getDate() + 13)),
+            location: 'Prayer Chapel',
+            type: 'WORSHIP',
+            thumbnail: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80&w=800',
+            authorId: admin.id
         }
     ];
 
     for (const e of events) {
+        const existing = await prisma.event.findFirst({ where: { title: e.title } });
+        if (existing) continue;
         await prisma.event.create({
             data: e
         });
