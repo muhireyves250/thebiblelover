@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { BookOpen, Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History } from 'lucide-react';
+import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History } from 'lucide-react';
 import { useLogoSettings } from '../hooks/useLogoSettings';
+import IhemaLogo from './IhemaLogo';
 import { useSocialSettings } from '../hooks/useSocialSettings';
 import ThemeToggle from './ThemeToggle';
 import NotificationCenter from './NotificationCenter';
@@ -103,10 +104,7 @@ const Header = () => {
                   className="h-8 md:h-10 object-contain"
                 />
               ) : (
-                <>
-                  <BookOpen className="h-7 w-7 md:h-8 md:w-8 text-amber-700 dark:text-amber-500" />
-                  <span className="text-xl md:text-2xl font-serif text-gray-900 dark:text-gray-100 tracking-wide">{logoSettings.logoText}</span>
-                </>
+                <IhemaLogo />
               )}
             </Link>
           </div>
