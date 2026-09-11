@@ -298,7 +298,7 @@ const EventDetail = () => {
                     </article>
 
                     {/* Sidebar */}
-                    <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start">
+                    <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
                         <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
                             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Event Details</h3>
                             <dl className="space-y-1">
