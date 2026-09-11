@@ -29,6 +29,8 @@ const Login = lazy(() => import('./pages/Login'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Players = lazy(() => import('./pages/Players'));
 const PlayerDetail = lazy(() => import('./pages/PlayerDetail'));
+const Verses = lazy(() => import('./pages/Verses'));
+const VerseDetail = lazy(() => import('./pages/VerseDetail'));
 const Posts = lazy(() => import('./pages/Posts'));
 const Search = lazy(() => import('./pages/Search'));
 const PrayerWall = lazy(() => import('./pages/PrayerWall'));
@@ -111,6 +113,20 @@ function AppContent() {
               <PageTransition>
                 <Header />
                 <PlayerDetail />
+                <Footer />
+              </PageTransition>
+            } />
+            <Route path="/verses" element={
+              <PageTransition>
+                <Header />
+                <Verses />
+                <Footer />
+              </PageTransition>
+            } />
+            <Route path="/verses/:id" element={
+              <PageTransition>
+                <Header />
+                <VerseDetail />
                 <Footer />
               </PageTransition>
             } />

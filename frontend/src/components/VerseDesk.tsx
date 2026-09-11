@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronRight, Share2 } from 'lucide-react';
 import { useVerseArchive, type VerseArchiveItem } from '../hooks/useVerseArchive';
 import { useBibleVerse } from '../hooks/useBibleVerse';
@@ -48,7 +49,7 @@ const MetaRow: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
 
 const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void; isSharing: boolean }> = ({ item, onShare, isSharing }) => (
   <div className="h-full flex flex-col sm:flex-row bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
-    <div className="relative w-full sm:w-[45%] shrink-0 min-h-[220px] bg-gray-100 overflow-hidden">
+    <Link to={`/verses/${item.id}`} className="relative w-full sm:w-[45%] shrink-0 min-h-[220px] bg-gray-100 overflow-hidden block">
       <img
         src={item.image || '/images/about.png'}
         alt={item.reference}
@@ -58,12 +59,14 @@ const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void;
       <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-black/70 text-white text-[10px] font-bold uppercase tracking-wider rounded">
         {dayAbbrev(item.displayDate)}
       </span>
-    </div>
+    </Link>
     <div className="relative flex-1 p-6 flex flex-col justify-center border-t sm:border-t-0 sm:border-l-4 border-amber-700">
       <CategoryTag item={item} />
-      <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug mb-3 line-clamp-4">
-        "{item.text}"
-      </h3>
+      <Link to={`/verses/${item.id}`}>
+        <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug mb-3 line-clamp-4 hover:text-amber-700 transition-colors">
+          "{item.text}"
+        </h3>
+      </Link>
       <p className="text-sm text-gray-500 leading-relaxed">
         {item.reference} ({item.translation})
       </p>
@@ -82,7 +85,7 @@ const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void;
 );
 
 const VerseCard: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
-  <div className="flex flex-1 bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
+  <Link to={`/verses/${item.id}`} className="flex flex-1 bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm hover:border-gray-400 hover:shadow-md transition-all">
     <div className="relative w-28 sm:w-36 shrink-0 bg-gray-100 overflow-hidden">
       <img
         src={item.image || '/images/about.png'}
@@ -93,13 +96,13 @@ const VerseCard: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
     </div>
     <div className="flex-1 p-4 min-w-0">
       <CategoryTag item={item} />
-      <h4 className="text-sm font-bold text-gray-900 uppercase leading-snug line-clamp-2 mb-1">
+      <h4 className="text-sm font-bold text-gray-900 uppercase leading-snug line-clamp-2 mb-1 hover:text-amber-700 transition-colors">
         "{item.text}"
       </h4>
       <p className="text-xs text-gray-400">{item.reference}</p>
       <MetaRow item={item} />
     </div>
-  </div>
+  </Link>
 );
 
 const VerseCardSkeleton: React.FC = () => (
@@ -193,12 +196,12 @@ const VerseDesk: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Verse of the Day</h2>
             <p className="text-sm text-gray-500 mt-2">Daily encouragement · Scripture · Faith &amp; reflection</p>
           </div>
-          <a
-            href="#verse-desk-all"
+          <Link
+            to="/verses"
             className="flex items-center gap-2 px-5 py-2.5 border border-gray-300 rounded-md text-xs font-bold uppercase tracking-widest text-gray-700 hover:bg-gray-50 transition-colors shrink-0"
           >
             All Verses <ChevronRight className="w-3.5 h-3.5" />
-          </a>
+          </Link>
         </div>
 
         <div className="border-t border-gray-200 mb-5" />
