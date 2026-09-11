@@ -29,14 +29,14 @@ const BlogPost: React.FC = () => {
 
   // Recent stories (sidebar list)
   const { data: recentData } = useFetch<any>(() => blogAPI.getPosts({ page: 1, limit: 5 }), []);
-  const recentPosts = (recentData?.posts || []).filter((p: any) => p.slug !== slug).slice(0, 4);
+  const recentPosts = (recentData?.data?.posts || recentData?.posts || []).filter((p: any) => p.slug !== slug).slice(0, 4);
 
   // Comments
   const { data: commentsData, refetch: refetchComments } = useFetch<any>(
     () => (post?.id ? blogAPI.getComments(post.id) : Promise.resolve({ success: true, data: { comments: [] } })),
     [post?.id]
   );
-  const comments = commentsData?.comments || [];
+  const comments = commentsData?.data?.comments || commentsData?.comments || [];
 
   // Like state
   const [isLiking, setIsLiking] = useState<boolean>(false);
