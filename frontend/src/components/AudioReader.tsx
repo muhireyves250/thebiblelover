@@ -19,6 +19,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
   
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const keepAliveRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const loadVoices = () => {
@@ -35,6 +36,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
     return () => {
       window.speechSynthesis.cancel();
       if (timerRef.current) clearInterval(timerRef.current);
+      if (keepAliveRef.current) clearInterval(keepAliveRef.current);
     };
   }, []);
 
@@ -61,6 +63,14 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
       setIsPaused(false);
       setProgress(100);
       if (timerRef.current) clearInterval(timerRef.current);
+      if (keepAliveRef.current) clearInterval(keepAliveRef.current);
+    };
+
+    newUtterance.onerror = () => {
+      setIsSpeaking(false);
+      setIsPaused(false);
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (keepAliveRef.current) clearInterval(keepAliveRef.current);
     };
 
     utteranceRef.current = newUtterance;
@@ -69,6 +79,18 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
     setIsPaused(false);
     setProgress(0);
     startProgressTimer();
+
+    // Chrome silently stops speaking ~15s into any utterance unless the
+    // synthesizer is nudged periodically - pause/resume is the standard
+    // workaround for that bug, which otherwise makes longer posts (like
+    // this one) cut off partway through with no error.
+    if (keepAliveRef.current) clearInterval(keepAliveRef.current);
+    keepAliveRef.current = setInterval(() => {
+      if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.pause();
+        window.speechSynthesis.resume();
+      }
+    }, 10000);
   };
 
   const startProgressTimer = () => {
@@ -96,6 +118,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
     setIsPaused(false);
     setProgress(0);
     if (timerRef.current) clearInterval(timerRef.current);
+    if (keepAliveRef.current) clearInterval(keepAliveRef.current);
   };
 
   const reset = () => {
@@ -104,6 +127,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
     setIsPaused(false);
     setProgress(0);
     if (timerRef.current) clearInterval(timerRef.current);
+    if (keepAliveRef.current) clearInterval(keepAliveRef.current);
   };
 
   const toggleSpeed = () => {
