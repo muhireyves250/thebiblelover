@@ -12,6 +12,7 @@ const PlayerDetail: React.FC = () => {
   const [episode, setEpisode] = useState<AudioEpisode | null>(null);
   const [comments, setComments] = useState<AudioComment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   const [isLiking, setIsLiking] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -22,6 +23,7 @@ const PlayerDetail: React.FC = () => {
   const [commentContent, setCommentContent] = useState('');
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [commentSubmitted, setCommentSubmitted] = useState(false);
+  const [commentError, setCommentError] = useState('');
 
   const refetchComments = async () => {
     if (!id) return;
@@ -32,15 +34,21 @@ const PlayerDetail: React.FC = () => {
   useEffect(() => {
     if (!id) return;
     setLoading(true);
+    setLoadError(false);
     audioEpisodesAPI.getEpisode(id).then((response) => {
       if (response.success && response.data) {
         setEpisode(response.data.episode);
         setLikeCount(response.data.episode.likes);
         setIsLiked(localStorage.getItem(`liked:episode:${id}`) === '1');
+      } else {
+        setLoadError(true);
       }
       setLoading(false);
+    }).catch(() => {
+      setLoadError(true);
+      setLoading(false);
     });
-    refetchComments();
+    refetchComments().catch(() => {});
   }, [id]);
 
   const handleLike = async () => {
@@ -67,12 +75,19 @@ const PlayerDetail: React.FC = () => {
     e.preventDefault();
     if (!id) return;
     setIsSubmittingComment(true);
+    setCommentError('');
     try {
-      await audioEpisodesAPI.addComment(id, { authorName, authorEmail, content: commentContent });
-      setAuthorName('');
-      setAuthorEmail('');
-      setCommentContent('');
-      setCommentSubmitted(true);
+      const response = await audioEpisodesAPI.addComment(id, { authorName, authorEmail, content: commentContent });
+      if (response.success) {
+        setAuthorName('');
+        setAuthorEmail('');
+        setCommentContent('');
+        setCommentSubmitted(true);
+      } else {
+        setCommentError(response.message || 'Failed to submit comment. Please try again.');
+      }
+    } catch {
+      setCommentError('Failed to submit comment. Please try again.');
     } finally {
       setIsSubmittingComment(false);
     }
@@ -80,6 +95,10 @@ const PlayerDetail: React.FC = () => {
 
   if (loading) {
     return <div className="max-w-3xl mx-auto px-4 py-20 text-center text-gray-500">Loading...</div>;
+  }
+
+  if (loadError) {
+    return <div className="max-w-3xl mx-auto px-4 py-20 text-center text-gray-500">Failed to load episode. Please try again later.</div>;
   }
 
   if (!episode) {
@@ -141,6 +160,11 @@ const PlayerDetail: React.FC = () => {
             </div>
           ) : (
             <form onSubmit={submitComment} className="space-y-5 bg-gray-50 border border-gray-200 p-5 rounded-lg">
+              {commentError && (
+                <div className="bg-red-50 border border-red-200 rounded-md p-3 text-sm text-red-700">
+                  {commentError}
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="commentName" className="block text-sm text-gray-700 mb-1">Name</label>

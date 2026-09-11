@@ -14,16 +14,23 @@ const Players: React.FC = () => {
 
   const [episodes, setEpisodes] = useState<AudioEpisode[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     setLoading(true);
+    setLoadError(false);
     audioEpisodesAPI.getEpisodes({ slot, page, limit: 12 }).then((response) => {
       if (response.success && response.data) {
         setEpisodes(response.data.episodes);
         setTotalPages(response.data.pagination.totalPages);
+      } else {
+        setLoadError(true);
       }
+      setLoading(false);
+    }).catch(() => {
+      setLoadError(true);
       setLoading(false);
     });
   }, [slot, page]);
@@ -67,6 +74,8 @@ const Players: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map(i => <div key={i} className="h-48 bg-gray-200 animate-pulse rounded-lg" />)}
           </div>
+        ) : loadError ? (
+          <p className="text-gray-500">Failed to load episodes. Please try again later.</p>
         ) : episodes.length === 0 ? (
           <p className="text-gray-500">No episodes found.</p>
         ) : (

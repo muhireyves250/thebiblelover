@@ -8,17 +8,23 @@ import EditAudioEpisodeModal from './EditAudioEpisodeModal';
 const AudioEpisodeManager: React.FC = () => {
   const [episodes, setEpisodes] = useState<AudioEpisode[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingEpisode, setEditingEpisode] = useState<AudioEpisode | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   const loadEpisodes = async () => {
     setLoading(true);
+    setLoadError(false);
     try {
       const response = await audioEpisodesAPI.getAllEpisodes();
       if (response.success && response.data) {
         setEpisodes(response.data.episodes);
+      } else {
+        setLoadError(true);
       }
+    } catch {
+      setLoadError(true);
     } finally {
       setLoading(false);
     }
@@ -50,6 +56,8 @@ const AudioEpisodeManager: React.FC = () => {
 
       {loading ? (
         <p className="text-sm text-gray-500">Loading episodes...</p>
+      ) : loadError ? (
+        <p className="text-sm text-red-600">Failed to load episodes. Please try again later.</p>
       ) : episodes.length === 0 ? (
         <p className="text-sm text-gray-500">No episodes yet.</p>
       ) : (

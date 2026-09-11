@@ -122,12 +122,13 @@ const DeskColumn: React.FC<{ label: string; slot: 'MORNING' | 'EVENING'; episode
 };
 
 const PlayerDesk: React.FC = () => {
-  const { episodes, hasLoaded } = useAudioEpisodes(20);
+  const { episodes, hasLoaded, error } = useAudioEpisodes(20);
   const { playingId, toggle } = useInlinePlayer();
 
   const morning = useMemo(() => episodes.filter(e => e.slot === 'MORNING').slice(0, 2), [episodes]);
   const evening = useMemo(() => episodes.filter(e => e.slot === 'EVENING').slice(0, 2), [episodes]);
 
+  if (error) return null;
   if (hasLoaded && episodes.length === 0) return null;
 
   return (
