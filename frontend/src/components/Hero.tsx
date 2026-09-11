@@ -49,7 +49,7 @@ const Hero = () => {
           <div className="w-24 h-1 bg-amber-600/30 mx-auto mb-6 rounded-full overflow-hidden">
             <div className="w-1/2 h-full bg-amber-600 animate-shimmer-fast"></div>
           </div>
-          <p className="text-xs md:text-sm font-bold tracking-[0.4em] uppercase text-amber-700 dark:text-amber-500">
+          <p className="text-xs md:text-sm font-bold tracking-[0.4em] uppercase text-amber-700/80 dark:text-amber-500/80">
             {settings?.heroSection?.content || 'WALK IN THE LIGHT OF HIS WORD'}
           </p>
         </div>
