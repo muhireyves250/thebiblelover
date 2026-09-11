@@ -81,159 +81,164 @@ const EventDetail = () => {
     if (!event) {
         return (
             <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-                <h2 className="text-3xl font-bold mb-4">Event not found</h2>
-                <Link to="/events" className="text-amber-600 font-bold flex items-center gap-2">
-                    <ArrowLeft className="h-5 w-5" /> Back to Calendar
+                <h2 className="text-2xl font-serif text-gray-900 mb-4">Event not found</h2>
+                <Link to="/events" className="text-amber-700 font-bold flex items-center gap-2 hover:text-amber-800 transition-colors">
+                    <ArrowLeft className="h-4 w-4" /> Back to Calendar
                 </Link>
             </div>
         );
     }
 
     const startDate = new Date(event.date);
+    const isToday = new Date(event.date).toLocaleDateString() === new Date().toLocaleDateString();
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Dynamic Background Header */}
-            <div className="relative h-[40vh] md:h-[50vh] overflow-hidden">
-                <img
-                    src={event.thumbnail || "https://images.unsplash.com/photo-1544427928-c49dd24428c8?auto=format&fit=crop&q=80&w=2000"}
-                    alt=""
-                    className="w-full h-full object-cover blur-sm scale-110 opacity-30"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white"></div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                {/* Breadcrumb */}
+                <nav className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">
+                    <Link to="/" className="hover:text-amber-700 transition-colors">Home</Link>
+                    <span className="mx-2">/</span>
+                    <Link to="/events" className="hover:text-amber-700 transition-colors">Events</Link>
+                    <span className="mx-2">/</span>
+                    <span className="text-amber-700">{event.type}</span>
+                </nav>
 
-                <div className="absolute bottom-0 left-0 w-full px-4 pb-12">
-                    <div className="max-w-7xl mx-auto">
-                        <Link to="/events" className="inline-flex items-center gap-2 text-gray-600 font-bold mb-8 hover:text-amber-600 transition-colors bg-white/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/50">
-                            <ArrowLeft className="h-5 w-5" /> Back to Calendar
-                        </Link>
-                        <div className="flex flex-wrap items-center gap-4 mb-6">
-                            <span className="px-5 py-1.5 bg-amber-100 text-amber-700 rounded-full text-xs font-black uppercase tracking-widest border border-amber-200">
-                                {event.type}
-                            </span>
-                            {new Date(event.date).toLocaleDateString() === new Date().toLocaleDateString() && (
-                                <span className="px-5 py-1.5 bg-red-100 text-red-600 rounded-full text-xs font-black uppercase tracking-widest border border-red-200 animate-pulse">
-                                    Live Today
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                    {/* Main column */}
+                    <article className="lg:col-span-2">
+                        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
+                            <div className="flex flex-wrap items-center gap-2 mb-4">
+                                <span className="inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded">
+                                    {event.type}
                                 </span>
-                            )}
-                        </div>
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight md:max-w-4xl">
-                            {event.title}
-                        </h1>
-                    </div>
-                </div>
-            </div>
+                                {isToday && (
+                                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-red-50 text-red-600 border border-red-200 text-[10px] font-black uppercase tracking-widest rounded">
+                                        <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse" />
+                                        Live Today
+                                    </span>
+                                )}
+                            </div>
 
-            <div className="max-w-7xl mx-auto px-4 py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-                    {/* Main Info */}
-                    <div className="lg:col-span-2 space-y-12">
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-900 mb-6">About this Event</h2>
-                            <p className="text-xl text-gray-600 leading-relaxed font-serif">
+                            <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-6">
+                                {event.title}
+                            </h1>
+
+                            {event.thumbnail && (
+                                <div className="relative w-full h-64 md:h-80 mb-6 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                                    <img
+                                        src={event.thumbnail}
+                                        alt={event.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            )}
+
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+                                <h2 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">About this Event</h2>
+                            </div>
+                            <p className="text-gray-700 leading-relaxed">
                                 {event.description}
                             </p>
                         </div>
 
-                        <div className="bg-gray-50 rounded-[3rem] p-10 md:p-12 border border-blue-100/50">
-                            <h3 className="text-xl font-bold text-gray-900 mb-8 flex items-center gap-3">
-                                <Users className="h-6 w-6 text-amber-600" />
-                                Who's Joining?
-                            </h3>
+                        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8">
+                            <div className="flex items-center gap-2 mb-6">
+                                <Users className="h-4 w-4 text-amber-700" />
+                                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Who's Joining?</h3>
+                            </div>
                             <div className="flex flex-wrap gap-4">
                                 {event.rsvps && event.rsvps.length > 0 ? (
                                     event.rsvps.map((rsvp: any) => (
                                         <div key={rsvp.id} className="group relative">
-                                            <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center overflow-hidden border-2 border-transparent group-hover:border-amber-500 transition-all">
+                                            <div className="w-12 h-12 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center overflow-hidden">
                                                 {rsvp.profileImage ? (
                                                     <img src={rsvp.profileImage} alt={rsvp.name} className="w-full h-full object-cover" />
                                                 ) : (
-                                                    <UserIcon className="h-6 w-6 text-gray-300" />
+                                                    <UserIcon className="h-5 w-5 text-amber-700" />
                                                 )}
                                             </div>
-                                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap text-[10px] font-bold bg-gray-900 text-white px-2 py-1 rounded-md z-10 pointer-events-none">
+                                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-[10px] font-bold bg-gray-900 text-white px-2 py-1 rounded z-10 pointer-events-none">
                                                 {rsvp.name}
                                             </div>
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-gray-400 italic">No RSVPs yet. Be the first to join!</p>
+                                    <p className="text-gray-400 text-sm italic">No RSVPs yet. Be the first to join!</p>
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </article>
 
-                    {/* Sidebar Actions */}
-                    <div className="relative">
-                        <div className="sticky top-32 space-y-8">
-                            <div className="bg-white rounded-[2.5rem] p-10 border border-gray-100 shadow-2xl shadow-gray-200/50">
-                                <div className="space-y-8 mb-10">
-                                    <div className="flex gap-4">
-                                        <div className="h-12 w-12 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0 border border-amber-100">
-                                            <Calendar className="h-6 w-6 text-amber-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">Date</p>
-                                            <p className="text-lg font-bold text-gray-900">{startDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex gap-4">
-                                        <div className="h-12 w-12 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0 border border-amber-100">
-                                            <Clock className="h-6 w-6 text-amber-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">Time</p>
-                                            <p className="text-lg font-bold text-gray-900">{startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex gap-4">
-                                        <div className="h-12 w-12 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0 border border-amber-100">
-                                            <MapPin className="h-6 w-6 text-amber-600" />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-[10px] font-black uppercase text-gray-400 tracking-widest mb-1">Location</p>
-                                            <p className="text-lg font-bold text-gray-900 truncate">{event.location}</p>
-                                            {event.location.includes('http') && (
-                                                <a href={event.location} target="_blank" rel="noopener noreferrer" className="text-amber-600 text-xs font-bold inline-flex items-center gap-1 mt-1 hover:underline">
-                                                    Open Link <ExternalLink className="h-3 w-3" />
-                                                </a>
-                                            )}
-                                        </div>
-                                    </div>
+                    {/* Sidebar */}
+                    <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start">
+                        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+                            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Event Details</h3>
+                            <dl className="space-y-1">
+                                <div className="flex items-start justify-between gap-3 py-2.5 border-b border-gray-100">
+                                    <dt className="flex items-center gap-2 text-gray-500 text-sm shrink-0">
+                                        <Calendar className="w-3.5 h-3.5 text-amber-700" />
+                                        Date
+                                    </dt>
+                                    <dd className="font-bold text-gray-900 text-sm text-right">
+                                        {startDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                                    </dd>
                                 </div>
-
-                                <div className="space-y-4">
-                                    <button
-                                        onClick={handleRSVP}
-                                        className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest transition-all shadow-xl ${isRSVPed
-                                            ? 'bg-amber-100 text-amber-700 hover:bg-red-50 hover:text-red-600 border border-amber-200'
-                                            : 'bg-amber-600 text-white hover:bg-amber-700 shadow-amber-600/30'
-                                            } flex items-center justify-center gap-3`}
-                                    >
-                                        {isRSVPed ? (
-                                            <><CheckCircle2 className="h-5 w-5" /> Selected to Join</>
-                                        ) : (
-                                            'Join this Event'
+                                <div className="flex items-start justify-between gap-3 py-2.5 border-b border-gray-100">
+                                    <dt className="flex items-center gap-2 text-gray-500 text-sm shrink-0">
+                                        <Clock className="w-3.5 h-3.5 text-amber-700" />
+                                        Time
+                                    </dt>
+                                    <dd className="font-bold text-gray-900 text-sm">
+                                        {startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                                    </dd>
+                                </div>
+                                <div className="flex items-start justify-between gap-3 py-2.5">
+                                    <dt className="flex items-center gap-2 text-gray-500 text-sm shrink-0">
+                                        <MapPin className="w-3.5 h-3.5 text-amber-700" />
+                                        Location
+                                    </dt>
+                                    <dd className="font-bold text-gray-900 text-sm text-right min-w-0">
+                                        <span className="block truncate">{event.location}</span>
+                                        {event.location.includes('http') && (
+                                            <a href={event.location} target="_blank" rel="noopener noreferrer" className="text-amber-700 text-xs font-bold inline-flex items-center gap-1 mt-1 hover:text-amber-800 hover:underline">
+                                                Open Link <ExternalLink className="h-3 w-3" />
+                                            </a>
                                         )}
-                                    </button>
-                                    <p className="text-center text-[10px] text-gray-400 font-bold tracking-widest uppercase">
-                                        {event._count?.rsvps || 0} People are confirmed
-                                    </p>
+                                    </dd>
                                 </div>
-                            </div>
+                            </dl>
 
-                            <div className="flex gap-4">
-                                <button className="flex-1 py-4 bg-gray-50 rounded-2xl flex items-center justify-center gap-2 font-bold text-gray-500 hover:bg-gray-100 transition-colors">
-                                    <Share2 className="h-5 w-5" /> Share
+                            <div className="mt-5 pt-5 border-t border-gray-100 space-y-3">
+                                <button
+                                    onClick={handleRSVP}
+                                    className={`w-full py-3 rounded-md text-sm font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 ${isRSVPed
+                                        ? 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200'
+                                        : 'bg-amber-700 text-white hover:bg-amber-800'
+                                        }`}
+                                >
+                                    {isRSVPed ? (
+                                        <><CheckCircle2 className="h-4 w-4" /> Selected to Join</>
+                                    ) : (
+                                        'Join this Event'
+                                    )}
                                 </button>
-                                <button className="flex-1 py-4 bg-gray-50 rounded-2xl flex items-center justify-center gap-2 font-bold text-gray-500 hover:bg-gray-100 transition-colors">
-                                    <Heart className="h-5 w-5" /> Save
-                                </button>
+                                <p className="text-center text-[10px] text-gray-400 font-bold tracking-widest uppercase">
+                                    {event._count?.rsvps || 0} People are confirmed
+                                </p>
                             </div>
                         </div>
-                    </div>
+
+                        <div className="flex gap-3">
+                            <button className="flex-1 py-2.5 border border-gray-300 rounded-md flex items-center justify-center gap-1.5 text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors">
+                                <Share2 className="h-4 w-4" /> Share
+                            </button>
+                            <button className="flex-1 py-2.5 border border-gray-300 rounded-md flex items-center justify-center gap-1.5 text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors">
+                                <Heart className="h-4 w-4" /> Save
+                            </button>
+                        </div>
+                    </aside>
                 </div>
             </div>
         </div>
