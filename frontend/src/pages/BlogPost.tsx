@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { blogAPI, authAPI, searchAPI } from '../services/api';
-import { useFetch } from '../hooks/useAPI';
+import { useFetch, useCachedFetch } from '../hooks/useAPI';
 import { Heart, Eye, MessageCircle } from 'lucide-react';
 import SEO from '../components/SEO';
 import ShareButtons from '../components/ShareButtons';
@@ -13,7 +13,11 @@ const categoryLabel = (category?: string) => (category || 'Reflection').replace(
 const BlogPost: React.FC = () => {
   const { slug = '' } = useParams<{ slug: string }>();
 
-  const { data, loading, error, refetch } = useFetch<any>(() => blogAPI.getPost(slug), [slug]);
+  const { data, loading, error, refetch } = useCachedFetch<any>(
+    slug ? `post:v1:${slug}` : null,
+    () => blogAPI.getPost(slug),
+    { ttl: 5 * 60 * 1000 }
+  );
   const post = data?.data?.post || data?.post;
 
   useEffect(() => {
