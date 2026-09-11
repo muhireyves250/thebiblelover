@@ -16,7 +16,7 @@ const Terms: React.FC = () => {
             <SEO title="Terms of Service" description="Guidelines for the Bible Lover community." />
             <PageHeader title="Terms of Service" subtitle="WALKING TOGETHER IN UNITY" />
 
-            <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <p className="text-sm text-gray-400 mb-8">Last Updated: March 12, 2026</p>
 
                 <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
