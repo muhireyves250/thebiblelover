@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Calendar, MapPin, Clock, Users, ArrowLeft, Share2, Heart, CheckCircle2, User as UserIcon, ExternalLink } from 'lucide-react';
+import { Calendar, MapPin, Clock, Users, ArrowLeft, Share2, Heart, CheckCircle2, User as UserIcon, ExternalLink, X } from 'lucide-react';
 import { eventAPI, authAPI } from '../services/api';
 import type { Event } from '../services/api.d';
 
@@ -10,6 +10,11 @@ const EventDetail = () => {
     const [loading, setLoading] = useState(true);
     const [isRSVPed, setIsRSVPed] = useState(false);
     const [currentUser, setCurrentUser] = useState<any>(null);
+    const [showGuestForm, setShowGuestForm] = useState(false);
+    const [guestName, setGuestName] = useState('');
+    const [guestEmail, setGuestEmail] = useState('');
+    const [guestSubmitting, setGuestSubmitting] = useState(false);
+    const [guestError, setGuestError] = useState('');
 
     useEffect(() => {
         loadEvent();
@@ -55,26 +60,48 @@ const EventDetail = () => {
     const handleRSVP = async () => {
         if (!id) return;
 
-        try {
-            // A signed-in user's RSVP toggles server-side per account. A
-            // guest's tap isn't individually identifiable, so the guest's
-            // own "am I joining" state lives in localStorage and we tell
-            // the server which direction to move the shared counter.
-            const isGuest = !currentUser;
-            const guestKey = `rsvped:${id}`;
-            const nextJoining = isGuest ? localStorage.getItem(guestKey) !== '1' : undefined;
+        // A signed-in user's RSVP toggles server-side per account, no form
+        // needed since we already have their name/email. A guest has to
+        // fill in their details first, so open the form instead of calling
+        // the API directly.
+        if (!currentUser) {
+            setShowGuestForm(true);
+            return;
+        }
 
-            const response = await eventAPI.rsvp(id, isGuest ? { joining: nextJoining } : undefined);
+        try {
+            const response = await eventAPI.rsvp(id);
             if (response.success) {
-                if (isGuest) {
-                    if (nextJoining) localStorage.setItem(guestKey, '1');
-                    else localStorage.removeItem(guestKey);
-                }
                 setIsRSVPed(response.rsvpStatus);
                 loadEvent(); // Refresh to update count
             }
         } catch (err) {
             console.error('RSVP failed:', err);
+        }
+    };
+
+    const handleGuestRSVP = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!id) return;
+
+        setGuestSubmitting(true);
+        setGuestError('');
+        try {
+            const response = await eventAPI.rsvp(id, { guestName, guestEmail });
+            if (response.success) {
+                localStorage.setItem(`rsvped:${id}`, '1');
+                setIsRSVPed(true);
+                setShowGuestForm(false);
+                setGuestName('');
+                setGuestEmail('');
+                loadEvent();
+            } else {
+                setGuestError(response.message || 'Failed to RSVP. Please try again.');
+            }
+        } catch (err) {
+            setGuestError('Failed to RSVP. Please try again.');
+        } finally {
+            setGuestSubmitting(false);
         }
     };
 
@@ -210,7 +237,7 @@ const EventDetail = () => {
                                 <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Who's Joining?</h3>
                             </div>
                             <div className="flex flex-wrap gap-4">
-                                {event.rsvps && event.rsvps.length > 0 ? (
+                                {event.rsvps && event.rsvps.length > 0 && (
                                     event.rsvps.map((rsvp: any) => (
                                         <div key={rsvp.id} className="group relative">
                                             <div className="w-12 h-12 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center overflow-hidden">
@@ -225,7 +252,20 @@ const EventDetail = () => {
                                             </div>
                                         </div>
                                     ))
-                                ) : (
+                                )}
+                                {event.guestRsvps && event.guestRsvps.length > 0 && (
+                                    event.guestRsvps.map((rsvp) => (
+                                        <div key={rsvp.id} className="group relative">
+                                            <div className="w-12 h-12 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center">
+                                                <UserIcon className="h-5 w-5 text-gray-400" />
+                                            </div>
+                                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-[10px] font-bold bg-gray-900 text-white px-2 py-1 rounded z-10 pointer-events-none">
+                                                {rsvp.guestName}
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                                {(!event.rsvps || event.rsvps.length === 0) && (!event.guestRsvps || event.guestRsvps.length === 0) && (
                                     <p className="text-gray-400 text-sm italic">No RSVPs yet. Be the first to join!</p>
                                 )}
                             </div>
@@ -274,13 +314,14 @@ const EventDetail = () => {
                             <div className="mt-5 pt-5 border-t border-gray-100 space-y-3">
                                 <button
                                     onClick={handleRSVP}
+                                    disabled={isRSVPed && !currentUser}
                                     className={`w-full py-3 rounded-md text-sm font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 ${isRSVPed
-                                        ? 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200'
+                                        ? `bg-amber-50 text-amber-700 border border-amber-200 ${currentUser ? 'hover:bg-red-50 hover:text-red-600 hover:border-red-200' : 'cursor-default'}`
                                         : 'bg-amber-700 text-white hover:bg-amber-800'
                                         }`}
                                 >
                                     {isRSVPed ? (
-                                        <><CheckCircle2 className="h-4 w-4" /> Selected to Join</>
+                                        <><CheckCircle2 className="h-4 w-4" /> {currentUser ? 'Selected to Join' : "You're Joining"}</>
                                     ) : (
                                         'Join this Event'
                                     )}
@@ -302,6 +343,69 @@ const EventDetail = () => {
                     </aside>
                 </div>
             </div>
+
+            {/* Guest RSVP Modal */}
+            {showGuestForm && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
+                    <div className="bg-white border border-gray-300 rounded-lg shadow-sm max-w-md w-full p-6 md:p-8 relative">
+                        <button
+                            onClick={() => setShowGuestForm(false)}
+                            className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                            <X className="h-5 w-5" />
+                        </button>
+
+                        <div className="mb-6">
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+                                <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Join this Event</span>
+                            </div>
+                            <p className="text-gray-500 text-sm">Tell us who's coming so we can prepare a spot for you.</p>
+                        </div>
+
+                        <form onSubmit={handleGuestRSVP} className="space-y-4">
+                            <div>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Your Name</label>
+                                <input
+                                    required
+                                    type="text"
+                                    autoComplete="name"
+                                    value={guestName}
+                                    onChange={(e) => setGuestName(e.target.value)}
+                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    placeholder="Your name"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Email</label>
+                                <input
+                                    required
+                                    type="email"
+                                    autoComplete="email"
+                                    value={guestEmail}
+                                    onChange={(e) => setGuestEmail(e.target.value)}
+                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    placeholder="your.email@example.com"
+                                />
+                            </div>
+
+                            {guestError && (
+                                <div className="p-3 bg-red-50 text-red-700 text-sm rounded-md border border-red-200">
+                                    {guestError}
+                                </div>
+                            )}
+
+                            <button
+                                type="submit"
+                                disabled={guestSubmitting}
+                                className="w-full bg-amber-700 text-white py-3 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors disabled:opacity-50"
+                            >
+                                {guestSubmitting ? 'Joining…' : 'Confirm RSVP'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

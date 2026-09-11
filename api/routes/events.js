@@ -3,11 +3,11 @@ const router = express.Router();
 import { prisma } from '../lib/prisma.js';
 import { verifyToken, requireAdmin, optionalAuth } from '../middleware/auth.js';
 
-// Fold anonymous "Join this Event" taps (not individually tracked) into the
-// same rsvp count the frontend already displays via _count.rsvps.
+// Fold guest RSVPs (tracked as real rows, not a bare counter) into the
+// same total the frontend already displays via _count.rsvps.
 const withGuestRsvps = (event) => ({
     ...event,
-    _count: { ...event._count, rsvps: event._count.rsvps + event.guestRsvps }
+    _count: { ...event._count, rsvps: event._count.rsvps + event._count.guestRsvps }
 });
 
 // GET all events
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
             orderBy: { date: 'asc' },
             include: {
                 _count: {
-                    select: { rsvps: true }
+                    select: { rsvps: true, guestRsvps: true }
                 }
             }
         });
@@ -40,8 +40,12 @@ router.get('/:id', async (req, res) => {
                 rsvps: {
                     select: { id: true, name: true, profileImage: true }
                 },
+                guestRsvps: {
+                    select: { id: true, guestName: true, createdAt: true },
+                    orderBy: { createdAt: 'desc' }
+                },
                 _count: {
-                    select: { rsvps: true }
+                    select: { rsvps: true, guestRsvps: true }
                 }
             }
         });
@@ -58,34 +62,47 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST RSVP to event - works for signed-in users and guests alike. A
-// signed-in RSVP is tracked per-account (toggleable, shows in "Who's
-// Joining?"); a guest's tap isn't individually identifiable, so it just
-// moves a shared counter based on the client's own locally-remembered
-// state (the `joining` flag in the request body).
+// signed-in RSVP is tracked per-account via the rsvps relation
+// (toggleable, shows in "Who's Joining?"). A guest must provide their
+// name and email, stored as a real EventGuestRSVP row - not just an
+// anonymous counter - and shown in "Who's Joining?" alongside accounts.
 router.post('/:id/rsvp', optionalAuth, async (req, res) => {
     try {
         const eventId = req.params.id;
 
         if (!req.user) {
-            const { joining } = req.body;
-            let updated;
-            if (joining) {
-                updated = await prisma.event.update({
-                    where: { id: eventId },
-                    data: { guestRsvps: { increment: 1 } }
-                });
-            } else {
-                const current = await prisma.event.findUnique({ where: { id: eventId } });
-                updated = await prisma.event.update({
-                    where: { id: eventId },
-                    data: { guestRsvps: Math.max(0, (current?.guestRsvps || 0) - 1) }
+            const { guestName, guestEmail } = req.body;
+
+            if (!guestName || !guestEmail) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please provide your name and email, or log in.'
                 });
             }
-            return res.json({
+
+            const event = await prisma.event.findUnique({ where: { id: eventId } });
+            if (!event) {
+                return res.status(404).json({ success: false, message: 'Event not found' });
+            }
+
+            await prisma.eventGuestRSVP.create({
+                data: { eventId, guestName, guestEmail }
+            });
+
+            await prisma.notification.create({
+                data: {
+                    userId: event.authorId,
+                    type: 'EVENT_UPDATE',
+                    title: 'New Event RSVP',
+                    message: `${guestName} joined your event: "${event.title}"`,
+                    link: `/events/${eventId}`
+                }
+            });
+
+            return res.status(201).json({
                 success: true,
-                message: joining ? 'RSVP successful' : 'RSVP removed',
-                rsvpStatus: !!joining,
-                guestRsvps: updated.guestRsvps
+                message: 'RSVP successful',
+                rsvpStatus: true
             });
         }
 

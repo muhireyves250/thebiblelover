@@ -338,6 +338,11 @@ export interface Event {
     name: string;
     profileImage?: string;
   }[];
+  guestRsvps?: {
+    id: string;
+    guestName: string;
+    createdAt: string;
+  }[];
   _count?: {
     rsvps: number;
   };
@@ -348,7 +353,7 @@ export interface Event {
 export interface EventAPI {
   getEvents: () => Promise<ApiResponse<Event[]>>;
   getEvent: (id: string) => Promise<ApiResponse<Event>>;
-  rsvp: (id: string, data?: { joining?: boolean }) => Promise<ApiResponse<{ rsvpStatus: boolean }> & { rsvpStatus: boolean; guestRsvps?: number }>;
+  rsvp: (id: string, data?: { guestName?: string; guestEmail?: string }) => Promise<ApiResponse<{ rsvpStatus: boolean }> & { rsvpStatus: boolean }>;
   create: (data: Partial<Event>) => Promise<ApiResponse<Event>>;
   update: (id: string, data: Partial<Event>) => Promise<ApiResponse<Event>>;
   delete: (id: string) => Promise<ApiResponse<void>>;

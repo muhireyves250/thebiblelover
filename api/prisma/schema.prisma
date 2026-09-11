@@ -64,21 +64,33 @@ model Notification {
 }
 
 model Event {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  date        DateTime
-  location    String   // Physical address or online link
-  type        String   // STUDY, WORSHIP, COMMUNITY, YOUTH
-  thumbnail   String?
-  authorId    String
-  author      User     @relation("EventAuthor", fields: [authorId], references: [id])
-  rsvps       User[]   @relation("EventRSVPs")
-  guestRsvps  Int      @default(0) // RSVPs from signed-out visitors, not individually tracked
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String          @id @default(uuid())
+  title        String
+  description  String
+  date         DateTime
+  location     String          // Physical address or online link
+  type         String          // STUDY, WORSHIP, COMMUNITY, YOUTH
+  thumbnail    String?
+  authorId     String
+  author       User            @relation("EventAuthor", fields: [authorId], references: [id])
+  rsvps        User[]          @relation("EventRSVPs")
+  guestRsvps   EventGuestRSVP[]
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
 
   @@map("events")
+}
+
+model EventGuestRSVP {
+  id         String   @id @default(cuid())
+  eventId    String
+  guestName  String
+  guestEmail String
+  createdAt  DateTime @default(now())
+  event      Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@map("event_guest_rsvps")
 }
 
 model PrayerRequest {
