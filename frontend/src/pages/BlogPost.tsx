@@ -109,52 +109,33 @@ const BlogPost: React.FC = () => {
   }, [post?.publishedAt]);
 
   {/*
-    loading/error/not-found only take over the WHOLE page on the very first
-    load (no post data yet). Once a post has been shown, navigating to a
-    different post (e.g. a Recent Stories link) keeps the previous post's
-    data on screen - including the sidebar - until the new post arrives,
-    instead of blanking the entire page (sidebar included) on every
-    navigation.
+    Genuine 404 only replaces the whole page once loading has actually
+    finished with nothing to show. While loading (first visit, or
+    navigating to a different post) the full page - grid, sidebar
+    included - stays mounted, and the individual cards below render
+    their own skeleton placeholders instead of a separate generic
+    full-page skeleton, so the loading state visually matches the real
+    layout of this page.
   */}
-  if (loading && !post) {
+  if (!post && !loading) {
     return (
       <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="animate-pulse space-y-4 max-w-3xl">
-            <div className="h-8 bg-gray-200 rounded w-2/3"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-            <div className="h-64 bg-gray-200 rounded"></div>
-            <div className="h-4 bg-gray-200 rounded"></div>
-            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-          </div>
+        <div className="max-w-3xl mx-auto px-4 py-12 text-center">
+          <h1 className="text-2xl font-serif text-gray-900 mb-3">
+            {error ? 'Error loading post' : 'Post not found'}
+          </h1>
+          <p className="text-gray-600 mb-6">
+            {error || "We couldn't find the post you're looking for."}
+          </p>
+          {error && (
+            <button onClick={refetch} className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800">Try again</button>
+          )}
         </div>
       </div>
     );
   }
 
-  if (error && !post) {
-    return (
-      <div className="min-h-screen bg-white">
-        <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-serif text-gray-900 mb-3">Error loading post</h1>
-          <p className="text-gray-600 mb-6">{error}</p>
-          <button onClick={refetch} className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800">Try again</button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!post) {
-    return (
-      <div className="min-h-screen bg-white">
-        <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-serif text-gray-900 mb-3">Post not found</h1>
-          <p className="text-gray-600">We couldn't find the post you're looking for.</p>
-        </div>
-      </div>
-    );
-  }
+  const showSkeleton = loading || !post;
 
   return (
     <div className="min-h-screen bg-white">
@@ -174,13 +155,17 @@ const BlogPost: React.FC = () => {
           <span className="mx-2">/</span>
           <Link to="/posts" className="hover:text-amber-700 transition-colors">Blog</Link>
           <span className="mx-2">/</span>
-          <span className="text-amber-700">{categoryLabel(post.category)}</span>
+          {post ? (
+            <span className="text-amber-700">{categoryLabel(post.category)}</span>
+          ) : (
+            <span className="inline-block h-3 w-20 bg-gray-200 rounded animate-pulse align-middle" />
+          )}
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Main column */}
           <article className="lg:col-span-2">
-          {loading ? (
+          {showSkeleton ? (
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
               <div className="h-5 w-24 bg-gray-300 rounded animate-pulse mb-4" />
               <div className="h-8 bg-gray-300 rounded animate-pulse w-3/4 mb-2" />
@@ -405,24 +390,44 @@ const BlogPost: React.FC = () => {
             {/* Written By */}
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</h3>
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
-                  {post.author?.profileImage ? (
-                    <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" />
-                  ) : (
-                    <span className="text-sm font-bold text-amber-800">{(post.author?.name || 'A').charAt(0).toUpperCase()}</span>
-                  )}
+              {!post ? (
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-full bg-gray-200 animate-pulse shrink-0" />
+                  <div className="space-y-1.5">
+                    <div className="h-3.5 w-24 bg-gray-200 rounded animate-pulse" />
+                    <div className="h-2.5 w-32 bg-gray-200 rounded animate-pulse" />
+                  </div>
                 </div>
-                <div>
-                  <p className="font-bold text-gray-900 text-sm">{post.author?.name || 'Unknown author'}</p>
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">The Bible Lover Author</p>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+                    {post.author?.profileImage ? (
+                      <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" />
+                    ) : (
+                      <span className="text-sm font-bold text-amber-800">{(post.author?.name || 'A').charAt(0).toUpperCase()}</span>
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900 text-sm">{post.author?.name || 'Unknown author'}</p>
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">The Bible Lover Author</p>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Story Details */}
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Story Details</h3>
+              {!post ? (
+                <dl className="space-y-3 text-sm">
+                  {['Category', 'Published', 'Reading time', 'Views', 'Likes', 'Comments'].map((label) => (
+                    <div key={label} className="flex items-center justify-between pb-3 border-b border-gray-100 last:border-0 last:pb-0">
+                      <dt className="text-gray-500">{label}</dt>
+                      <dd className="h-3 w-12 bg-gray-200 rounded animate-pulse" />
+                    </div>
+                  ))}
+                </dl>
+              ) : (
               <dl className="space-y-3 text-sm">
                 {[
                   ['Category', categoryLabel(post.category)],
@@ -438,6 +443,7 @@ const BlogPost: React.FC = () => {
                   </div>
                 ))}
               </dl>
+              )}
             </div>
 
             {/* Recent Stories */}
