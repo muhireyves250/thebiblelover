@@ -4,14 +4,17 @@ import Newsletter from '../components/Newsletter';
 import SEO from '../components/SEO';
 
 const SectionHeader = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) => (
-  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent px-4 pt-14 pb-4">
-    <div className="flex items-center gap-2 mb-2">
-      <span className="w-1 h-4 bg-amber-500 rounded-sm" />
-      <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">{eyebrow}</span>
+  <>
+    <div className="absolute inset-0 bg-black/25" />
+    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent px-4 pt-14 pb-4">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="w-1 h-4 bg-amber-500 rounded-sm" />
+        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">{eyebrow}</span>
+      </div>
+      <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-white">{title}</h2>
+      <p className="text-sm text-gray-200 mt-2">{subtitle}</p>
     </div>
-    <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-white">{title}</h2>
-    <p className="text-sm text-gray-200 mt-2">{subtitle}</p>
-  </div>
+  </>
 );
 
 const About = () => {
