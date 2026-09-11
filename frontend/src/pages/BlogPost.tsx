@@ -368,6 +368,24 @@ const BlogPost: React.FC = () => {
 
           {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-6">
+            {/* Written By */}
+            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</h3>
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+                  {post.author?.profileImage ? (
+                    <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" />
+                  ) : (
+                    <span className="text-sm font-bold text-amber-800">{(post.author?.name || 'A').charAt(0).toUpperCase()}</span>
+                  )}
+                </div>
+                <div>
+                  <p className="font-bold text-gray-900 text-sm">{post.author?.name || 'Unknown author'}</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">The Bible Lover Author</p>
+                </div>
+              </div>
+            </div>
+
             {/* Story Details */}
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Story Details</h3>
@@ -386,24 +404,6 @@ const BlogPost: React.FC = () => {
                   </div>
                 ))}
               </dl>
-            </div>
-
-            {/* Reported By */}
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</h3>
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
-                  {post.author?.profileImage ? (
-                    <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" />
-                  ) : (
-                    <span className="text-sm font-bold text-amber-800">{(post.author?.name || 'A').charAt(0).toUpperCase()}</span>
-                  )}
-                </div>
-                <div>
-                  <p className="font-bold text-gray-900 text-sm">{post.author?.name || 'Unknown author'}</p>
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">The Bible Lover Author</p>
-                </div>
-              </div>
             </div>
 
             {/* Recent Stories */}
