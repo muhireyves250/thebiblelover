@@ -3,14 +3,19 @@ import PageHeader from '../components/PageHeader';
 import Newsletter from '../components/Newsletter';
 import SEO from '../components/SEO';
 
-const SectionHeader = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) => (
+const SectionHeader = ({ eyebrow, subtitle }: { eyebrow: string; subtitle: string }) => (
   <div className="mb-8">
     <div className="flex items-center gap-2 mb-2">
       <span className="w-1 h-4 bg-amber-700 rounded-sm" />
       <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">{eyebrow}</span>
     </div>
-    <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900">{title}</h2>
-    <p className="text-sm text-gray-500 mt-2">{subtitle}</p>
+    <p className="text-sm text-gray-500">{subtitle}</p>
+  </div>
+);
+
+const PhotoTitle = ({ title }: { title: string }) => (
+  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pt-10 pb-3">
+    <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight text-white">{title}</h2>
   </div>
 );
 
@@ -37,16 +42,17 @@ const About = () => {
       {/* Who We Are */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader eyebrow="About Us" title="Who We Are" subtitle="A community built around God's Word" />
+          <SectionHeader eyebrow="About Us" subtitle="A community built around God's Word" />
 
           <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
+            <div className="relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
               <img
                 src={aboutSection?.imageUrl || '/images/about.png'}
                 alt={aboutSection?.title || 'About Us'}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
+              <PhotoTitle title="Who We Are" />
             </div>
             <div className="space-y-5 text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
@@ -81,16 +87,17 @@ const About = () => {
       {/* Our Story */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader eyebrow="Our Journey" title="Our Story" subtitle="How a simple calling became a community" />
+          <SectionHeader eyebrow="Our Journey" subtitle="How a simple calling became a community" />
 
           <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="float-right w-1/2 h-64 md:h-80 ml-6 md:ml-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
+            <div className="relative float-right w-1/2 h-64 md:h-80 ml-6 md:ml-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
               <img
                 src={storySection?.imageUrl || '/images/story.png'}
                 alt={storySection?.title || 'Our Story'}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
+              <PhotoTitle title="Our Story" />
             </div>
             <div className="space-y-5 text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
@@ -125,16 +132,17 @@ const About = () => {
       {/* Our Mission */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader eyebrow="Our Purpose" title="Our Mission" subtitle="What we're committed to, every single day" />
+          <SectionHeader eyebrow="Our Purpose" subtitle="What we're committed to, every single day" />
 
           <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
+            <div className="relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
               <img
                 src={missionSection?.imageUrl || '/images/mission.png'}
                 alt={missionSection?.title || 'Our Mission'}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
+              <PhotoTitle title="Our Mission" />
             </div>
             <div className="space-y-5 text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
