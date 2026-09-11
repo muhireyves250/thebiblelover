@@ -4,6 +4,7 @@ import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
 import AddAudioEpisodeModal from './AddAudioEpisodeModal';
 import EditAudioEpisodeModal from './EditAudioEpisodeModal';
+import AudioCommentsManager from './AudioCommentsManager';
 
 const AudioEpisodeManager: React.FC = () => {
   const [episodes, setEpisodes] = useState<AudioEpisode[]>([]);
@@ -110,6 +111,10 @@ const AudioEpisodeManager: React.FC = () => {
           </table>
         </div>
       )}
+
+      <div className="pt-6 border-t border-gray-200">
+        <AudioCommentsManager />
+      </div>
 
       {showAddModal && (
         <AddAudioEpisodeModal
