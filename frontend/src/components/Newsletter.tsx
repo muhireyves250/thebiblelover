@@ -30,23 +30,26 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-950 isolate">
+    <section className="py-12 bg-gray-950 isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
+        <div className="max-w-2xl mx-auto text-center mb-6 px-4">
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="w-1 h-4 bg-amber-500 rounded-sm" />
             <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-500">Stay Inspired</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-white">
+          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white leading-snug">
             Get The Latest Reflections <span className="text-amber-500">Straight To Your Inbox</span>
           </h2>
-          <p className="text-sm text-gray-400 mt-2 max-w-xl mx-auto">
+          <p className="text-sm text-gray-400 mt-2 leading-relaxed">
             Join our community and receive weekly spiritual insights, book reflections, and exclusive teachings.
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-8 md:p-10">
+        <div className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 md:p-8">
           <form onSubmit={handleSubmit}>
+            <label htmlFor="email" className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">
+              Email address
+            </label>
             <div className="relative group">
               <input
                 type="email"
