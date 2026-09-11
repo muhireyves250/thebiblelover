@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { blogAPI, authAPI, searchAPI } from '../services/api';
 import { useFetch, useCachedFetch } from '../hooks/useAPI';
-import { Heart, Eye, MessageCircle } from 'lucide-react';
+import { Heart, Eye, MessageCircle, Tag, Calendar, Clock } from 'lucide-react';
 import SEO from '../components/SEO';
 import ShareButtons from '../components/ShareButtons';
 import AudioReader from '../components/AudioReader';
@@ -444,27 +444,33 @@ const BlogPost: React.FC = () => {
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Story Details</h3>
               {!post ? (
-                <dl className="space-y-3 text-sm">
-                  {['Category', 'Published', 'Reading time', 'Views', 'Likes', 'Comments'].map((label) => (
-                    <div key={label} className="flex items-center justify-between pb-3 border-b border-gray-100 last:border-0 last:pb-0">
-                      <dt className="text-gray-500">{label}</dt>
-                      <dd className="h-3 w-12 bg-gray-200 rounded animate-pulse" />
+                <dl className="space-y-1">
+                  {[Tag, Calendar, Clock, Eye, Heart, MessageCircle].map((Icon, i) => (
+                    <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
+                      <dt className="flex items-center gap-2 text-gray-500">
+                        <Icon className="w-3.5 h-3.5 text-gray-300" />
+                        <span className="h-3 w-16 bg-gray-200 rounded animate-pulse" />
+                      </dt>
+                      <dd className="h-3 w-10 bg-gray-200 rounded animate-pulse" />
                     </div>
                   ))}
                 </dl>
               ) : (
-              <dl className="space-y-3 text-sm">
+              <dl className="space-y-1">
                 {[
-                  ['Category', categoryLabel(post.category)],
-                  ['Published', formattedDate],
-                  ['Reading time', `${post.readTime} min read`],
-                  ['Views', post.views],
-                  ['Likes', likeCount],
-                  ['Comments', post._count?.comments ?? comments.length]
-                ].map(([label, value]) => (
-                  <div key={label as string} className="flex items-center justify-between pb-3 border-b border-gray-100 last:border-0 last:pb-0">
-                    <dt className="text-gray-500">{label}</dt>
-                    <dd className="font-bold text-gray-900">{value}</dd>
+                  [Tag, 'Category', categoryLabel(post.category)],
+                  [Calendar, 'Published', formattedDate],
+                  [Clock, 'Reading time', `${post.readTime} min read`],
+                  [Eye, 'Views', post.views],
+                  [Heart, 'Likes', likeCount],
+                  [MessageCircle, 'Comments', post._count?.comments ?? comments.length]
+                ].map(([Icon, label, value]: any) => (
+                  <div key={label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
+                    <dt className="flex items-center gap-2 text-gray-500 text-sm">
+                      <Icon className="w-3.5 h-3.5 text-amber-700" />
+                      {label}
+                    </dt>
+                    <dd className="font-bold text-gray-900 text-sm">{value}</dd>
                   </div>
                 ))}
               </dl>

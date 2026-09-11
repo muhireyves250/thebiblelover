@@ -12,6 +12,10 @@ router.get('/', async (req, res) => {
   try {
     const limit = Math.min(parseInt(req.query.limit) || 6, 20);
 
+    // Posts are the core content here — a database hiccup on this query
+    // must surface as a real error (caught below), not get swallowed into
+    // an empty array indistinguishable from "there are genuinely no posts".
+    // YouTube data is supplementary, so it degrades gracefully on its own.
     const [posts, videos, live] = await Promise.all([
       prisma.blogPost.findMany({
         where: { status: 'PUBLISHED', publishedAt: { lte: new Date() } },
@@ -30,7 +34,7 @@ router.get('/', async (req, res) => {
           author: { select: { name: true, profileImage: true } },
           _count: { select: { comments: true } }
         }
-      }).catch(() => []),
+      }),
       getLatestVideos(1).catch(() => []),
       getLiveVideo().catch(() => null)
     ]);

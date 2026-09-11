@@ -13,10 +13,10 @@ interface BackgroundSettings {
 }
 
 const defaultBackgroundSettings: BackgroundSettings = {
-  imageUrl: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+  imageUrl: 'https://res.cloudinary.com/dbuuqmq1j/image/upload/v1789050662/images/site-hero-background.jpg',
   opacity: 0.4,
   overlayColor: '#000000',
-  overlayOpacity: 0.3
+  overlayOpacity: 0
 };
 
 export const useBackgroundSettings = () => {

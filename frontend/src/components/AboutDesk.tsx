@@ -72,34 +72,29 @@ const AboutDesk: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="p-6 md:p-10"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center p-6 md:p-10"
             >
-              <div className="relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
+              <div className="rounded-lg overflow-hidden border border-gray-200">
                 <img
                   src={active.image}
                   alt={active.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-64 md:h-80 object-cover"
                   loading="lazy"
                   decoding="async"
                 />
-                <div className="absolute inset-0 bg-black/25" />
-                <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/80 via-black/50 to-transparent px-4 pb-14 pt-4">
-                  <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400 block mb-2">
-                    {active.key === 'about' ? 'About Us' : active.key === 'story' ? 'Our Journey' : 'Our Purpose'}
-                  </span>
-                  <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white">{active.title}</h3>
-                </div>
               </div>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line mb-6">
-                {active.content}
-              </p>
-              <Link
-                to="/about"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-amber-700 text-white text-xs font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors"
-              >
-                Learn More
-              </Link>
-              <div className="clear-both" />
+              <div>
+                <h3 className="text-2xl font-black uppercase tracking-tight text-gray-900 mb-4">{active.title}</h3>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line mb-6 line-clamp-[8]">
+                  {active.content}
+                </p>
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-amber-700 text-white text-xs font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors"
+                >
+                  Learn More
+                </Link>
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>

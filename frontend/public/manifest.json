@@ -1,7 +1,18 @@
 {
   "short_name": "Bible Lover",
   "name": "The Bible Lover",
-  "icons": [],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 48x48 32x32 16x16",
+      "type": "image/x-icon"
+    }
+  ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#b45309",
@@ -10,12 +21,12 @@
   "description": "Your daily companion for spiritual growth and community fellowship.",
   "shortcuts": [
     {
-      "name": "Today's Devotional",
-      "url": "/devotional"
-    },
-    {
       "name": "Prayer Wall",
       "url": "/prayer-wall"
+    },
+    {
+      "name": "Donate",
+      "url": "/donate"
     }
   ]
 }
