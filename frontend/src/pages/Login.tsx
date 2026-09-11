@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { BookOpen, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
 import SEO from '../components/SEO';
@@ -50,13 +50,7 @@ const Login: React.FC = () => {
       <SEO title="Sign In" description="Sign in to your Bible Lover account." />
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="mx-auto h-14 w-14 bg-amber-700 rounded-full flex items-center justify-center">
-            <BookOpen className="h-6 w-6 text-white" />
-          </div>
-          <h1 className="mt-5 text-2xl font-bold text-gray-900">
-            Welcome Back
-          </h1>
-          <p className="mt-1.5 text-sm text-gray-500">
+          <p className="text-sm text-gray-500">
             Sign in to your Bible Lover account
           </p>
         </div>
