@@ -373,6 +373,34 @@ router.get('/featured', async (req, res, next) => {
   }
 });
 
+// Get Verse of the Day archive (public): today's verse as featured, plus a
+// list of recent past verses for the homepage "Verse Desk" section.
+router.get('/archive', async (req, res, next) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit) || 13, 50);
+
+    const verses = await prisma.bibleVerse.findMany({
+      orderBy: { displayDate: 'desc' },
+      take: limit + 1
+    });
+
+    const withExtras = verses.map(v => ({
+      ...v,
+      image: v.image ? convertToApiUrl(v.image, req) : v.image,
+      reference: `${v.book} ${v.chapter}:${v.verse}`
+    }));
+
+    const [featured, ...items] = withExtras;
+
+    res.json({
+      success: true,
+      data: { featured: featured || null, items }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Get single Bible verse (public)
 router.get('/:id', async (req, res, next) => {
   try {
@@ -408,7 +436,7 @@ router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
       });
     }
 
-    const { text, book, chapter, verse, translation, image, isActive, isFeatured } = req.body;
+    const { text, book, chapter, verse, translation, image, isActive, isFeatured, displayDate } = req.body;
 
     // If setting as active, deactivate all other verses first
     if (isActive) {
@@ -427,7 +455,11 @@ router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
         translation,
         image,
         isActive: isActive ?? true,
-        isFeatured: isFeatured ?? false
+        isFeatured: isFeatured ?? false,
+        // Posting a verse with no explicit date makes it "today's verse" —
+        // otherwise it would stay null forever and never surface as
+        // featured or match any day filter.
+        displayDate: displayDate ? new Date(displayDate) : new Date()
       }
     });
 
@@ -442,7 +474,7 @@ router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
 });
 
 // Update Bible verse (admin only)
-router.put('/:id', verifyToken, validateBibleVerseUpdate, async (req, res, next) => {
+router.patch('/:id', verifyToken, validateBibleVerseUpdate, async (req, res, next) => {
   try {
     // Check if user is admin
     if (req.user.role !== 'ADMIN') {
@@ -454,6 +486,9 @@ router.put('/:id', verifyToken, validateBibleVerseUpdate, async (req, res, next)
 
     const { id } = req.params;
     const updateData = req.body;
+    if (updateData.displayDate) {
+      updateData.displayDate = new Date(updateData.displayDate);
+    }
 
     const existingVerse = await prisma.bibleVerse.findUnique({
       where: { id }
