@@ -288,33 +288,39 @@ const BlogPost: React.FC = () => {
 
             {/* Comments */}
             <section className="mt-8 pt-8 border-t border-gray-200">
-              <h2 className="text-2xl font-serif text-gray-900 mb-6">Comments ({comments.length})</h2>
-              <div className="space-y-4 mb-10">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+                <h2 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">
+                  Comments <span className="text-gray-400">&middot; {comments.length}</span>
+                </h2>
+              </div>
+
+              <div className="space-y-3 mb-8">
                 {comments.map((c: any) => (
-                  <div key={c.id} className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+                  <div key={c.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
                     <div className="flex items-start gap-3">
-                      <div className="w-9 h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-semibold">
+                      <div className="w-9 h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-bold shrink-0">
                         {c.authorName?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <div className="text-sm font-medium text-gray-900">{c.authorName || 'Anonymous'}</div>
-                          <div className="text-xs text-gray-500">{new Date(c.createdAt).toLocaleDateString()}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-sm font-bold text-gray-900">{c.authorName || 'Anonymous'}</span>
+                          <span className="text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
                         </div>
-                        <p className="mt-1 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
+                        <p className="mt-1.5 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
                       </div>
                     </div>
                   </div>
                 ))}
                 {comments.length === 0 && (
-                  <div className="border border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500">No comments yet. Be the first to comment!</div>
+                  <div className="border border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 text-sm">No comments yet. Be the first to comment!</div>
                 )}
               </div>
 
-              <form onSubmit={submitComment} className="space-y-5 bg-gray-50 border border-gray-200 p-5 rounded-lg">
+              <form onSubmit={submitComment} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="commentName" className="block text-sm text-gray-700 mb-1">Name</label>
+                    <label htmlFor="commentName" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Name</label>
                     <input
                       id="commentName"
                       name="commentName"
@@ -323,11 +329,11 @@ const BlogPost: React.FC = () => {
                       autoComplete="name"
                       value={authorName}
                       onChange={(e) => setAuthorName(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
                   <div>
-                    <label htmlFor="commentEmail" className="block text-sm text-gray-700 mb-1">Email</label>
+                    <label htmlFor="commentEmail" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Email</label>
                     <input
                       id="commentEmail"
                       name="commentEmail"
@@ -336,12 +342,12 @@ const BlogPost: React.FC = () => {
                       autoComplete="email"
                       value={authorEmail}
                       onChange={(e) => setAuthorEmail(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="commentContent" className="block text-sm text-gray-700 mb-1">Comment</label>
+                  <label htmlFor="commentContent" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Comment</label>
                   <textarea
                     id="commentContent"
                     name="commentContent"
@@ -350,13 +356,13 @@ const BlogPost: React.FC = () => {
                     autoComplete="off"
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isSubmittingComment}
-                  className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800 disabled:opacity-50"
+                  className="px-6 py-2.5 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
                 >
                   {isSubmittingComment ? 'Posting…' : 'Post Comment'}
                 </button>
