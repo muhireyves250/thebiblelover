@@ -264,28 +264,23 @@ const BlogPost: React.FC = () => {
                   <p className="text-gray-500">{formattedDate} &middot; {post.readTime} min read</p>
                 </div>
               </div>
-              <ShareButtons title={post.title} />
-            </div>
 
-            <AudioReader content={post.content} title={post.title} />
-
-            {/* Metrics under content */}
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
-                <span className="inline-flex items-center gap-1.5"><Eye className="w-4 h-4" /> {post.views}</span>
-                <span className="inline-flex items-center gap-1.5"><Heart className="w-4 h-4" /> {likeCount}</span>
-                <span className="inline-flex items-center gap-1.5"><MessageCircle className="w-4 h-4" /> {post._count?.comments ?? comments.length}</span>
+              <div className="flex items-center gap-4">
+                <span className="inline-flex items-center gap-1.5 text-sm text-gray-500"><Eye className="w-4 h-4" /> {post.views}</span>
                 <button
                   onClick={handleLike}
                   disabled={isLiking}
-                  className={`ml-auto inline-flex items-center gap-2 px-3 py-1.5 rounded-md border ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-700 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`inline-flex items-center gap-1.5 text-sm transition-colors ${isLiked ? 'text-red-600' : 'text-gray-500 hover:text-red-600'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
                   aria-label={isLiked ? 'Unlike post' : 'Like post'}
                 >
-                  <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
-                  {isLiked ? 'Unlike' : 'Like'}
+                  <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} /> {likeCount}
                 </button>
+                <span className="inline-flex items-center gap-1.5 text-sm text-gray-500"><MessageCircle className="w-4 h-4" /> {post._count?.comments ?? comments.length}</span>
+                <ShareButtons title={post.title} />
               </div>
             </div>
+
+            <AudioReader content={post.content} title={post.title} />
 
             {/* Comments */}
             <section className="mt-12">
