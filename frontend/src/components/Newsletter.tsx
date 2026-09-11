@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, CheckCircle2, AlertCircle } from 'lucide-react';
 import { newsletterAPI } from '../services/api';
 
 const Newsletter = () => {
@@ -30,27 +30,28 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="py-12 bg-gray-950 isolate">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto text-center mb-6 px-4">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="w-1 h-4 bg-amber-500 rounded-sm" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-500">Stay Inspired</span>
+    <section className="relative overflow-hidden isolate bg-gradient-to-br from-gray-950 via-gray-950 to-amber-950">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="flex flex-col lg:flex-row items-center gap-10">
+          <div className="flex-1 text-center lg:text-left">
+            <div className="flex items-center justify-center lg:justify-start gap-2 mb-3">
+              <span className="w-1 h-4 bg-amber-500 rounded-sm" />
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">Stay Inspired</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-black text-white leading-snug">
+              Get the latest reflections straight to your inbox
+            </h2>
+            <p className="text-sm text-gray-400 mt-3 max-w-md mx-auto lg:mx-0">
+              Join our community and receive weekly spiritual insights, book reflections, and exclusive teachings.
+            </p>
           </div>
-          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white leading-snug">
-            Get The Latest Reflections <span className="text-amber-500">Straight To Your Inbox</span>
-          </h2>
-          <p className="text-sm text-gray-400 mt-2 leading-relaxed">
-            Join our community and receive weekly spiritual insights, book reflections, and exclusive teachings.
-          </p>
-        </div>
 
-        <div className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-lg shadow-sm p-6 md:p-8">
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="email" className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">
-              Email address
-            </label>
-            <div className="relative group">
+          <div className="w-full max-w-sm bg-black/30 border border-white/10 rounded-lg p-8 text-center shrink-0">
+            <span className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-white mb-5">
+              <Mail className="w-5 h-5 text-amber-700" />
+            </span>
+
+            <form onSubmit={handleSubmit} className="space-y-3">
               <input
                 type="email"
                 id="email"
@@ -60,30 +61,27 @@ const Newsletter = () => {
                 autoComplete="email"
                 required
                 disabled={status === 'loading'}
-                className="w-full pl-5 pr-28 py-4 bg-gray-950 border border-gray-700 focus:border-amber-500 rounded-md text-white placeholder-gray-500 focus:outline-none transition-colors disabled:opacity-50"
+                className="w-full px-4 py-3 bg-gray-950 border border-gray-700 focus:border-amber-500 rounded-md text-white placeholder-gray-500 focus:outline-none transition-colors disabled:opacity-50 text-sm"
                 placeholder="name@example.com"
               />
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="absolute right-1.5 top-1.5 bottom-1.5 px-6 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded hover:bg-amber-800 transition-colors disabled:opacity-50"
+                className="w-full py-3 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
               >
-                {status === 'loading' ? 'Joining...' : 'Join'}
+                {status === 'loading' ? 'Joining...' : 'Subscribe Now'}
               </button>
-            </div>
+            </form>
 
             <AnimatePresence mode="wait">
               {status === 'success' && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-6 p-4 bg-emerald-950/50 rounded-md border border-emerald-800 flex items-center gap-3"
+                  className="mt-4 p-3 bg-emerald-950/50 rounded-md border border-emerald-800 flex items-center gap-2 text-left"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
-                  <div>
-                    <p className="text-emerald-300 font-bold text-sm">Welcome to the inner circle!</p>
-                    <p className="text-emerald-400/70 text-xs">{message}</p>
-                  </div>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                  <p className="text-emerald-300 text-xs font-bold">{message}</p>
                 </motion.div>
               )}
 
@@ -91,14 +89,14 @@ const Newsletter = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-6 p-4 bg-red-950/50 rounded-md border border-red-800 flex items-center gap-3 text-red-400 text-sm font-bold"
+                  className="mt-4 p-3 bg-red-950/50 rounded-md border border-red-800 flex items-center gap-2 text-left text-red-400 text-xs font-bold"
                 >
-                  <AlertCircle className="w-5 h-5 shrink-0" />
+                  <AlertCircle className="w-4 h-4 shrink-0" />
                   {message}
                 </motion.div>
               )}
             </AnimatePresence>
-          </form>
+          </div>
         </div>
       </div>
     </section>
