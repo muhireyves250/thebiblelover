@@ -39,12 +39,12 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader eyebrow="About Us" title="Who We Are" subtitle="A community built around God's Word" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
-            <div className="rounded-lg overflow-hidden border-r border-gray-200 h-full">
+          <div className="flex flex-col bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
+            <div className="w-1/2 mx-auto h-64 md:h-80 border-b border-gray-200">
               <img
                 src={aboutSection?.imageUrl || '/images/about.png'}
                 alt={aboutSection?.title || 'About Us'}
-                className="w-full h-full min-h-[320px] object-cover"
+                className="w-full h-full object-cover"
                 loading="lazy"
               />
             </div>
@@ -82,8 +82,16 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader eyebrow="Our Journey" title="Our Story" subtitle="How a simple calling became a community" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
-            <div className="p-6 md:p-10 space-y-5 text-gray-700 leading-relaxed order-2 md:order-1">
+          <div className="flex flex-col bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
+            <div className="w-1/2 mx-auto h-64 md:h-80 border-b border-gray-200">
+              <img
+                src={storySection?.imageUrl || '/images/story.png'}
+                alt={storySection?.title || 'Our Story'}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div className="p-6 md:p-10 space-y-5 text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
                 {storySection?.content ||
                   'Our story began with a passion for God’s Word and a desire to help others experience its life-changing power.'}
@@ -108,14 +116,6 @@ const About = () => {
                 us. We're still building that way: one honest conversation at a time.
               </p>
             </div>
-            <div className="rounded-lg overflow-hidden border-l border-gray-200 h-full order-1 md:order-2">
-              <img
-                src={storySection?.imageUrl || '/images/story.png'}
-                alt={storySection?.title || 'Our Story'}
-                className="w-full h-full min-h-[320px] object-cover"
-                loading="lazy"
-              />
-            </div>
           </div>
         </div>
       </section>
@@ -125,12 +125,12 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader eyebrow="Our Purpose" title="Our Mission" subtitle="What we're committed to, every single day" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
-            <div className="rounded-lg overflow-hidden border-r border-gray-200 h-full">
+          <div className="flex flex-col bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
+            <div className="w-1/2 mx-auto h-64 md:h-80 border-b border-gray-200">
               <img
                 src={missionSection?.imageUrl || '/images/mission.png'}
                 alt={missionSection?.title || 'Our Mission'}
-                className="w-full h-full min-h-[320px] object-cover"
+                className="w-full h-full object-cover"
                 loading="lazy"
               />
             </div>
