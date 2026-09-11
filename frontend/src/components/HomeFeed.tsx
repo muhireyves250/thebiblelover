@@ -1,10 +1,12 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight } from 'lucide-react';
 import { useHomeFeed, type HomeFeedItem } from '../hooks/useHomeFeed';
 import { useContentSettings } from '../hooks/useContentSettings';
 
 const PAGE_SIZE = 4;
+const AUTO_ROTATE_MS = 6000;
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/channel/UCnZWkIVSWJwiFW6RhQLDgaA';
 
 const formatDateTime = (dateString: string) =>
@@ -21,11 +23,13 @@ const categoryLabel = (item: HomeFeedItem) =>
   item.type === 'POST' ? item.category.replace(/_/g, ' ') : item.type === 'LIVE' ? 'Live' : 'Video';
 
 const StatsRow: React.FC<{ item: HomeFeedItem }> = ({ item }) => (
-  <div className="flex items-center gap-3 text-[11px] text-gray-400">
-    <span>{formatDateTime(item.publishedAt)}</span>
-    <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {item.views}</span>
-    <span className="flex items-center gap-1"><Heart className="w-3 h-3" /> {item.likes}</span>
-    <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" /> {item.comments}</span>
+  <div className="flex items-center justify-between pt-3 mt-3 border-t border-gray-100">
+    <span className="text-[11px] text-gray-400">{formatDateTime(item.publishedAt)}</span>
+    <div className="flex items-center gap-3 text-[11px] text-gray-400">
+      <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {item.views}</span>
+      <span className="flex items-center gap-1"><Heart className="w-3 h-3" /> {item.likes}</span>
+      <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" /> {item.comments}</span>
+    </div>
   </div>
 );
 
@@ -109,7 +113,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
 const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   const video = isVideoLike(item);
   const card = (
-    <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 h-full hover:shadow-md transition-shadow group">
+    <div className="bg-white rounded-lg overflow-hidden border border-gray-200 h-full hover:border-gray-300 transition-colors group">
       <div className="relative h-36 bg-gray-100 overflow-hidden">
         <img
           src={item.thumbnail}
@@ -126,10 +130,10 @@ const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
         )}
       </div>
       <div className="p-4">
-        <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-gray-600 bg-gray-100 rounded px-2 py-0.5 mb-2">
+        <span className="block text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-2">
           {categoryLabel(item)}
         </span>
-        <h4 className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 mb-3 group-hover:text-amber-700 transition-colors">
+        <h4 className="text-sm font-bold text-gray-900 uppercase leading-snug line-clamp-2 mb-1 group-hover:text-amber-700 transition-colors">
           {item.title}
         </h4>
         <StatsRow item={item} />
@@ -222,23 +226,42 @@ const NoVideoPlaceholder: React.FC = () => (
   </div>
 );
 
-const HomeFeedSkeleton: React.FC = () => (
-  <section className="py-20 bg-white">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <div className="aspect-video bg-gray-100 rounded-2xl animate-pulse" />
-        <div className="grid grid-cols-2 gap-4">
-          {[1, 2, 3, 4].map(i => (
-            <div key={i} className="h-48 bg-gray-100 rounded-xl animate-pulse" />
-          ))}
-        </div>
-      </div>
+const ReportCardSkeleton: React.FC = () => (
+  <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 h-full">
+    <div className="h-36 bg-gray-300 animate-pulse" />
+    <div className="p-4">
+      <div className="h-4 w-20 bg-gray-300 rounded animate-pulse mb-3" />
+      <div className="h-4 w-full bg-gray-300 rounded animate-pulse mb-2" />
+      <div className="h-4 w-2/3 bg-gray-300 rounded animate-pulse mb-4" />
+      <div className="h-3 w-3/4 bg-gray-300 rounded animate-pulse" />
     </div>
-  </section>
+  </div>
+);
+
+const FeaturedCardSkeleton: React.FC = () => (
+  <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+    <div className="flex-1 min-h-[220px] bg-gray-300 animate-pulse" />
+    <div className="p-6">
+      <div className="flex items-start gap-3 mb-3">
+        <span className="mt-2 w-2 h-2 rounded-full bg-gray-200 shrink-0" />
+        <div className="h-6 w-3/4 bg-gray-300 rounded animate-pulse" />
+      </div>
+      <div className="h-4 w-full bg-gray-300 rounded animate-pulse mb-2" />
+      <div className="h-4 w-5/6 bg-gray-300 rounded animate-pulse mb-4" />
+      <div className="h-3 w-1/2 bg-gray-300 rounded animate-pulse" />
+    </div>
+  </div>
+);
+
+const NoReflectionsYet: React.FC = () => (
+  <div className="h-full min-h-[240px] flex flex-col items-center justify-center text-center bg-white rounded-xl border border-dashed border-gray-200 px-8">
+    <p className="text-sm font-bold text-gray-700 mb-1">No reflections yet</p>
+    <p className="text-xs text-gray-400">Check back soon — new posts will show up here.</p>
+  </div>
 );
 
 const HomeFeed: React.FC = () => {
-  const { featured, items, loading } = useHomeFeed(13);
+  const { featured, items, hasLoaded } = useHomeFeed(13);
   const { settings } = useContentSettings();
   const heroVideoUrl = settings?.heroSection?.videoUrl;
   const [page, setPage] = useState(0);
@@ -254,13 +277,16 @@ const HomeFeed: React.FC = () => {
   const currentPage = Math.min(page, pages.length - 1);
   const visibleItems = pages[currentPage] || [];
 
-  if (loading && !featured && items.length === 0) {
-    return <HomeFeedSkeleton />;
-  }
-
-  if (!featured && items.length === 0) {
-    return null;
-  }
+  // Auto-rotate through pages of reflections; pause while the visitor is
+  // hovering the grid so it doesn't yank a card out from under the cursor.
+  const [isHovering, setIsHovering] = useState(false);
+  useEffect(() => {
+    if (pages.length <= 1 || isHovering) return;
+    const interval = setInterval(() => {
+      setPage(p => (p + 1) % pages.length);
+    }, AUTO_ROTATE_MS);
+    return () => clearInterval(interval);
+  }, [pages.length, isHovering]);
 
   return (
     <section className="py-20 bg-white">
@@ -287,7 +313,9 @@ const HomeFeed: React.FC = () => {
               </a>
             </div>
             <div className="flex-1">
-              {featured ? (
+              {!hasLoaded ? (
+                <FeaturedCardSkeleton />
+              ) : featured ? (
                 <FeaturedCard item={featured} />
               ) : heroVideoUrl ? (
                 <HeroVideoCard videoUrl={heroVideoUrl} />
@@ -298,34 +326,65 @@ const HomeFeed: React.FC = () => {
           </div>
 
           {/* Latest reflections column */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xs font-black uppercase tracking-widest text-amber-700">Latest Reflections</h2>
-              <Link to="/posts" className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors">
+          <div
+            className="relative"
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          >
+            <div className="flex items-center justify-between mb-4 gap-4">
+              <h2 className="text-xs font-black uppercase tracking-widest text-amber-700 whitespace-nowrap">Latest Reflections</h2>
+              <Link to="/posts" className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
                 View All <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {visibleItems.map(item => (
-                <ReportCard key={`${item.type}-${item.id}`} item={item} />
-              ))}
+            <div className="relative overflow-hidden pr-6 min-h-[1100px] sm:min-h-[560px]">
+              {!hasLoaded ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[1, 2, 3, 4].map(i => (
+                    <ReportCardSkeleton key={i} />
+                  ))}
+                </div>
+              ) : visibleItems.length === 0 ? (
+                <NoReflectionsYet />
+              ) : (
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentPage}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                  >
+                    {visibleItems.map(item => (
+                      <ReportCard key={`${item.type}-${item.id}`} item={item} />
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
+              )}
             </div>
 
-            {pages.length > 1 && (
-              <div className="flex items-center justify-center gap-2 mt-6">
-                {pages.map((_, i) => (
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
+              {Array.from({ length: Math.max(pages.length, 3) }).map((_, i) => {
+                const isRealPage = i < pages.length;
+                return (
                   <button
                     key={i}
-                    onClick={() => setPage(i)}
-                    aria-label={`Show reports page ${i + 1}`}
-                    className={`h-2 rounded-full transition-all ${
-                      i === currentPage ? 'w-6 bg-amber-600' : 'w-2 bg-gray-300 hover:bg-gray-400'
+                    onClick={() => isRealPage && setPage(i)}
+                    disabled={!isRealPage}
+                    aria-label={isRealPage ? `Show reports page ${i + 1}` : undefined}
+                    className={`w-2 rounded-full transition-all ${
+                      isRealPage
+                        ? i === currentPage
+                          ? 'h-6 bg-amber-600'
+                          : 'h-2 bg-gray-300 hover:bg-gray-400 cursor-pointer'
+                        : 'h-2 bg-gray-200 cursor-default'
                     }`}
                   />
-                ))}
-              </div>
-            )}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
