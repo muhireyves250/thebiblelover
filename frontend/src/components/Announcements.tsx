@@ -13,7 +13,16 @@ const Announcements: React.FC = () => {
 
   if (items.length === 0) return null;
 
-  const track = items.join('   •   ');
+  const Track = ({ hidden = false }: { hidden?: boolean }) => (
+    <span className="pr-10" aria-hidden={hidden || undefined}>
+      {items.map((item, i) => (
+        <span key={i}>
+          <span className="text-lg md:text-xl font-black uppercase tracking-wider text-white">{item}</span>
+          {i < items.length - 1 && <span className="text-amber-500 font-black mx-6">&bull;</span>}
+        </span>
+      ))}
+    </span>
+  );
 
   return (
     <section className="bg-gray-950 py-8 isolate overflow-hidden">
@@ -26,8 +35,8 @@ const Announcements: React.FC = () => {
           <span className="hidden sm:block w-px h-6 bg-gray-800 shrink-0" />
           <div className="relative flex-1 overflow-hidden">
             <div className="flex whitespace-nowrap animate-marquee">
-              <span className="text-lg md:text-xl font-bold text-white pr-8">{track}</span>
-              <span className="text-lg md:text-xl font-bold text-white pr-8" aria-hidden="true">{track}</span>
+              <Track />
+              <Track hidden />
             </div>
           </div>
         </div>
