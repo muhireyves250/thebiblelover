@@ -19,9 +19,9 @@ const Announcements: React.FC = () => {
     <section className="bg-gray-950 py-8 isolate overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-5">
-          <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-amber-500 shrink-0">
-            <Megaphone className="w-5 h-5 animate-ring-wiggle" />
-            {announcementsSection?.title || 'Announcements'}
+          <span className="flex items-center gap-2.5 text-sm font-black uppercase tracking-[0.2em] text-amber-500 shrink-0">
+            <Megaphone className="w-8 h-8 animate-ring-wiggle" />
+            <span className="animate-vibrate inline-block">{announcementsSection?.title || 'Announcements'}</span>
           </span>
           <span className="hidden sm:block w-px h-6 bg-gray-800 shrink-0" />
           <div className="relative flex-1 overflow-hidden">
