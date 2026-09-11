@@ -1,5 +1,6 @@
 import { useContentSettings } from '../hooks/useContentSettings';
 import PageHeader from '../components/PageHeader';
+import Announcements from '../components/Announcements';
 import SEO from '../components/SEO';
 
 const SectionHeader = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) => (
@@ -169,6 +170,8 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      <Announcements />
     </div>
   );
 };

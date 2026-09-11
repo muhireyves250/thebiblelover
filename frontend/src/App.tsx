@@ -71,7 +71,6 @@ function AppContent() {
             <Route path="/" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Home />
                 <Footer />
               </PageTransition>
@@ -79,7 +78,6 @@ function AppContent() {
             <Route path="/about" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <About />
                 <Footer />
               </PageTransition>
