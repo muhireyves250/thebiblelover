@@ -34,16 +34,34 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
   if (loading) {
     return (
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10">
-            <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-8">All Posts</h2>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Journal</span>
+            </div>
+            <h2 className="font-serif text-3xl md:text-4xl font-semibold text-gray-900">All Posts</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="animate-pulse">
-                <div className="bg-gray-300 h-48 rounded-lg mb-4"></div>
-                <div className="bg-gray-300 h-4 rounded mb-2"></div>
-                <div className="bg-gray-300 h-3 rounded w-3/4"></div>
+              <div key={i} className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden animate-pulse">
+                <div className="bg-gray-200 aspect-[16/10]" />
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-gray-200" />
+                    <div className="space-y-1.5 flex-1">
+                      <div className="h-3 w-24 bg-gray-200 rounded" />
+                      <div className="h-2.5 w-32 bg-gray-200 rounded" />
+                    </div>
+                  </div>
+                  <div className="h-5 w-3/4 bg-gray-200 rounded mb-2" />
+                  <div className="h-3 w-full bg-gray-200 rounded mb-1.5" />
+                  <div className="h-3 w-2/3 bg-gray-200 rounded mb-5" />
+                  <div className="pt-4 border-t border-gray-100 flex justify-between">
+                    <div className="h-3 w-16 bg-gray-200 rounded" />
+                    <div className="h-3 w-12 bg-gray-200 rounded" />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -73,18 +91,24 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
 
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
-          <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-8">All Posts</h2>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Journal</span>
+          </div>
+          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-gray-900">All Posts</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto" aria-live="polite">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" aria-live="polite">
           {postsToRender.map((post) => (
             <BlogCard key={post.id} {...post} isPremium={post.isPremium} publishedAt={post.publishedAt || new Date().toISOString()} author={post.author || { name: 'Unknown', profileImage: undefined }} />
           ))}
         </div>
         {showViewAll && (
-          <div className="text-center mt-6">
-            <Link to="/posts" className="text-amber-700 hover:underline">View all posts</Link>
+          <div className="text-center mt-10">
+            <Link to="/posts" className="inline-flex items-center gap-1.5 text-sm font-bold text-amber-700 hover:text-amber-800 transition-colors">
+              View all posts
+            </Link>
           </div>
         )}
       </div>
