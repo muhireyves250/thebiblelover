@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal, LogIn } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
@@ -30,6 +31,7 @@ const PrayerWall = () => {
     const [submitting, setSubmitting] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
+    const [showLoginPrompt, setShowLoginPrompt] = useState(false);
     const [pagination, setPagination] = useState({ page: 1, pages: 1 });
 
     const currentUser = authAPI.getCurrentUser();
@@ -59,7 +61,8 @@ const PrayerWall = () => {
 
     const handlePray = async (id: string) => {
         if (!currentUser) {
-            alert('Please log in to support this prayer request.');
+            setShowLoginPrompt(true);
+            setTimeout(() => setShowLoginPrompt(false), 6000);
             return;
         }
 
@@ -151,6 +154,22 @@ const PrayerWall = () => {
                     <div className="mb-8 p-4 bg-green-50 border border-green-200 text-green-800 text-sm rounded-md flex items-center gap-3">
                         <CheckCircle className="h-5 w-5 shrink-0" />
                         <p className="font-medium">{success}</p>
+                    </div>
+                )}
+
+                {showLoginPrompt && (
+                    <div className="mb-8 p-4 bg-amber-50 border border-amber-200 text-amber-900 text-sm rounded-md flex items-center justify-between gap-4 flex-wrap">
+                        <div className="flex items-center gap-3">
+                            <Shield className="h-5 w-5 shrink-0 text-amber-700" />
+                            <p className="font-medium">Please log in to support this prayer request.</p>
+                        </div>
+                        <Link
+                            to="/login"
+                            className="flex items-center gap-1.5 px-4 py-1.5 bg-amber-700 text-white rounded-md text-xs font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors shrink-0"
+                        >
+                            <LogIn className="h-3.5 w-3.5" />
+                            Log In
+                        </Link>
                     </div>
                 )}
 
