@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
+import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
 
 const CATEGORIES = [
-    { id: 'ALL', name: 'All Requests', icon: '🙏' },
-    { id: 'HEALING', name: 'Healing', icon: '💪' },
-    { id: 'FAMILY', name: 'Family', icon: '🏠' },
-    { id: 'GUIDANCE', name: 'Guidance', icon: '✨' },
-    { id: 'STRENGTH', name: 'Strength', icon: '🔥' },
-    { id: 'THANKSGIVING', name: 'Thanksgiving', icon: '🙌' },
-    { id: 'OTHER', name: 'Other', icon: '🙏' }
+    { id: 'ALL', name: 'All Requests', icon: Heart },
+    { id: 'HEALING', name: 'Healing', icon: HeartPulse },
+    { id: 'FAMILY', name: 'Family', icon: Home },
+    { id: 'GUIDANCE', name: 'Guidance', icon: Compass },
+    { id: 'STRENGTH', name: 'Strength', icon: Flame },
+    { id: 'THANKSGIVING', name: 'Thanksgiving', icon: HandHeart },
+    { id: 'OTHER', name: 'Other', icon: MoreHorizontal }
 ];
 
 const PrayerWall = () => {
@@ -132,7 +132,7 @@ const PrayerWall = () => {
                                     : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
                                     }`}
                             >
-                                <span>{cat.icon}</span>
+                                <cat.icon className="w-3.5 h-3.5" />
                                 <span>{cat.name}</span>
                             </button>
                         ))}
@@ -269,8 +269,8 @@ const PrayerWall = () => {
                     </div>
                 ) : (
                     <div className="text-center py-16 bg-white border border-dashed border-gray-300 rounded-lg">
-                        <div className="w-16 h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto mb-5 text-2xl">
-                            🙏
+                        <div className="w-16 h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                            <Heart className="w-7 h-7 text-amber-700" />
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 mb-1">No prayer requests found</h3>
                         <p className="text-gray-500 text-sm max-w-sm mx-auto">
