@@ -64,6 +64,34 @@ export interface Comment {
   };
 }
 
+export interface AudioEpisode {
+  id: string;
+  title: string;
+  description: string;
+  audioUrl: string;
+  coverImage: string;
+  slot: 'MORNING' | 'EVENING';
+  episodeDate: string;
+  likes: number;
+  isPublished: boolean;
+  authorId: string;
+  createdAt: string;
+  updatedAt: string;
+  commentsCount?: number;
+}
+
+export interface AudioComment {
+  id: string;
+  content: string;
+  authorName: string;
+  authorEmail: string;
+  episodeId: string;
+  isApproved: boolean;
+  createdAt: string;
+  updatedAt: string;
+  episode?: { id: string; title: string };
+}
+
 export interface Donation {
   id: string;
   donorName: string;
@@ -134,6 +162,22 @@ export interface BlogAPI {
   deleteCommentAdmin: (commentId: string) => Promise<ApiResponse>;
 }
 
+export interface AudioEpisodesAPI {
+  getEpisodes: (params?: { slot?: 'MORNING' | 'EVENING'; page?: number; limit?: number }) => Promise<ApiResponse<{ episodes: AudioEpisode[]; pagination: any }>>;
+  getEpisode: (id: string) => Promise<ApiResponse<{ episode: AudioEpisode }>>;
+  getAllEpisodes: (params?: { slot?: 'MORNING' | 'EVENING' }) => Promise<ApiResponse<{ episodes: AudioEpisode[] }>>;
+  createEpisode: (data: any) => Promise<ApiResponse<{ episode: AudioEpisode }>>;
+  updateEpisode: (id: string, data: any) => Promise<ApiResponse<{ episode: AudioEpisode }>>;
+  deleteEpisode: (id: string) => Promise<ApiResponse>;
+  likeEpisode: (id: string) => Promise<ApiResponse<{ likes: number }>>;
+  unlikeEpisode: (id: string) => Promise<ApiResponse<{ likes: number }>>;
+  getComments: (id: string) => Promise<ApiResponse<{ comments: AudioComment[] }>>;
+  addComment: (id: string, data: { authorName: string; authorEmail: string; content: string }) => Promise<ApiResponse>;
+  getAdminComments: (params?: { status?: 'approved' | 'pending' }) => Promise<ApiResponse<{ comments: AudioComment[] }>>;
+  approveComment: (commentId: string) => Promise<ApiResponse>;
+  deleteCommentAdmin: (commentId: string) => Promise<ApiResponse>;
+}
+
 export interface ContactAPI {
   submitContact: (contactData: any) => Promise<ApiResponse>;
   getContacts: (params?: any) => Promise<ApiResponse<{ contacts: ContactMessage[] }>>;
@@ -165,6 +209,10 @@ export interface BibleVerseParams {
   verse?: string | number;
 }
 
+export interface VerseArchiveItem extends BibleVerse {
+  reference: string;
+}
+
 export interface BibleVersesAPI {
   getVerses: (params?: BibleVerseParams) => Promise<ApiResponse<{ verses: BibleVerse[]; pagination: any }>>;
   getVerse: (id: string) => Promise<ApiResponse<{ verse: BibleVerse }>>;
@@ -172,7 +220,9 @@ export interface BibleVersesAPI {
   updateVerse: (id: string, verseData: any) => Promise<ApiResponse<{ verse: BibleVerse }>>;
   deleteVerse: (id: string) => Promise<ApiResponse>;
   getVerseOfTheDay: () => Promise<ApiResponse<{ verse: BibleVerse }>>;
+  getFeaturedVerse: () => Promise<ApiResponse<{ verse: BibleVerse }>>;
   getFeaturedVerses: () => Promise<ApiResponse<{ verses: BibleVerse[] }>>;
+  getArchive: (limit?: number) => Promise<ApiResponse<{ featured: VerseArchiveItem | null; items: VerseArchiveItem[] }>>;
 }
 
 export interface AuthAPI {
@@ -205,6 +255,7 @@ export interface UploadAPI {
   uploadImage: (file: File) => Promise<ApiResponse<{ url: string; filename: string; fullUrl: string }>>;
   uploadProfileImage: (file: File) => Promise<ApiResponse<{ url: string; filename: string }>>;
   uploadVideo: (file: File) => Promise<ApiResponse<{ url: string; filename: string; fullUrl: string }>>;
+  uploadAudio: (file: File) => Promise<ApiResponse<{ url: string; filename: string; fullUrl: string }>>;
 }
 
 export interface NewsletterAPI {
@@ -372,6 +423,7 @@ export interface HomeFeedAPI {
 export declare const statsAPI: StatsAPI;
 export declare const homeFeedAPI: HomeFeedAPI;
 export declare const blogAPI: BlogAPI;
+export declare const audioEpisodesAPI: AudioEpisodesAPI;
 export declare const contactAPI: ContactAPI;
 export declare const donationsAPI: DonationsAPI;
 export declare const bibleVersesAPI: BibleVersesAPI;
@@ -389,6 +441,7 @@ export declare const searchAPI: SearchAPI;
 export interface API {
   auth: AuthAPI;
   blog: BlogAPI;
+  audioEpisodes: AudioEpisodesAPI;
   contact: ContactAPI;
   donations: DonationsAPI;
   bibleVerses: BibleVersesAPI;

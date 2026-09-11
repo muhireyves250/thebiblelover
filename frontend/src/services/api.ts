@@ -2,6 +2,7 @@ import {
   ApiResponse,
   AuthAPI,
   BlogAPI,
+  AudioEpisodesAPI,
   BibleVersesAPI,
   ContactAPI,
   DonationsAPI,
@@ -133,6 +134,31 @@ export const blogAPI: BlogAPI = {
   deleteCommentAdmin: (commentId) => apiRequest(`/blog/admin/comments/${commentId}`, { method: 'DELETE' }),
 };
 
+export const audioEpisodesAPI: AudioEpisodesAPI = {
+  getEpisodes: (params) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiRequest(`/audio-episodes?${query}`);
+  },
+  getEpisode: (id) => apiRequest(`/audio-episodes/${id}`),
+  getAllEpisodes: (params) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiRequest(`/audio-episodes/admin/all?${query}`);
+  },
+  createEpisode: (data) => apiRequest('/audio-episodes', { method: 'POST', body: JSON.stringify(data) }),
+  updateEpisode: (id, data) => apiRequest(`/audio-episodes/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteEpisode: (id) => apiRequest(`/audio-episodes/${id}`, { method: 'DELETE' }),
+  likeEpisode: (id) => apiRequest(`/audio-episodes/${id}/like`, { method: 'POST' }),
+  unlikeEpisode: (id) => apiRequest(`/audio-episodes/${id}/unlike`, { method: 'POST' }),
+  getComments: (id) => apiRequest(`/audio-episodes/${id}/comments`),
+  addComment: (id, data) => apiRequest(`/audio-episodes/${id}/comments`, { method: 'POST', body: JSON.stringify(data) }),
+  getAdminComments: (params) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiRequest(`/audio-episodes/admin/comments?${query}`);
+  },
+  approveComment: (commentId) => apiRequest(`/audio-episodes/admin/comments/${commentId}/approve`, { method: 'PUT' }),
+  deleteCommentAdmin: (commentId) => apiRequest(`/audio-episodes/admin/comments/${commentId}`, { method: 'DELETE' }),
+};
+
 export const contactAPI: ContactAPI = {
   submitContact: (data) => apiRequest('/contact', { method: 'POST', body: JSON.stringify(data) }),
   getContacts: (params) => {
@@ -180,6 +206,7 @@ export const bibleVersesAPI: BibleVersesAPI = {
   getVerseOfTheDay: () => apiRequest('/bible-verses/votd'),
   getFeaturedVerse: () => apiRequest('/bible-verses/featured'),
   getFeaturedVerses: () => apiRequest('/bible-verses/featured'),
+  getArchive: (limit = 13) => apiRequest(`/bible-verses/archive?limit=${limit}`),
 };
 
 export const settingsAPI: SettingsAPI = {
@@ -210,6 +237,15 @@ export const uploadAPI: UploadAPI = {
     const formData = new FormData();
     formData.append('video', file);
     return apiRequest('/upload/video', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Content-Type': undefined },
+    });
+  },
+  uploadAudio: (file) => {
+    const formData = new FormData();
+    formData.append('audio', file);
+    return apiRequest('/upload/audio', {
       method: 'POST',
       body: formData,
       headers: { 'Content-Type': undefined },
@@ -309,6 +345,7 @@ export const homeFeedAPI = {
 const apis: API = {
   auth: authAPI,
   blog: blogAPI,
+  audioEpisodes: audioEpisodesAPI,
   contact: contactAPI,
   donations: donationsAPI,
   bibleVerses: bibleVersesAPI,
