@@ -32,7 +32,9 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
   // stream so the microphone indicator doesn't stay lit indefinitely.
   useEffect(() => {
     return () => {
-      mediaRecorderRef.current?.stop();
+      if (mediaRecorderRef.current?.state !== 'inactive') {
+        mediaRecorderRef.current?.stop();
+      }
       streamRef.current?.getTracks().forEach(track => track.stop());
     };
   }, []);
