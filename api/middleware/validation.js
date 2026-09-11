@@ -44,7 +44,8 @@ export const validateBibleVerse = (req, res, next) => {
     translation: Joi.string().max(10).default('NIV'),
     image: Joi.string().uri().optional(),
     isActive: Joi.boolean().default(true),
-    isFeatured: Joi.boolean().default(false)
+    isFeatured: Joi.boolean().default(false),
+    displayDate: Joi.date().iso().optional()
   });
 
   const { error } = schema.validate(req.body);
@@ -66,7 +67,68 @@ export const validateBibleVerseUpdate = (req, res, next) => {
     translation: Joi.string().max(10).optional(),
     image: Joi.string().uri().optional(),
     isActive: Joi.boolean().optional(),
-    isFeatured: Joi.boolean().optional()
+    isFeatured: Joi.boolean().optional(),
+    displayDate: Joi.date().iso().optional()
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.details[0].message
+    });
+  }
+  next();
+};
+
+// Audio episode validation schemas
+export const validateAudioEpisode = (req, res, next) => {
+  const schema = Joi.object({
+    title: Joi.string().min(3).max(200).required(),
+    description: Joi.string().min(10).max(2000).required(),
+    audioUrl: Joi.string().uri().required(),
+    coverImage: Joi.string().uri().required(),
+    slot: Joi.string().valid('MORNING', 'EVENING').required(),
+    episodeDate: Joi.date().iso().optional(),
+    isPublished: Joi.boolean().default(true)
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.details[0].message
+    });
+  }
+  next();
+};
+
+export const validateAudioEpisodeUpdate = (req, res, next) => {
+  const schema = Joi.object({
+    title: Joi.string().min(3).max(200).optional(),
+    description: Joi.string().min(10).max(2000).optional(),
+    audioUrl: Joi.string().uri().optional(),
+    coverImage: Joi.string().uri().optional(),
+    slot: Joi.string().valid('MORNING', 'EVENING').optional(),
+    episodeDate: Joi.date().iso().optional(),
+    isPublished: Joi.boolean().optional()
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.details[0].message
+    });
+  }
+  next();
+};
+
+export const validateAudioComment = (req, res, next) => {
+  const schema = Joi.object({
+    authorName: Joi.string().min(2).max(100).required(),
+    authorEmail: Joi.string().email().required(),
+    content: Joi.string().min(2).max(1000).required()
   });
 
   const { error } = schema.validate(req.body);
