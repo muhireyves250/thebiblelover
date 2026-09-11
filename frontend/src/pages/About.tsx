@@ -39,8 +39,8 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader eyebrow="About Us" title="Who We Are" subtitle="A community built around God's Word" />
 
-          <div className="flex flex-col bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
-            <div className="w-1/2 mx-auto h-64 md:h-80 border-b border-gray-200">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
+            <div className="float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
               <img
                 src={aboutSection?.imageUrl || '/images/about.png'}
                 alt={aboutSection?.title || 'About Us'}
@@ -48,7 +48,7 @@ const About = () => {
                 loading="lazy"
               />
             </div>
-            <div className="p-6 md:p-10 space-y-5 text-gray-700 leading-relaxed">
+            <div className="space-y-5 text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
                 {aboutSection?.content ||
                   'Welcome to Bible Lovers, a place where God’s Word comes alive and transforms hearts.'}
@@ -73,6 +73,7 @@ const About = () => {
                 for you.
               </p>
             </div>
+            <div className="clear-both" />
           </div>
         </div>
       </section>
@@ -82,8 +83,8 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader eyebrow="Our Journey" title="Our Story" subtitle="How a simple calling became a community" />
 
-          <div className="flex flex-col bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
-            <div className="w-1/2 mx-auto h-64 md:h-80 border-b border-gray-200">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
+            <div className="float-right w-1/2 h-64 md:h-80 ml-6 md:ml-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
               <img
                 src={storySection?.imageUrl || '/images/story.png'}
                 alt={storySection?.title || 'Our Story'}
@@ -91,7 +92,7 @@ const About = () => {
                 loading="lazy"
               />
             </div>
-            <div className="p-6 md:p-10 space-y-5 text-gray-700 leading-relaxed">
+            <div className="space-y-5 text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
                 {storySection?.content ||
                   'Our story began with a passion for God’s Word and a desire to help others experience its life-changing power.'}
@@ -116,6 +117,7 @@ const About = () => {
                 us. We're still building that way: one honest conversation at a time.
               </p>
             </div>
+            <div className="clear-both" />
           </div>
         </div>
       </section>
@@ -125,8 +127,8 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader eyebrow="Our Purpose" title="Our Mission" subtitle="What we're committed to, every single day" />
 
-          <div className="flex flex-col bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
-            <div className="w-1/2 mx-auto h-64 md:h-80 border-b border-gray-200">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
+            <div className="float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
               <img
                 src={missionSection?.imageUrl || '/images/mission.png'}
                 alt={missionSection?.title || 'Our Mission'}
@@ -134,7 +136,7 @@ const About = () => {
                 loading="lazy"
               />
             </div>
-            <div className="p-6 md:p-10 space-y-5 text-gray-700 leading-relaxed">
+            <div className="space-y-5 text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
                 {missionSection?.content ||
                   'Our mission is to inspire and equip believers to grow deeper in their faith.'}
@@ -162,6 +164,7 @@ const About = () => {
                 purpose and with victory.
               </p>
             </div>
+            <div className="clear-both" />
           </div>
         </div>
       </section>
