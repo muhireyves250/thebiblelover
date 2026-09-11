@@ -425,6 +425,7 @@ export type HomeFeedItem = HomeFeedPost | HomeFeedVideo;
 
 export interface HomeFeedAPI {
   getFeed: (limit?: number) => Promise<ApiResponse<{ featured: HomeFeedItem | null; items: HomeFeedItem[] }>>;
+  getVideos: (limit?: number) => Promise<ApiResponse<{ items: HomeFeedVideo[] }>>;
 }
 
 export declare const statsAPI: StatsAPI;

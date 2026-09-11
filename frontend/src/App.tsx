@@ -52,6 +52,7 @@ const Posts = lazy(() => import('./pages/Posts'));
 const Search = lazy(() => import('./pages/Search'));
 const PrayerWall = lazy(() => import('./pages/PrayerWall'));
 const Events = lazy(() => import('./pages/Events'));
+const Videos = lazy(() => import('./pages/Videos'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Register = lazy(() => import('./pages/Register'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
@@ -194,6 +195,15 @@ function AppContent() {
               <PageTransition>
                 <Header />
                 <EventDetail />
+                <Announcements />
+                <Footer />
+              </PageTransition>
+            } />
+
+            <Route path="/watch" element={
+              <PageTransition>
+                <Header />
+                <Videos />
                 <Announcements />
                 <Footer />
               </PageTransition>

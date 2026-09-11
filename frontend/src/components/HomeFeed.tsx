@@ -303,14 +303,12 @@ const HomeFeed: React.FC = () => {
                   Live Stream
                 </span>
               </div>
-              <a
-                href={YOUTUBE_CHANNEL_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/watch"
                 className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-amber-700 hover:text-amber-800 transition-colors"
               >
                 Watch More <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              </Link>
             </div>
             <div className="flex-1">
               {!hasLoaded ? (

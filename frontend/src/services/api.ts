@@ -340,6 +340,7 @@ export const statsAPI: StatsAPI = {
 
 export const homeFeedAPI = {
   getFeed: (limit = 6) => apiRequest(`/home-feed?limit=${limit}`),
+  getVideos: (limit = 20) => apiRequest(`/home-feed/videos?limit=${limit}`),
 };
 
 const apis: API = {

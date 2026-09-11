@@ -66,4 +66,28 @@ router.get('/', async (req, res) => {
   }
 });
 
+// All YouTube content the system has (live stream, if any, plus recent
+// uploads) - backs the "Watch More" page, distinct from the homepage
+// Watch slot which only ever shows the single featured item.
+router.get('/videos', async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit) || 20, 50);
+
+    const [videos, live] = await Promise.all([
+      getLatestVideos(limit).catch(() => []),
+      getLiveVideo().catch(() => null)
+    ]);
+
+    // The live broadcast (if any) also shows up in the uploads list once
+    // it ends up on the channel page, so keep it out of the recent list
+    // to avoid showing the same video twice.
+    const items = live ? [live, ...videos.filter(v => v.id !== live.id)] : videos;
+
+    res.json({ success: true, data: { items } });
+  } catch (error) {
+    console.error('Home feed videos error:', error);
+    res.status(500).json({ success: false, message: 'Failed to load videos' });
+  }
+});
+
 export default router;
