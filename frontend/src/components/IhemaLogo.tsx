@@ -5,19 +5,12 @@ interface IhemaLogoProps {
 }
 
 const IhemaLogo: React.FC<IhemaLogoProps> = ({ className = '' }) => (
-  <span className={`inline-flex items-end leading-none select-none ${className}`}>
-    <span className="relative flex flex-col items-center mr-0.5">
-      <span className="w-1.5 h-1.5 rounded-full bg-amber-700 dark:bg-amber-500 mb-0.5" />
-      <span className="text-2xl md:text-3xl font-sans font-black text-amber-700 dark:text-amber-500 -tracking-tight">
-        I
-      </span>
+  <span className={`inline-flex flex-col leading-none select-none ${className}`}>
+    <span className="text-xl md:text-2xl font-sans font-extrabold tracking-tight">
+      <span className="text-gray-900 dark:text-gray-100">IHE</span>
+      <span className="text-amber-700 dark:text-amber-500">MA</span>
     </span>
-    <span className="text-xl md:text-2xl font-sans font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">
-      HE
-    </span>
-    <span className="text-xl md:text-2xl font-sans font-extrabold italic text-amber-700 dark:text-amber-500 tracking-tight -skew-x-6">
-      MA
-    </span>
+    <span className="mt-1 h-[3px] w-8 rounded-full bg-amber-700 dark:bg-amber-500" />
   </span>
 );
 
