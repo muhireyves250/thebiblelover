@@ -171,47 +171,6 @@ router.post('/:id/unlike', optionalAuth, async (req, res) => {
   }
 });
 
-// Public: list approved comments for an episode
-router.get('/:id/comments', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const comments = await prisma.audioComment.findMany({
-      where: { episodeId: id, isApproved: true },
-      orderBy: { createdAt: 'desc' }
-    });
-    res.json({ success: true, data: { comments } });
-  } catch (error) {
-    console.error('List audio comments error:', error);
-    res.status(500).json({ success: false, message: 'Failed to load comments' });
-  }
-});
-
-// Public: submit a comment — held for moderation (isApproved: false)
-router.post('/:id/comments', validateAudioComment, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { authorName, authorEmail, content } = req.body;
-
-    const episode = await prisma.audioEpisode.findUnique({ where: { id } });
-    if (!episode) {
-      return res.status(404).json({ success: false, message: 'Episode not found' });
-    }
-
-    const comment = await prisma.audioComment.create({
-      data: { content, authorName, authorEmail, episodeId: id, isApproved: false }
-    });
-
-    res.status(201).json({
-      success: true,
-      message: 'Comment submitted and awaiting approval',
-      data: { comment }
-    });
-  } catch (error) {
-    console.error('Create audio comment error:', error);
-    res.status(500).json({ success: false, message: 'Failed to submit comment' });
-  }
-});
-
 // Admin: list all comments (optional status filter), or comments for one episode
 router.get('/admin/comments', verifyToken, requireAdmin, async (req, res) => {
   try {
@@ -271,6 +230,47 @@ router.delete('/admin/comments/:commentId', verifyToken, requireAdmin, async (re
   } catch (error) {
     console.error('Delete audio comment error:', error);
     res.status(500).json({ success: false, message: 'Failed to delete comment' });
+  }
+});
+
+// Public: list approved comments for an episode
+router.get('/:id/comments', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const comments = await prisma.audioComment.findMany({
+      where: { episodeId: id, isApproved: true },
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json({ success: true, data: { comments } });
+  } catch (error) {
+    console.error('List audio comments error:', error);
+    res.status(500).json({ success: false, message: 'Failed to load comments' });
+  }
+});
+
+// Public: submit a comment — held for moderation (isApproved: false)
+router.post('/:id/comments', validateAudioComment, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { authorName, authorEmail, content } = req.body;
+
+    const episode = await prisma.audioEpisode.findUnique({ where: { id } });
+    if (!episode) {
+      return res.status(404).json({ success: false, message: 'Episode not found' });
+    }
+
+    const comment = await prisma.audioComment.create({
+      data: { content, authorName, authorEmail, episodeId: id, isApproved: false }
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Comment submitted and awaiting approval',
+      data: { comment }
+    });
+  } catch (error) {
+    console.error('Create audio comment error:', error);
+    res.status(500).json({ success: false, message: 'Failed to submit comment' });
   }
 });
 
