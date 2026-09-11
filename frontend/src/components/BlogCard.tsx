@@ -127,7 +127,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
         </div>
 
         <Link to={`/blog/${slug}`}>
-          <h2 className={`font-serif text-gray-900 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
+          <h2 className={`font-sans font-bold text-gray-900 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
             {title}
           </h2>
         </Link>
