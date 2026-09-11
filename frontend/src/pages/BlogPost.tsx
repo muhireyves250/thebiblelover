@@ -168,19 +168,39 @@ const BlogPost: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Main column */}
           <article className="lg:col-span-2">
-            <span className="inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
-              {categoryLabel(post.category)}
-            </span>
-
-            <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-4">
-              {post.title}
-            </h1>
-
-            <p className="text-gray-600 text-lg leading-relaxed mb-6">{post.excerpt}</p>
-
-            {post.featuredImage && (
-              <div className="mb-6 rounded-lg overflow-hidden border border-gray-200">
-                <img src={post.featuredImage} alt={post.title} className="w-full h-auto object-cover" loading="lazy" decoding="async" />
+            {post.featuredImage ? (
+              <div className="mb-6">
+                <div className="group relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                  <img
+                    src={post.featuredImage}
+                    alt={post.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-black/25 transition-colors duration-300 group-hover:bg-black/35" />
+                  <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/85 via-black/55 to-transparent px-5 pb-16 pt-5">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-4 h-[2px] bg-amber-500" />
+                      <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-400">{categoryLabel(post.category)}</span>
+                    </div>
+                    <h1 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-white drop-shadow-sm">
+                      {post.title}
+                    </h1>
+                  </div>
+                </div>
+                <p className="text-gray-600 text-lg leading-relaxed">{post.excerpt}</p>
+                <div className="clear-both" />
+              </div>
+            ) : (
+              <div className="mb-6">
+                <span className="inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
+                  {categoryLabel(post.category)}
+                </span>
+                <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-4">
+                  {post.title}
+                </h1>
+                <p className="text-gray-600 text-lg leading-relaxed">{post.excerpt}</p>
               </div>
             )}
 
