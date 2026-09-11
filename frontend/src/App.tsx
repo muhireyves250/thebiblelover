@@ -27,6 +27,7 @@ const Donate = lazy(() => import('./pages/Donate'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Login = lazy(() => import('./pages/Login'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const Players = lazy(() => import('./pages/Players'));
 const Posts = lazy(() => import('./pages/Posts'));
 const Search = lazy(() => import('./pages/Search'));
 const PrayerWall = lazy(() => import('./pages/PrayerWall'));
@@ -90,6 +91,13 @@ function AppContent() {
               <PageTransition>
                 <Header />
                 <Posts />
+                <Footer />
+              </PageTransition>
+            } />
+            <Route path="/players" element={
+              <PageTransition>
+                <Header />
+                <Players />
                 <Footer />
               </PageTransition>
             } />
