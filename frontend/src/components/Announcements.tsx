@@ -17,7 +17,7 @@ const Announcements: React.FC = () => {
     <span className="pr-10" aria-hidden={hidden || undefined}>
       {items.map((item, i) => (
         <span key={i}>
-          <span className="text-lg md:text-xl font-black uppercase tracking-wider text-white">{item}</span>
+          <span className="font-sans text-lg md:text-xl font-black uppercase tracking-wider text-white">{item}</span>
           {i < items.length - 1 && <span className="text-amber-500 font-black mx-6">&bull;</span>}
         </span>
       ))}
@@ -28,7 +28,7 @@ const Announcements: React.FC = () => {
     <section className="bg-gray-950 py-8 isolate overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-5">
-          <span className="flex items-center gap-2.5 text-sm font-black uppercase tracking-[0.2em] text-amber-500 shrink-0">
+          <span className="flex items-center gap-2.5 font-sans text-sm font-black uppercase tracking-[0.2em] text-amber-500 shrink-0">
             <Megaphone className="w-8 h-8 animate-ring-wiggle" />
             <span className="animate-vibrate inline-block">{announcementsSection?.title || 'Announcements'}</span>
           </span>
