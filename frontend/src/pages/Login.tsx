@@ -46,17 +46,17 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16">
+    <div className="bg-white flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
       <SEO title="Sign In" description="Sign in to your Bible Lover account." />
       <div className="max-w-md w-full">
-        <div className="text-center mb-8">
+        <div className="text-center mb-4">
           <p className="text-sm text-gray-500">
             Sign in to your Bible Lover account
           </p>
         </div>
 
-        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8">
-          <form className="space-y-5" onSubmit={handleSubmit}>
+        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5 md:p-6">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
                 {error}
@@ -144,9 +144,9 @@ const Login: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-gray-100">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-3">Demo Credentials</p>
-            <div className="bg-gray-50 border border-gray-100 p-4 rounded-md">
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-2">Demo Credentials</p>
+            <div className="bg-gray-50 border border-gray-100 p-3 rounded-md">
               <p className="text-sm text-gray-600 text-center leading-relaxed">
                 <strong className="text-gray-900">Email:</strong> admin@biblelover.com<br />
                 <strong className="text-gray-900">Password:</strong> admin123
@@ -155,7 +155,7 @@ const Login: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p className="text-center text-sm text-gray-500 mt-4">
           Don't have an account?{' '}
           <Link to="/register" className="font-bold text-amber-700 hover:text-amber-800 transition-colors">
             Join the family
