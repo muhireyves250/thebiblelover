@@ -6,7 +6,7 @@ import SEO from '../components/SEO';
 const SectionHeader = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) => (
   <>
     <div className="absolute inset-0 bg-black/25" />
-    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent px-4 pt-14 pb-4">
+    <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/80 via-black/50 to-transparent px-4 pb-14 pt-4">
       <div className="flex items-center gap-2 mb-2">
         <span className="w-1 h-4 bg-amber-500 rounded-sm" />
         <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">{eyebrow}</span>
