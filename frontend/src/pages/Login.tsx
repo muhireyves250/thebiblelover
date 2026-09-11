@@ -4,7 +4,6 @@ import { Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
 import SEO from '../components/SEO';
-import PageHeader from '../components/PageHeader';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -49,9 +48,29 @@ const Login: React.FC = () => {
   return (
     <div className="bg-white">
       <SEO title="Sign In" description="Sign in to your Bible Lover account." />
-      <PageHeader title="Sign In" subtitle="WELCOME BACK TO THE COMMUNITY" />
 
-      <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
+        {/* Photo */}
+        <div className="hidden lg:block relative">
+          <img
+            src="/images/about.png"
+            alt="The Bible Lover"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute bottom-10 left-10 right-10">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-1 h-4 bg-amber-500 rounded-sm" />
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">The Bible Lover</span>
+            </div>
+            <h2 className="text-2xl font-serif text-white leading-snug">
+              A community built around God's Word
+            </h2>
+          </div>
+        </div>
+
+        {/* Login form */}
+        <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
       <div className="max-w-md w-full">
         <div className="text-center mb-4">
           <p className="text-sm text-gray-500">
@@ -166,6 +185,7 @@ const Login: React.FC = () => {
           </Link>
         </p>
       </div>
+        </div>
       </div>
     </div>
   );
