@@ -169,7 +169,9 @@ function AppContent() {
 
             <Route path="/login" element={
               <PageTransition>
+                <Header />
                 <Login />
+                <Footer />
               </PageTransition>
             } />
             <Route path="/register" element={
