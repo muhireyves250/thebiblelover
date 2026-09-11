@@ -168,6 +168,7 @@ const BlogPost: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Main column */}
           <article className="lg:col-span-2">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
             <span className="inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
               {categoryLabel(post.category)}
             </span>
@@ -283,6 +284,7 @@ const BlogPost: React.FC = () => {
                 <ShareButtons title={post.title} />
               </div>
             </div>
+          </div>
 
             <AudioReader content={post.content} title={post.title} />
 
