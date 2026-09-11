@@ -72,8 +72,61 @@ const EventDetail = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-white flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+            <div className="min-h-screen bg-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <nav className="mb-6">
+                        <span className="inline-block h-3 w-48 bg-gray-200 rounded animate-pulse" />
+                    </nav>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                        <article className="lg:col-span-2">
+                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
+                                <div className="h-6 w-24 bg-gray-200 rounded animate-pulse mb-4" />
+                                <div className="h-9 bg-gray-200 rounded animate-pulse w-3/4 mb-2" />
+                                <div className="h-9 bg-gray-200 rounded animate-pulse w-1/2 mb-6" />
+                                <div className="w-full h-64 md:h-80 bg-gray-200 rounded-lg animate-pulse mb-6" />
+                                <div className="h-3 w-32 bg-gray-200 rounded animate-pulse mb-4" />
+                                <div className="h-4 bg-gray-200 rounded animate-pulse w-full mb-2" />
+                                <div className="h-4 bg-gray-200 rounded animate-pulse w-full mb-2" />
+                                <div className="h-4 bg-gray-200 rounded animate-pulse w-2/3" />
+                            </div>
+
+                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8">
+                                <div className="h-3 w-32 bg-gray-200 rounded animate-pulse mb-6" />
+                                <div className="flex flex-wrap gap-4">
+                                    {[1, 2, 3, 4].map(i => (
+                                        <div key={i} className="w-12 h-12 rounded-full bg-gray-200 animate-pulse" />
+                                    ))}
+                                </div>
+                            </div>
+                        </article>
+
+                        <aside className="lg:col-span-1 space-y-6">
+                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+                                <div className="h-3 w-28 bg-gray-200 rounded animate-pulse mb-4" />
+                                <dl className="space-y-1">
+                                    {[Calendar, Clock, MapPin].map((Icon, i) => (
+                                        <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
+                                            <dt className="flex items-center gap-2 text-gray-500">
+                                                <Icon className="w-3.5 h-3.5 text-gray-300" />
+                                                <span className="h-3 w-14 bg-gray-200 rounded animate-pulse" />
+                                            </dt>
+                                            <dd className="h-3 w-24 bg-gray-200 rounded animate-pulse" />
+                                        </div>
+                                    ))}
+                                </dl>
+                                <div className="mt-5 pt-5 border-t border-gray-100 space-y-3">
+                                    <div className="h-11 bg-gray-200 rounded-md animate-pulse" />
+                                    <div className="h-3 w-32 bg-gray-200 rounded animate-pulse mx-auto" />
+                                </div>
+                            </div>
+                            <div className="flex gap-3">
+                                <div className="flex-1 h-10 border border-gray-200 rounded-md bg-gray-100 animate-pulse" />
+                                <div className="flex-1 h-10 border border-gray-200 rounded-md bg-gray-100 animate-pulse" />
+                            </div>
+                        </aside>
+                    </div>
+                </div>
             </div>
         );
     }
