@@ -8,7 +8,7 @@ interface ContentSettingsModalProps {
     onClose: () => void;
 }
 
-type SectionKey = 'aboutSection' | 'storySection' | 'missionSection' | 'heroSection';
+type SectionKey = 'aboutSection' | 'storySection' | 'missionSection' | 'heroSection' | 'announcementsSection';
 
 const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onClose }) => {
     const { settings, loading: loadingSettings, saveSection } = useContentSettings();
@@ -118,7 +118,8 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
         { id: 'aboutSection', label: 'About Us' },
         { id: 'storySection', label: 'Our Story' },
         { id: 'missionSection', label: 'Our Mission' },
-        { id: 'heroSection', label: 'Hero Section' }
+        { id: 'heroSection', label: 'Hero Section' },
+        { id: 'announcementsSection', label: 'Announcements' }
     ];
 
     return (
@@ -281,52 +282,59 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Section Content</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                {activeTab === 'announcementsSection' ? 'Announcements (one per line)' : 'Section Content'}
+                                            </label>
                                             <textarea
                                                 name="content"
                                                 value={formData.content}
                                                 onChange={handleInputChange}
                                                 rows={6}
                                                 className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none resize-none"
-                                                placeholder="Enter section description..."
+                                                placeholder={activeTab === 'announcementsSection' ? 'One announcement per line...' : 'Enter section description...'}
                                             />
+                                            {activeTab === 'announcementsSection' && (
+                                                <p className="text-xs text-gray-500 mt-2">Each line becomes one sliding announcement on the homepage.</p>
+                                            )}
                                         </div>
 
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Section Image</label>
-                                            <div className="space-y-4">
-                                                {formData.imageUrl && (
-                                                    <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 border border-gray-200 relative group">
-                                                        <img
-                                                            src={formData.imageUrl}
-                                                            alt="Section Preview"
-                                                            className="w-full h-full object-cover"
-                                                        />
-                                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                            <p className="text-white text-sm font-medium">Current Image</p>
+                                        {activeTab !== 'announcementsSection' && (
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">Section Image</label>
+                                                <div className="space-y-4">
+                                                    {formData.imageUrl && (
+                                                        <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 border border-gray-200 relative group">
+                                                            <img
+                                                                src={formData.imageUrl}
+                                                                alt="Section Preview"
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                                <p className="text-white text-sm font-medium">Current Image</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )}
+                                                    )}
 
-                                                <div className="flex items-center gap-3">
-                                                    <input
-                                                        type="text"
-                                                        name="imageUrl"
-                                                        value={formData.imageUrl}
-                                                        onChange={handleInputChange}
-                                                        placeholder="Enter image URL..."
-                                                        className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-sm"
-                                                    />
-                                                    <label className={`cursor-pointer px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
-                                                        <Upload className="w-4 h-4 text-gray-400" />
-                                                        <span className="text-sm font-medium text-gray-600">
-                                                            {uploading ? '...' : 'Upload'}
-                                                        </span>
-                                                        <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
-                                                    </label>
+                                                    <div className="flex items-center gap-3">
+                                                        <input
+                                                            type="text"
+                                                            name="imageUrl"
+                                                            value={formData.imageUrl}
+                                                            onChange={handleInputChange}
+                                                            placeholder="Enter image URL..."
+                                                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-sm"
+                                                        />
+                                                        <label className={`cursor-pointer px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                                                            <Upload className="w-4 h-4 text-gray-400" />
+                                                            <span className="text-sm font-medium text-gray-600">
+                                                                {uploading ? '...' : 'Upload'}
+                                                            </span>
+                                                            <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </>
                                 )}
 

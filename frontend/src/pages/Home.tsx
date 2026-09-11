@@ -2,7 +2,7 @@ import Hero from '../components/Hero';
 import HomeFeed from '../components/HomeFeed';
 import PlayerDesk from '../components/PlayerDesk';
 import VerseDesk from '../components/VerseDesk';
-import Newsletter from '../components/Newsletter';
+import Announcements from '../components/Announcements';
 import AboutDesk from '../components/AboutDesk';
 import SEO from '../components/SEO';
 
@@ -20,7 +20,7 @@ const Home = () => {
 
       <AboutDesk />
 
-      <Newsletter />
+      <Announcements />
     </>
   );
 };

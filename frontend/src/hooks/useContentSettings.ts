@@ -40,10 +40,11 @@ export interface ContentSettings {
     missionSection: ContentSection;
     heroSection: HeroSection;
     footerSettings: FooterSettings;
+    announcementsSection: ContentSection;
     [key: string]: any;
 }
 
-export type SectionKey = 'aboutSection' | 'storySection' | 'missionSection' | 'heroSection' | 'footerSettings';
+export type SectionKey = 'aboutSection' | 'storySection' | 'missionSection' | 'heroSection' | 'footerSettings' | 'announcementsSection';
 
 const defaultSection: ContentSection = {
     title: '',
@@ -74,21 +75,29 @@ const defaultFooterSettings: FooterSettings = {
     whatsapp: "#"
 };
 
+const defaultAnnouncementsSection: ContentSection = {
+    title: 'Announcements',
+    content: 'Welcome to The Bible Lover — new devotionals added daily.\nJoin our community and grow deeper in faith together.',
+    imageUrl: ''
+};
+
 const defaultSettings: ContentSettings = {
     aboutSection: defaultSection,
     storySection: defaultSection,
     missionSection: defaultSection,
     heroSection: defaultHeroSection,
-    footerSettings: defaultFooterSettings
+    footerSettings: defaultFooterSettings,
+    announcementsSection: defaultAnnouncementsSection
 };
 
 async function resolveContentSettings(): Promise<ContentSettings> {
-    const [about, story, mission, hero, footer] = await Promise.all([
+    const [about, story, mission, hero, footer, announcements] = await Promise.all([
         settingsAPI.getSettingCategory('aboutSection'),
         settingsAPI.getSettingCategory('storySection'),
         settingsAPI.getSettingCategory('missionSection'),
         settingsAPI.getSettingCategory('heroSection').catch(() => ({ data: { settings: defaultHeroSection } })),
-        settingsAPI.getSettingCategory('footerSettings').catch(() => ({ data: { settings: defaultFooterSettings } }))
+        settingsAPI.getSettingCategory('footerSettings').catch(() => ({ data: { settings: defaultFooterSettings } })),
+        settingsAPI.getSettingCategory('announcementsSection').catch(() => ({ data: { settings: defaultAnnouncementsSection } }))
     ]);
 
     return {
@@ -96,7 +105,8 @@ async function resolveContentSettings(): Promise<ContentSettings> {
         storySection: story?.data?.settings || defaultSection,
         missionSection: mission?.data?.settings || defaultSection,
         heroSection: hero?.data?.settings || defaultHeroSection,
-        footerSettings: footer?.data?.settings || defaultFooterSettings
+        footerSettings: footer?.data?.settings || defaultFooterSettings,
+        announcementsSection: announcements?.data?.settings || defaultAnnouncementsSection
     };
 }
 
