@@ -348,7 +348,7 @@ export interface Event {
 export interface EventAPI {
   getEvents: () => Promise<ApiResponse<Event[]>>;
   getEvent: (id: string) => Promise<ApiResponse<Event>>;
-  rsvp: (id: string) => Promise<ApiResponse<{ rsvpStatus: boolean }>>;
+  rsvp: (id: string, data?: { joining?: boolean }) => Promise<ApiResponse<{ rsvpStatus: boolean }> & { rsvpStatus: boolean; guestRsvps?: number }>;
   create: (data: Partial<Event>) => Promise<ApiResponse<Event>>;
   update: (id: string, data: Partial<Event>) => Promise<ApiResponse<Event>>;
   delete: (id: string) => Promise<ApiResponse<void>>;

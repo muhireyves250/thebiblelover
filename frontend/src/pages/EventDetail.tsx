@@ -14,6 +14,7 @@ const EventDetail = () => {
     useEffect(() => {
         loadEvent();
         loadUser();
+        if (id) setIsRSVPed(localStorage.getItem(`rsvped:${id}`) === '1');
     }, [id]);
 
     const loadUser = async () => {
@@ -52,16 +53,23 @@ const EventDetail = () => {
     }, [event, currentUser]);
 
     const handleRSVP = async () => {
-        if (!currentUser) {
-            // Handle redirect to login or show alert
-            alert('Please log in to RSVP for events.');
-            return;
-        }
         if (!id) return;
 
         try {
-            const response = await eventAPI.rsvp(id);
+            // A signed-in user's RSVP toggles server-side per account. A
+            // guest's tap isn't individually identifiable, so the guest's
+            // own "am I joining" state lives in localStorage and we tell
+            // the server which direction to move the shared counter.
+            const isGuest = !currentUser;
+            const guestKey = `rsvped:${id}`;
+            const nextJoining = isGuest ? localStorage.getItem(guestKey) !== '1' : undefined;
+
+            const response = await eventAPI.rsvp(id, isGuest ? { joining: nextJoining } : undefined);
             if (response.success) {
+                if (isGuest) {
+                    if (nextJoining) localStorage.setItem(guestKey, '1');
+                    else localStorage.removeItem(guestKey);
+                }
                 setIsRSVPed(response.rsvpStatus);
                 loadEvent(); // Refresh to update count
             }

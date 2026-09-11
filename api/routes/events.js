@@ -1,7 +1,14 @@
 import express from 'express';
 const router = express.Router();
 import { prisma } from '../lib/prisma.js';
-import { verifyToken, requireAdmin } from '../middleware/auth.js';
+import { verifyToken, requireAdmin, optionalAuth } from '../middleware/auth.js';
+
+// Fold anonymous "Join this Event" taps (not individually tracked) into the
+// same rsvp count the frontend already displays via _count.rsvps.
+const withGuestRsvps = (event) => ({
+    ...event,
+    _count: { ...event._count, rsvps: event._count.rsvps + event.guestRsvps }
+});
 
 // GET all events
 router.get('/', async (req, res) => {
@@ -14,7 +21,7 @@ router.get('/', async (req, res) => {
                 }
             }
         });
-        res.json({ success: true, data: events });
+        res.json({ success: true, data: events.map(withGuestRsvps) });
     } catch (error) {
         console.error('Error fetching events:', error);
         res.status(500).json({ success: false, message: 'Server error' });
@@ -43,17 +50,45 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Event not found' });
         }
 
-        res.json({ success: true, data: event });
+        res.json({ success: true, data: withGuestRsvps(event) });
     } catch (error) {
         console.error('Error fetching event details:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
 
-// POST RSVP to event
-router.post('/:id/rsvp', verifyToken, async (req, res) => {
+// POST RSVP to event - works for signed-in users and guests alike. A
+// signed-in RSVP is tracked per-account (toggleable, shows in "Who's
+// Joining?"); a guest's tap isn't individually identifiable, so it just
+// moves a shared counter based on the client's own locally-remembered
+// state (the `joining` flag in the request body).
+router.post('/:id/rsvp', optionalAuth, async (req, res) => {
     try {
         const eventId = req.params.id;
+
+        if (!req.user) {
+            const { joining } = req.body;
+            let updated;
+            if (joining) {
+                updated = await prisma.event.update({
+                    where: { id: eventId },
+                    data: { guestRsvps: { increment: 1 } }
+                });
+            } else {
+                const current = await prisma.event.findUnique({ where: { id: eventId } });
+                updated = await prisma.event.update({
+                    where: { id: eventId },
+                    data: { guestRsvps: Math.max(0, (current?.guestRsvps || 0) - 1) }
+                });
+            }
+            return res.json({
+                success: true,
+                message: joining ? 'RSVP successful' : 'RSVP removed',
+                rsvpStatus: !!joining,
+                guestRsvps: updated.guestRsvps
+            });
+        }
+
         const userId = req.user.id;
 
         const event = await prisma.event.findUnique({
