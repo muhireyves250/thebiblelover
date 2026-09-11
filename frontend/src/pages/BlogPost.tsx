@@ -32,7 +32,7 @@ const BlogPost: React.FC = () => {
   }, [post?.id, post?.title, post?.slug]);
 
   // Recent stories (sidebar list)
-  const { data: recentData } = useFetch<any>(() => blogAPI.getPosts({ page: 1, limit: 11 }), []);
+  const { data: recentData, loading: recentLoading } = useFetch<any>(() => blogAPI.getPosts({ page: 1, limit: 11 }), []);
   const recentPosts = (recentData?.data?.posts || recentData?.posts || []).filter((p: any) => p.slug !== slug).slice(0, 10);
 
   // Comments
@@ -472,6 +472,27 @@ const BlogPost: React.FC = () => {
             </div>
 
             {/* Recent Stories */}
+            {recentLoading && recentPosts.length === 0 && (
+              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="h-3 w-24 bg-gray-300 rounded animate-pulse" />
+                  <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
+                </div>
+                <div className="space-y-4">
+                  {[1, 2, 3, 4].map(i => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-16 h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
+                      <div className="flex-1 space-y-2">
+                        <div className="h-2.5 w-16 bg-gray-300 rounded animate-pulse" />
+                        <div className="h-3.5 bg-gray-300 rounded animate-pulse w-full" />
+                        <div className="h-3.5 bg-gray-300 rounded animate-pulse w-2/3" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {recentPosts.length > 0 && (
               <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
                 <div className="flex items-center justify-between mb-4">
