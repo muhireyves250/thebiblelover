@@ -119,25 +119,74 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
 
   if (compact) {
     return (
-      <button
-        onClick={(!isSpeaking || isPaused) ? speak : pause}
-        aria-label={(!isSpeaking || isPaused) ? 'Play audio' : 'Pause audio'}
-        className="absolute inset-0 flex items-center justify-center group/audio"
-      >
-        <span className="absolute inset-0 bg-black/20 group-hover/audio:bg-black/30 transition-colors" />
-        <span
-          className={`relative flex items-center justify-center w-14 h-14 rounded-full bg-amber-700/90 group-hover/audio:bg-amber-700 shadow-lg transition-all duration-300 ${isSpeaking && !isPaused ? 'scale-110' : ''}`}
+      <div className="absolute inset-0 group/audio">
+        <button
+          onClick={(!isSpeaking || isPaused) ? speak : pause}
+          aria-label={(!isSpeaking || isPaused) ? 'Play audio' : 'Pause audio'}
+          className="absolute inset-0 flex items-center justify-center"
         >
-          {(!isSpeaking || isPaused) ? (
-            <Play className="h-6 w-6 text-white fill-current ml-0.5" />
-          ) : (
-            <Pause className="h-6 w-6 text-white fill-current" />
+          <span className="absolute inset-0 bg-black/20 group-hover/audio:bg-black/30 transition-colors" />
+          <span
+            className={`relative flex items-center justify-center w-14 h-14 rounded-full bg-amber-700/90 group-hover/audio:bg-amber-700 shadow-lg transition-all duration-300 ${isSpeaking && !isPaused ? 'scale-110' : ''}`}
+          >
+            {(!isSpeaking || isPaused) ? (
+              <Play className="h-6 w-6 text-white fill-current ml-0.5" />
+            ) : (
+              <Pause className="h-6 w-6 text-white fill-current" />
+            )}
+          </span>
+          <span className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-black/70 rounded text-[10px] font-black uppercase tracking-widest text-white">
+            <Volume2 className="w-3 h-3" /> Listen
+          </span>
+        </button>
+
+        <div className="absolute bottom-3 right-3 flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+          <button
+            onClick={toggleSpeed}
+            title="Playback speed"
+            className="px-2 py-1 bg-black/70 hover:bg-black/85 rounded text-[10px] font-black text-white transition-colors"
+          >
+            {playbackSpeed}x
+          </button>
+          <button
+            onClick={() => setShowSettings(!showSettings)}
+            title="Change voice"
+            className={`p-1.5 rounded transition-colors ${showSettings ? 'bg-amber-700' : 'bg-black/70 hover:bg-black/85'}`}
+          >
+            <User className="w-3 h-3 text-white" />
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {showSettings && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              onClick={(e) => e.stopPropagation()}
+              className="absolute bottom-12 right-3 w-48 max-h-40 overflow-y-auto bg-white rounded-lg shadow-xl border border-gray-200 p-2"
+            >
+              <p className="text-[10px] font-bold text-gray-400 uppercase px-1 mb-1">Narrator Voice</p>
+              {voices.map(voice => (
+                <button
+                  key={voice.name}
+                  onClick={() => {
+                    setSelectedVoice(voice.name);
+                    setShowSettings(false);
+                    if (isSpeaking) speak();
+                  }}
+                  className={`w-full text-left px-2 py-1.5 rounded text-xs truncate transition-colors ${selectedVoice === voice.name ? 'bg-amber-50 text-amber-900 font-bold' : 'text-gray-600 hover:bg-gray-50'}`}
+                >
+                  {voice.name.replace('Microsoft ', '').replace('Google ', '')}
+                </button>
+              ))}
+              {voices.length === 0 && (
+                <p className="text-xs text-gray-400 px-2 py-1.5">No voices available</p>
+              )}
+            </motion.div>
           )}
-        </span>
-        <span className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2 py-1 bg-black/70 rounded text-[10px] font-black uppercase tracking-widest text-white">
-          <Volume2 className="w-3 h-3" /> Listen
-        </span>
-      </button>
+        </AnimatePresence>
+      </div>
     );
   }
 
