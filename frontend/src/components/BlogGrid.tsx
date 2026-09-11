@@ -89,11 +89,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Journal</span>
-          </div>
-          <h2 className="font-serif text-3xl md:text-4xl font-semibold text-gray-900">All Posts</h2>
+          <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-8">All Posts</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" aria-live="polite">
           {postsToRender.map((post) => (
