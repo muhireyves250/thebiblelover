@@ -313,7 +313,7 @@ export interface PrayerRequest {
 export interface PrayerAPI {
   createRequest: (data: { title: string; content: string; category?: string; isAnonymous?: boolean; guestName?: string; guestEmail?: string }) => Promise<ApiResponse<{ request: PrayerRequest }>>;
   getRequests: (params?: { category?: string; page?: number; limit?: number }) => Promise<ApiResponse<{ requests: PrayerRequest[]; pagination: any }>>;
-  pray: (id: string) => Promise<ApiResponse<{ supported: boolean }>>;
+  pray: (id: string, data?: { praying?: boolean }) => Promise<ApiResponse<{ supported: boolean; guestSupports?: number }>>;
   getMyRequests: () => Promise<ApiResponse<{ requests: PrayerRequest[] }>>;
   praise: (id: string) => Promise<ApiResponse<{ data: PrayerRequest }>>;
   adminGetAll: (params?: { status?: string; category?: string; page?: number; limit?: number }) => Promise<ApiResponse<{ requests: PrayerRequest[]; pagination: any }>>;

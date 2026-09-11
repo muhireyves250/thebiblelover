@@ -100,20 +100,26 @@ router.get('/', async (req, res) => {
 
         // Resolve a display name/avatar from either the account or the
         // guest-submitted name, then hide it entirely for anonymous posts.
+        // Also fold guest "I'm Praying" taps (not individually tracked) into
+        // the same support count the frontend already displays.
         const sanitizedRequests = requests.map(req => {
-            if (req.isAnonymous) {
+            const withTotal = {
+                ...req,
+                _count: { supports: req._count.supports + req.guestSupports }
+            };
+            if (withTotal.isAnonymous) {
                 return {
-                    ...req,
+                    ...withTotal,
                     user: { name: 'Anonymous', profileImage: null }
                 };
             }
-            if (!req.user && req.guestName) {
+            if (!withTotal.user && withTotal.guestName) {
                 return {
-                    ...req,
-                    user: { name: req.guestName, profileImage: null }
+                    ...withTotal,
+                    user: { name: withTotal.guestName, profileImage: null }
                 };
             }
-            return req;
+            return withTotal;
         });
 
         res.json({
@@ -137,10 +143,37 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Support a prayer request ("I'm Praying")
-router.post('/:id/pray', verifyToken, async (req, res) => {
+// Support a prayer request ("I'm Praying") - works for signed-in users and
+// guests alike. A signed-in user's support is tracked per-account so it can
+// be toggled off again; a guest's tap isn't individually identifiable, so
+// it just moves a shared counter up or down based on the client's own
+// locally-remembered state (the `praying` flag in the request body).
+router.post('/:id/pray', optionalAuth, async (req, res) => {
     try {
         const prayerRequestId = req.params.id;
+
+        if (!req.user) {
+            const { praying } = req.body;
+            let updated;
+            if (praying) {
+                updated = await prisma.prayerRequest.update({
+                    where: { id: prayerRequestId },
+                    data: { guestSupports: { increment: 1 } }
+                });
+            } else {
+                const current = await prisma.prayerRequest.findUnique({ where: { id: prayerRequestId } });
+                updated = await prisma.prayerRequest.update({
+                    where: { id: prayerRequestId },
+                    data: { guestSupports: Math.max(0, (current?.guestSupports || 0) - 1) }
+                });
+            }
+            return res.json({
+                success: true,
+                message: praying ? 'Thank you for praying!' : 'Support removed',
+                data: { supported: !!praying, guestSupports: updated.guestSupports }
+            });
+        }
+
         const userId = req.user.id;
 
         // Check if already supporting
@@ -179,9 +212,10 @@ router.post('/:id/pray', verifyToken, async (req, res) => {
             }
         });
 
-        // Notify author if supporter is not the author
+        // Notify author if supporter is not the author - a guest-submitted
+        // request has no userId to notify, so skip in that case.
         const prayerRequest = support.prayerRequest;
-        if (prayerRequest.userId !== userId) {
+        if (prayerRequest.userId && prayerRequest.userId !== userId) {
             await prisma.notification.create({
                 data: {
                     userId: prayerRequest.userId,

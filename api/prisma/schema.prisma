@@ -81,19 +81,20 @@ model Event {
 }
 
 model PrayerRequest {
-  id           String          @id @default(cuid())
-  userId       String?
-  guestName    String?
-  guestEmail   String?
-  title        String
-  content      String
-  category     String          @default("GENERAL") // HEALING, FAMILY, GUIDANCE, THANKSGIVING, etc.
-  isAnonymous  Boolean         @default(false)
-  status       String          @default("ACTIVE")    // ACTIVE, ANSWERED, ARCHIVED
-  createdAt    DateTime        @default(now())
-  updatedAt    DateTime        @updatedAt
-  user         User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  supports     PrayerSupport[]
+  id             String          @id @default(cuid())
+  userId         String?
+  guestName      String?
+  guestEmail     String?
+  title          String
+  content        String
+  category       String          @default("GENERAL") // HEALING, FAMILY, GUIDANCE, THANKSGIVING, etc.
+  isAnonymous    Boolean         @default(false)
+  status         String          @default("ACTIVE")    // ACTIVE, ANSWERED, ARCHIVED
+  guestSupports  Int             @default(0) // "I'm Praying" taps from signed-out visitors, not individually tracked
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  user           User?           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  supports       PrayerSupport[]
 
   @@index([userId])
   @@index([status, createdAt])

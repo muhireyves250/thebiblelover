@@ -297,7 +297,7 @@ export const prayerAPI: PrayerAPI = {
     const query = new URLSearchParams(params as any).toString();
     return apiRequest(`/prayer-requests?${query}`);
   },
-  pray: (id: string) => apiRequest(`/prayer-requests/${id}/pray`, { method: 'POST' }),
+  pray: (id: string, data?: { praying?: boolean }) => apiRequest(`/prayer-requests/${id}/pray`, { method: 'POST', body: JSON.stringify(data || {}) }),
   getMyRequests: () => apiRequest('/prayer-requests/me'),
   praise: (id: string) => apiRequest(`/prayer-requests/${id}/praise`, { method: 'PATCH' }),
   adminGetAll: (params) => {

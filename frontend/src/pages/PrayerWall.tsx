@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal, LogIn } from 'lucide-react';
+import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
@@ -31,7 +30,6 @@ const PrayerWall = () => {
     const [submitting, setSubmitting] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
-    const [showLoginPrompt, setShowLoginPrompt] = useState(false);
     const [pagination, setPagination] = useState({ page: 1, pages: 1 });
 
     const currentUser = authAPI.getCurrentUser();
@@ -60,15 +58,22 @@ const PrayerWall = () => {
     };
 
     const handlePray = async (id: string) => {
-        if (!currentUser) {
-            setShowLoginPrompt(true);
-            setTimeout(() => setShowLoginPrompt(false), 6000);
-            return;
-        }
-
         try {
-            const response = await prayerAPI.pray(id);
+            // A signed-in user's support toggles server-side per account. A
+            // guest tap isn't individually identifiable, so the guest's own
+            // "am I praying" state lives in localStorage and we tell the
+            // server which direction to move the shared counter.
+            const isGuest = !currentUser;
+            const guestKey = `prayed:${id}`;
+            const nextPraying = isGuest ? localStorage.getItem(guestKey) !== '1' : undefined;
+
+            const response = await prayerAPI.pray(id, isGuest ? { praying: nextPraying } : undefined);
             if (response.success) {
+                if (isGuest) {
+                    if (nextPraying) localStorage.setItem(guestKey, '1');
+                    else localStorage.removeItem(guestKey);
+                }
+
                 // Optimistic update
                 setRequests(prev => prev.map(req => {
                     if (req.id === id) {
@@ -157,21 +162,6 @@ const PrayerWall = () => {
                     </div>
                 )}
 
-                {showLoginPrompt && (
-                    <div className="mb-8 p-4 bg-amber-50 border border-amber-200 text-amber-900 text-sm rounded-md flex items-center justify-between gap-4 flex-wrap">
-                        <div className="flex items-center gap-3">
-                            <Shield className="h-5 w-5 shrink-0 text-amber-700" />
-                            <p className="font-medium">Please log in to support this prayer request.</p>
-                        </div>
-                        <Link
-                            to="/login"
-                            className="flex items-center gap-1.5 px-4 py-1.5 bg-amber-700 text-white rounded-md text-xs font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors shrink-0"
-                        >
-                            <LogIn className="h-3.5 w-3.5" />
-                            Log In
-                        </Link>
-                    </div>
-                )}
 
                 {/* Prayer Feed */}
                 {loading ? (
