@@ -120,17 +120,15 @@ const VerseDetail: React.FC = () => {
                   {dayAbbrev(verse.displayDate)} &middot; {verse.translation}
                 </span>
 
-                {verse.image && (
-                  <div className="relative w-full h-64 md:h-80 mb-6 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
-                    <img
-                      src={verse.image}
-                      alt={reference(verse)}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                )}
+                <div className="relative w-full h-64 md:h-80 mb-6 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                  <img
+                    src={verse.image || '/images/about.png'}
+                    alt={reference(verse)}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
 
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 uppercase leading-snug mb-4">
                   "{verse.text}"
@@ -223,11 +221,9 @@ const VerseDetail: React.FC = () => {
                 <div className="space-y-4">
                   {recentVerses.map((rv) => (
                     <Link key={rv.id} to={`/verses/${rv.id}`} className="flex items-start gap-3 group">
-                      {rv.image && (
-                        <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
-                          <img src={rv.image} alt={rv.reference} className="w-full h-full object-cover" loading="lazy" />
-                        </div>
-                      )}
+                      <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                        <img src={rv.image || '/images/about.png'} alt={rv.reference} className="w-full h-full object-cover" loading="lazy" />
+                      </div>
                       <div className="min-w-0 flex-1">
                         <span className="block text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
                           {dayAbbrev(rv.displayDate)}
