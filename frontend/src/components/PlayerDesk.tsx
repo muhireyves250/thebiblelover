@@ -67,20 +67,20 @@ const LikeButton: React.FC<{ episode: AudioEpisode }> = ({ episode }) => {
 
 const BigCard: React.FC<{ episode: AudioEpisode; playingId: string | null; onToggle: (e: AudioEpisode) => void }> = ({ episode, playingId, onToggle }) => (
   <Link to={`/players/${episode.id}`} className="block bg-white border border-gray-200 rounded-lg overflow-hidden hover:border-gray-300 transition-colors">
-    <div className="relative h-40 bg-gray-100">
+    <div className="relative h-64 bg-gray-100">
       <img src={episode.coverImage} alt={episode.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
       <button
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(episode); }}
-        className="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-md hover:bg-white"
+        className="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-md hover:bg-white"
       >
-        {playingId === episode.id ? <Pause className="w-4 h-4 text-gray-900" /> : <Play className="w-4 h-4 text-gray-900 ml-0.5" />}
+        {playingId === episode.id ? <Pause className="w-5 h-5 text-gray-900" /> : <Play className="w-5 h-5 text-gray-900 ml-0.5" />}
       </button>
     </div>
-    <div className="p-4">
-      <h4 className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 mb-1">{episode.title}</h4>
-      <p className="text-xs text-gray-500 line-clamp-2 mb-3">{episode.description}</p>
+    <div className="p-5">
+      <h4 className="text-base font-bold text-gray-900 leading-snug line-clamp-2 mb-2">{episode.title}</h4>
+      <p className="text-sm text-gray-500 line-clamp-2 mb-4">{episode.description}</p>
       <div className="flex items-center justify-between">
-        <span className="text-[11px] text-gray-400">{formatDate(episode.episodeDate)}</span>
+        <span className="text-xs text-gray-400">{formatDate(episode.episodeDate)}</span>
         <LikeButton episode={episode} />
       </div>
     </div>
@@ -88,11 +88,11 @@ const BigCard: React.FC<{ episode: AudioEpisode; playingId: string | null; onTog
 );
 
 const SmallCard: React.FC<{ episode: AudioEpisode }> = ({ episode }) => (
-  <Link to={`/players/${episode.id}`} className="flex items-center gap-3 bg-white border border-gray-200 rounded-lg p-2 hover:border-gray-300 transition-colors">
-    <img src={episode.coverImage} alt={episode.title} className="w-12 h-12 rounded object-cover shrink-0" loading="lazy" />
+  <Link to={`/players/${episode.id}`} className="flex items-center gap-4 bg-white border border-gray-200 rounded-lg p-3 hover:border-gray-300 transition-colors">
+    <img src={episode.coverImage} alt={episode.title} className="w-20 h-20 rounded object-cover shrink-0" loading="lazy" />
     <div className="min-w-0">
-      <p className="text-xs font-bold text-gray-900 leading-snug line-clamp-2">{episode.title}</p>
-      <p className="text-[11px] text-gray-400 mt-0.5">{formatDate(episode.episodeDate)}</p>
+      <p className="text-sm font-bold text-gray-900 leading-snug line-clamp-2">{episode.title}</p>
+      <p className="text-xs text-gray-400 mt-1">{formatDate(episode.episodeDate)}</p>
     </div>
   </Link>
 );
@@ -113,7 +113,7 @@ const DeskColumn: React.FC<{ label: string; slot: 'MORNING' | 'EVENING'; episode
           {small && <SmallCard episode={small} />}
         </div>
       ) : (
-        <div className="h-40 flex items-center justify-center text-center text-sm text-gray-400 bg-white border border-dashed border-gray-200 rounded-lg">
+        <div className="h-64 flex items-center justify-center text-center text-sm text-gray-400 bg-white border border-dashed border-gray-200 rounded-lg">
           No {label.toLowerCase()} episodes yet
         </div>
       )}
@@ -154,7 +154,7 @@ const PlayerDesk: React.FC = () => {
         {!hasLoaded ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[1, 2].map(i => (
-              <div key={i} className="h-40 bg-gray-200 animate-pulse rounded-lg" />
+              <div key={i} className="h-64 bg-gray-200 animate-pulse rounded-lg" />
             ))}
           </div>
         ) : (
