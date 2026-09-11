@@ -143,6 +143,32 @@
   animation: marquee 18s linear infinite;
 }
 
+@keyframes ring-wiggle {
+  0%, 76%, 100% {
+    transform: rotate(0deg);
+  }
+  80% {
+    transform: rotate(-14deg);
+  }
+  84% {
+    transform: rotate(11deg);
+  }
+  88% {
+    transform: rotate(-8deg);
+  }
+  92% {
+    transform: rotate(5deg);
+  }
+  96% {
+    transform: rotate(-2deg);
+  }
+}
+
+.animate-ring-wiggle {
+  transform-origin: 50% 50%;
+  animation: ring-wiggle 2.5s ease-in-out infinite;
+}
+
 @keyframes slideInFromRight {
   from {
     opacity: 0;
