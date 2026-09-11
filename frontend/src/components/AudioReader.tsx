@@ -39,16 +39,12 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
   }, []);
 
   const speak = () => {
-    if (isPaused) {
-      window.speechSynthesis.resume();
-      setIsSpeaking(true);
-      setIsPaused(false);
-      startProgressTimer();
-      return;
-    }
-
+    // speechSynthesis.pause()/resume() is unreliable across browsers (can
+    // produce overlapping/garbled audio or simply not resume), so "play"
+    // always cancels anything in flight and starts fresh from the top
+    // rather than trying to resume mid-utterance.
     window.speechSynthesis.cancel();
-    
+
     const cleanContent = content.replace(/<[^>]*>?/gm, '');
     const textToRead = title ? `${title}. ${cleanContent}` : cleanContent;
 
@@ -92,9 +88,13 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
   };
 
   const pause = () => {
-    window.speechSynthesis.pause();
+    // A true pause/resume is unreliable (see note in speak()), so this
+    // fully stops playback instead of suspending it - pressing play again
+    // starts over from the top.
+    window.speechSynthesis.cancel();
     setIsSpeaking(false);
-    setIsPaused(true);
+    setIsPaused(false);
+    setProgress(0);
     if (timerRef.current) clearInterval(timerRef.current);
   };
 
