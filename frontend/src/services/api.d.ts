@@ -291,7 +291,9 @@ export interface UserAPI {
 
 export interface PrayerRequest {
   id: string;
-  userId: string;
+  userId?: string | null;
+  guestName?: string | null;
+  guestEmail?: string | null;
   title: string;
   content: string;
   category: string;
@@ -309,7 +311,7 @@ export interface PrayerRequest {
 }
 
 export interface PrayerAPI {
-  createRequest: (data: { title: string; content: string; category?: string; isAnonymous?: boolean }) => Promise<ApiResponse<{ request: PrayerRequest }>>;
+  createRequest: (data: { title: string; content: string; category?: string; isAnonymous?: boolean; guestName?: string; guestEmail?: string }) => Promise<ApiResponse<{ request: PrayerRequest }>>;
   getRequests: (params?: { category?: string; page?: number; limit?: number }) => Promise<ApiResponse<{ requests: PrayerRequest[]; pagination: any }>>;
   pray: (id: string) => Promise<ApiResponse<{ supported: boolean }>>;
   getMyRequests: () => Promise<ApiResponse<{ requests: PrayerRequest[] }>>;

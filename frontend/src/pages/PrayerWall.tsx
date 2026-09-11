@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
+import { Heart, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
@@ -18,8 +18,14 @@ const PrayerWall = () => {
     const [requests, setRequests] = useState<PrayerRequest[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeCategory, setActiveCategory] = useState('ALL');
-    const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState({ title: '', content: '', category: 'GENERAL', isAnonymous: false });
+    const [formData, setFormData] = useState({
+        title: '',
+        content: '',
+        category: 'GENERAL',
+        isAnonymous: false,
+        guestName: '',
+        guestEmail: ''
+    });
     const [submitting, setSubmitting] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
@@ -81,7 +87,6 @@ const PrayerWall = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!currentUser) return;
 
         setSubmitting(true);
         setError('');
@@ -89,8 +94,7 @@ const PrayerWall = () => {
             const response = await prayerAPI.createRequest(formData);
             if (response.success) {
                 setSuccess('Your prayer request has been shared with the community.');
-                setFormData({ title: '', content: '', category: 'GENERAL', isAnonymous: false });
-                setShowModal(false);
+                setFormData({ title: '', content: '', category: 'GENERAL', isAnonymous: false, guestName: '', guestEmail: '' });
                 loadRequests();
                 setTimeout(() => setSuccess(''), 5000);
             } else {
@@ -111,42 +115,149 @@ const PrayerWall = () => {
             />
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                {/* Actions & Filters */}
-                <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-                    <div className="flex flex-wrap justify-center gap-2">
-                        {CATEGORIES.map(cat => (
-                            <button
-                                key={cat.id}
-                                onClick={() => {
-                                    setActiveCategory(cat.id);
-                                    setPagination({ ...pagination, page: 1 });
-                                }}
-                                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider border transition-colors ${activeCategory === cat.id
-                                    ? 'bg-amber-700 text-white border-amber-700'
-                                    : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
-                                    }`}
-                            >
-                                <span>{cat.icon}</span>
-                                <span>{cat.name}</span>
-                            </button>
-                        ))}
+                {/* Share a Testimony or Prayer Request */}
+                <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-10">
+                    <div className="mb-6">
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Share a Testimony or Prayer Request</span>
+                        </div>
+                        <p className="text-gray-500 text-sm italic">"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7</p>
                     </div>
 
-                    <button
-                        onClick={() => currentUser ? setShowModal(true) : alert('Please log in to share a prayer request.')}
-                        className="flex items-center gap-2 bg-amber-700 text-white px-5 py-2.5 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors shrink-0"
-                    >
-                        <Plus className="h-4 w-4" />
-                        <span>Share a Request</span>
-                    </button>
+                    {success && (
+                        <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 text-sm rounded-md flex items-center gap-3">
+                            <CheckCircle className="h-5 w-5 shrink-0" />
+                            <p className="font-medium">{success}</p>
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        {!currentUser && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Your Name</label>
+                                    <input
+                                        required
+                                        type="text"
+                                        autoComplete="name"
+                                        placeholder="Your name"
+                                        value={formData.guestName}
+                                        onChange={e => setFormData({ ...formData, guestName: e.target.value })}
+                                        className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Email</label>
+                                    <input
+                                        required
+                                        type="email"
+                                        autoComplete="email"
+                                        placeholder="your.email@example.com"
+                                        value={formData.guestEmail}
+                                        onChange={e => setFormData({ ...formData, guestEmail: e.target.value })}
+                                        className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="md:col-span-1">
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Title</label>
+                                <input
+                                    required
+                                    type="text"
+                                    placeholder="e.g., Healing for my Mother"
+                                    value={formData.title}
+                                    onChange={e => setFormData({ ...formData, title: e.target.value })}
+                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                />
+                            </div>
+
+                            <div className="md:col-span-1">
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Category</label>
+                                <select
+                                    value={formData.category}
+                                    onChange={e => setFormData({ ...formData, category: e.target.value })}
+                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                >
+                                    {CATEGORIES.filter(c => c.id !== 'ALL').map(cat => (
+                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Your Testimony or Request</label>
+                            <textarea
+                                required
+                                rows={4}
+                                placeholder="Share as much or as little as you're comfortable with..."
+                                value={formData.content}
+                                onChange={e => setFormData({ ...formData, content: e.target.value })}
+                                className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors resize-none"
+                            ></textarea>
+                        </div>
+
+                        <div className="flex items-center gap-3 p-3.5 bg-amber-50 rounded-md border border-amber-100">
+                            <input
+                                type="checkbox"
+                                id="isAnonymous"
+                                checked={formData.isAnonymous}
+                                onChange={e => setFormData({ ...formData, isAnonymous: e.target.checked })}
+                                className="w-4 h-4 accent-amber-700 rounded cursor-pointer"
+                            />
+                            <label htmlFor="isAnonymous" className="text-sm font-semibold text-amber-900 cursor-pointer flex items-center gap-1.5">
+                                <Shield className="h-4 w-4" />
+                                Post anonymously
+                            </label>
+                        </div>
+
+                        {error && (
+                            <div className="p-3.5 bg-red-50 text-red-700 text-sm font-medium rounded-md border border-red-200 flex items-center gap-2">
+                                <AlertCircle className="h-4 w-4 shrink-0" />
+                                <span>{error}</span>
+                            </div>
+                        )}
+
+                        <button
+                            type="submit"
+                            disabled={submitting}
+                            className="w-full md:w-auto bg-amber-700 text-white py-3 px-8 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                        >
+                            {submitting ? (
+                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                            ) : (
+                                <>
+                                    <MessageSquare className="h-4 w-4" />
+                                    <span>Post Request</span>
+                                </>
+                            )}
+                        </button>
+                    </form>
                 </div>
 
-                {success && (
-                    <div className="mb-8 p-4 bg-green-50 border border-green-200 text-green-800 text-sm rounded-md flex items-center gap-3">
-                        <CheckCircle className="h-5 w-5 shrink-0" />
-                        <p className="font-medium">{success}</p>
-                    </div>
-                )}
+                {/* Filters */}
+                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                    {CATEGORIES.map(cat => (
+                        <button
+                            key={cat.id}
+                            onClick={() => {
+                                setActiveCategory(cat.id);
+                                setPagination({ ...pagination, page: 1 });
+                            }}
+                            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider border transition-colors ${activeCategory === cat.id
+                                ? 'bg-amber-700 text-white border-amber-700'
+                                : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
+                                }`}
+                        >
+                            <span>{cat.icon}</span>
+                            <span>{cat.name}</span>
+                        </button>
+                    ))}
+                </div>
 
                 {/* Prayer Feed */}
                 {loading ? (
@@ -296,103 +407,6 @@ const PrayerWall = () => {
                     </div>
                 )}
             </main>
-
-            {/* Submit Modal */}
-            {showModal && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-                    <div className="bg-white border border-gray-300 rounded-lg shadow-sm max-w-lg w-full p-6 md:p-8 relative">
-                        <button
-                            onClick={() => setShowModal(false)}
-                            className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
-                        >
-                            <Plus className="h-5 w-5 rotate-45" />
-                        </button>
-
-                        <div className="mb-6">
-                            <div className="flex items-center gap-2 mb-2">
-                                <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                                <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Share a Prayer Request</span>
-                            </div>
-                            <p className="text-gray-500 text-sm italic">"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7</p>
-                        </div>
-
-                        <form onSubmit={handleSubmit} className="space-y-5">
-                            <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Request Title</label>
-                                <input
-                                    required
-                                    type="text"
-                                    placeholder="e.g., Healing for my Mother"
-                                    value={formData.title}
-                                    onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Category</label>
-                                <select
-                                    value={formData.category}
-                                    onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
-                                >
-                                    {CATEGORIES.filter(c => c.id !== 'ALL').map(cat => (
-                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Tell us more so we can pray specifically</label>
-                                <textarea
-                                    required
-                                    rows={4}
-                                    placeholder="Share as much or as little as you're comfortable with..."
-                                    value={formData.content}
-                                    onChange={e => setFormData({ ...formData, content: e.target.value })}
-                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors resize-none"
-                                ></textarea>
-                            </div>
-
-                            <div className="flex items-center gap-3 p-3.5 bg-amber-50 rounded-md border border-amber-100">
-                                <input
-                                    type="checkbox"
-                                    id="isAnonymous"
-                                    checked={formData.isAnonymous}
-                                    onChange={e => setFormData({ ...formData, isAnonymous: e.target.checked })}
-                                    className="w-4 h-4 accent-amber-700 rounded cursor-pointer"
-                                />
-                                <label htmlFor="isAnonymous" className="text-sm font-semibold text-amber-900 cursor-pointer flex items-center gap-1.5">
-                                    <Shield className="h-4 w-4" />
-                                    Post anonymously
-                                </label>
-                            </div>
-
-                            {error && (
-                                <div className="p-3.5 bg-red-50 text-red-700 text-sm font-medium rounded-md border border-red-200 flex items-center gap-2">
-                                    <AlertCircle className="h-4 w-4 shrink-0" />
-                                    <span>{error}</span>
-                                </div>
-                            )}
-
-                            <button
-                                type="submit"
-                                disabled={submitting}
-                                className="w-full bg-amber-700 text-white py-3 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-                            >
-                                {submitting ? (
-                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                ) : (
-                                    <>
-                                        <MessageSquare className="h-4 w-4" />
-                                        <span>Post Request</span>
-                                    </>
-                                )}
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

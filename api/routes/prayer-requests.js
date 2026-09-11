@@ -1,19 +1,27 @@
 import express from 'express';
 import { prisma } from '../lib/prisma.js';
-import { verifyToken, requireAdmin } from '../middleware/auth.js';
+import { verifyToken, requireAdmin, optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// Create a prayer request
-router.post('/', verifyToken, async (req, res) => {
+// Create a prayer request - works for signed-in users and guests alike.
+// A guest must supply a name and email so the request has an author; a
+// signed-in user's account takes precedence over anything in the body.
+router.post('/', optionalAuth, async (req, res) => {
     try {
-        const { title, content, category, isAnonymous } = req.body;
-        const userId = req.user.id;
+        const { title, content, category, isAnonymous, guestName, guestEmail } = req.body;
 
         if (!title || !content) {
             return res.status(400).json({
                 success: false,
                 message: 'Title and content are required'
+            });
+        }
+
+        if (!req.user && (!guestName || !guestEmail)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide your name and email, or log in.'
             });
         }
 
@@ -23,7 +31,9 @@ router.post('/', verifyToken, async (req, res) => {
                 content,
                 category: category || 'GENERAL',
                 isAnonymous: isAnonymous || false,
-                userId
+                userId: req.user?.id,
+                guestName: req.user ? null : guestName,
+                guestEmail: req.user ? null : guestEmail
             },
             include: {
                 user: {
@@ -88,12 +98,19 @@ router.get('/', async (req, res) => {
             prisma.prayerRequest.count({ where })
         ]);
 
-        // If an anonymous request, hide user info
+        // Resolve a display name/avatar from either the account or the
+        // guest-submitted name, then hide it entirely for anonymous posts.
         const sanitizedRequests = requests.map(req => {
             if (req.isAnonymous) {
                 return {
                     ...req,
                     user: { name: 'Anonymous', profileImage: null }
+                };
+            }
+            if (!req.user && req.guestName) {
+                return {
+                    ...req,
+                    user: { name: req.guestName, profileImage: null }
                 };
             }
             return req;
