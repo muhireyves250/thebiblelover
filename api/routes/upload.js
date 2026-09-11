@@ -36,6 +36,7 @@ const saveBufferToDisk = async (buffer, filename, folder) => {
 
 // Helper to get consistent full URL
 const getFullUrl = (req, relativeUrl) => {
+  if (/^https?:\/\//i.test(relativeUrl)) return relativeUrl;
   const baseUrl = process.env.APP_URL || process.env.API_URL;
   if (baseUrl) {
     const sanitizedBaseUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
