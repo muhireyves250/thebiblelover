@@ -32,7 +32,7 @@ const AboutDesk: React.FC = () => {
 
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-start justify-between gap-6 mb-8 flex-wrap">
           <div>
             <div className="flex items-center gap-2 mb-2">
