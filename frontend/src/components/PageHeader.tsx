@@ -47,10 +47,10 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, bgImage }) => 
 
             <div className="relative z-10 flex items-center justify-center h-full px-4">
                 <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 px-10 md:px-16 py-10 text-center shadow-sm transition-colors duration-300">
-                    <h1 className="text-3xl md:text-5xl font-serif mb-4 tracking-wider text-gray-900/80 dark:text-gray-100/80 uppercase">
+                    <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4 text-gray-900/80 dark:text-gray-100/80 uppercase">
                         {title}
                     </h1>
-                    <p className="text-xs md:text-sm font-light tracking-[0.35em] uppercase text-gray-700/80 dark:text-gray-300/80">
+                    <p className="text-xs md:text-sm font-bold tracking-[0.35em] uppercase text-amber-700/80 dark:text-amber-500/80">
                         {subtitle}
                     </p>
                 </div>
