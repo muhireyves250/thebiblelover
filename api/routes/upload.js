@@ -1,5 +1,5 @@
 import express from 'express';
-import { uploadSingle, uploadVideo, handleUploadError } from '../middleware/upload.js';
+import { uploadSingle, uploadVideo, uploadAudio, handleUploadError } from '../middleware/upload.js';
 import { verifyToken, requireAdmin } from '../middleware/auth.js';
 import { prisma } from '../lib/prisma.js';
 import cloudinary from '../lib/cloudinary.js';
@@ -186,6 +186,74 @@ router.post('/video', verifyToken, requireAdmin, uploadVideo, handleUploadError,
   }
 });
 
+// Upload single audio file
+router.post('/audio', verifyToken, requireAdmin, uploadAudio, handleUploadError, async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No audio file provided' });
+    }
+
+    const filename = `audio-${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(req.file.originalname) || '.webm'}`;
+    let audioUrl;
+    let cloudinaryResult = null;
+
+    if (isCloudinaryConfigured()) {
+      try {
+        const uploadToCloudinary = (buffer) => {
+          return new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+              { folder: 'bible-project/audio', resource_type: 'video' },
+              (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+              }
+            );
+            streamifier.createReadStream(buffer).pipe(uploadStream);
+          });
+        };
+        cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+        audioUrl = cloudinaryResult.secure_url;
+      } catch (cloudinaryError) {
+        console.warn('Cloudinary upload failed, falling back to local storage:', cloudinaryError);
+      }
+    }
+
+    if (!audioUrl) {
+      await saveBufferToDisk(req.file.buffer, filename, 'audio');
+      audioUrl = `/api/upload/audio/${filename}`;
+    }
+
+    await prisma.media.create({
+      data: {
+        filename,
+        originalName: req.file.originalname,
+        mimeType: req.file.mimetype,
+        size: req.file.size,
+        url: cloudinaryResult?.secure_url || null,
+        publicId: cloudinaryResult?.public_id || null,
+        folder: 'audio'
+      }
+    });
+
+    const fullUrl = getFullUrl(req, audioUrl);
+
+    res.json({
+      success: true,
+      message: cloudinaryResult ? 'Audio uploaded to Cloudinary successfully' : 'Audio uploaded to local storage successfully',
+      data: {
+        filename,
+        originalName: req.file.originalname,
+        size: req.file.size,
+        url: audioUrl,
+        fullUrl: fullUrl
+      }
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ success: false, message: 'Failed to upload audio' });
+  }
+});
+
 // Upload profile image (for all authenticated users)
 router.post('/profile-image', verifyToken, uploadSingle, handleUploadError, async (req, res) => {
   try {
@@ -326,6 +394,11 @@ router.get('/videos/:filename', async (req, res) => {
 // Serve uploaded profile images
 router.get('/profiles/:filename', async (req, res) => {
   await serveFile(req, res, 'profiles');
+});
+
+// Serve uploaded audio
+router.get('/audio/:filename', async (req, res) => {
+  await serveFile(req, res, 'audio');
 });
 
 // Helper function to serve files from DB with fallback to disk

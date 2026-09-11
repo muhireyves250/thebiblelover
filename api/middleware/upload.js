@@ -22,6 +22,19 @@ const videoFileFilter = (req, file, cb) => {
   }
 };
 
+// Audio upload filter
+const audioFileFilter = (req, file, cb) => {
+  const allowedMimeTypes = [
+    'audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/wave', 'audio/ogg',
+    'audio/webm', 'audio/mp4', 'audio/x-m4a', 'audio/m4a'
+  ];
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only MP3, WAV, OGG, WEBM, and M4A audio files are allowed!'), false);
+  }
+};
+
 // Export middleware
 export const uploadSingle = multer({
   storage: storage,
@@ -34,6 +47,12 @@ export const uploadVideo = multer({
   fileFilter: videoFileFilter,
   limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
 }).single('video');
+
+export const uploadAudio = multer({
+  storage: storage,
+  fileFilter: audioFileFilter,
+  limits: { fileSize: 50 * 1024 * 1024 } // 50MB limit
+}).single('audio');
 
 // Error handling middleware
 export const handleUploadError = (error, req, res, next) => {
