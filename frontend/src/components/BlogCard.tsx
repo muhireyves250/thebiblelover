@@ -11,6 +11,7 @@ interface BlogCardProps {
   featuredImage: string;
   title: string;
   excerpt: string;
+  category?: string;
   author: {
     name: string;
     profileImage?: string;
@@ -30,6 +31,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   featuredImage,
   title,
   excerpt,
+  category,
   author,
   publishedAt,
   readTime,
@@ -126,8 +128,14 @@ const BlogCard: React.FC<BlogCardProps> = ({
           </div>
         </div>
 
+        {category && (
+          <span className="block text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-2">
+            {category.replace(/_/g, ' ')}
+          </span>
+        )}
+
         <Link to={`/blog/${slug}`}>
-          <h2 className={`font-sans font-bold text-gray-900 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
+          <h2 className={`font-sans font-bold uppercase text-gray-900 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
             {title}
           </h2>
         </Link>
