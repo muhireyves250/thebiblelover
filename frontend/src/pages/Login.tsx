@@ -52,13 +52,13 @@ const Login: React.FC = () => {
       <PageHeader title="Sign In" subtitle="WELCOME BACK TO THE COMMUNITY" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
+      <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2 items-stretch">
         {/* Photo */}
-        <div className="hidden lg:block group relative rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+        <div className="hidden lg:block relative">
           <img
             src="/images/about.png"
             alt="The Bible Lover"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute bottom-10 left-10 right-10">
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
         </div>
 
         {/* Login form */}
-        <div className="flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-center p-6 md:p-10">
       <div className="max-w-md w-full">
         <div className="text-center mb-4">
           <p className="text-sm text-gray-500">
@@ -81,7 +81,7 @@ const Login: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5 md:p-6">
+        <div>
           <form className="space-y-4" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
