@@ -19,6 +19,7 @@ model User {
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   blogPosts    BlogPost[]
+  audioEpisodes AudioEpisode[]
   likes        Like[]
   savedVerses  SavedVerse[]
   prayerRequests PrayerRequest[]
@@ -301,6 +302,43 @@ model Like {
 
   @@unique([userId, postId])
   @@map("likes")
+}
+
+model AudioEpisode {
+  id          String         @id @default(cuid())
+  title       String
+  description String
+  audioUrl    String
+  coverImage  String
+  slot        String         // "MORNING" | "EVENING"
+  episodeDate DateTime
+  likes       Int            @default(0)
+  isPublished Boolean        @default(true)
+  authorId    String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  author      User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments    AudioComment[]
+
+  @@index([slot, episodeDate])
+  @@index([isPublished, episodeDate])
+  @@map("audio_episodes")
+}
+
+model AudioComment {
+  id          String       @id @default(cuid())
+  content     String
+  authorName  String
+  authorEmail String
+  episodeId   String
+  isApproved  Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  episode     AudioEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+
+  @@index([episodeId, createdAt])
+  @@index([isApproved])
+  @@map("audio_comments")
 }
 
 model SavedVerse {
