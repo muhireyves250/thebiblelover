@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 interface SEOProps {
     title?: string;
     description?: string;
-    image?: string;
+    image?: string | null;
     url?: string;
     type?: 'website' | 'article';
     noindex?: boolean;
@@ -21,10 +21,15 @@ const SEO: React.FC<SEOProps> = ({
     const siteTitle = "The Bible Lover";
     const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
+    // A default parameter only kicks in for `undefined`, but callers can
+    // pass an explicit `null` (e.g. a verse/post with no image in the DB),
+    // so fall back here too.
+    const resolvedImage = image || "/og-image.jpg";
+
     // Ensure image is an absolute URL
-    const absoluteImage = image.startsWith('http') 
-        ? image 
-        : `${window.location.origin}${image.startsWith('/') ? image : `/${image}`}`;
+    const absoluteImage = resolvedImage.startsWith('http')
+        ? resolvedImage
+        : `${window.location.origin}${resolvedImage.startsWith('/') ? resolvedImage : `/${resolvedImage}`}`;
 
     return (
         <Helmet>
