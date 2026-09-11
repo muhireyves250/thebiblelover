@@ -85,80 +85,80 @@ function AppContent() {
             <Route path="/blog/:slug" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <BlogPost />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/donate" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Donate />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/posts" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Posts />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/players" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Players />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/players/:id" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <PlayerDetail />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/verses" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Verses />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/verses/:id" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <VerseDetail />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/search" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Search />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/contact" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Contact />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/prayer-wall" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <PrayerWall />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
@@ -166,16 +166,16 @@ function AppContent() {
             <Route path="/events" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Events />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/events/:id" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <EventDetail />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
@@ -183,8 +183,8 @@ function AppContent() {
             <Route path="/login" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Login />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
@@ -206,16 +206,16 @@ function AppContent() {
             <Route path="/terms" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Terms />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
             <Route path="/privacy" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <Privacy />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
@@ -230,8 +230,8 @@ function AppContent() {
               <ProtectedRoute>
                 <PageTransition>
                   <Header />
-                  <Announcements />
                   <MemberDashboard />
+                  <Announcements />
                   <Footer />
                 </PageTransition>
               </ProtectedRoute>
@@ -239,8 +239,8 @@ function AppContent() {
             <Route path="*" element={
               <PageTransition>
                 <Header />
-                <Announcements />
                 <NotFound />
+                <Announcements />
                 <Footer />
               </PageTransition>
             } />
