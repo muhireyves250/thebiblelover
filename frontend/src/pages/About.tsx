@@ -5,14 +5,16 @@ import SEO from '../components/SEO';
 
 const SectionHeader = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) => (
   <>
-    <div className="absolute inset-0 bg-black/25" />
-    <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/80 via-black/50 to-transparent px-4 pb-14 pt-4">
+    <div className="absolute inset-0 bg-black/25 transition-colors duration-300 group-hover:bg-black/35" />
+    <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/85 via-black/55 to-transparent px-5 pb-16 pt-5">
       <div className="flex items-center gap-2 mb-2">
-        <span className="w-1 h-4 bg-amber-500 rounded-sm" />
-        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">{eyebrow}</span>
+        <span className="w-4 h-[2px] bg-amber-500" />
+        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-400">{eyebrow}</span>
       </div>
-      <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-white">{title}</h2>
-      <p className="text-sm text-gray-200 mt-2">{subtitle}</p>
+      <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight text-white drop-shadow-sm">
+        {title}
+      </h2>
+      <p className="text-sm font-light text-gray-200 mt-2 tracking-wide">{subtitle}</p>
     </div>
   </>
 );
@@ -41,11 +43,11 @@ const About = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
+            <div className="group relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={aboutSection?.imageUrl || '/images/about.png'}
                 alt={aboutSection?.title || 'About Us'}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
               <SectionHeader eyebrow="About Us" title="Who We Are" subtitle="A community built around God's Word" />
@@ -84,11 +86,11 @@ const About = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="relative float-right w-1/2 h-64 md:h-80 ml-6 md:ml-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
+            <div className="group relative float-right w-1/2 h-64 md:h-80 ml-6 md:ml-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={storySection?.imageUrl || '/images/story.png'}
                 alt={storySection?.title || 'Our Story'}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
               <SectionHeader eyebrow="Our Journey" title="Our Story" subtitle="How a simple calling became a community" />
@@ -127,11 +129,11 @@ const About = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200">
+            <div className="group relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={missionSection?.imageUrl || '/images/mission.png'}
                 alt={missionSection?.title || 'Our Mission'}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
               <SectionHeader eyebrow="Our Purpose" title="Our Mission" subtitle="What we're committed to, every single day" />
