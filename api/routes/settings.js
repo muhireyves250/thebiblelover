@@ -131,6 +131,11 @@ const defaultSettings = {
     title: 'THE BIBLE LOVER',
     content: 'WALK IN THE LIGHT OF HIS WORD'
   },
+  announcementsSection: {
+    title: 'Announcements',
+    content: 'Welcome to The Bible Lover — new devotionals added daily.\nJoin our community and grow deeper in faith together.',
+    imageUrl: ''
+  },
   whatsappSettings: {
     phoneNumber: "1234567890",
     message: "Hello! I would like to know more about your services.",
@@ -213,7 +218,7 @@ router.put('/:category', verifyToken, requireAdmin, async (req, res) => {
     const settings = allSettings[category] || {};
 
     // Validate category
-    if (!['backgroundSettings', 'logoSettings', 'socialSettings', 'aboutSection', 'storySection', 'missionSection', 'whatsappSettings', 'heroSection', 'footerSettings'].includes(category)) {
+    if (!['backgroundSettings', 'logoSettings', 'socialSettings', 'aboutSection', 'storySection', 'missionSection', 'whatsappSettings', 'heroSection', 'footerSettings', 'announcementsSection'].includes(category)) {
       return res.status(404).json({
         success: false,
         message: 'Setting category not found or invalid'
@@ -245,6 +250,7 @@ router.put('/:category', verifyToken, requireAdmin, async (req, res) => {
       case 'aboutSection':
       case 'storySection':
       case 'missionSection':
+      case 'announcementsSection':
         if (updates.title !== undefined) updatedCategorySettings.title = updates.title;
         if (updates.content !== undefined) updatedCategorySettings.content = updates.content;
         if (updates.imageUrl !== undefined) updatedCategorySettings.imageUrl = updates.imageUrl;
