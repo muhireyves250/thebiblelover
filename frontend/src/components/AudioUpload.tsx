@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Upload, X, Mic, Square, AlertCircle } from 'lucide-react';
 import { uploadAPI } from '../services/api';
 
@@ -26,6 +26,16 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const streamRef = useRef<MediaStream | null>(null);
+
+  // Safety net: if the modal/component is closed/unmounted while a
+  // recording is in progress, stop the recorder and release the mic
+  // stream so the microphone indicator doesn't stay lit indefinitely.
+  useEffect(() => {
+    return () => {
+      mediaRecorderRef.current?.stop();
+      streamRef.current?.getTracks().forEach(track => track.stop());
+    };
+  }, []);
 
   const doUpload = async (file: File) => {
     setUploading(true);
