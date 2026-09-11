@@ -402,7 +402,7 @@ const BlogPost: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Stories</h3>
                   <Link to="/posts" className="text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
-                    View All &rarr;
+                    Read Latest News &rarr;
                   </Link>
                 </div>
                 <div className="space-y-4">
@@ -413,14 +413,21 @@ const BlogPost: React.FC = () => {
                           <img src={rp.featuredImage} alt={rp.title} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1">
+                        <span className="block text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
+                          {categoryLabel(rp.category)}
+                        </span>
                         <p className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
                           {rp.title}
                         </p>
-                        <p className="text-[11px] text-gray-400 mt-1">
-                          {new Date(rp.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                          {' '}&middot; {rp.views || 0} views
-                        </p>
+                        <div className="flex items-center justify-between mt-1.5">
+                          <span className="text-[11px] text-gray-400">
+                            {new Date(rp.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                          </span>
+                          <span className="text-[11px] text-gray-400">
+                            {rp.views || 0} &middot; {rp.likes || 0} &middot; {rp._count?.comments ?? 0}
+                          </span>
+                        </div>
                       </div>
                     </Link>
                   ))}
