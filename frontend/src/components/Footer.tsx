@@ -38,9 +38,9 @@ const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 pt-16 pb-8 isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-y-10 gap-x-8 mb-12">
           {/* Brand Section */}
-          <div className="flex flex-col space-y-5">
+          <div className="lg:col-span-4 flex flex-col space-y-5">
             <div className="flex items-center space-x-2">
               {logoSettings.logoUrl && logoSettings.showText ? (
                 <>
@@ -77,7 +77,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div className="lg:col-span-2 lg:border-l lg:border-gray-200 lg:pl-8">
             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Navigation</h3>
             <ul className="space-y-3">
               {['Home', 'About', 'Contact', 'Donate'].map((item) => (
@@ -95,7 +95,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="lg:col-span-3 lg:border-l lg:border-gray-200 lg:pl-8">
             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Connect</h3>
             <div className="space-y-4">
               <div>
@@ -110,7 +110,7 @@ const Footer = () => {
           </div>
 
           {/* Newsletter Section */}
-          <div>
+          <div className="lg:col-span-3 lg:border-l lg:border-gray-200 lg:pl-8">
             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Stay Rooted</h3>
             <p className="text-gray-500 text-sm mb-4 leading-relaxed">
               Join our community and receive weekly grains of wisdom.
