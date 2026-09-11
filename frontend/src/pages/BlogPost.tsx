@@ -175,6 +175,8 @@ const BlogPost: React.FC = () => {
               {post.title}
             </h1>
 
+            <p className="text-gray-600 text-lg leading-relaxed mb-6">{post.excerpt}</p>
+
             <div className="mb-6">
               {post.featuredImage && (
                 <div className="group relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
@@ -187,7 +189,62 @@ const BlogPost: React.FC = () => {
                   />
                 </div>
               )}
-              <p className="text-gray-600 text-lg leading-relaxed">{post.excerpt}</p>
+
+              <section className="prose prose-amber max-w-none relative">
+                {post.isPremium && !authAPI.isAuthenticated() ? (
+                  <div className="relative">
+                    <div className="blur-sm select-none pointer-events-none opacity-50">
+                      {post.excerpt}
+                      <div className="h-40"></div>
+                    </div>
+                    <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col items-center justify-center bg-gradient-to-t from-white via-white/80 to-transparent pt-20 pb-10 text-center">
+                      <div className="bg-white p-8 rounded-2xl shadow-2xl border border-amber-100 max-w-md mx-auto transform hover:scale-105 transition-transform duration-300">
+                        <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                          <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-2xl font-serif text-gray-900 mb-3">Premium Content</h3>
+                        <p className="text-gray-700 mb-8 leading-relaxed">
+                          This deep dive is exclusive to our community members. Join us today to unlock full access to this and all other premium reflections.
+                        </p>
+                        <div className="flex flex-col space-y-3">
+                          <Link
+                            to="/register"
+                            className="w-full py-4 bg-amber-700 text-white rounded-xl font-bold hover:bg-amber-800 transition-all shadow-lg hover:shadow-amber-700/30"
+                          >
+                            Create Free Account
+                          </Link>
+                          <Link
+                            to="/login"
+                            className="w-full py-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors"
+                          >
+                            Already a member? Log In
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <BibleReference>
+                    {/<[a-z][\s\S]*>/i.test(post.content) ? (
+                      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                    ) : (
+                      <div
+                        className="text-gray-800 whitespace-pre-wrap leading-relaxed space-y-4 prose prose-amber max-w-none"
+                        dangerouslySetInnerHTML={{
+                          __html: post.content
+                            .replace(/^###\s+(.+)$/gm, '<h4 class="text-lg font-bold text-gray-900 mt-6 mb-2">$1</h4>')
+                            .replace(/^##\s+(.+)$/gm, '<h3 class="text-xl font-serif text-gray-900 mt-8 mb-3">$1</h3>')
+                            .replace(/^#\s+(.+)$/gm, '<h2 class="text-2xl font-serif text-gray-900 mt-10 mb-4">$1</h2>')
+                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        }}
+                      />
+                    )}
+                  </BibleReference>
+                )}
+              </section>
+
               <div className="clear-both" />
             </div>
 
@@ -211,61 +268,6 @@ const BlogPost: React.FC = () => {
             </div>
 
             <AudioReader content={post.content} title={post.title} />
-
-            <section className="prose prose-amber max-w-none relative">
-              {post.isPremium && !authAPI.isAuthenticated() ? (
-                <div className="relative">
-                  <div className="blur-sm select-none pointer-events-none opacity-50">
-                    {post.excerpt}
-                    <div className="h-40"></div>
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col items-center justify-center bg-gradient-to-t from-white via-white/80 to-transparent pt-20 pb-10 text-center">
-                    <div className="bg-white p-8 rounded-2xl shadow-2xl border border-amber-100 max-w-md mx-auto transform hover:scale-105 transition-transform duration-300">
-                      <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                      </div>
-                      <h3 className="text-2xl font-serif text-gray-900 mb-3">Premium Content</h3>
-                      <p className="text-gray-700 mb-8 leading-relaxed">
-                        This deep dive is exclusive to our community members. Join us today to unlock full access to this and all other premium reflections.
-                      </p>
-                      <div className="flex flex-col space-y-3">
-                        <Link
-                          to="/register"
-                          className="w-full py-4 bg-amber-700 text-white rounded-xl font-bold hover:bg-amber-800 transition-all shadow-lg hover:shadow-amber-700/30"
-                        >
-                          Create Free Account
-                        </Link>
-                        <Link
-                          to="/login"
-                          className="w-full py-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors"
-                        >
-                          Already a member? Log In
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <BibleReference>
-                  {/<[a-z][\s\S]*>/i.test(post.content) ? (
-                    <div dangerouslySetInnerHTML={{ __html: post.content }} />
-                  ) : (
-                    <div
-                      className="text-gray-800 whitespace-pre-wrap leading-relaxed space-y-4 prose prose-amber max-w-none"
-                      dangerouslySetInnerHTML={{
-                        __html: post.content
-                          .replace(/^###\s+(.+)$/gm, '<h4 class="text-lg font-bold text-gray-900 mt-6 mb-2">$1</h4>')
-                          .replace(/^##\s+(.+)$/gm, '<h3 class="text-xl font-serif text-gray-900 mt-8 mb-3">$1</h3>')
-                          .replace(/^#\s+(.+)$/gm, '<h2 class="text-2xl font-serif text-gray-900 mt-10 mb-4">$1</h2>')
-                          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                      }}
-                    />
-                  )}
-                </BibleReference>
-              )}
-            </section>
 
             {/* Metrics under content */}
             <div className="mt-8 pt-6 border-t border-gray-200">
