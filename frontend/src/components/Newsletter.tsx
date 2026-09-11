@@ -29,7 +29,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section className="relative py-24 overflow-hidden isolate">
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-full h-full bg-[#faf9f6] dark:bg-gray-950 transition-colors duration-500"></div>
       <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[80%] bg-amber-200/40 dark:bg-amber-900/20 rounded-full blur-[160px] animate-pulse-slow"></div>

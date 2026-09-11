@@ -26,7 +26,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-[88vh] flex items-center justify-center bg-cover bg-center overflow-hidden">
+    <section className="relative h-[88vh] flex items-center justify-center bg-cover bg-center overflow-hidden isolate">
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
         style={getParallaxStyle()}
