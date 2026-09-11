@@ -167,18 +167,43 @@ const BlogPost: React.FC = () => {
           <article className="lg:col-span-2">
           {showSkeleton ? (
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
-              <div className="h-5 w-24 bg-gray-300 rounded animate-pulse mb-4" />
-              <div className="h-8 bg-gray-300 rounded animate-pulse w-3/4 mb-2" />
-              <div className="h-8 bg-gray-300 rounded animate-pulse w-1/2 mb-4" />
-              <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-              <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-6" />
-              <div className="w-1/2 h-64 md:h-80 bg-gray-300 rounded-lg animate-pulse float-left mr-6 mb-4" />
-              <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-              <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-              <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-2" />
-              <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-              <div className="h-4 bg-gray-300 rounded animate-pulse w-2/3" />
-              <div className="clear-both" />
+              {/* Category badge */}
+              <div className="h-6 w-24 bg-gray-300 rounded animate-pulse mb-4" />
+              {/* Title (2 lines) */}
+              <div className="h-9 bg-gray-300 rounded animate-pulse w-3/4 mb-2" />
+              <div className="h-9 bg-gray-300 rounded animate-pulse w-1/2 mb-4" />
+              {/* Excerpt */}
+              <div className="h-6 bg-gray-300 rounded animate-pulse w-full mb-6" />
+
+              <div className="mb-6">
+                {/* Floated image, matching the real w-1/2 h-64/h-80 */}
+                <div className="w-1/2 h-64 md:h-80 bg-gray-300 rounded-lg animate-pulse float-left mr-6 md:mr-8 mb-4 border border-gray-200" />
+                {/* Content paragraphs wrapping the image */}
+                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+                <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-2" />
+                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+                <div className="h-4 bg-gray-300 rounded animate-pulse w-2/3 mb-2" />
+                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+                <div className="h-4 bg-gray-300 rounded animate-pulse w-3/4" />
+                <div className="clear-both" />
+              </div>
+
+              {/* Byline + stats row, matching the real border-b block */}
+              <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-gray-300 animate-pulse shrink-0" />
+                  <div className="space-y-1.5">
+                    <div className="h-3.5 w-28 bg-gray-300 rounded animate-pulse" />
+                    <div className="h-3 w-36 bg-gray-300 rounded animate-pulse" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  {[1, 2, 3, 4].map(i => (
+                    <div key={i} className="h-8 w-16 bg-gray-300 rounded-full animate-pulse" />
+                  ))}
+                </div>
+              </div>
             </div>
           ) : (
           <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
