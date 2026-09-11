@@ -28,8 +28,8 @@ const BlogPost: React.FC = () => {
   }, [post?.id, post?.title, post?.slug]);
 
   // Recent stories (sidebar list)
-  const { data: recentData } = useFetch<any>(() => blogAPI.getPosts({ page: 1, limit: 5 }), []);
-  const recentPosts = (recentData?.data?.posts || recentData?.posts || []).filter((p: any) => p.slug !== slug).slice(0, 4);
+  const { data: recentData } = useFetch<any>(() => blogAPI.getPosts({ page: 1, limit: 11 }), []);
+  const recentPosts = (recentData?.data?.posts || recentData?.posts || []).filter((p: any) => p.slug !== slug).slice(0, 10);
 
   // Comments
   const { data: commentsData, refetch: refetchComments } = useFetch<any>(
@@ -434,20 +434,6 @@ const BlogPost: React.FC = () => {
                 </div>
               </div>
             )}
-
-            {/* Support CTA */}
-            <div className="bg-gray-950 rounded-lg p-5">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-500 mb-2">Support Our Work</h3>
-              <p className="text-sm text-gray-300 mb-4 leading-relaxed">
-                Help us keep sharing faith-based reflections and teachings with believers everywhere.
-              </p>
-              <Link
-                to="/donate"
-                className="inline-block px-4 py-2 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors"
-              >
-                Support Us &rarr;
-              </Link>
-            </div>
           </aside>
         </div>
       </div>
