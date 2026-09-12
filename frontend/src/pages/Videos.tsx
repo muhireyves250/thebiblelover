@@ -97,10 +97,17 @@ const VideoCardSkeleton = () => (
     </div>
 );
 
+const FILTERS = [
+    { id: 'ALL', name: 'All' },
+    { id: 'LIVE', name: 'Live' },
+    { id: 'VIDEO', name: 'Videos' },
+] as const;
+
 const Videos = () => {
     const [items, setItems] = useState<HomeFeedVideo[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [activeFilter, setActiveFilter] = useState<typeof FILTERS[number]['id']>('ALL');
 
     useEffect(() => {
         setLoading(true);
@@ -114,6 +121,8 @@ const Videos = () => {
         }).catch(() => setError(true)).finally(() => setLoading(false));
     }, []);
 
+    const visibleItems = activeFilter === 'ALL' ? items : items.filter(item => item.type === activeFilter);
+
     return (
         <div className="min-h-screen bg-white">
             <SEO
@@ -125,10 +134,26 @@ const Videos = () => {
                 <div className="md:hidden mb-4">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Watch</span>
+                        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Live Streams &amp; Videos</span>
                     </div>
-                    <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Live Streams &amp; Videos</h1>
+                    <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Watch</h1>
                     <p className="text-sm text-gray-500 mt-2">Every live stream and video The Bible Lover has published on YouTube, in one place.</p>
+                </div>
+
+                {/* Filters */}
+                <div className="flex md:flex-wrap gap-2 mb-6 md:mb-10 overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0 pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                    {FILTERS.map(f => (
+                        <button
+                            key={f.id}
+                            onClick={() => setActiveFilter(f.id)}
+                            className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-colors ${activeFilter === f.id
+                                ? 'bg-amber-700 text-white border-amber-700'
+                                : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
+                                }`}
+                        >
+                            {f.name}
+                        </button>
+                    ))}
                 </div>
 
                 {loading ? (
@@ -141,11 +166,11 @@ const Videos = () => {
                         <h3 className="text-lg font-bold text-gray-900 mb-1">Failed to load videos</h3>
                         <p className="text-gray-500 text-sm">Please try again later.</p>
                     </div>
-                ) : items.length === 0 ? (
+                ) : visibleItems.length === 0 ? (
                     <p className="text-gray-500 text-center py-16">No videos found.</p>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                        {items.map(item => (
+                        {visibleItems.map(item => (
                             <VideoCard key={item.id} item={item} />
                         ))}
                     </div>
