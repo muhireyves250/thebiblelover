@@ -419,7 +419,7 @@ const Header = () => {
                   href={socialLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-amber-700 transition-colors"
+                  className="p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
                   aria-label="Facebook"
                 >
                   <Facebook className="h-4 w-4" />
@@ -430,7 +430,7 @@ const Header = () => {
                   href={socialLinks.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-amber-700 transition-colors"
+                  className="p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
                   aria-label="Twitter"
                 >
                   <Twitter className="h-4 w-4" />
