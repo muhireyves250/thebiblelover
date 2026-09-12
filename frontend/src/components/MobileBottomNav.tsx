@@ -28,7 +28,9 @@ const MobileBottomNav = () => {
             >
               <span
                 className={`flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-full transition-colors ${
-                  isActive ? 'bg-amber-700 text-white' : 'text-gray-600'
+                  isActive
+                    ? 'bg-amber-700 text-white'
+                    : 'text-gray-600 hover:bg-gray-100 active:bg-gray-200'
                 }`}
               >
                 <Icon className="h-5 w-5" strokeWidth={isActive ? 2.75 : 2.25} />
