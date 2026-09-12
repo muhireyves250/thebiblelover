@@ -35,8 +35,8 @@ const Home = () => {
               Welcome back, <span className="text-amber-400">friend</span>
             </h2>
             <div className="flex items-center gap-3 mt-1">
-              <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.3em] text-amber-400">
-                <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> Daily Inspiration
+              <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.3em] text-amber-400">
+                <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" /> Daily Inspiration
               </span>
             </div>
           </div>
