@@ -103,13 +103,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
             </Link>
           )}
         </div>
-        <p className="hidden md:block text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4">{item.excerpt}</p>
-        <div className="md:hidden relative overflow-hidden mb-2">
-          <div className="flex whitespace-nowrap animate-marquee [animation-duration:14s]">
-            <span className="text-xs text-gray-500 pr-8">{item.excerpt}</span>
-            <span className="text-xs text-gray-500 pr-8" aria-hidden="true">{item.excerpt}</span>
-          </div>
-        </div>
+        <p className="text-xs md:text-sm text-gray-500 leading-relaxed line-clamp-1 md:line-clamp-3 mb-2 md:mb-4">{item.excerpt}</p>
         <StatsRow item={item} />
       </div>
     </div>
@@ -283,6 +277,13 @@ const HomeFeed: React.FC = () => {
   const currentPage = Math.min(page, pages.length - 1);
   const visibleItems = pages[currentPage] || [];
 
+  // Mobile: swipe through the featured item plus a handful of other
+  // videos/lives, instead of being stuck on a single broadcast.
+  const featuredCarouselItems = useMemo(() => {
+    const others = items.filter(item => isVideoLike(item) && item.id !== featured?.id).slice(0, 5);
+    return featured ? [featured, ...others] : others;
+  }, [featured, items]);
+
   // Auto-rotate through pages of reflections; pause while the visitor is
   // hovering the grid so it doesn't yank a card out from under the cursor.
   const [isHovering, setIsHovering] = useState(false);
@@ -316,7 +317,27 @@ const HomeFeed: React.FC = () => {
                 Watch More <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
-            <div className="flex-1">
+            {/* Mobile: swipe left to switch between the featured broadcast
+                and other recent videos/lives, snap-scrolling one full card
+                at a time. Desktop keeps the single static featured card. */}
+            <div className="md:hidden flex-1">
+              {!hasLoaded ? (
+                <FeaturedCardSkeleton />
+              ) : featuredCarouselItems.length > 0 ? (
+                <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-1 h-full">
+                  {featuredCarouselItems.map(item => (
+                    <div key={`${item.type}-${item.id}`} className="w-full shrink-0 snap-start">
+                      <FeaturedCard item={item} />
+                    </div>
+                  ))}
+                </div>
+              ) : heroVideoUrl ? (
+                <HeroVideoCard videoUrl={heroVideoUrl} />
+              ) : (
+                <NoVideoPlaceholder />
+              )}
+            </div>
+            <div className="hidden md:block flex-1">
               {!hasLoaded ? (
                 <FeaturedCardSkeleton />
               ) : featured ? (
