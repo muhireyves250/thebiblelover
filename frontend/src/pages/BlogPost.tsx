@@ -406,8 +406,8 @@ const BlogPost: React.FC = () => {
 
           {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
-            {/* Written By */}
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+            {/* Written By - desktop only */}
+            <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-5">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</h3>
               {!post ? (
                 <div className="flex items-center gap-3">
@@ -434,8 +434,8 @@ const BlogPost: React.FC = () => {
               )}
             </div>
 
-            {/* Story Details */}
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+            {/* Story Details - desktop only */}
+            <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-5">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Story Details</h3>
               {!post ? (
                 <dl className="space-y-1">
@@ -473,12 +473,27 @@ const BlogPost: React.FC = () => {
 
             {/* Recent Stories */}
             {recentLoading && recentPosts.length === 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-                <div className="flex items-center justify-between mb-4">
+              <div className="bg-white md:border md:border-gray-300 md:rounded-lg md:shadow-sm p-0 md:p-5">
+                <div className="flex items-center justify-between mb-3 md:mb-4">
                   <div className="h-3 w-24 bg-gray-300 rounded animate-pulse" />
                   <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
                 </div>
-                <div className="space-y-4">
+
+                {/* Mobile skeleton: 2-up cards */}
+                <div className="grid grid-cols-2 gap-2.5 md:hidden">
+                  {[1, 2, 3, 4].map(i => (
+                    <div key={i} className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm">
+                      <div className="h-14 bg-gray-300 animate-pulse" />
+                      <div className="p-1.5 space-y-1">
+                        <div className="h-2.5 bg-gray-300 rounded animate-pulse w-full" />
+                        <div className="h-2 w-1/2 bg-gray-300 rounded animate-pulse" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop skeleton: row list */}
+                <div className="hidden md:block space-y-4">
                   {[1, 2, 3, 4].map(i => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-16 h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
@@ -494,14 +509,37 @@ const BlogPost: React.FC = () => {
             )}
 
             {recentPosts.length > 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Stories</h3>
-                  <Link to="/posts" className="text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
+              <div className="bg-white md:border md:border-gray-300 md:rounded-lg md:shadow-sm p-0 md:p-5">
+                <div className="flex items-center justify-between mb-3 md:mb-4">
+                  <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Stories</h3>
+                  <Link to="/posts" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
                     Read Latest News &rarr;
                   </Link>
                 </div>
-                <div className="space-y-4">
+
+                {/* Mobile: compact 2-up card grid, matching the Home feed's report cards */}
+                <div className="grid grid-cols-2 gap-2.5 md:hidden">
+                  {recentPosts.map((rp: any) => (
+                    <Link key={rp.id} to={`/blog/${rp.slug}`} className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm group">
+                      {rp.featuredImage && (
+                        <div className="h-14 bg-gray-100 overflow-hidden">
+                          <img src={rp.featuredImage} alt={rp.title} className="w-full h-full object-cover" loading="lazy" />
+                        </div>
+                      )}
+                      <div className="p-1.5">
+                        <p className="text-[11px] font-bold text-gray-900 uppercase leading-snug line-clamp-2 mb-0.5 group-hover:text-amber-700 transition-colors">
+                          {rp.title}
+                        </p>
+                        <span className="text-[9px] text-gray-400">
+                          {new Date(rp.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Desktop: row list */}
+                <div className="hidden md:block space-y-4">
                   {recentPosts.map((rp: any) => (
                     <Link key={rp.id} to={`/blog/${rp.slug}`} className="flex items-start gap-3 group">
                       {rp.featuredImage && (
