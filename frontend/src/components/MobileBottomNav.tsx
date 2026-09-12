@@ -13,10 +13,11 @@ const MobileBottomNav = () => {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200 dark:border-gray-800 pb-[env(safe-area-inset-bottom)]"
+      className="md:hidden fixed inset-x-3 z-50 bottom-[calc(0.75rem+env(safe-area-inset-bottom))]"
       aria-label="Primary"
     >
-      <div className="flex items-stretch justify-around">
+      <div className="relative flex items-stretch justify-around bg-white/95 backdrop-blur-xl rounded-2xl border border-gray-200 shadow-2xl overflow-hidden">
+        <span className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
         {TABS.map(({ path, label, icon: Icon }) => {
           const isActive = path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
           return (
@@ -25,13 +26,16 @@ const MobileBottomNav = () => {
               to={path}
               className="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 min-w-0"
             >
-              <Icon
-                className={`h-5 w-5 ${isActive ? 'text-amber-700 dark:text-amber-500' : 'text-gray-400 dark:text-gray-500'}`}
-                strokeWidth={isActive ? 2.4 : 2}
-              />
               <span
-                className={`text-[10px] font-bold uppercase tracking-wide truncate ${
-                  isActive ? 'text-amber-700 dark:text-amber-500' : 'text-gray-400 dark:text-gray-500'
+                className={`flex items-center justify-center w-9 h-9 rounded-xl transition-colors ${
+                  isActive ? 'bg-amber-700 text-white' : 'text-gray-400'
+                }`}
+              >
+                <Icon className="h-[18px] w-[18px]" strokeWidth={isActive ? 2.4 : 2} />
+              </span>
+              <span
+                className={`text-[10px] tracking-wide truncate ${
+                  isActive ? 'text-amber-700 font-bold' : 'text-gray-500 font-medium'
                 }`}
               >
                 {label}
