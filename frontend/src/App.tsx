@@ -163,7 +163,7 @@ function AppContent() {
             <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
             <Route path="/prayer-wall" element={<Suspense fallback={null}><PageTransition><PrayerWall /></PageTransition></Suspense>} />
             <Route path="/events" element={<Suspense fallback={null}><PageTransition><Events /></PageTransition></Suspense>} />
-            <Route path="/events/:id" element={<PageTransition><EventDetail /></PageTransition>} />
+            <Route path="/events/:id" element={<Suspense fallback={null}><PageTransition><EventDetail /></PageTransition></Suspense>} />
             <Route path="/watch" element={<Suspense fallback={null}><PageTransition><Videos /></PageTransition></Suspense>} />
             <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
             <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
