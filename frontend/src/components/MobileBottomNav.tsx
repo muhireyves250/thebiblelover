@@ -13,7 +13,7 @@ const MobileBottomNav = () => {
 
   return (
     <nav
-      className="md:hidden fixed inset-x-3 z-50 bottom-[calc(0.75rem+env(safe-area-inset-bottom))]"
+      className="md:hidden fixed inset-x-3 bottom-0 z-50 pb-[env(safe-area-inset-bottom)]"
       aria-label="Primary"
     >
       <div className="relative flex items-stretch justify-around gap-0.5 px-2 bg-white/95 backdrop-blur-xl rounded-full border-2 border-gray-300 shadow-2xl overflow-hidden">
