@@ -126,9 +126,13 @@ function AppContent() {
           takes over primary navigation instead of the footer. */}
       {!isBareLayout && <Header />}
       {/* On mobile the ticker always sits directly under the header, on
-          every page - desktop keeps its per-page placement (inline on
-          Home/About, just above the footer everywhere else). */}
-      {!isBareLayout && <div className="md:hidden"><Announcements /></div>}
+          every page, and stays fixed there while scrolling just like the
+          header does (its own independent sticky element, stacked right
+          below header's rather than nested inside it, so it doesn't get
+          trapped in header's stacking context the way the drawer once
+          was). Desktop keeps its per-page placement (inline on Home/
+          About, just above the footer everywhere else). */}
+      {!isBareLayout && <div className="md:hidden sticky top-[66px] z-40"><Announcements /></div>}
       {location.pathname === '/' && <div className="hidden md:block"><Hero /></div>}
       {pageHeader && <PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} />}
       <Suspense fallback={<PageLoader />}>
