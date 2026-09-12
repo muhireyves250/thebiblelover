@@ -25,7 +25,7 @@ const Announcements: React.FC = () => {
   );
 
   return (
-    <section className="bg-gray-950 py-3 md:py-8 isolate overflow-hidden">
+    <section className="bg-gray-950 py-2 md:py-8 isolate overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3 md:gap-5">
           <span className="flex items-center gap-1.5 md:gap-2.5 font-sans text-xs md:text-sm font-black uppercase tracking-[0.2em] text-amber-500 shrink-0">
