@@ -14,23 +14,23 @@ const Announcements: React.FC = () => {
   if (items.length === 0) return null;
 
   const Track = ({ hidden = false }: { hidden?: boolean }) => (
-    <span className="pr-10" aria-hidden={hidden || undefined}>
+    <span className="pr-6 md:pr-10" aria-hidden={hidden || undefined}>
       {items.map((item, i) => (
         <span key={i}>
-          <span className="font-sans text-lg md:text-xl font-black uppercase tracking-wider text-white">{item}</span>
-          {i < items.length - 1 && <span className="text-amber-500 font-black mx-6">&bull;</span>}
+          <span className="font-sans text-sm md:text-xl font-black uppercase tracking-wider text-white">{item}</span>
+          {i < items.length - 1 && <span className="text-amber-500 font-black mx-3 md:mx-6">&bull;</span>}
         </span>
       ))}
     </span>
   );
 
   return (
-    <section className="bg-gray-950 py-8 isolate overflow-hidden">
+    <section className="bg-gray-950 py-3 md:py-8 isolate overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-5">
-          <span className="flex items-center gap-2.5 font-sans text-sm font-black uppercase tracking-[0.2em] text-amber-500 shrink-0">
-            <Megaphone className="w-8 h-8 animate-ring-wiggle" />
-            <span className="animate-vibrate inline-block">{announcementsSection?.title || 'Announcements'}</span>
+        <div className="flex items-center gap-3 md:gap-5">
+          <span className="flex items-center gap-1.5 md:gap-2.5 font-sans text-xs md:text-sm font-black uppercase tracking-[0.2em] text-amber-500 shrink-0">
+            <Megaphone className="w-5 h-5 md:w-8 md:h-8 animate-ring-wiggle" />
+            <span className="animate-vibrate hidden sm:inline-block">{announcementsSection?.title || 'Announcements'}</span>
           </span>
           <span className="hidden sm:block w-px h-6 bg-gray-800 shrink-0" />
           <div className="relative flex-1 overflow-hidden">
