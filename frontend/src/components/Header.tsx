@@ -103,8 +103,8 @@ const Header = () => {
           </Link>
 
           <div className="relative flex-1" ref={mobileSearchRef}>
-            <form onSubmit={handleSearch} className="relative flex items-center" role="search">
-              <Search className="h-4 w-4 text-gray-400 absolute left-3 pointer-events-none" />
+            <form onSubmit={handleSearch} className="group relative flex items-center" role="search">
+              <Search className="h-4 w-4 text-gray-400 group-focus-within:text-amber-700 dark:group-focus-within:text-amber-500 absolute left-3 pointer-events-none transition-colors" />
               <input
                 type="text"
                 placeholder="Search the site..."
@@ -116,7 +116,7 @@ const Header = () => {
               />
               <button
                 type="submit"
-                className="absolute right-1 p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
+                className="absolute right-1 p-2 rounded-md text-gray-500 dark:text-gray-400 group-focus-within:text-amber-700 dark:group-focus-within:text-amber-500 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
                 aria-label="Submit search"
               >
                 {isSearching ? (
