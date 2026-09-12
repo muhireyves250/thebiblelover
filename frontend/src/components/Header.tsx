@@ -343,7 +343,7 @@ const Header = () => {
 
       {/* Mobile slide-out drawer */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-[60]">
+        <div className="md:hidden fixed inset-0 z-[100]">
           <div
             className="absolute inset-0 bg-black/50 animate-in fade-in duration-200"
             onClick={() => setIsMenuOpen(false)}
