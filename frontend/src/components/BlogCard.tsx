@@ -105,6 +105,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="md:hidden absolute inset-0 bg-black/25"></div>
         <div className="md:hidden absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent px-2 pt-6 pb-1.5">
           <h2 className="font-sans font-bold uppercase text-white leading-snug line-clamp-2 text-xs">
             {title}
