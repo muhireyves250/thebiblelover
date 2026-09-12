@@ -54,11 +54,7 @@ class GlobalErrorBoundary extends React.Component<{children: React.ReactNode}, {
   render() {
     if (this.state.hasError) {
       if (isChunkLoadError(this.state.error)) {
-        return (
-          <div style={{ padding: '20px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'sans-serif', textAlign: 'center' }}>
-            <p>Loading the latest version…</p>
-          </div>
-        );
+        return null;
       }
       return (
         <div style={{ padding: '20px', background: '#ffebee', color: '#c62828', minHeight: '100vh', fontFamily: 'monospace' }}>
