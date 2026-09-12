@@ -245,27 +245,27 @@ const NoVideoPlaceholder: React.FC = () => (
 
 const ReportCardSkeleton: React.FC = () => (
   <div className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm h-full">
-    <div className="h-36 bg-gray-300 animate-pulse" />
-    <div className="p-4">
-      <div className="h-4 w-20 bg-gray-300 rounded animate-pulse mb-3" />
-      <div className="h-4 w-full bg-gray-300 rounded animate-pulse mb-2" />
-      <div className="h-4 w-2/3 bg-gray-300 rounded animate-pulse mb-4" />
-      <div className="h-3 w-3/4 bg-gray-300 rounded animate-pulse" />
+    <div className="h-14 md:h-36 bg-gray-300 animate-pulse" />
+    <div className="p-1.5 md:p-4">
+      <div className="hidden md:block h-3 w-20 bg-gray-300 rounded animate-pulse mb-2" />
+      <div className="h-3 md:h-4 w-full bg-gray-300 rounded animate-pulse mb-1 md:mb-2" />
+      <div className="hidden md:block h-4 w-2/3 bg-gray-300 rounded animate-pulse mb-4" />
+      <div className="h-2 md:h-3 w-3/4 bg-gray-300 rounded animate-pulse mt-1" />
     </div>
   </div>
 );
 
 const FeaturedCardSkeleton: React.FC = () => (
   <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-    <div className="flex-1 min-h-[220px] bg-gray-300 animate-pulse" />
-    <div className="p-6">
-      <div className="flex items-start gap-3 mb-3">
-        <span className="mt-2 w-2 h-2 rounded-full bg-gray-200 shrink-0" />
-        <div className="h-6 w-3/4 bg-gray-300 rounded animate-pulse" />
+    <div className="flex-1 min-h-[140px] md:min-h-[220px] bg-gray-300 animate-pulse" />
+    <div className="p-3 md:p-6">
+      <div className="flex items-start gap-2 md:gap-3 mb-1.5 md:mb-3">
+        <span className="mt-1.5 w-1.5 h-1.5 md:mt-2 md:w-2 md:h-2 rounded-full bg-gray-200 shrink-0" />
+        <div className="h-4 md:h-6 w-3/4 bg-gray-300 rounded animate-pulse" />
       </div>
-      <div className="h-4 w-full bg-gray-300 rounded animate-pulse mb-2" />
-      <div className="h-4 w-5/6 bg-gray-300 rounded animate-pulse mb-4" />
-      <div className="h-3 w-1/2 bg-gray-300 rounded animate-pulse" />
+      <div className="h-3 md:h-4 w-full bg-gray-300 rounded animate-pulse mb-2 md:mb-2" />
+      <div className="hidden md:block h-4 w-5/6 bg-gray-300 rounded animate-pulse mb-4" />
+      <div className="h-2.5 md:h-3 w-1/2 bg-gray-300 rounded animate-pulse" />
     </div>
   </div>
 );
