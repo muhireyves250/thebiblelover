@@ -116,7 +116,7 @@ const Header = () => {
               />
               <button
                 type="submit"
-                className="absolute right-1 p-2 rounded-md text-gray-500 dark:text-gray-400"
+                className="absolute right-1 p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
                 aria-label="Submit search"
               >
                 {isSearching ? (
