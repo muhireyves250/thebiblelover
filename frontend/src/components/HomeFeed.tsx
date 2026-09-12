@@ -352,7 +352,7 @@ const HomeFeed: React.FC = () => {
               {!hasLoaded ? (
                 <FeaturedCardSkeleton />
               ) : featuredCarouselItems.length > 0 ? (
-                <div ref={featuredScrollRef} className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-1 h-full">
+                <div ref={featuredScrollRef} className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-1">
                   {featuredCarouselItems.map(item => (
                     <div key={`${item.type}-${item.id}`} className="w-full shrink-0 snap-start">
                       <FeaturedCard item={item} />
