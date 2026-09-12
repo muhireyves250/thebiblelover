@@ -27,7 +27,7 @@ const MobileBottomNav = () => {
               className="flex flex-1 items-center justify-center py-1.5 min-w-0"
             >
               <span
-                className={`flex w-full flex-col items-center justify-center gap-[1px] px-3 py-2 rounded-full transition-colors ${
+                className={`flex w-full flex-col items-center justify-center gap-0 px-3 py-2 rounded-full transition-colors ${
                   isActive
                     ? 'bg-amber-700 text-white'
                     : 'text-gray-600 hover:bg-gray-100 active:bg-gray-200'
@@ -35,7 +35,7 @@ const MobileBottomNav = () => {
               >
                 <Icon className="h-5 w-5" strokeWidth={isActive ? 2.75 : 2.25} />
                 <span
-                  className={`text-[10px] tracking-wide truncate ${
+                  className={`-mt-0.5 text-[10px] tracking-wide truncate ${
                     isActive ? 'text-white font-bold' : 'text-gray-600 font-semibold'
                   }`}
                 >
