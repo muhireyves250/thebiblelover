@@ -200,19 +200,19 @@ const BlogPost: React.FC = () => {
               </div>
             </div>
           ) : (
-          <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
-            <span className="inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8 mb-8">
+            <span className="inline-block px-2 py-1 md:px-2.5 bg-amber-700 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded mb-2 md:mb-4">
               {categoryLabel(post.category)}
             </span>
-            <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-4">
+            <h1 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-2 md:mb-4">
               {post.title}
             </h1>
 
-            <p className="text-gray-600 text-lg leading-relaxed mb-6">{post.excerpt}</p>
+            <p className="text-sm md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">{post.excerpt}</p>
 
             <div className="mb-6">
               {post.featuredImage && (
-                <div className="group relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
                   <img
                     src={post.featuredImage}
                     alt={post.title}
@@ -282,9 +282,9 @@ const BlogPost: React.FC = () => {
               <div className="clear-both" />
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+            <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200">
+              <div className="flex items-center gap-2.5 md:gap-3">
+                <div className="w-8 h-8 md:w-9 md:h-9 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center shrink-0">
                   {post.author?.profileImage ? (
                     <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                   ) : (
@@ -293,25 +293,25 @@ const BlogPost: React.FC = () => {
                     </span>
                   )}
                 </div>
-                <div className="text-sm">
+                <div className="text-xs md:text-sm">
                   <p className="font-bold text-gray-900">{post.author?.name || 'Unknown author'}</p>
                   <p className="text-gray-500">{formattedDate} &middot; {post.readTime} min read</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
-                  <Eye className="w-4 h-4" /> {post.views}
+              <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                <span className="inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border border-gray-200 rounded-full text-xs md:text-sm text-gray-600">
+                  <Eye className="w-3.5 h-3.5 md:w-4 md:h-4" /> {post.views}
                 </span>
                 <button
                   onClick={handleLike}
                   disabled={isLiking}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 border rounded-full text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border rounded-full text-xs md:text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
                   aria-label={isLiked ? 'Unlike post' : 'Like post'}
                 >
-                  <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} /> Like &middot; {likeCount}
+                  <Heart className={`h-3.5 w-3.5 md:h-4 md:w-4 ${isLiked ? 'fill-current' : ''}`} /> Like &middot; {likeCount}
                 </button>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
+                <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
                   <MessageCircle className="w-4 h-4" /> Comment &middot; {post._count?.comments ?? comments.length}
                 </span>
                 <ShareButtons title={post.title} />
@@ -319,38 +319,38 @@ const BlogPost: React.FC = () => {
             </div>
 
             {/* Comments */}
-            <section className="mt-8 pt-8 border-t border-gray-200">
-              <div className="flex items-center gap-2 mb-6">
+            <section className="mt-6 pt-6 md:mt-8 md:pt-8 border-t border-gray-200">
+              <div className="flex items-center gap-2 mb-4 md:mb-6">
                 <span className="w-1 h-4 bg-amber-700 rounded-sm" />
                 <h2 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">
                   Comments <span className="text-gray-400">&middot; {comments.length}</span>
                 </h2>
               </div>
 
-              <div className="space-y-3 mb-8">
+              <div className="space-y-2.5 md:space-y-3 mb-6 md:mb-8">
                 {comments.map((c: any) => (
-                  <div key={c.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                    <div className="flex items-start gap-3">
-                      <div className="w-9 h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-bold shrink-0">
+                  <div key={c.id} className="border border-gray-200 rounded-lg p-3 md:p-4 bg-gray-50">
+                    <div className="flex items-start gap-2.5 md:gap-3">
+                      <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs md:text-sm font-bold shrink-0">
                         {c.authorName?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-sm font-bold text-gray-900">{c.authorName || 'Anonymous'}</span>
-                          <span className="text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
+                          <span className="text-xs md:text-sm font-bold text-gray-900">{c.authorName || 'Anonymous'}</span>
+                          <span className="text-[10px] md:text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
                         </div>
-                        <p className="mt-1.5 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
+                        <p className="mt-1 md:mt-1.5 text-xs md:text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
                       </div>
                     </div>
                   </div>
                 ))}
                 {comments.length === 0 && (
-                  <div className="border border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 text-sm">No comments yet. Be the first to comment!</div>
+                  <div className="border border-dashed border-gray-300 rounded-lg p-4 md:p-6 text-center text-gray-500 text-xs md:text-sm">No comments yet. Be the first to comment!</div>
                 )}
               </div>
 
-              <form onSubmit={submitComment} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form onSubmit={submitComment} className="space-y-3 md:space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div>
                     <label htmlFor="commentName" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Name</label>
                     <input
@@ -361,7 +361,7 @@ const BlogPost: React.FC = () => {
                       autoComplete="name"
                       value={authorName}
                       onChange={(e) => setAuthorName(e.target.value)}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
                   <div>
@@ -374,7 +374,7 @@ const BlogPost: React.FC = () => {
                       autoComplete="email"
                       value={authorEmail}
                       onChange={(e) => setAuthorEmail(e.target.value)}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -388,13 +388,13 @@ const BlogPost: React.FC = () => {
                     autoComplete="off"
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                    className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isSubmittingComment}
-                  className="px-6 py-2.5 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
+                  className="w-full sm:w-auto px-6 py-2.5 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
                 >
                   {isSubmittingComment ? 'Posting…' : 'Post Comment'}
                 </button>
