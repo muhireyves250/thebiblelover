@@ -103,7 +103,13 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
             </Link>
           )}
         </div>
-        <p className="text-xs md:text-sm text-gray-500 leading-relaxed line-clamp-1 md:line-clamp-3 mb-2 md:mb-4">{item.excerpt}</p>
+        <p className="hidden md:block text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4">{item.excerpt}</p>
+        <div className="md:hidden relative overflow-hidden mb-2">
+          <div className="flex whitespace-nowrap animate-marquee [animation-duration:14s]">
+            <span className="text-xs text-gray-500 pr-8">{item.excerpt}</span>
+            <span className="text-xs text-gray-500 pr-8" aria-hidden="true">{item.excerpt}</span>
+          </div>
+        </div>
         <StatsRow item={item} />
       </div>
     </div>
