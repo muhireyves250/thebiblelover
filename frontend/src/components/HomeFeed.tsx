@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight } from 'lucide-react';
+import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight, X } from 'lucide-react';
 import { useHomeFeed, type HomeFeedItem } from '../hooks/useHomeFeed';
 import { useContentSettings } from '../hooks/useContentSettings';
 import { homeFeedAPI } from '../services/api';
@@ -35,22 +35,36 @@ const StatsRow: React.FC<{ item: HomeFeedItem }> = ({ item }) => (
   </div>
 );
 
-const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
+const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: boolean) => void }> = ({ item, onPlayingChange }) => {
   const [playing, setPlaying] = useState(false);
   const isLive = item.type === 'LIVE';
   const video = isVideoLike(item);
+
+  const changePlaying = (next: boolean) => {
+    setPlaying(next);
+    onPlayingChange?.(next);
+  };
 
   return (
     <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
       <div className="relative flex-1 min-h-[128px] md:min-h-[220px] bg-gray-100 overflow-hidden">
         {video && playing ? (
-          <iframe
-            className="absolute inset-0 w-full h-full"
-            src={`https://www.youtube.com/embed/${item.id}?autoplay=1`}
-            title={item.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          <>
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src={`https://www.youtube.com/embed/${item.id}?autoplay=1`}
+              title={item.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+            <button
+              onClick={() => changePlaying(false)}
+              aria-label="Stop video"
+              className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-black/60 flex items-center justify-center text-white"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </>
         ) : (
           <>
             <img
@@ -77,7 +91,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
 
             {video && (
               <button
-                onClick={() => setPlaying(true)}
+                onClick={() => changePlaying(true)}
                 aria-label="Play video"
                 className="absolute inset-0 flex items-center justify-center group"
               >
@@ -296,16 +310,19 @@ const HomeFeed: React.FC = () => {
   }, [featured, otherVideos]);
 
   // Auto-advance the featured carousel by smooth-scrolling to the next
-  // card, mirroring the reflections grid's auto-rotate below.
+  // card, mirroring the reflections grid's auto-rotate below. Paused
+  // while a video is actually playing, and resumes on the normal 6s
+  // cadence once it's stopped (the interval restarts fresh on unpause).
   const featuredScrollRef = useRef<HTMLDivElement>(null);
   const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [isFeaturedPlaying, setIsFeaturedPlaying] = useState(false);
   useEffect(() => {
-    if (featuredCarouselItems.length <= 1) return;
+    if (featuredCarouselItems.length <= 1 || isFeaturedPlaying) return;
     const interval = setInterval(() => {
       setFeaturedIndex(i => (i + 1) % featuredCarouselItems.length);
     }, AUTO_ROTATE_MS);
     return () => clearInterval(interval);
-  }, [featuredCarouselItems.length]);
+  }, [featuredCarouselItems.length, isFeaturedPlaying]);
   useEffect(() => {
     const el = featuredScrollRef.current;
     if (!el) return;
@@ -355,7 +372,7 @@ const HomeFeed: React.FC = () => {
                 <div ref={featuredScrollRef} className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-1">
                   {featuredCarouselItems.map(item => (
                     <div key={`${item.type}-${item.id}`} className="w-full shrink-0 snap-start">
-                      <FeaturedCard item={item} />
+                      <FeaturedCard item={item} onPlayingChange={setIsFeaturedPlaying} />
                     </div>
                   ))}
                 </div>
