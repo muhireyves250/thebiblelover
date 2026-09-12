@@ -13,10 +13,11 @@ const Home = () => {
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
       <HomeFeed />
-      <PlayerDesk />
-      <VerseDesk />
-
-      <AboutDesk />
+      <div className="hidden md:block">
+        <PlayerDesk />
+        <VerseDesk />
+        <AboutDesk />
+      </div>
 
       <div className="hidden md:block"><Announcements /></div>
     </>
