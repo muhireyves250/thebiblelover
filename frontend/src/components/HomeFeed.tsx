@@ -278,9 +278,13 @@ const HomeFeed: React.FC = () => {
   const visibleItems = pages[currentPage] || [];
 
   // Mobile: swipe through the featured item plus a handful of other
-  // videos/lives, instead of being stuck on a single broadcast.
+  // videos/lives, instead of being stuck on a single broadcast. Falls
+  // back to other feed items when there aren't enough videos/lives to
+  // fill the carousel, so it isn't stuck at a single card.
   const featuredCarouselItems = useMemo(() => {
-    const others = items.filter(item => isVideoLike(item) && item.id !== featured?.id).slice(0, 5);
+    const notFeatured = items.filter(item => item.id !== featured?.id);
+    const videos = notFeatured.filter(isVideoLike);
+    const others = (videos.length > 0 ? videos : notFeatured).slice(0, 5);
     return featured ? [featured, ...others] : others;
   }, [featured, items]);
 
