@@ -105,6 +105,11 @@ const BlogCard: React.FC<BlogCardProps> = ({
           decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="md:hidden absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent px-2 pt-6 pb-1.5">
+          <h2 className="font-sans font-bold uppercase text-white leading-snug line-clamp-2 text-xs">
+            {title}
+          </h2>
+        </div>
       </Link>
 
       <div className="p-2 md:p-6">
@@ -134,14 +139,14 @@ const BlogCard: React.FC<BlogCardProps> = ({
           </span>
         )}
 
-        <Link to={`/blog/${slug}`}>
-          <h2 className={`font-sans font-bold uppercase text-gray-900 mb-1 md:mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug line-clamp-2 md:line-clamp-none ${isLarge ? 'text-sm md:text-2xl' : 'text-xs md:text-lg'}`}>
+        <Link to={`/blog/${slug}`} className="hidden md:block">
+          <h2 className={`font-sans font-bold uppercase text-gray-900 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
             {title}
           </h2>
         </Link>
 
-        <Link to={`/blog/${slug}`} className="hidden md:block">
-          <p className="text-gray-600 text-sm leading-relaxed mb-5 line-clamp-2">
+        <Link to={`/blog/${slug}`} className="block">
+          <p className="text-gray-600 text-[11px] md:text-sm leading-relaxed mb-1.5 md:mb-5 line-clamp-2">
             {excerpt || 'No excerpt available'}
           </p>
         </Link>
