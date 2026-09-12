@@ -141,7 +141,7 @@ function AppContent() {
           <Routes location={location} key={routeKey}>
             <Route path="/" element={<PageTransition><Home /></PageTransition>} />
             <Route path="/about" element={<PageTransition><About /></PageTransition>} />
-            <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />
+            <Route path="/blog/:slug" element={<Suspense fallback={null}><PageTransition><BlogPost /></PageTransition></Suspense>} />
             <Route path="/donate" element={<PageTransition><Donate /></PageTransition>} />
             <Route path="/posts" element={<Suspense fallback={<BlogGridSkeleton />}><PageTransition><Posts /></PageTransition></Suspense>} />
             <Route path="/players" element={<PageTransition><Players /></PageTransition>} />
