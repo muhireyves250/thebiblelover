@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { Bell, Star, Calendar } from 'lucide-react';
 import HomeFeed from '../components/HomeFeed';
 import PlayerDesk from '../components/PlayerDesk';
 import VerseDesk from '../components/VerseDesk';
@@ -5,6 +7,8 @@ import Announcements from '../components/Announcements';
 import AboutDesk from '../components/AboutDesk';
 import SEO from '../components/SEO';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
+
+const todayLabel = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
 const Home = () => {
   const { getBackgroundStyle } = useBackgroundSettings();
@@ -16,15 +20,39 @@ const Home = () => {
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
       <div className="md:hidden px-4 pt-4">
-        <div className="relative isolate overflow-hidden rounded-2xl border border-gray-300 shadow-sm px-5 py-8">
+        <div className="relative isolate overflow-hidden rounded-3xl border border-gray-300 shadow-sm min-h-[280px] flex flex-col">
           <div className="absolute inset-0 bg-cover bg-center" style={getBackgroundStyle()} />
-          <div className="absolute inset-0 bg-gray-950/70" />
-          <div className="relative">
-            <span className="block w-10 h-[2px] bg-amber-500 mb-3" />
-            <p className="text-[11px] font-black uppercase tracking-[0.3em] text-amber-400 mb-1">Welcome back</p>
-            <h2 className="font-serif text-xl font-semibold text-white tracking-tight">
-              Here's what's new today, friend.
-            </h2>
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/60 to-gray-950/90" />
+
+          <div className="relative flex items-center justify-between px-5 pt-5">
+            <span className="px-3 py-1 bg-emerald-500 rounded-full text-[10px] font-black uppercase tracking-widest text-white">
+              Welcome
+            </span>
+            <span className="w-8 h-8 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
+              <Bell className="w-4 h-4 text-white" />
+            </span>
+          </div>
+
+          <div className="relative mt-auto px-5 pb-6">
+            <h2 className="font-serif text-2xl font-bold text-white tracking-tight mb-1">Welcome back, friend</h2>
+            <p className="text-sm text-gray-300 mb-3">Here's what's new today</p>
+            <div className="flex items-center gap-4 mb-4">
+              <span className="flex items-center gap-1 text-xs font-bold text-amber-400">
+                <Star className="w-3.5 h-3.5 fill-amber-400" /> Daily Inspiration
+              </span>
+              <span className="flex items-center gap-1 text-xs text-gray-300">
+                <Calendar className="w-3.5 h-3.5" /> {todayLabel}
+              </span>
+            </div>
+            <Link
+              to="/posts"
+              className="block w-full text-center py-3 bg-amber-600 hover:bg-amber-700 rounded-full text-sm font-black uppercase tracking-widest text-white transition-colors"
+            >
+              Start Reading
+            </Link>
+            <p className="text-center text-[10px] font-bold uppercase tracking-widest text-gray-400 mt-3">
+              The Bible Lover
+            </p>
           </div>
         </div>
       </div>
