@@ -119,9 +119,14 @@ const PrayerWall = () => {
     return (
         <div className="min-h-screen bg-white">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
-                <h1 className="md:hidden text-lg font-black uppercase tracking-tight text-gray-900 mb-3">
-                    A sacred space to share burdens and lift each other up in prayer.
-                </h1>
+                <div className="md:hidden mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+                        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Prayer Wall</span>
+                    </div>
+                    <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Community Prayer Wall</h1>
+                    <p className="text-sm text-gray-500 mt-2">A sacred space to share burdens and lift each other up in prayer.</p>
+                </div>
 
                 {/* Actions & Filters */}
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
