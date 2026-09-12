@@ -27,15 +27,15 @@ const MobileBottomNav = () => {
               className="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 min-w-0"
             >
               <span
-                className={`flex items-center justify-center w-9 h-9 rounded-xl transition-colors ${
-                  isActive ? 'bg-amber-700 text-white' : 'text-gray-400'
+                className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
+                  isActive ? 'bg-amber-700 text-white' : 'text-gray-600'
                 }`}
               >
-                <Icon className="h-[18px] w-[18px]" strokeWidth={isActive ? 2.4 : 2} />
+                <Icon className="h-5 w-5" strokeWidth={isActive ? 2.75 : 2.25} />
               </span>
               <span
                 className={`text-[10px] tracking-wide truncate ${
-                  isActive ? 'text-amber-700 font-bold' : 'text-gray-500 font-medium'
+                  isActive ? 'text-amber-700 font-bold' : 'text-gray-600 font-semibold'
                 }`}
               >
                 {label}
