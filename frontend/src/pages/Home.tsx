@@ -31,12 +31,12 @@ const Home = () => {
           </div>
 
           <div className="relative mt-auto px-4 pb-4">
-            <h2 className="font-sans text-lg font-extrabold text-white tracking-tight leading-snug">
+            <h2 className="font-sans text-lg font-black uppercase tracking-tight leading-snug text-white">
               Welcome back, <span className="text-amber-400">friend</span>
             </h2>
             <div className="flex items-center gap-3 mt-1">
-              <span className="flex items-center gap-1 text-xs font-bold text-white">
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /> Daily Inspiration
+              <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.3em] text-amber-400">
+                <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> Daily Inspiration
               </span>
             </div>
           </div>
