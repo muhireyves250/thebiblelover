@@ -85,14 +85,14 @@ const Header = () => {
     <header className={`sticky top-0 z-50 transition-all duration-500 border-b-2 border-gray-200 dark:border-gray-800 ${
       scrolled
         ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl py-1 shadow-2xl'
-        : 'bg-white dark:bg-gray-900 py-3'
+        : 'bg-white dark:bg-gray-900 py-2 md:py-3'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         {/* Mobile bar: home / search pill / theme / profile / menu */}
-        <div className="flex md:hidden items-center gap-2 h-16">
+        <div className="flex md:hidden items-center gap-2 h-12">
           <Link
             to="/"
-            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+            className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
             aria-label="Home"
           >
             {logoSettings.logoUrl && !logoSettings.showText ? (
@@ -110,7 +110,7 @@ const Header = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchQuery.trim() && setShowDropdown(true)}
-                className="w-full pl-4 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-amber-600/50 transition-colors"
+                className="w-full pl-4 pr-11 py-2 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-amber-600/50 transition-colors"
                 aria-label="Search"
               />
               <button
@@ -162,7 +162,7 @@ const Header = () => {
 
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+            className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
             aria-label="Open navigation menu"
             aria-expanded={isMenuOpen}
           >

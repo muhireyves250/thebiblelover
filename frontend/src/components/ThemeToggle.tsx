@@ -7,7 +7,7 @@ import { Moon } from 'lucide-react';
 const ThemeToggle: React.FC = () => {
     return (
         <button
-            className="p-2.5 rounded-md border border-gray-300 bg-gray-50 transition-all duration-300 group"
+            className="p-2 rounded-md border border-gray-300 bg-gray-50 transition-all duration-300 group"
             aria-label="Dark mode (coming soon)"
             disabled
         >
