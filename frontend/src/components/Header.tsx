@@ -92,7 +92,7 @@ const Header = () => {
         <div className="flex md:hidden items-center gap-2 h-16">
           <Link
             to="/"
-            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
+            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
             aria-label="Home"
           >
             {logoSettings.logoUrl && !logoSettings.showText ? (
@@ -110,12 +110,12 @@ const Header = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchQuery.trim() && setShowDropdown(true)}
-                className="w-full pl-4 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-amber-600 transition-colors"
+                className="w-full pl-4 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-amber-600/50 transition-colors"
                 aria-label="Search"
               />
               <button
                 type="submit"
-                className="absolute right-1 p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
+                className="absolute right-1 p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                 aria-label="Submit search"
               >
                 {isSearching ? (
@@ -162,7 +162,7 @@ const Header = () => {
 
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
+            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
             aria-label="Open navigation menu"
             aria-expanded={isMenuOpen}
           >
@@ -257,7 +257,7 @@ const Header = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => searchQuery.trim() && setShowDropdown(true)}
-                  className="pl-9 pr-4 py-1.5 text-xs border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-transparent w-24 md:w-32 transition-all focus:w-32 md:focus:w-48"
+                  className="pl-9 pr-4 py-1.5 text-xs border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-amber-500/50 focus:border-transparent w-24 md:w-32 transition-all focus:w-32 md:focus:w-48"
                   aria-label="Search"
                 />
                 {isSearching && (
@@ -310,7 +310,7 @@ const Header = () => {
                 href={socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1 rounded focus:outline-none focus:ring-2 focus:ring-amber-600"
+                className="p-1 rounded focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5 text-gray-700 hover:text-amber-700 transition-colors" />
@@ -321,7 +321,7 @@ const Header = () => {
                 href={socialLinks.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1 rounded focus:outline-none focus:ring-2 focus:ring-amber-600"
+                className="p-1 rounded focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                 aria-label="Twitter"
               >
                 <Twitter className="h-5 w-5 text-gray-700 hover:text-amber-700 transition-colors" />
@@ -354,7 +354,7 @@ const Header = () => {
               </Link>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600 rounded text-gray-500 dark:text-gray-400"
+                className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded text-gray-500 dark:text-gray-400"
                 aria-label="Close navigation menu"
               >
                 <X className="h-5 w-5" />
@@ -419,7 +419,7 @@ const Header = () => {
                   href={socialLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
+                  className="p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                   aria-label="Facebook"
                 >
                   <Facebook className="h-4 w-4" />
@@ -430,7 +430,7 @@ const Header = () => {
                   href={socialLinks.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
+                  className="p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                   aria-label="Twitter"
                 >
                   <Twitter className="h-4 w-4" />
