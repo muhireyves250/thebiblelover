@@ -33,7 +33,7 @@ const Home = () => {
           </div>
 
           <div className="relative mt-auto px-4 pb-4">
-            <h2 className="font-sans text-lg font-black text-white tracking-tight">Welcome back, friend</h2>
+            <h2 className="font-sans text-lg font-black text-white tracking-tight">Welcome Back</h2>
             <div className="flex items-center gap-3 mt-1">
               <span className="flex items-center gap-1 text-xs font-bold text-amber-400">
                 <Star className="w-3.5 h-3.5 fill-amber-400" /> Daily Inspiration
