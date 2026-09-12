@@ -330,8 +330,8 @@ const HomeFeed: React.FC = () => {
             onMouseLeave={() => setIsHovering(false)}
           >
             <div className="flex items-center justify-between mb-2 md:mb-4 gap-4">
-              <h2 className="text-xs font-black uppercase tracking-widest text-red-600 whitespace-nowrap">Latest Reports</h2>
-              <Link to="/posts" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-gray-900 hover:text-red-600 transition-colors whitespace-nowrap">
+              <h2 className="text-xs font-black uppercase tracking-widest text-amber-700 whitespace-nowrap">Latest Reports</h2>
+              <Link to="/posts" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-gray-900 hover:text-amber-700 transition-colors whitespace-nowrap">
                 All News <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
