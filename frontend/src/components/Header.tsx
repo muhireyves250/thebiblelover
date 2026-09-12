@@ -4,6 +4,7 @@ import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import IhemaLogo from './IhemaLogo';
 import { useSocialSettings } from '../hooks/useSocialSettings';
+import ThemeToggle from './ThemeToggle';
 import NotificationCenter from './NotificationCenter';
 import { useAuth } from '../hooks/useAPI';
 import { authAPI, searchAPI } from '../services/api';
@@ -157,6 +158,8 @@ const Header = () => {
               </div>
             )}
           </div>
+
+          <ThemeToggle />
 
           <button
             onClick={() => setIsMenuOpen(true)}
