@@ -18,7 +18,7 @@ const Home = () => {
 
       <AboutDesk />
 
-      <Announcements />
+      <div className="hidden md:block"><Announcements /></div>
     </>
   );
 };

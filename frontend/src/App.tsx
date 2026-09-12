@@ -125,6 +125,10 @@ function AppContent() {
           goes straight into page content, and a fixed bottom tab bar
           takes over primary navigation instead of the footer. */}
       {!isBareLayout && <Header />}
+      {/* On mobile the ticker always sits directly under the header, on
+          every page - desktop keeps its per-page placement (inline on
+          Home/About, just above the footer everywhere else). */}
+      {!isBareLayout && <div className="md:hidden"><Announcements /></div>}
       {location.pathname === '/' && <div className="hidden md:block"><Hero /></div>}
       {pageHeader && <PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} />}
       <Suspense fallback={<PageLoader />}>
@@ -165,7 +169,7 @@ function AppContent() {
           </Routes>
         </AnimatePresence>
       </Suspense>
-      {showAnnouncements && <Announcements />}
+      {showAnnouncements && <div className="hidden md:block"><Announcements /></div>}
       {!isBareLayout && <div className="hidden md:block"><Footer /></div>}
       {!isBareLayout && <div className="md:hidden h-16" aria-hidden="true" />}
       {!isBareLayout && <MobileBottomNav />}

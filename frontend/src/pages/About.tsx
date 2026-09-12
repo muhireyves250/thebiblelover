@@ -169,7 +169,7 @@ const About = () => {
         </div>
       </section>
 
-      <Announcements />
+      <div className="hidden md:block"><Announcements /></div>
     </div>
   );
 };
