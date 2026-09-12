@@ -157,27 +157,27 @@ const BlogCard: React.FC<BlogCardProps> = ({
             <span className="flex items-center gap-1 md:gap-1.5"><Eye className="w-2.5 h-2.5 md:w-3.5 md:h-3.5" /> {_views}</span>
             <span className="flex items-center gap-1 md:gap-1.5"><Heart className="w-2.5 h-2.5 md:w-3.5 md:h-3.5" /> {likeCount}</span>
           </div>
-          <div className="hidden md:flex items-center gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={(e) => { e.preventDefault(); setIsShareModalOpen(true); }}
-              className="p-1.5 border border-gray-200 text-gray-400 hover:text-amber-700 hover:border-amber-200 rounded-full transition-colors"
+              className="p-1 md:p-1.5 border border-gray-200 text-gray-400 hover:text-amber-700 hover:border-amber-200 rounded-full transition-colors"
               aria-label="Share post"
             >
-              <Share2 className="h-3.5 w-3.5" />
+              <Share2 className="h-2.5 w-2.5 md:h-3.5 md:w-3.5" />
             </motion.button>
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={(e) => { e.preventDefault(); handleLike(); }}
               disabled={isLiking}
-              className={`p-1.5 rounded-full border transition-colors flex items-center gap-1.5 ${isLiked
+              className={`p-1 md:p-1.5 rounded-full border transition-colors flex items-center gap-1 md:gap-1.5 ${isLiked
                 ? 'bg-red-50 border-red-100 text-red-600'
                 : 'border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-100'
                 } ${isLiking ? 'opacity-50' : ''}`}
               aria-label={isLiked ? 'Unlike post' : 'Like post'}
             >
-              <Heart className={`h-3.5 w-3.5 ${isLiked ? 'fill-current' : ''}`} />
-              {isLiked && <span className="text-xs font-bold pr-0.5">{likeCount}</span>}
+              <Heart className={`h-2.5 w-2.5 md:h-3.5 md:w-3.5 ${isLiked ? 'fill-current' : ''}`} />
+              {isLiked && <span className="text-[10px] md:text-xs font-bold pr-0.5">{likeCount}</span>}
             </motion.button>
           </div>
         </div>
