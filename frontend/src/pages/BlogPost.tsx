@@ -478,25 +478,10 @@ const BlogPost: React.FC = () => {
                   <div className="h-3 w-24 bg-gray-300 rounded animate-pulse" />
                   <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
                 </div>
-
-                {/* Mobile skeleton: 2-up cards */}
-                <div className="grid grid-cols-2 gap-2.5 md:hidden">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm">
-                      <div className="h-14 bg-gray-300 animate-pulse" />
-                      <div className="p-1.5 space-y-1">
-                        <div className="h-2.5 bg-gray-300 rounded animate-pulse w-full" />
-                        <div className="h-2 w-1/2 bg-gray-300 rounded animate-pulse" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Desktop skeleton: row list */}
-                <div className="hidden md:block space-y-4">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="w-16 h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
+                <div className="space-y-3 md:space-y-4">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <div key={i} className="flex items-start gap-2.5 md:gap-3">
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
                       <div className="flex-1 space-y-2">
                         <div className="h-2.5 w-16 bg-gray-300 rounded animate-pulse" />
                         <div className="h-3.5 bg-gray-300 rounded animate-pulse w-full" />
@@ -517,48 +502,26 @@ const BlogPost: React.FC = () => {
                   </Link>
                 </div>
 
-                {/* Mobile: compact 2-up card grid, matching the Home feed's report cards */}
-                <div className="grid grid-cols-2 gap-2.5 md:hidden">
+                <div className="space-y-3 md:space-y-4">
                   {recentPosts.map((rp: any) => (
-                    <Link key={rp.id} to={`/blog/${rp.slug}`} className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm group">
+                    <Link key={rp.id} to={`/blog/${rp.slug}`} className="flex items-start gap-2.5 md:gap-3 group">
                       {rp.featuredImage && (
-                        <div className="h-14 bg-gray-100 overflow-hidden">
-                          <img src={rp.featuredImage} alt={rp.title} className="w-full h-full object-cover" loading="lazy" />
-                        </div>
-                      )}
-                      <div className="p-1.5">
-                        <p className="text-[11px] font-bold text-gray-900 uppercase leading-snug line-clamp-2 mb-0.5 group-hover:text-amber-700 transition-colors">
-                          {rp.title}
-                        </p>
-                        <span className="text-[9px] text-gray-400">
-                          {new Date(rp.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-
-                {/* Desktop: row list */}
-                <div className="hidden md:block space-y-4">
-                  {recentPosts.map((rp: any) => (
-                    <Link key={rp.id} to={`/blog/${rp.slug}`} className="flex items-start gap-3 group">
-                      {rp.featuredImage && (
-                        <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
                           <img src={rp.featuredImage} alt={rp.title} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">
-                        <span className="block text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
+                        <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
                           {categoryLabel(rp.category)}
                         </span>
-                        <p className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
+                        <p className="text-xs md:text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
                           {rp.title}
                         </p>
-                        <div className="flex items-center justify-between mt-1.5">
-                          <span className="text-[11px] text-gray-400">
+                        <div className="flex items-center justify-between mt-1 md:mt-1.5">
+                          <span className="text-[10px] md:text-[11px] text-gray-400">
                             {new Date(rp.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                           </span>
-                          <span className="text-[11px] text-gray-400">
+                          <span className="text-[10px] md:text-[11px] text-gray-400">
                             {rp.views || 0} &middot; {rp.likes || 0} &middot; {rp._count?.comments ?? 0}
                           </span>
                         </div>
