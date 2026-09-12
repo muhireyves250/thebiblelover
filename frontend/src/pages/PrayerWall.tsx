@@ -173,65 +173,65 @@ const PrayerWall = () => {
                         ))}
                     </div>
                 ) : requests.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                         {requests.map(request => (
                             <div key={request.id} className="group bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
-                                <div className="p-6 flex-1 relative">
+                                <div className="p-4 md:p-6 flex-1 relative">
                                     {request.status === 'ANSWERED' && (
-                                        <div className="absolute top-0 right-0 p-4">
-                                            <div className="bg-green-50 text-green-700 border border-green-200 px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
-                                                <Sparkles className="h-3 w-3" />
+                                        <div className="absolute top-0 right-0 p-3 md:p-4">
+                                            <div className="bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 md:px-2.5 md:py-1 rounded text-[9px] md:text-[10px] font-black uppercase tracking-widest flex items-center gap-1 md:gap-1.5">
+                                                <Sparkles className="h-2.5 w-2.5 md:h-3 md:w-3" />
                                                 Answered
                                             </div>
                                         </div>
                                     )}
-                                    <div className="flex items-center justify-between mb-4 pr-4">
-                                        <div className="flex items-center gap-2 flex-wrap">
-                                            <span className="px-2.5 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded border border-amber-100 uppercase tracking-widest">
+                                    <div className="flex items-center justify-between mb-3 md:mb-4 pr-3 md:pr-4">
+                                        <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                                            <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-amber-50 text-amber-700 text-[9px] md:text-[10px] font-black rounded border border-amber-100 uppercase tracking-widest">
                                                 {request.category}
                                             </span>
                                             {request.status === 'ANSWERED' && (
-                                                <span className="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-black rounded border border-green-200 uppercase tracking-widest">
+                                                <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-green-50 text-green-700 text-[9px] md:text-[10px] font-black rounded border border-green-200 uppercase tracking-widest">
                                                     Praise Report
                                                 </span>
                                             )}
                                         </div>
-                                        <span className="text-gray-400 text-xs flex items-center shrink-0">
-                                            <Clock className="h-3 w-3 mr-1" />
+                                        <span className="text-gray-400 text-[10px] md:text-xs flex items-center shrink-0">
+                                            <Clock className="h-2.5 w-2.5 md:h-3 md:w-3 mr-1" />
                                             {new Date(request.createdAt).toLocaleDateString()}
                                         </span>
                                     </div>
 
-                                    <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-amber-700 transition-colors">
+                                    <h3 className="text-sm md:text-lg font-bold text-gray-900 mb-2 md:mb-3 group-hover:text-amber-700 transition-colors">
                                         {request.title}
                                     </h3>
 
-                                    <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-4">
+                                    <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-4 md:mb-6 line-clamp-4">
                                         {request.content}
                                     </p>
 
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center shrink-0 overflow-hidden">
+                                    <div className="flex items-center gap-2.5 md:gap-3">
+                                        <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-amber-100 flex items-center justify-center shrink-0 overflow-hidden">
                                             {request.user?.profileImage ? (
                                                 <img src={request.user.profileImage} alt={request.user.name} className="w-full h-full object-cover" />
                                             ) : (
-                                                <span className="text-amber-800 font-bold text-sm">
+                                                <span className="text-amber-800 font-bold text-xs md:text-sm">
                                                     {request.user?.name.charAt(0)}
                                                 </span>
                                             )}
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold text-gray-900">{request.user?.name}</p>
-                                            <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Community Member</p>
+                                            <p className="text-xs md:text-sm font-bold text-gray-900">{request.user?.name}</p>
+                                            <p className="text-[9px] md:text-[10px] text-gray-400 uppercase font-bold tracking-widest">Community Member</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="px-6 py-4 flex items-center justify-between border-t border-gray-100 bg-gray-50">
-                                    <div className="flex items-center gap-2">
+                                <div className="px-4 py-3 md:px-6 md:py-4 flex items-center justify-between border-t border-gray-100 bg-gray-50">
+                                    <div className="flex items-center gap-1.5 md:gap-2">
                                         <button
                                             onClick={() => handlePray(request.id)}
-                                            className={`flex items-center gap-1.5 px-4 py-2 rounded-md font-bold text-xs uppercase tracking-wider transition-colors ${request.status === 'ANSWERED'
+                                            className={`flex items-center gap-1 md:gap-1.5 px-3 md:px-4 py-1.5 md:py-2 rounded-md font-bold text-[10px] md:text-xs uppercase tracking-wider transition-colors ${request.status === 'ANSWERED'
                                                 ? 'bg-green-100 text-green-700 cursor-default'
                                                 : (request as any).supportedByMe
                                                     ? 'bg-amber-700 text-white'
@@ -239,7 +239,7 @@ const PrayerWall = () => {
                                                 }`}
                                             disabled={request.status === 'ANSWERED'}
                                         >
-                                            <Heart className={`h-3.5 w-3.5 ${((request as any).supportedByMe || request.status === 'ANSWERED') ? 'fill-current' : ''}`} />
+                                            <Heart className={`h-3 w-3 md:h-3.5 md:w-3.5 ${((request as any).supportedByMe || request.status === 'ANSWERED') ? 'fill-current' : ''}`} />
                                             <span>{request.status === 'ANSWERED' ? 'Amen' : "I'm Praying"}</span>
                                         </button>
 
@@ -255,19 +255,19 @@ const PrayerWall = () => {
                                                         console.error('Failed to toggle praise:', err);
                                                     }
                                                 }}
-                                                className={`p-2 rounded-md border transition-colors ${request.status === 'ANSWERED'
+                                                className={`p-1.5 md:p-2 rounded-md border transition-colors ${request.status === 'ANSWERED'
                                                     ? 'bg-amber-100 border-amber-200 text-amber-700 hover:bg-amber-200'
                                                     : 'bg-white border-gray-200 text-gray-400 hover:text-amber-700 hover:border-amber-200'
                                                 }`}
                                                 title={request.status === 'ANSWERED' ? 'Return to Active Prayer' : 'Mark as Answered (Praise Report)'}
                                             >
-                                                <Sparkles className={`h-3.5 w-3.5 ${request.status === 'ANSWERED' ? 'fill-current' : ''}`} />
+                                                <Sparkles className="h-3 w-3 md:h-3.5 md:w-3.5" />
                                             </button>
                                         )}
                                     </div>
 
-                                    <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded border border-amber-200 bg-amber-50 text-amber-800 font-bold text-xs">
-                                        <Users className="h-3.5 w-3.5" />
+                                    <div className="flex items-center gap-1 md:gap-1.5 px-2 py-1 md:px-2.5 md:py-1.5 rounded border border-amber-200 bg-amber-50 text-amber-800 font-bold text-[10px] md:text-xs">
+                                        <Users className="h-3 w-3 md:h-3.5 md:w-3.5" />
                                         <span>{request._count?.supports || 0}</span>
                                     </div>
                                 </div>
