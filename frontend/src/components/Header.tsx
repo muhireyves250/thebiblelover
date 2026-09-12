@@ -111,12 +111,12 @@ const Header = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchQuery.trim() && setShowDropdown(true)}
-                className="w-full pl-9 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-full focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                className="w-full pl-9 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                 aria-label="Search"
               />
               <button
                 type="submit"
-                className="absolute right-1 p-2 rounded-full text-gray-500 dark:text-gray-400"
+                className="absolute right-1 p-2 rounded-md text-gray-500 dark:text-gray-400"
                 aria-label="Submit search"
               >
                 {isSearching ? (
