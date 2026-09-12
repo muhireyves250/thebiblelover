@@ -41,15 +41,24 @@ const Events = () => {
                 description="Join our upcoming Bible studies, worship sessions, and community gatherings. Find out what's happening at The Bible Lover."
             />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
+                <div className="md:hidden mb-4">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+                        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Events</span>
+                    </div>
+                    <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Community Calendar</h1>
+                    <p className="text-sm text-gray-500 mt-2">Join us as we grow together in faith, knowledge, and fellowship.</p>
+                </div>
+
                 {/* Controls */}
-                <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-10">
-                    <div className="flex flex-wrap gap-2">
+                <div className="flex flex-col md:flex-row gap-3 md:gap-4 items-stretch md:items-center justify-between mb-6 md:mb-10">
+                    <div className="flex md:flex-wrap gap-2 overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0 pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                         {(['ALL', 'STUDY', 'WORSHIP', 'COMMUNITY'] as const).map((t) => (
                             <button
                                 key={t}
                                 onClick={() => setFilter(t)}
-                                className={`px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider border transition-colors ${filter === t
+                                className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-colors ${filter === t
                                     ? 'bg-amber-700 text-white border-amber-700'
                                     : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
                                     }`}
@@ -72,7 +81,7 @@ const Events = () => {
                 </div>
 
                 {loading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                         {[1, 2, 3].map(n => (
                             <div key={n} className="bg-white border border-gray-300 rounded-lg shadow-sm h-[380px] animate-pulse"></div>
                         ))}
@@ -84,15 +93,15 @@ const Events = () => {
                         <p className="text-gray-500 text-sm mt-1">Adjust your filters or check back later.</p>
                     </div>
                 ) : (
-                    <div className="space-y-16">
+                    <div className="space-y-10 md:space-y-16">
                         {/* Upcoming Section */}
                         {upcomingEvents.length > 0 && (
                             <section>
-                                <div className="flex items-center gap-2 mb-6">
+                                <div className="flex items-center gap-2 mb-4 md:mb-6">
                                     <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                                    <h2 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Upcoming Gatherings</h2>
+                                    <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Upcoming Gatherings</h2>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                                     {upcomingEvents.map((event) => (
                                         <EventCard key={event.id} event={event} />
                                     ))}
@@ -103,11 +112,11 @@ const Events = () => {
                         {/* Past Section */}
                         {pastEvents.length > 0 && (
                             <section className="opacity-75">
-                                <div className="flex items-center gap-2 mb-6">
+                                <div className="flex items-center gap-2 mb-4 md:mb-6">
                                     <span className="w-1 h-4 bg-gray-400 rounded-sm" />
-                                    <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">Past Events</h2>
+                                    <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400">Past Events</h2>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                                     {pastEvents.map((event) => (
                                         <EventCard key={event.id} event={event} isPast />
                                     ))}
@@ -129,58 +138,58 @@ const EventCard = ({ event, isPast }: { event: Event, isPast?: boolean }) => {
             to={`/events/${event.id}`}
             className="group bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col h-full"
         >
-            <div className="relative h-44 overflow-hidden">
+            <div className="relative h-32 md:h-44 overflow-hidden">
                 <img
                     src={event.thumbnail || "https://images.unsplash.com/photo-1544427928-c49dd24428c8?auto=format&fit=crop&q=80&w=800"}
                     alt={event.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute top-3 left-3">
-                    <span className="px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded shadow-sm">
+                <div className="absolute top-2 left-2 md:top-3 md:left-3">
+                    <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-amber-700 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded shadow-sm">
                         {event.type}
                     </span>
                 </div>
                 {!isPast && (
-                    <div className="absolute bottom-3 right-3 bg-black/70 px-3 py-1.5 rounded text-white">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-gray-300 leading-none mb-0.5">Joined</p>
-                        <p className="text-sm font-bold leading-none">{event._count?.rsvps || 0}</p>
+                    <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3 bg-black/70 px-2 py-1 md:px-3 md:py-1.5 rounded text-white">
+                        <p className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-gray-300 leading-none mb-0.5">Joined</p>
+                        <p className="text-xs md:text-sm font-bold leading-none">{event._count?.rsvps || 0}</p>
                     </div>
                 )}
             </div>
 
-            <div className="p-6 flex flex-col flex-1">
-                <div className="flex items-center gap-2 text-amber-700 font-bold text-xs uppercase tracking-wider mb-3">
-                    <Calendar className="h-3.5 w-3.5" />
+            <div className="p-3 md:p-6 flex flex-col flex-1">
+                <div className="flex items-center gap-1.5 md:gap-2 text-amber-700 font-bold text-[10px] md:text-xs uppercase tracking-wider mb-2 md:mb-3">
+                    <Calendar className="h-3 w-3 md:h-3.5 md:w-3.5" />
                     {date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     <span className="w-1 h-1 rounded-full bg-gray-300" />
-                    <Clock className="h-3.5 w-3.5" />
+                    <Clock className="h-3 w-3 md:h-3.5 md:w-3.5" />
                     {date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                 </div>
 
-                <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-amber-700 transition-colors line-clamp-2">
+                <h3 className="text-sm md:text-lg font-bold text-gray-900 mb-2 md:mb-3 group-hover:text-amber-700 transition-colors line-clamp-2">
                     {event.title}
                 </h3>
 
-                <div className="flex items-center gap-2 text-gray-500 text-sm mb-6">
-                    <MapPin className="h-4 w-4 shrink-0" />
+                <div className="flex items-center gap-1.5 md:gap-2 text-gray-500 text-xs md:text-sm mb-3 md:mb-6">
+                    <MapPin className="h-3.5 w-3.5 md:h-4 md:w-4 shrink-0" />
                     <span className="truncate">{event.location}</span>
                 </div>
 
-                <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                <div className="mt-auto pt-3 md:pt-4 border-t border-gray-100 flex items-center justify-between">
                     <div className="flex -space-x-2">
                         {[1, 2, 3].map(n => (
-                            <div key={n} className="w-7 h-7 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center overflow-hidden">
-                                <Users className="h-3.5 w-3.5 text-gray-400" />
+                            <div key={n} className="w-6 h-6 md:w-7 md:h-7 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center overflow-hidden">
+                                <Users className="h-3 w-3 md:h-3.5 md:w-3.5 text-gray-400" />
                             </div>
                         ))}
                         {event._count?.rsvps && event._count.rsvps > 3 && (
-                            <div className="w-7 h-7 rounded-full border-2 border-white bg-amber-100 text-amber-700 text-[10px] font-bold flex items-center justify-center">
+                            <div className="w-6 h-6 md:w-7 md:h-7 rounded-full border-2 border-white bg-amber-100 text-amber-700 text-[9px] md:text-[10px] font-bold flex items-center justify-center">
                                 +{event._count.rsvps - 3}
                             </div>
                         )}
                     </div>
-                    <span className="p-2 border border-gray-200 rounded-full text-gray-400 group-hover:bg-amber-700 group-hover:border-amber-700 group-hover:text-white transition-colors">
-                        <ArrowRight className="h-4 w-4" />
+                    <span className="p-1.5 md:p-2 border border-gray-200 rounded-full text-gray-400 group-hover:bg-amber-700 group-hover:border-amber-700 group-hover:text-white transition-colors">
+                        <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
                     </span>
                 </div>
             </div>

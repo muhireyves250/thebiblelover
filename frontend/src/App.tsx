@@ -93,7 +93,7 @@ const OWN_ANNOUNCEMENTS_PATHS = ['/', '/about'];
 // the title and subtitle swap.
 // Pages whose PageHeader banner is hidden on mobile (the page itself
 // provides its own compact top spacing there instead); desktop keeps it.
-const PAGE_HEADER_DESKTOP_ONLY_PATHS = ['/prayer-wall', '/watch'];
+const PAGE_HEADER_DESKTOP_ONLY_PATHS = ['/prayer-wall', '/watch', '/events'];
 
 const PAGE_HEADERS: Record<string, { title: string; subtitle: string }> = {
   '/about': { title: 'ABOUT', subtitle: 'WHO WE ARE' },
@@ -162,7 +162,7 @@ function AppContent() {
             <Route path="/search" element={<PageTransition><Search /></PageTransition>} />
             <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
             <Route path="/prayer-wall" element={<Suspense fallback={null}><PageTransition><PrayerWall /></PageTransition></Suspense>} />
-            <Route path="/events" element={<PageTransition><Events /></PageTransition>} />
+            <Route path="/events" element={<Suspense fallback={null}><PageTransition><Events /></PageTransition></Suspense>} />
             <Route path="/events/:id" element={<PageTransition><EventDetail /></PageTransition>} />
             <Route path="/watch" element={<Suspense fallback={null}><PageTransition><Videos /></PageTransition></Suspense>} />
             <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
