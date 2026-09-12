@@ -33,10 +33,10 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
 
   if (loading) {
     return (
-      <section className="py-20 bg-white">
+      <section className="py-3 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-8">All Posts</h2>
+          <div className="mb-3 md:mb-10">
+            <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-2 md:mb-8">All Posts</h2>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
             {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -68,7 +68,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
 
   if (error) {
     return (
-      <section className="py-20 bg-white">
+      <section className="py-3 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Error Loading Posts</h2>
@@ -86,10 +86,10 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
   }
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-3 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-10">
-          <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-8">All Posts</h2>
+        <div className="mb-3 md:mb-10">
+          <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-2 md:mb-8">All Posts</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8" aria-live="polite">
           {postsToRender.map((post) => (
