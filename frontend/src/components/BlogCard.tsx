@@ -107,8 +107,8 @@ const BlogCard: React.FC<BlogCardProps> = ({
         <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </Link>
 
-      <div className="p-6">
-        <div className="flex items-center gap-3 mb-4">
+      <div className="p-2 md:p-6">
+        <div className="hidden md:flex items-center gap-3 mb-4">
           <div className="w-8 h-8 shrink-0 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center overflow-hidden">
             {author.profileImage ? (
               <img
@@ -129,29 +129,29 @@ const BlogCard: React.FC<BlogCardProps> = ({
         </div>
 
         {category && (
-          <span className="block text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-2">
+          <span className="hidden md:block text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-2">
             {category.replace(/_/g, ' ')}
           </span>
         )}
 
         <Link to={`/blog/${slug}`}>
-          <h2 className={`font-sans font-bold uppercase text-gray-900 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
+          <h2 className={`font-sans font-bold uppercase text-gray-900 mb-1 md:mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug line-clamp-2 md:line-clamp-none ${isLarge ? 'text-sm md:text-2xl' : 'text-xs md:text-lg'}`}>
             {title}
           </h2>
         </Link>
 
-        <Link to={`/blog/${slug}`} className="block">
+        <Link to={`/blog/${slug}`} className="hidden md:block">
           <p className="text-gray-600 text-sm leading-relaxed mb-5 line-clamp-2">
             {excerpt || 'No excerpt available'}
           </p>
         </Link>
 
-        <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
-          <div className="flex items-center gap-4 text-xs font-bold text-gray-500">
-            <span className="flex items-center gap-1.5"><Eye className="w-3.5 h-3.5" /> {_views}</span>
-            <span className="flex items-center gap-1.5"><Heart className="w-3.5 h-3.5" /> {likeCount}</span>
+        <div className="pt-1.5 md:pt-4 border-t border-gray-100 flex items-center justify-between">
+          <div className="flex items-center gap-2 md:gap-4 text-[9px] md:text-xs font-bold text-gray-500">
+            <span className="flex items-center gap-1 md:gap-1.5"><Eye className="w-2.5 h-2.5 md:w-3.5 md:h-3.5" /> {_views}</span>
+            <span className="flex items-center gap-1 md:gap-1.5"><Heart className="w-2.5 h-2.5 md:w-3.5 md:h-3.5" /> {likeCount}</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={(e) => { e.preventDefault(); setIsShareModalOpen(true); }}
