@@ -92,6 +92,7 @@ const Header = () => {
   };
 
   return (
+    <>
     <header className={`sticky top-0 z-50 transition-all duration-500 border-b-2 border-gray-200 dark:border-gray-800 ${
       scrolled
         ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl py-1 shadow-2xl'
@@ -340,8 +341,15 @@ const Header = () => {
           </div>
         </div>
       </div>
+    </header>
 
-      {/* Mobile slide-out drawer */}
+      {/* Mobile slide-out drawer - rendered as a sibling of <header>, not a
+          descendant, so it isn't trapped inside header's own stacking
+          context (position: sticky + z-50 there makes header create one,
+          which would otherwise cap this overlay's effective z-index at
+          header's level no matter how high the overlay's own z-index is
+          set, hiding it behind other fixed page elements like the bottom
+          tab bar). */}
       {isMenuOpen && (
         <div className="md:hidden fixed inset-0 h-[100dvh] w-screen z-[100]">
           <div
@@ -420,7 +428,7 @@ const Header = () => {
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 };
 
