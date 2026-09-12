@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History, Home, Sun, Moon, Monitor } from 'lucide-react';
+import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History, Home } from 'lucide-react';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import IhemaLogo from './IhemaLogo';
 import { useSocialSettings } from '../hooks/useSocialSettings';
@@ -19,6 +19,16 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Lock body scroll while the drawer is open so the page behind it stays
+  // put instead of scrolling underneath the fixed overlay.
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = ''; };
+    }
+  }, [isMenuOpen]);
+
   const { getSocialLinks } = useSocialSettings();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
@@ -406,31 +416,6 @@ const Header = () => {
                   Log In
                 </Link>
               )}
-
-              <Link
-                to="/register"
-                onClick={() => setIsMenuOpen(false)}
-                className="mt-3 w-full text-center px-5 py-3 rounded-md bg-amber-700 hover:bg-amber-800 text-white font-bold text-sm transition-colors"
-              >
-                Join the Family
-              </Link>
-
-              <div className="my-5 border-t border-gray-100" />
-
-              <div className="flex items-center justify-between pb-4">
-                <span className="text-sm text-gray-500">Appearance</span>
-                <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 rounded-full p-1">
-                  <span className="p-1.5 rounded-full text-gray-400" aria-label="Light (coming soon)">
-                    <Sun className="w-3.5 h-3.5" />
-                  </span>
-                  <span className="p-1.5 rounded-full bg-white shadow-sm text-amber-700" aria-label="Dark (coming soon)">
-                    <Moon className="w-3.5 h-3.5" />
-                  </span>
-                  <span className="p-1.5 rounded-full text-gray-400" aria-label="System (coming soon)">
-                    <Monitor className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </div>
             </nav>
           </div>
         </div>
