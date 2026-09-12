@@ -320,39 +320,39 @@ const BlogPost: React.FC = () => {
 
             {/* Comments */}
             <section className="mt-6 pt-6 md:mt-8 md:pt-8 border-t border-gray-200">
-              <div className="flex items-center gap-2 mb-4 md:mb-6">
-                <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                <h2 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">
+              <div className="flex items-center gap-2 mb-3 md:mb-6">
+                <span className="w-1 h-3.5 md:h-4 bg-amber-700 rounded-sm" />
+                <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">
                   Comments <span className="text-gray-400">&middot; {comments.length}</span>
                 </h2>
               </div>
 
-              <div className="space-y-2.5 md:space-y-3 mb-6 md:mb-8">
+              <div className="space-y-2 md:space-y-3 mb-5 md:mb-8">
                 {comments.map((c: any) => (
-                  <div key={c.id} className="border border-gray-200 rounded-lg p-3 md:p-4 bg-gray-50">
-                    <div className="flex items-start gap-2.5 md:gap-3">
-                      <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs md:text-sm font-bold shrink-0">
+                  <div key={c.id} className="border border-gray-200 rounded-lg p-2.5 md:p-4 bg-gray-50">
+                    <div className="flex items-start gap-2 md:gap-3">
+                      <div className="w-6 h-6 md:w-9 md:h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-[10px] md:text-sm font-bold shrink-0">
                         {c.authorName?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-xs md:text-sm font-bold text-gray-900">{c.authorName || 'Anonymous'}</span>
-                          <span className="text-[10px] md:text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
+                          <span className="text-[11px] md:text-sm font-bold text-gray-900">{c.authorName || 'Anonymous'}</span>
+                          <span className="text-[9px] md:text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
                         </div>
-                        <p className="mt-1 md:mt-1.5 text-xs md:text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
+                        <p className="mt-0.5 md:mt-1.5 text-[11px] md:text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
                       </div>
                     </div>
                   </div>
                 ))}
                 {comments.length === 0 && (
-                  <div className="border border-dashed border-gray-300 rounded-lg p-4 md:p-6 text-center text-gray-500 text-xs md:text-sm">No comments yet. Be the first to comment!</div>
+                  <div className="border border-dashed border-gray-300 rounded-lg p-3 md:p-6 text-center text-gray-500 text-[11px] md:text-sm">No comments yet. Be the first to comment!</div>
                 )}
               </div>
 
-              <form onSubmit={submitComment} className="space-y-3 md:space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <form onSubmit={submitComment} className="space-y-2.5 md:space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-4">
                   <div>
-                    <label htmlFor="commentName" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Name</label>
+                    <label htmlFor="commentName" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Name</label>
                     <input
                       id="commentName"
                       name="commentName"
@@ -361,11 +361,11 @@ const BlogPost: React.FC = () => {
                       autoComplete="name"
                       value={authorName}
                       onChange={(e) => setAuthorName(e.target.value)}
-                      className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
                   <div>
-                    <label htmlFor="commentEmail" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Email</label>
+                    <label htmlFor="commentEmail" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Email</label>
                     <input
                       id="commentEmail"
                       name="commentEmail"
@@ -374,12 +374,12 @@ const BlogPost: React.FC = () => {
                       autoComplete="email"
                       value={authorEmail}
                       onChange={(e) => setAuthorEmail(e.target.value)}
-                      className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="commentContent" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Comment</label>
+                  <label htmlFor="commentContent" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Comment</label>
                   <textarea
                     id="commentContent"
                     name="commentContent"
@@ -388,13 +388,13 @@ const BlogPost: React.FC = () => {
                     autoComplete="off"
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
-                    className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                    className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isSubmittingComment}
-                  className="w-full sm:w-auto px-6 py-2.5 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
+                  className="w-full sm:w-auto px-5 md:px-6 py-2 md:py-2.5 bg-amber-700 text-white text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
                 >
                   {isSubmittingComment ? 'Posting…' : 'Post Comment'}
                 </button>
