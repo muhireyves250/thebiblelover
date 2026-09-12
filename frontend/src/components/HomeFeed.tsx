@@ -294,7 +294,7 @@ const HomeFeed: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
           {/* Featured / Broadcast column */}
           <div className="flex flex-col h-full">
-            <div className="hidden md:flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <span className="px-3 py-1.5 bg-gray-100 rounded-md text-xs font-black uppercase tracking-widest text-gray-900">
                   Watch
