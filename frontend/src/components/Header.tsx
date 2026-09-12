@@ -116,7 +116,7 @@ const Header = () => {
               />
               <button
                 type="submit"
-                className="absolute right-1 p-2 rounded-full bg-amber-700 text-white"
+                className="absolute right-1 p-2 rounded-full text-gray-500 dark:text-gray-400"
                 aria-label="Submit search"
               >
                 {isSearching ? (
@@ -161,17 +161,9 @@ const Header = () => {
 
           <ThemeToggle />
 
-          <Link
-            to={isAuthenticated ? (isAdmin ? '/dashboard' : '/member-dashboard') : '/login'}
-            className="shrink-0 p-2 text-gray-600 dark:text-gray-300"
-            aria-label={isAuthenticated ? 'My account' : 'Sign in'}
-          >
-            <UserIcon className="h-5 w-5" />
-          </Link>
-
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="shrink-0 p-2.5 rounded-xl bg-amber-700 text-white"
+            className="shrink-0 p-2.5 rounded-xl text-gray-700 dark:text-gray-300"
             aria-label="Open navigation menu"
             aria-expanded={isMenuOpen}
           >
