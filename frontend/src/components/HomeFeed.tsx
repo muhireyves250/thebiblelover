@@ -294,7 +294,7 @@ const HomeFeed: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
           {/* Featured / Broadcast column */}
           <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between mb-4">
+            <div className="hidden md:flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <span className="px-3 py-1.5 bg-gray-100 rounded-md text-xs font-black uppercase tracking-widest text-gray-900">
                   Watch
@@ -330,9 +330,9 @@ const HomeFeed: React.FC = () => {
             onMouseLeave={() => setIsHovering(false)}
           >
             <div className="flex items-center justify-between mb-4 gap-4">
-              <h2 className="text-xs font-black uppercase tracking-widest text-amber-700 whitespace-nowrap">Latest Reflections</h2>
-              <Link to="/posts" className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
-                View All <ArrowRight className="w-3.5 h-3.5" />
+              <h2 className="text-xs font-black uppercase tracking-widest text-red-600 whitespace-nowrap">Latest Reports</h2>
+              <Link to="/posts" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-gray-900 hover:text-red-600 transition-colors whitespace-nowrap">
+                All News <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
