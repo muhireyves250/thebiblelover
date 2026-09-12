@@ -90,6 +90,10 @@ const OWN_ANNOUNCEMENTS_PATHS = ['/', '/about'];
 // background image - rendered once at the shell level (like Header/Hero/
 // Footer) so it never unmounts/refades on navigation between them, only
 // the title and subtitle swap.
+// Pages whose PageHeader banner is hidden on mobile (the page itself
+// provides its own compact top spacing there instead); desktop keeps it.
+const PAGE_HEADER_DESKTOP_ONLY_PATHS = ['/prayer-wall'];
+
 const PAGE_HEADERS: Record<string, { title: string; subtitle: string }> = {
   '/about': { title: 'ABOUT', subtitle: 'WHO WE ARE' },
   '/donate': { title: 'Support the Word', subtitle: 'FOSTERING FAITH THROUGH YOUR GENEROSITY' },
@@ -116,6 +120,7 @@ function AppContent() {
   const isBareLayout = BARE_LAYOUT_PATHS.includes(location.pathname);
   const showAnnouncements = !isBareLayout && !OWN_ANNOUNCEMENTS_PATHS.includes(location.pathname);
   const pageHeader = PAGE_HEADERS[location.pathname];
+  const pageHeaderDesktopOnly = PAGE_HEADER_DESKTOP_ONLY_PATHS.includes(location.pathname);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
@@ -135,7 +140,11 @@ function AppContent() {
           About, just above the footer everywhere else). */}
       {!isBareLayout && <div className="md:hidden sticky top-[66px] z-40"><Announcements /></div>}
       {location.pathname === '/' && <div className="hidden md:block"><Hero /></div>}
-      {pageHeader && <PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} />}
+      {pageHeader && (
+        pageHeaderDesktopOnly
+          ? <div className="hidden md:block"><PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} /></div>
+          : <PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} />
+      )}
       <Suspense fallback={<PageLoader />}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={routeKey}>
