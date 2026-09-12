@@ -92,7 +92,7 @@ const OWN_ANNOUNCEMENTS_PATHS = ['/', '/about'];
 // the title and subtitle swap.
 // Pages whose PageHeader banner is hidden on mobile (the page itself
 // provides its own compact top spacing there instead); desktop keeps it.
-const PAGE_HEADER_DESKTOP_ONLY_PATHS = ['/prayer-wall'];
+const PAGE_HEADER_DESKTOP_ONLY_PATHS = ['/prayer-wall', '/watch'];
 
 const PAGE_HEADERS: Record<string, { title: string; subtitle: string }> = {
   '/about': { title: 'ABOUT', subtitle: 'WHO WE ARE' },
