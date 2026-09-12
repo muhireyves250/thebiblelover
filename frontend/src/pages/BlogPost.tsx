@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { blogAPI, authAPI, searchAPI } from '../services/api';
 import { useFetch, useCachedFetch } from '../hooks/useAPI';
-import { Heart, Eye, MessageCircle, Tag, Calendar, Clock } from 'lucide-react';
+import { Heart, Eye, MessageCircle, Tag, Calendar, Clock, ArrowLeft } from 'lucide-react';
 import SEO from '../components/SEO';
 import ShareButtons from '../components/ShareButtons';
 import AudioReader from '../components/AudioReader';
@@ -149,18 +149,12 @@ const BlogPost: React.FC = () => {
       )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Breadcrumb */}
-        <nav className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">
-          <Link to="/" className="hover:text-amber-700 transition-colors">Home</Link>
-          <span className="mx-2">/</span>
-          <Link to="/posts" className="hover:text-amber-700 transition-colors">Blog</Link>
-          <span className="mx-2">/</span>
-          {post ? (
-            <span className="text-amber-700">{categoryLabel(post.category)}</span>
-          ) : (
-            <span className="inline-block h-3 w-20 bg-gray-200 rounded animate-pulse align-middle" />
-          )}
-        </nav>
+        <Link
+          to="/posts"
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-6"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" /> Back to Blog
+        </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           {/* Main column */}
