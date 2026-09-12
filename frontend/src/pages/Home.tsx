@@ -12,6 +12,11 @@ const Home = () => {
         title="Home"
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
+      <div className="md:hidden bg-white px-4 pt-4">
+        <p className="text-sm text-gray-500">
+          Welcome back, <span className="font-bold text-gray-900">friend</span> — here's what's new today.
+        </p>
+      </div>
       <HomeFeed />
       <div className="hidden md:block">
         <PlayerDesk />
