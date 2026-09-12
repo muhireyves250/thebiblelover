@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight } from 'lucide-react';
@@ -284,6 +284,23 @@ const HomeFeed: React.FC = () => {
     return featured ? [featured, ...others] : others;
   }, [featured, items]);
 
+  // Auto-advance the featured carousel by smooth-scrolling to the next
+  // card, mirroring the reflections grid's auto-rotate below.
+  const featuredScrollRef = useRef<HTMLDivElement>(null);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  useEffect(() => {
+    if (featuredCarouselItems.length <= 1) return;
+    const interval = setInterval(() => {
+      setFeaturedIndex(i => (i + 1) % featuredCarouselItems.length);
+    }, AUTO_ROTATE_MS);
+    return () => clearInterval(interval);
+  }, [featuredCarouselItems.length]);
+  useEffect(() => {
+    const el = featuredScrollRef.current;
+    if (!el) return;
+    el.scrollTo({ left: featuredIndex * el.clientWidth, behavior: 'smooth' });
+  }, [featuredIndex]);
+
   // Auto-rotate through pages of reflections; pause while the visitor is
   // hovering the grid so it doesn't yank a card out from under the cursor.
   const [isHovering, setIsHovering] = useState(false);
@@ -324,7 +341,7 @@ const HomeFeed: React.FC = () => {
               {!hasLoaded ? (
                 <FeaturedCardSkeleton />
               ) : featuredCarouselItems.length > 0 ? (
-                <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-1 h-full">
+                <div ref={featuredScrollRef} className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-1 h-full">
                   {featuredCarouselItems.map(item => (
                     <div key={`${item.type}-${item.id}`} className="w-full shrink-0 snap-start">
                       <FeaturedCard item={item} />
