@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History } from 'lucide-react';
+import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History, Home } from 'lucide-react';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import IhemaLogo from './IhemaLogo';
 import { useSocialSettings } from '../hooks/useSocialSettings';
@@ -26,6 +26,7 @@ const Header = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileSearchRef = useRef<HTMLDivElement>(null);
 
   const { user, isAuthenticated } = useAuth();
   const isAdmin = user?.role === 'ADMIN';
@@ -34,7 +35,10 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      const insideDesktop = dropdownRef.current?.contains(target);
+      const insideMobile = mobileSearchRef.current?.contains(target);
+      if (!insideDesktop && !insideMobile) {
         setShowDropdown(false);
       }
     };
@@ -84,37 +88,95 @@ const Header = () => {
         : 'bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 py-3'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-        {/* Mobile bar: hamburger / centered logo / search */}
-        <div className="flex md:hidden items-center justify-between h-16">
-          <button
-            onClick={() => setIsMenuOpen(true)}
-            className="p-2 -ml-2 focus:outline-none focus:ring-2 focus:ring-amber-600 rounded text-gray-700 dark:text-gray-300"
-            aria-label="Open navigation menu"
-            aria-expanded={isMenuOpen}
+        {/* Mobile bar: home / search pill / theme / profile / menu */}
+        <div className="flex md:hidden items-center gap-2 h-16">
+          <Link
+            to="/"
+            className="shrink-0 p-2.5 rounded-xl bg-amber-700 text-white"
+            aria-label="Home"
           >
-            <Menu className="h-6 w-6" />
-          </button>
-
-          <Link to="/" className="flex items-center space-x-2 absolute left-1/2 -translate-x-1/2">
-            {logoSettings.logoUrl && logoSettings.showText ? (
-              <>
-                <img src={logoSettings.logoUrl} alt="Logo" className="h-7 w-7 object-contain" />
-                <span className="text-xl font-serif text-gray-900 dark:text-gray-100 tracking-wide">{logoSettings.logoText}</span>
-              </>
-            ) : logoSettings.logoUrl ? (
-              <img src={logoSettings.logoUrl} alt="Logo" className="h-8 object-contain" />
+            {logoSettings.logoUrl && !logoSettings.showText ? (
+              <img src={logoSettings.logoUrl} alt="Logo" className="h-5 w-5 object-contain" />
             ) : (
-              <IhemaLogo />
+              <Home className="h-5 w-5" />
             )}
           </Link>
 
+          <div className="relative flex-1" ref={mobileSearchRef}>
+            <form onSubmit={handleSearch} className="relative flex items-center" role="search">
+              <Search className="h-4 w-4 text-gray-400 absolute left-3 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Search the site..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => searchQuery.trim() && setShowDropdown(true)}
+                className="w-full pl-9 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-full focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                aria-label="Search"
+              />
+              <button
+                type="submit"
+                className="absolute right-1 p-2 rounded-full bg-amber-700 text-white"
+                aria-label="Submit search"
+              >
+                {isSearching ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Search className="h-3.5 w-3.5" />
+                )}
+              </button>
+            </form>
+
+            {/* Quick Results Dropdown */}
+            {showDropdown && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="max-h-[400px] overflow-y-auto p-2">
+                  {isSearching ? (
+                    <div className="p-8 text-center">
+                      <Loader2 className="h-6 w-6 text-amber-600 animate-spin mx-auto mb-2" />
+                      <p className="text-xs text-gray-400">Searching the archives...</p>
+                    </div>
+                  ) : searchResults?.events && searchResults.events.length > 0 ? (
+                    <div>
+                      <h3 className="px-3 py-1 text-[10px] font-black uppercase tracking-widest text-gray-400">Gatherings</h3>
+                      {searchResults.events.slice(0, 3).map(event => (
+                        <Link key={event.id} to="/events" onClick={() => setShowDropdown(false)} className="flex items-center gap-3 p-3 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-xl transition-colors group mx-1">
+                          <div className="p-2 bg-rose-100 dark:bg-rose-900/40 rounded-lg group-hover:bg-white transition-colors border border-transparent group-hover:border-rose-100">
+                            <History className="w-4 h-4 text-rose-600" />
+                          </div>
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">{event.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-6 text-center">
+                      <p className="text-sm text-gray-500">No quick results for "{searchQuery}"</p>
+                      <button onClick={handleSearch} className="mt-2 text-xs font-bold text-amber-600 hover:underline">View All Results</button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <ThemeToggle />
+
           <Link
-            to="/search"
-            className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600 rounded text-gray-700 dark:text-gray-300"
-            aria-label="Search"
+            to={isAuthenticated ? (isAdmin ? '/dashboard' : '/member-dashboard') : '/login'}
+            className="shrink-0 p-2 text-gray-600 dark:text-gray-300"
+            aria-label={isAuthenticated ? 'My account' : 'Sign in'}
           >
-            <Search className="h-5 w-5" />
+            <UserIcon className="h-5 w-5" />
           </Link>
+
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className="shrink-0 p-2.5 rounded-xl bg-amber-700 text-white"
+            aria-label="Open navigation menu"
+            aria-expanded={isMenuOpen}
+          >
+            <Menu className="h-5 w-5" />
+          </button>
         </div>
 
         <div className="hidden md:flex justify-between items-center h-20">
