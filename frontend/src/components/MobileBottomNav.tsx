@@ -27,21 +27,17 @@ const MobileBottomNav = () => {
               className="flex flex-1 items-center justify-center py-1.5 min-w-0"
             >
               <span
-                className={`group flex w-full flex-col items-center justify-center gap-1 px-2 py-2 rounded-full border-2 bg-white transition-colors ${
-                  isActive
-                    ? 'border-amber-700 text-amber-700'
-                    : 'border-transparent text-gray-600 hover:border-amber-700 hover:text-amber-700'
+                className={`flex w-full flex-col items-center justify-center gap-1 px-2 py-2 rounded-full border-2 bg-white transition-colors ${
+                  isActive ? 'border-amber-700 text-amber-700' : 'border-transparent text-gray-600'
                 }`}
               >
                 <Icon
-                  className={`h-5 w-5 transition-colors ${isActive ? 'text-amber-700' : 'group-hover:text-amber-700'}`}
+                  className={`h-5 w-5 transition-colors ${isActive ? 'text-amber-700' : ''}`}
                   strokeWidth={isActive ? 2.75 : 2.25}
                 />
                 <span
                   className={`text-[10px] tracking-wide truncate transition-colors ${
-                    isActive
-                      ? 'text-amber-700 font-bold'
-                      : 'text-gray-600 font-semibold group-hover:text-amber-700'
+                    isActive ? 'text-amber-700 font-bold' : 'text-gray-600 font-semibold'
                   }`}
                 >
                   {label}
