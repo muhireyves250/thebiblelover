@@ -224,7 +224,7 @@ const BlogPost: React.FC = () => {
                 </div>
               )}
 
-              <section className="prose prose-amber max-w-none relative">
+              <section className="prose prose-amber max-w-none relative text-sm md:text-base">
                 {post.isPremium && !authAPI.isAuthenticated() ? (
                   <div className="relative">
                     <div className="blur-sm select-none pointer-events-none opacity-50">
