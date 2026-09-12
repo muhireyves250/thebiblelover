@@ -119,18 +119,13 @@ const PrayerWall = () => {
     return (
         <div className="min-h-screen bg-white">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
-                <div className="md:hidden mb-4">
-                    <div className="flex items-center gap-2 mb-2">
-                        <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Prayer Wall</span>
-                    </div>
-                    <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Community Prayer Wall</h1>
-                    <p className="text-sm text-gray-500 mt-2">A sacred space to share burdens and lift each other up in prayer.</p>
-                </div>
+                <h1 className="md:hidden text-lg font-black uppercase tracking-tight text-gray-900 mb-3">
+                    A sacred space to share burdens and lift each other up in prayer.
+                </h1>
 
                 {/* Actions & Filters */}
-                <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
-                    <div className="flex flex-wrap justify-center gap-2">
+                <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-10 gap-3 md:gap-4">
+                    <div className="w-full md:w-auto flex md:flex-wrap md:justify-center gap-2 overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0 pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                         {CATEGORIES.map(cat => (
                             <button
                                 key={cat.id}
@@ -138,7 +133,7 @@ const PrayerWall = () => {
                                     setActiveCategory(cat.id);
                                     setPagination({ ...pagination, page: 1 });
                                 }}
-                                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider border transition-colors ${activeCategory === cat.id
+                                className={`flex items-center gap-1.5 shrink-0 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-colors ${activeCategory === cat.id
                                     ? 'bg-amber-700 text-white border-amber-700'
                                     : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
                                     }`}
@@ -151,7 +146,7 @@ const PrayerWall = () => {
 
                     <button
                         onClick={() => setShowForm(true)}
-                        className="flex items-center gap-2 bg-amber-700 text-white px-5 py-2.5 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors shrink-0"
+                        className="w-full md:w-auto flex items-center justify-center gap-2 bg-amber-700 text-white px-5 py-2.5 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors shrink-0"
                     >
                         <Plus className="h-4 w-4" />
                         <span>Share a Request</span>
