@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight } from 'lucide-react';
 import { useHomeFeed, type HomeFeedItem } from '../hooks/useHomeFeed';
 import { useContentSettings } from '../hooks/useContentSettings';
+import { homeFeedAPI } from '../services/api';
+import type { HomeFeedVideo } from '../services/api.d';
 
 const PAGE_SIZE = 4;
 const AUTO_ROTATE_MS = 6000;
@@ -277,16 +279,21 @@ const HomeFeed: React.FC = () => {
   const currentPage = Math.min(page, pages.length - 1);
   const visibleItems = pages[currentPage] || [];
 
-  // Mobile: swipe through the featured item plus a handful of other
-  // videos/lives, instead of being stuck on a single broadcast. Falls
-  // back to other feed items when there aren't enough videos/lives to
-  // fill the carousel, so it isn't stuck at a single card.
+  // Mobile: swipe through the featured item plus other YouTube videos/
+  // lives, instead of being stuck on a single broadcast. Pulled from the
+  // dedicated videos endpoint (not the mixed post+video feed) so the
+  // carousel only ever shows actual YouTube videos.
+  const [otherVideos, setOtherVideos] = useState<HomeFeedVideo[]>([]);
+  useEffect(() => {
+    homeFeedAPI.getVideos(6).then(response => {
+      if (response.success && response.data) setOtherVideos(response.data.items);
+    }).catch(() => {});
+  }, []);
+
   const featuredCarouselItems = useMemo(() => {
-    const notFeatured = items.filter(item => item.id !== featured?.id);
-    const videos = notFeatured.filter(isVideoLike);
-    const others = (videos.length > 0 ? videos : notFeatured).slice(0, 5);
+    const others = otherVideos.filter(video => video.id !== featured?.id).slice(0, 5);
     return featured ? [featured, ...others] : others;
-  }, [featured, items]);
+  }, [featured, otherVideos]);
 
   // Auto-advance the featured carousel by smooth-scrolling to the next
   // card, mirroring the reflections grid's auto-rotate below.
