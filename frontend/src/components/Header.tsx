@@ -338,13 +338,13 @@ const Header = () => {
             className="absolute inset-0 bg-black/50 animate-in fade-in duration-200"
             onClick={() => setIsMenuOpen(false)}
           />
-          <div className="absolute inset-y-0 right-0 w-80 max-w-[88vw] bg-gray-950 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-            <div className="flex items-center justify-between px-5 py-5">
+          <div className="absolute inset-y-0 right-0 w-80 max-w-[88vw] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="flex items-center justify-between px-5 py-5 border-b border-gray-100">
               <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2">
                 {logoSettings.logoUrl && logoSettings.showText ? (
                   <>
                     <img src={logoSettings.logoUrl} alt="Logo" className="h-7 w-7 object-contain" />
-                    <span className="text-lg font-serif text-white tracking-wide">{logoSettings.logoText}</span>
+                    <span className="text-lg font-serif text-gray-900 tracking-wide">{logoSettings.logoText}</span>
                   </>
                 ) : logoSettings.logoUrl ? (
                   <img src={logoSettings.logoUrl} alt="Logo" className="h-8 object-contain" />
@@ -354,7 +354,7 @@ const Header = () => {
               </Link>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded text-gray-400"
+                className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded text-gray-400 hover:text-gray-600"
                 aria-label="Close navigation menu"
               >
                 <X className="h-5 w-5" />
@@ -379,7 +379,7 @@ const Header = () => {
                     to={link.path}
                     onClick={() => setIsMenuOpen(false)}
                     className={`py-3 text-base transition-colors ${
-                      isActive ? 'text-white font-bold' : 'text-gray-400 hover:text-white'
+                      isActive ? 'text-amber-700 font-bold' : 'text-gray-700 hover:text-amber-700'
                     }`}
                   >
                     {link.label}
@@ -387,13 +387,13 @@ const Header = () => {
                 );
               })}
 
-              <div className="my-4 border-t border-gray-800" />
+              <div className="my-4 border-t border-gray-100" />
 
               {isAuthenticated ? (
                 <Link
                   to={isAdmin ? '/dashboard' : '/member-dashboard'}
                   onClick={() => setIsMenuOpen(false)}
-                  className="py-3 text-base text-gray-400 hover:text-white transition-colors"
+                  className="py-3 text-base text-gray-700 hover:text-amber-700 transition-colors"
                 >
                   {isAdmin ? 'Admin' : (user?.name || 'My Profile')}
                 </Link>
@@ -401,7 +401,7 @@ const Header = () => {
                 <Link
                   to="/login"
                   onClick={() => setIsMenuOpen(false)}
-                  className="py-3 text-base text-gray-400 hover:text-white transition-colors"
+                  className="py-3 text-base text-gray-700 hover:text-amber-700 transition-colors"
                 >
                   Log In
                 </Link>
@@ -410,23 +410,23 @@ const Header = () => {
               <Link
                 to="/register"
                 onClick={() => setIsMenuOpen(false)}
-                className="mt-3 w-full text-center px-5 py-3 rounded-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm transition-colors"
+                className="mt-3 w-full text-center px-5 py-3 rounded-md bg-amber-700 hover:bg-amber-800 text-white font-bold text-sm transition-colors"
               >
                 Join the Family
               </Link>
 
-              <div className="my-5 border-t border-gray-800" />
+              <div className="my-5 border-t border-gray-100" />
 
               <div className="flex items-center justify-between pb-4">
                 <span className="text-sm text-gray-500">Appearance</span>
-                <div className="flex items-center gap-1 bg-gray-900 border border-gray-800 rounded-full p-1">
-                  <span className="p-1.5 rounded-full text-gray-500" aria-label="Light (coming soon)">
+                <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 rounded-full p-1">
+                  <span className="p-1.5 rounded-full text-gray-400" aria-label="Light (coming soon)">
                     <Sun className="w-3.5 h-3.5" />
                   </span>
-                  <span className="p-1.5 rounded-full bg-gray-800 text-amber-500" aria-label="Dark (coming soon)">
+                  <span className="p-1.5 rounded-full bg-white shadow-sm text-amber-700" aria-label="Dark (coming soon)">
                     <Moon className="w-3.5 h-3.5" />
                   </span>
-                  <span className="p-1.5 rounded-full text-gray-500" aria-label="System (coming soon)">
+                  <span className="p-1.5 rounded-full text-gray-400" aria-label="System (coming soon)">
                     <Monitor className="w-3.5 h-3.5" />
                   </span>
                 </div>

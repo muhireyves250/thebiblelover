@@ -173,7 +173,7 @@ function AppContent() {
       {!isBareLayout && <div className="hidden md:block"><Footer /></div>}
       {!isBareLayout && <div className="md:hidden h-16" aria-hidden="true" />}
       {!isBareLayout && <MobileBottomNav />}
-      <WhatsAppWidget />
+      <div className="hidden md:block"><WhatsAppWidget /></div>
     </div>
   );
 }
