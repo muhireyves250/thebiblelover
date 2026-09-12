@@ -19,7 +19,7 @@ const Home = () => {
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
       <div className="md:hidden px-4 pt-4">
-        <div className="relative isolate overflow-hidden rounded-3xl border border-gray-300 shadow-sm min-h-[150px] flex flex-col">
+        <div className="relative isolate overflow-hidden rounded-3xl border border-gray-300 shadow-sm min-h-[165px] flex flex-col">
           <div className="absolute inset-0 bg-cover bg-center" style={getBackgroundStyle()} />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/60 to-gray-950/90" />
 
