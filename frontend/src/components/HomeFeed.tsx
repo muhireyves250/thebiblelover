@@ -339,7 +339,7 @@ const HomeFeed: React.FC = () => {
             {/* Mobile: horizontal swipe carousel, two cards per view, scrolls
                 left to reveal more - no pagination dots needed since the
                 scroll position itself shows progress. */}
-            <div className="md:hidden -ml-4 pl-4 pb-1 flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth">
+            <div className="md:hidden pb-1 flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth">
               {!hasLoaded ? (
                 [1, 2, 3, 4].map(i => (
                   <div key={i} className="w-[47%] shrink-0 snap-start">
