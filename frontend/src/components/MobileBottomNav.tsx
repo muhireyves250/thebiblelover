@@ -24,21 +24,21 @@ const MobileBottomNav = () => {
             <Link
               key={path}
               to={path}
-              className="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 min-w-0"
+              className="flex flex-1 items-center justify-center py-1.5 min-w-0"
             >
               <span
-                className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
+                className={`flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-2xl transition-colors ${
                   isActive ? 'bg-amber-700 text-white' : 'text-gray-600'
                 }`}
               >
                 <Icon className="h-5 w-5" strokeWidth={isActive ? 2.75 : 2.25} />
-              </span>
-              <span
-                className={`text-[10px] tracking-wide truncate ${
-                  isActive ? 'text-amber-700 font-bold' : 'text-gray-600 font-semibold'
-                }`}
-              >
-                {label}
+                <span
+                  className={`text-[10px] tracking-wide truncate ${
+                    isActive ? 'text-white font-bold' : 'text-gray-600 font-semibold'
+                  }`}
+                >
+                  {label}
+                </span>
               </span>
             </Link>
           );
