@@ -61,28 +61,28 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, post }) => {
   ] as const;
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-[100]">
       <div className="absolute inset-0" onClick={onClose} />
-      <div className="relative bg-gray-950 text-white rounded-t-3xl sm:rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-800 animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 pb-[env(safe-area-inset-bottom)]">
+      <div className="relative bg-white text-gray-900 rounded-t-3xl sm:rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-200 animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 pb-[env(safe-area-inset-bottom)]">
         {/* Drag handle - mobile only */}
         <div className="sm:hidden flex justify-center pt-2.5 pb-1">
-          <span className="w-10 h-1 rounded-full bg-gray-700" />
+          <span className="w-10 h-1 rounded-full bg-gray-300" />
         </div>
 
         <div className="flex justify-between items-start gap-3 px-5 pt-2 pb-4 sm:p-6 sm:pb-4">
           <div className="min-w-0">
-            <h3 className="text-lg sm:text-xl font-black text-white leading-snug">Share This Post</h3>
-            <p className="text-xs sm:text-sm text-gray-400 truncate mt-0.5">{post.title}</p>
+            <h3 className="font-sans text-lg sm:text-xl font-black uppercase tracking-tight text-gray-900 leading-snug">Share This Post</h3>
+            <p className="font-sans text-xs sm:text-sm text-gray-500 truncate mt-0.5">{post.title}</p>
           </div>
           <button
             onClick={onClose}
-            className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+            className="shrink-0 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 transition-colors"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="border-t border-gray-800" />
+        <div className="border-t border-gray-100" />
 
         <div className="px-5 py-5 sm:px-6">
           {/* Share Options */}
@@ -96,23 +96,23 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, post }) => {
                 <span className={`flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full ${bg} shadow-sm transition-transform group-active:scale-90 sm:group-hover:scale-105`}>
                   <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                 </span>
-                <span className="text-[10px] sm:text-xs font-semibold text-gray-300">{label}</span>
+                <span className="font-sans text-[10px] sm:text-xs font-semibold text-gray-700">{label}</span>
               </button>
             ))}
           </div>
         </div>
 
-        <div className="border-t border-gray-800" />
+        <div className="border-t border-gray-100" />
 
         <div className="px-5 py-5 sm:px-6">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-bold text-gray-300">Link</span>
-            <span className="text-sm font-black text-amber-500 truncate max-w-[220px]">{postUrl}</span>
+            <span className="font-sans text-sm font-bold uppercase tracking-wide text-gray-500">Link</span>
+            <span className="font-sans text-sm font-black text-amber-700 truncate max-w-[220px]">{postUrl}</span>
           </div>
           <button
             onClick={copyToClipboard}
-            className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-full text-base font-black transition-colors ${
-              copied ? 'bg-green-600 text-white' : 'bg-amber-600 text-white active:bg-amber-700 sm:hover:bg-amber-700'
+            className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-full font-sans text-base font-black uppercase tracking-wide transition-colors ${
+              copied ? 'bg-green-600 text-white' : 'bg-amber-700 text-white active:bg-amber-800 sm:hover:bg-amber-800'
             }`}
           >
             {copied ? (
