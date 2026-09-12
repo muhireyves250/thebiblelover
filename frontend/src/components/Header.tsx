@@ -163,7 +163,7 @@ const Header = () => {
 
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="shrink-0 p-2.5 rounded-xl text-gray-700 dark:text-gray-300"
+            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors"
             aria-label="Open navigation menu"
             aria-expanded={isMenuOpen}
           >
