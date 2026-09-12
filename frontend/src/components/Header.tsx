@@ -82,10 +82,10 @@ const Header = () => {
   };
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-500 ${
-      scrolled 
-        ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-white/20 dark:border-gray-800 py-1 shadow-2xl' 
-        : 'bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 py-3'
+    <header className={`sticky top-0 z-50 transition-all duration-500 border-b-2 border-gray-200 dark:border-gray-800 ${
+      scrolled
+        ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl py-1 shadow-2xl'
+        : 'bg-white dark:bg-gray-900 py-3'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         {/* Mobile bar: home / search pill / theme / profile / menu */}
