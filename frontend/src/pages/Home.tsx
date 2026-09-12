@@ -1,4 +1,4 @@
-import { Bell, Star, Calendar } from 'lucide-react';
+import { Bell, Star } from 'lucide-react';
 import HomeFeed from '../components/HomeFeed';
 import PlayerDesk from '../components/PlayerDesk';
 import VerseDesk from '../components/VerseDesk';
@@ -6,8 +6,6 @@ import Announcements from '../components/Announcements';
 import AboutDesk from '../components/AboutDesk';
 import SEO from '../components/SEO';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
-
-const todayLabel = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
 const Home = () => {
   const { getBackgroundStyle } = useBackgroundSettings();
@@ -37,11 +35,8 @@ const Home = () => {
               Welcome back, <span className="text-amber-400">friend</span>
             </h2>
             <div className="flex items-center gap-3 mt-1">
-              <span className="flex items-center gap-1 text-xs font-bold text-amber-400">
-                <Star className="w-3.5 h-3.5 fill-amber-400" /> Daily Inspiration
-              </span>
-              <span className="flex items-center gap-1 text-xs text-gray-300">
-                <Calendar className="w-3 h-3" /> {todayLabel}
+              <span className="flex items-center gap-1 text-xs font-bold text-white">
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" /> Daily Inspiration
               </span>
             </div>
           </div>
