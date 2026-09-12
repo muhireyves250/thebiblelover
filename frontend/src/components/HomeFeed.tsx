@@ -40,7 +40,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
 
   return (
     <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-      <div className="relative flex-1 min-h-[150px] md:min-h-[220px] bg-gray-100 overflow-hidden">
+      <div className="relative flex-1 min-h-[130px] md:min-h-[220px] bg-gray-100 overflow-hidden">
         {video && playing ? (
           <iframe
             className="absolute inset-0 w-full h-full"
