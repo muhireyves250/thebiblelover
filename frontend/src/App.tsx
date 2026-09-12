@@ -65,12 +65,22 @@ import WhatsAppWidget from './components/WhatsAppWidget';
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const MemberDashboard = lazy(() => import('./pages/MemberDashboard'));
 
-// Loading component for Suspense
+// Loading component for Suspense - only ever covers the routed content
+// area now (Header/Footer are outside this), so a lazy chunk load never
+// blanks out the whole page.
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+  <div className="min-h-[60vh] flex items-center justify-center">
     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
   </div>
 );
+
+// Routes with no site chrome at all (auth flows, admin dashboard) - every
+// other route gets the persistent Header/Footer below.
+const BARE_LAYOUT_PATHS = ['/register', '/forgot-password', '/reset-password', '/dashboard'];
+
+// Home and About render their own Announcements inline, positioned inside
+// their own content rather than always right above the footer.
+const OWN_ANNOUNCEMENTS_PATHS = ['/', '/about'];
 
 function AppContent() {
   const location = useLocation();
@@ -83,199 +93,55 @@ function AppContent() {
   const matchedDetailPrefix = detailRoutePrefixes.find(prefix => location.pathname.startsWith(prefix));
   const routeKey = matchedDetailPrefix ? `${matchedDetailPrefix}:id` : location.pathname;
 
+  const isBareLayout = BARE_LAYOUT_PATHS.includes(location.pathname);
+  const showAnnouncements = !isBareLayout && !OWN_ANNOUNCEMENTS_PATHS.includes(location.pathname);
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
+      {/* Header and Footer sit outside the animated/keyed route tree so
+          they never unmount on navigation - only the routed content below
+          swaps (and shows its own loading skeleton), not the whole page. */}
+      {!isBareLayout && <Header />}
       <Suspense fallback={<PageLoader />}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={routeKey}>
-            <Route path="/" element={
-              <PageTransition>
-                <Header />
-                <Home />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/about" element={
-              <PageTransition>
-                <Header />
-                <About />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/blog/:slug" element={
-              <PageTransition>
-                <Header />
-                <BlogPost />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/donate" element={
-              <PageTransition>
-                <Header />
-                <Donate />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/posts" element={
-              <PageTransition>
-                <Header />
-                <Posts />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/players" element={
-              <PageTransition>
-                <Header />
-                <Players />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/players/:id" element={
-              <PageTransition>
-                <Header />
-                <PlayerDetail />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/verses" element={
-              <PageTransition>
-                <Header />
-                <Verses />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/verses/:id" element={
-              <PageTransition>
-                <Header />
-                <VerseDetail />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/search" element={
-              <PageTransition>
-                <Header />
-                <Search />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/contact" element={
-              <PageTransition>
-                <Header />
-                <Contact />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/prayer-wall" element={
-              <PageTransition>
-                <Header />
-                <PrayerWall />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-
-            <Route path="/events" element={
-              <PageTransition>
-                <Header />
-                <Events />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/events/:id" element={
-              <PageTransition>
-                <Header />
-                <EventDetail />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-
-            <Route path="/watch" element={
-              <PageTransition>
-                <Header />
-                <Videos />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-
-            <Route path="/login" element={
-              <PageTransition>
-                <Header />
-                <Login />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/register" element={
-              <PageTransition>
-                <Register />
-              </PageTransition>
-            } />
-            <Route path="/forgot-password" element={
-              <PageTransition>
-                <ForgotPassword />
-              </PageTransition>
-            } />
-            <Route path="/reset-password" element={
-              <PageTransition>
-                <ResetPassword />
-              </PageTransition>
-            } />
-            <Route path="/terms" element={
-              <PageTransition>
-                <Header />
-                <Terms />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
-            <Route path="/privacy" element={
-              <PageTransition>
-                <Header />
-                <Privacy />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
+            <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+            <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+            <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />
+            <Route path="/donate" element={<PageTransition><Donate /></PageTransition>} />
+            <Route path="/posts" element={<PageTransition><Posts /></PageTransition>} />
+            <Route path="/players" element={<PageTransition><Players /></PageTransition>} />
+            <Route path="/players/:id" element={<PageTransition><PlayerDetail /></PageTransition>} />
+            <Route path="/verses" element={<PageTransition><Verses /></PageTransition>} />
+            <Route path="/verses/:id" element={<PageTransition><VerseDetail /></PageTransition>} />
+            <Route path="/search" element={<PageTransition><Search /></PageTransition>} />
+            <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+            <Route path="/prayer-wall" element={<PageTransition><PrayerWall /></PageTransition>} />
+            <Route path="/events" element={<PageTransition><Events /></PageTransition>} />
+            <Route path="/events/:id" element={<PageTransition><EventDetail /></PageTransition>} />
+            <Route path="/watch" element={<PageTransition><Videos /></PageTransition>} />
+            <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+            <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
+            <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
+            <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
+            <Route path="/terms" element={<PageTransition><Terms /></PageTransition>} />
+            <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
-                <PageTransition>
-                  <Dashboard />
-                </PageTransition>
+                <PageTransition><Dashboard /></PageTransition>
               </ProtectedRoute>
             } />
             <Route path="/member-dashboard" element={
               <ProtectedRoute>
-                <PageTransition>
-                  <Header />
-                  <MemberDashboard />
-                  <Announcements />
-                  <Footer />
-                </PageTransition>
+                <PageTransition><MemberDashboard /></PageTransition>
               </ProtectedRoute>
             } />
-            <Route path="*" element={
-              <PageTransition>
-                <Header />
-                <NotFound />
-                <Announcements />
-                <Footer />
-              </PageTransition>
-            } />
+            <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
           </Routes>
         </AnimatePresence>
       </Suspense>
+      {showAnnouncements && <Announcements />}
+      {!isBareLayout && <Footer />}
       <WhatsAppWidget />
     </div>
   );
