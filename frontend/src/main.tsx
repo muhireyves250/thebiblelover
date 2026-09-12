@@ -20,6 +20,25 @@ try {
 
 import React from 'react';
 
+// After a redeploy, a page left open (or opened via a stale cached link)
+// still references the OLD content-hashed chunk filenames (e.g.
+// Posts-Cl2iZZ3i.js), which no longer exist once the new build's assets
+// replace them - any lazy-loaded route then fails with "Failed to fetch
+// dynamically imported module". Vite fires `vite:preloadError` for
+// exactly this case; the fix is a one-time hard reload to pick up the
+// current build, guarded so a genuinely broken chunk doesn't reload
+// forever.
+const CHUNK_RELOAD_KEY = 'chunk-reload-attempted';
+const reloadForFreshBuild = () => {
+  if (sessionStorage.getItem(CHUNK_RELOAD_KEY)) return;
+  sessionStorage.setItem(CHUNK_RELOAD_KEY, '1');
+  window.location.reload();
+};
+window.addEventListener('vite:preloadError', reloadForFreshBuild);
+
+const isChunkLoadError = (error: Error | null) =>
+  !!error && /failed to fetch dynamically imported module|error loading dynamically imported module/i.test(error.message);
+
 class GlobalErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: Error | null}> {
   constructor(props) {
     super(props);
@@ -30,9 +49,17 @@ class GlobalErrorBoundary extends React.Component<{children: React.ReactNode}, {
   }
   componentDidCatch(error: Error, info: React.ErrorInfo) {
     console.error("Global Catch:", error, info);
+    if (isChunkLoadError(error)) reloadForFreshBuild();
   }
   render() {
     if (this.state.hasError) {
+      if (isChunkLoadError(this.state.error)) {
+        return (
+          <div style={{ padding: '20px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'sans-serif', textAlign: 'center' }}>
+            <p>Loading the latest version…</p>
+          </div>
+        );
+      }
       return (
         <div style={{ padding: '20px', background: '#ffebee', color: '#c62828', minHeight: '100vh', fontFamily: 'monospace' }}>
           <h2>Something went wrong in the app!</h2>
