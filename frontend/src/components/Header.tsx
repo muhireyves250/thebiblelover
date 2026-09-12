@@ -84,7 +84,40 @@ const Header = () => {
         : 'bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 py-3'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
-        <div className="flex justify-between items-center h-16 md:h-20">
+        {/* Mobile bar: hamburger / centered logo / search */}
+        <div className="flex md:hidden items-center justify-between h-16">
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className="p-2 -ml-2 focus:outline-none focus:ring-2 focus:ring-amber-600 rounded text-gray-700 dark:text-gray-300"
+            aria-label="Open navigation menu"
+            aria-expanded={isMenuOpen}
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+
+          <Link to="/" className="flex items-center space-x-2 absolute left-1/2 -translate-x-1/2">
+            {logoSettings.logoUrl && logoSettings.showText ? (
+              <>
+                <img src={logoSettings.logoUrl} alt="Logo" className="h-7 w-7 object-contain" />
+                <span className="text-xl font-serif text-gray-900 dark:text-gray-100 tracking-wide">{logoSettings.logoText}</span>
+              </>
+            ) : logoSettings.logoUrl ? (
+              <img src={logoSettings.logoUrl} alt="Logo" className="h-8 object-contain" />
+            ) : (
+              <IhemaLogo />
+            )}
+          </Link>
+
+          <Link
+            to="/search"
+            className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600 rounded text-gray-700 dark:text-gray-300"
+            aria-label="Search"
+          >
+            <Search className="h-5 w-5" />
+          </Link>
+        </div>
+
+        <div className="hidden md:flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex items-center space-x-2">
             <Link to="/" className="flex items-center space-x-2">
@@ -93,15 +126,15 @@ const Header = () => {
                   <img
                     src={logoSettings.logoUrl}
                     alt="Logo"
-                    className="h-7 w-7 md:h-8 md:w-8 object-contain"
+                    className="h-8 w-8 object-contain"
                   />
-                  <span className="text-xl md:text-2xl font-serif text-gray-900 dark:text-gray-100 tracking-wide">{logoSettings.logoText}</span>
+                  <span className="text-2xl font-serif text-gray-900 dark:text-gray-100 tracking-wide">{logoSettings.logoText}</span>
                 </>
               ) : logoSettings.logoUrl ? (
                 <img
                   src={logoSettings.logoUrl}
                   alt="Logo"
-                  className="h-8 md:h-10 object-contain"
+                  className="h-10 object-contain"
                 />
               ) : (
                 <IhemaLogo />
@@ -110,7 +143,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-4 lg:space-x-5">
+          <nav className="flex items-center space-x-4 lg:space-x-5">
             {[
               { path: '/', label: 'Home' },
               { path: '/about', label: 'About' },
@@ -161,7 +194,7 @@ const Header = () => {
             )}
           </nav>
 
-          <div className="hidden md:flex items-center space-x-5">
+          <div className="flex items-center space-x-5">
             <div className="relative" ref={dropdownRef}>
               <form onSubmit={handleSearch} className="relative" role="search">
                 <Search className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
@@ -242,36 +275,99 @@ const Header = () => {
               </a>
             )}
           </div>
-
-          <div className="flex items-center space-x-3 md:hidden">
-            <ThemeToggle />
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 focus:outline-none focus:ring-2 focus:ring-amber-600 rounded text-gray-700 dark:text-gray-300"
-              aria-label="Toggle navigation menu"
-              aria-expanded={isMenuOpen}
-            >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <nav className="flex flex-col space-y-4">
-              <Link to="/" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">Home</Link>
-              <Link to="/about" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">About</Link>
-              <Link to="/donate" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">Donate</Link>
-              <Link to="/contact" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">Contact</Link>
-              <Link to="/prayer-wall" className="text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors text-sm">Prayer Wall</Link>
-              <div className="flex items-center space-x-4 pt-4">
+      {/* Mobile slide-out drawer */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-[60]">
+          <div
+            className="absolute inset-0 bg-black/50 animate-in fade-in duration-200"
+            onClick={() => setIsMenuOpen(false)}
+          />
+          <div className="absolute inset-y-0 left-0 w-72 max-w-[85vw] bg-white dark:bg-gray-900 shadow-2xl flex flex-col animate-in slide-in-from-left duration-300">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800">
+              <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2">
+                {logoSettings.logoUrl && logoSettings.showText ? (
+                  <>
+                    <img src={logoSettings.logoUrl} alt="Logo" className="h-7 w-7 object-contain" />
+                    <span className="text-lg font-serif text-gray-900 dark:text-gray-100 tracking-wide">{logoSettings.logoText}</span>
+                  </>
+                ) : logoSettings.logoUrl ? (
+                  <img src={logoSettings.logoUrl} alt="Logo" className="h-8 object-contain" />
+                ) : (
+                  <IhemaLogo />
+                )}
+              </Link>
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600 rounded text-gray-500 dark:text-gray-400"
+                aria-label="Close navigation menu"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <nav className="flex-1 overflow-y-auto px-5 py-6 flex flex-col gap-1">
+              {[
+                { path: '/', label: 'Home' },
+                { path: '/about', label: 'About' },
+                { path: '/posts', label: 'Blog' },
+                { path: '/watch', label: 'Watch' },
+                { path: '/verses', label: 'Bible Verses' },
+                { path: '/prayer-wall', label: 'Prayer Wall' },
+                { path: '/events', label: 'Events' },
+                { path: '/donate', label: 'Donate' },
+                { path: '/contact', label: 'Contact' },
+              ].map((link) => {
+                const isActive = link.path === '/' ? location.pathname === '/' : location.pathname.startsWith(link.path);
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
+                      isActive
+                        ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+
+              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                {isAuthenticated ? (
+                  <Link
+                    to={isAdmin ? '/dashboard' : '/member-dashboard'}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30"
+                  >
+                    <UserIcon className="w-4 h-4" />
+                    {isAdmin ? 'Admin' : (user?.name || 'My Profile')}
+                  </Link>
+                ) : (
+                  <Link
+                    to="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                  >
+                    <UserIcon className="w-4 h-4" />
+                    Sign In
+                  </Link>
+                )}
+              </div>
+            </nav>
+
+            <div className="px-5 py-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
+              <div className="flex items-center gap-4">
                 {socialLinks.facebook !== '#' && (
                   <a
                     href={socialLinks.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-amber-700 transition-colors"
+                    className="text-gray-500 hover:text-amber-700 transition-colors"
                     aria-label="Facebook"
                   >
                     <Facebook className="h-4 w-4" />
@@ -282,17 +378,18 @@ const Header = () => {
                     href={socialLinks.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-amber-700 transition-colors"
+                    className="text-gray-500 hover:text-amber-700 transition-colors"
                     aria-label="Twitter"
                   >
                     <Twitter className="h-4 w-4" />
                   </a>
                 )}
               </div>
-            </nav>
+              <ThemeToggle />
+            </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </header>
   );
 };

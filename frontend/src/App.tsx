@@ -36,6 +36,7 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import PageHeader from './components/PageHeader';
 import Announcements from './components/Announcements';
+import MobileBottomNav from './components/MobileBottomNav';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 
@@ -120,9 +121,11 @@ function AppContent() {
       {/* Header, Hero (on the homepage) and Footer sit outside the animated/
           keyed route tree so they never unmount on navigation - only the
           routed content below swaps (and shows its own loading skeleton),
-          not the whole page. */}
+          not the whole page. Hero is desktop-only; on mobile the header
+          goes straight into page content, and a fixed bottom tab bar
+          takes over primary navigation instead of the footer. */}
       {!isBareLayout && <Header />}
-      {location.pathname === '/' && <Hero />}
+      {location.pathname === '/' && <div className="hidden md:block"><Hero /></div>}
       {pageHeader && <PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} />}
       <Suspense fallback={<PageLoader />}>
         <AnimatePresence mode="wait">
@@ -163,7 +166,9 @@ function AppContent() {
         </AnimatePresence>
       </Suspense>
       {showAnnouncements && <Announcements />}
-      {!isBareLayout && <Footer />}
+      {!isBareLayout && <div className="hidden md:block"><Footer /></div>}
+      {!isBareLayout && <div className="md:hidden h-16" aria-hidden="true" />}
+      {!isBareLayout && <MobileBottomNav />}
       <WhatsAppWidget />
     </div>
   );
