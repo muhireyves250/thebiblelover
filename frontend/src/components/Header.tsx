@@ -92,7 +92,7 @@ const Header = () => {
         <div className="flex md:hidden items-center gap-2 h-16">
           <Link
             to="/"
-            className="shrink-0 p-2.5 rounded-xl bg-amber-700 text-white"
+            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors"
             aria-label="Home"
           >
             {logoSettings.logoUrl && !logoSettings.showText ? (
