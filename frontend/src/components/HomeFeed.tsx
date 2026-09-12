@@ -24,11 +24,11 @@ const categoryLabel = (item: HomeFeedItem) =>
 
 const StatsRow: React.FC<{ item: HomeFeedItem }> = ({ item }) => (
   <div className="flex items-center justify-between pt-1 mt-1 border-t border-gray-100">
-    <span className="text-[11px] text-gray-400">{formatDateTime(item.publishedAt)}</span>
-    <div className="flex items-center gap-3 text-[11px] text-gray-400">
-      <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {item.views}</span>
-      <span className="flex items-center gap-1"><Heart className="w-3 h-3" /> {item.likes}</span>
-      <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" /> {item.comments}</span>
+    <span className="text-[9px] md:text-[11px] text-gray-400 truncate">{formatDateTime(item.publishedAt)}</span>
+    <div className="flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[11px] text-gray-400 shrink-0">
+      <span className="flex items-center gap-0.5 md:gap-1"><Eye className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.views}</span>
+      <span className="flex items-center gap-0.5 md:gap-1"><Heart className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.likes}</span>
+      <span className="flex items-center gap-0.5 md:gap-1"><MessageCircle className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.comments}</span>
     </div>
   </div>
 );
@@ -40,7 +40,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
 
   return (
     <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-      <div className="relative flex-1 min-h-[220px] bg-gray-100 overflow-hidden">
+      <div className="relative flex-1 min-h-[150px] md:min-h-[220px] bg-gray-100 overflow-hidden">
         {video && playing ? (
           <iframe
             className="absolute inset-0 w-full h-full"
@@ -90,20 +90,20 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
         )}
       </div>
 
-      <div className="p-6">
-        <div className="flex items-start gap-3 mb-3">
+      <div className="p-3 md:p-6">
+        <div className="flex items-start gap-2 md:gap-3 mb-1.5 md:mb-3">
           <span className="mt-2 w-2 h-2 rounded-full bg-red-600 shrink-0" />
           {video ? (
-            <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug">{item.title}</h3>
+            <h3 className="text-sm md:text-xl font-bold text-gray-900 uppercase leading-snug line-clamp-2">{item.title}</h3>
           ) : (
             <Link to={itemHref(item)} className="group/title">
-              <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug group-hover/title:text-amber-700 transition-colors">
+              <h3 className="text-sm md:text-xl font-bold text-gray-900 uppercase leading-snug line-clamp-2 group-hover/title:text-amber-700 transition-colors">
                 {item.title}
               </h3>
             </Link>
           )}
         </div>
-        <p className="text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4">{item.excerpt}</p>
+        <p className="hidden md:block text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4">{item.excerpt}</p>
         <StatsRow item={item} />
       </div>
     </div>
@@ -114,7 +114,7 @@ const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   const video = isVideoLike(item);
   const card = (
     <div className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-all group">
-      <div className="relative h-36 bg-gray-100 overflow-hidden">
+      <div className="relative h-24 md:h-36 bg-gray-100 overflow-hidden">
         <img
           src={item.thumbnail}
           alt={item.title}
@@ -129,11 +129,11 @@ const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
           </span>
         )}
       </div>
-      <div className="p-4">
-        <span className="block text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-2">
+      <div className="p-2.5 md:p-4">
+        <span className="block text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-1 md:mb-2">
           {categoryLabel(item)}
         </span>
-        <h4 className="text-sm font-bold text-gray-900 uppercase leading-snug line-clamp-2 mb-1 group-hover:text-amber-700 transition-colors">
+        <h4 className="text-xs md:text-sm font-bold text-gray-900 uppercase leading-snug line-clamp-2 mb-1 group-hover:text-amber-700 transition-colors">
           {item.title}
         </h4>
         <StatsRow item={item} />
@@ -289,12 +289,12 @@ const HomeFeed: React.FC = () => {
   }, [pages.length, isHovering]);
 
   return (
-    <section className="py-20 bg-white isolate">
+    <section className="py-3 md:py-20 bg-white isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-10 items-stretch">
           {/* Featured / Broadcast column */}
           <div className="flex flex-col h-full">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-2 md:mb-4">
               <div className="flex items-center gap-3">
                 <span className="px-3 py-1.5 bg-gray-100 rounded-md text-xs font-black uppercase tracking-widest text-gray-900">
                   Watch
@@ -329,7 +329,7 @@ const HomeFeed: React.FC = () => {
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
-            <div className="flex items-center justify-between mb-4 gap-4">
+            <div className="flex items-center justify-between mb-2 md:mb-4 gap-4">
               <h2 className="text-xs font-black uppercase tracking-widest text-red-600 whitespace-nowrap">Latest Reports</h2>
               <Link to="/posts" className="flex items-center gap-1 text-xs font-black uppercase tracking-widest text-gray-900 hover:text-red-600 transition-colors whitespace-nowrap">
                 All News <ArrowRight className="w-3.5 h-3.5" />
