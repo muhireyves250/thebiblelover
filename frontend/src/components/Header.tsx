@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History, Home } from 'lucide-react';
+import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History, Home, Sun, Moon, Monitor } from 'lucide-react';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import IhemaLogo from './IhemaLogo';
 import { useSocialSettings } from '../hooks/useSocialSettings';
@@ -338,13 +338,13 @@ const Header = () => {
             className="absolute inset-0 bg-black/50 animate-in fade-in duration-200"
             onClick={() => setIsMenuOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 w-72 max-w-[85vw] bg-white dark:bg-gray-900 shadow-2xl flex flex-col animate-in slide-in-from-left duration-300">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800">
+          <div className="absolute inset-y-0 right-0 w-80 max-w-[88vw] bg-gray-950 shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="flex items-center justify-between px-5 py-5">
               <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2">
                 {logoSettings.logoUrl && logoSettings.showText ? (
                   <>
                     <img src={logoSettings.logoUrl} alt="Logo" className="h-7 w-7 object-contain" />
-                    <span className="text-lg font-serif text-gray-900 dark:text-gray-100 tracking-wide">{logoSettings.logoText}</span>
+                    <span className="text-lg font-serif text-white tracking-wide">{logoSettings.logoText}</span>
                   </>
                 ) : logoSettings.logoUrl ? (
                   <img src={logoSettings.logoUrl} alt="Logo" className="h-8 object-contain" />
@@ -354,14 +354,14 @@ const Header = () => {
               </Link>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded text-gray-500 dark:text-gray-400"
+                className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded text-gray-400"
                 aria-label="Close navigation menu"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto px-5 py-6 flex flex-col gap-1">
+            <nav className="flex-1 overflow-y-auto px-6 py-2 flex flex-col">
               {[
                 { path: '/', label: 'Home' },
                 { path: '/about', label: 'About' },
@@ -370,7 +370,6 @@ const Header = () => {
                 { path: '/verses', label: 'Bible Verses' },
                 { path: '/prayer-wall', label: 'Prayer Wall' },
                 { path: '/events', label: 'Events' },
-                { path: '/donate', label: 'Donate' },
                 { path: '/contact', label: 'Contact' },
               ].map((link) => {
                 const isActive = link.path === '/' ? location.pathname === '/' : location.pathname.startsWith(link.path);
@@ -379,10 +378,8 @@ const Header = () => {
                     key={link.path}
                     to={link.path}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors ${
-                      isActive
-                        ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
+                    className={`py-3 text-base transition-colors ${
+                      isActive ? 'text-white font-bold' : 'text-gray-400 hover:text-white'
                     }`}
                   >
                     {link.label}
@@ -390,53 +387,51 @@ const Header = () => {
                 );
               })}
 
-              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
-                {isAuthenticated ? (
-                  <Link
-                    to={isAdmin ? '/dashboard' : '/member-dashboard'}
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30"
-                  >
-                    <UserIcon className="w-4 h-4" />
-                    {isAdmin ? 'Admin' : (user?.name || 'My Profile')}
-                  </Link>
-                ) : (
-                  <Link
-                    to="/login"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
-                  >
-                    <UserIcon className="w-4 h-4" />
-                    Sign In
-                  </Link>
-                )}
+              <div className="my-4 border-t border-gray-800" />
+
+              {isAuthenticated ? (
+                <Link
+                  to={isAdmin ? '/dashboard' : '/member-dashboard'}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-3 text-base text-gray-400 hover:text-white transition-colors"
+                >
+                  {isAdmin ? 'Admin' : (user?.name || 'My Profile')}
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="py-3 text-base text-gray-400 hover:text-white transition-colors"
+                >
+                  Log In
+                </Link>
+              )}
+
+              <Link
+                to="/register"
+                onClick={() => setIsMenuOpen(false)}
+                className="mt-3 w-full text-center px-5 py-3 rounded-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm transition-colors"
+              >
+                Join the Family
+              </Link>
+
+              <div className="my-5 border-t border-gray-800" />
+
+              <div className="flex items-center justify-between pb-4">
+                <span className="text-sm text-gray-500">Appearance</span>
+                <div className="flex items-center gap-1 bg-gray-900 border border-gray-800 rounded-full p-1">
+                  <span className="p-1.5 rounded-full text-gray-500" aria-label="Light (coming soon)">
+                    <Sun className="w-3.5 h-3.5" />
+                  </span>
+                  <span className="p-1.5 rounded-full bg-gray-800 text-amber-500" aria-label="Dark (coming soon)">
+                    <Moon className="w-3.5 h-3.5" />
+                  </span>
+                  <span className="p-1.5 rounded-full text-gray-500" aria-label="System (coming soon)">
+                    <Monitor className="w-3.5 h-3.5" />
+                  </span>
+                </div>
               </div>
             </nav>
-
-            <div className="px-5 py-4 border-t border-gray-100 dark:border-gray-800 flex items-center gap-4">
-              {socialLinks.facebook !== '#' && (
-                <a
-                  href={socialLinks.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
-                  aria-label="Facebook"
-                >
-                  <Facebook className="h-4 w-4" />
-                </a>
-              )}
-              {socialLinks.twitter !== '#' && (
-                <a
-                  href={socialLinks.twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="h-4 w-4" />
-                </a>
-              )}
-            </div>
           </div>
         </div>
       )}
