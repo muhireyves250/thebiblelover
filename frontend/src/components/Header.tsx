@@ -92,7 +92,7 @@ const Header = () => {
         <div className="flex md:hidden items-center gap-2 h-16">
           <Link
             to="/"
-            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors"
+            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
             aria-label="Home"
           >
             {logoSettings.logoUrl && !logoSettings.showText ? (
@@ -110,12 +110,12 @@ const Header = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchQuery.trim() && setShowDropdown(true)}
-                className="w-full pl-4 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-colors"
+                className="w-full pl-4 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-colors"
                 aria-label="Search"
               />
               <button
                 type="submit"
-                className="absolute right-1 p-2 rounded-md text-gray-500 dark:text-gray-400 group-focus-within:text-amber-700 dark:group-focus-within:text-amber-500 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
+                className="absolute right-1 p-2 rounded-md text-gray-500 dark:text-gray-400 group-focus-within:text-amber-700 dark:group-focus-within:text-amber-500 hover:text-amber-700 dark:hover:text-amber-500 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
                 aria-label="Submit search"
               >
                 {isSearching ? (
@@ -162,7 +162,7 @@ const Header = () => {
 
           <button
             onClick={() => setIsMenuOpen(true)}
-            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors"
+            className="shrink-0 p-2.5 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600"
             aria-label="Open navigation menu"
             aria-expanded={isMenuOpen}
           >
