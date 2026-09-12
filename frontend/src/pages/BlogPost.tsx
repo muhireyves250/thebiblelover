@@ -32,8 +32,8 @@ const BlogPost: React.FC = () => {
   }, [post?.id, post?.title, post?.slug]);
 
   // Recent stories (sidebar list)
-  const { data: recentData, loading: recentLoading } = useFetch<any>(() => blogAPI.getPosts({ page: 1, limit: 11 }), []);
-  const recentPosts = (recentData?.data?.posts || recentData?.posts || []).filter((p: any) => p.slug !== slug).slice(0, 10);
+  const { data: recentData, loading: recentLoading } = useFetch<any>(() => blogAPI.getPosts({ page: 1, limit: 6 }), []);
+  const recentPosts = (recentData?.data?.posts || recentData?.posts || []).filter((p: any) => p.slug !== slug).slice(0, 5);
 
   // Comments
   const { data: commentsData, refetch: refetchComments } = useFetch<any>(
