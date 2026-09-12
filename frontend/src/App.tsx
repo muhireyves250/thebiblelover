@@ -157,7 +157,7 @@ function AppContent() {
             <Route path="/posts" element={<Suspense fallback={<BlogGridSkeleton />}><PageTransition><Posts /></PageTransition></Suspense>} />
             <Route path="/players" element={<PageTransition><Players /></PageTransition>} />
             <Route path="/players/:id" element={<PageTransition><PlayerDetail /></PageTransition>} />
-            <Route path="/verses" element={<PageTransition><Verses /></PageTransition>} />
+            <Route path="/verses" element={<Suspense fallback={null}><PageTransition><Verses /></PageTransition></Suspense>} />
             <Route path="/verses/:id" element={<PageTransition><VerseDetail /></PageTransition>} />
             <Route path="/search" element={<PageTransition><Search /></PageTransition>} />
             <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
