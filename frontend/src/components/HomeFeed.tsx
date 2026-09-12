@@ -336,7 +336,29 @@ const HomeFeed: React.FC = () => {
               </Link>
             </div>
 
-            <div className="relative overflow-hidden pr-6 min-h-[1100px] sm:min-h-[560px]">
+            {/* Mobile: horizontal swipe carousel, two cards per view, scrolls
+                left to reveal more - no pagination dots needed since the
+                scroll position itself shows progress. */}
+            <div className="md:hidden -mx-4 px-4 pb-1 flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth">
+              {!hasLoaded ? (
+                [1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-[47%] shrink-0 snap-start">
+                    <ReportCardSkeleton />
+                  </div>
+                ))
+              ) : items.length === 0 ? (
+                <div className="w-full"><NoReflectionsYet /></div>
+              ) : (
+                items.map(item => (
+                  <div key={`${item.type}-${item.id}`} className="w-[47%] shrink-0 snap-start">
+                    <ReportCard item={item} />
+                  </div>
+                ))
+              )}
+            </div>
+
+            {/* Desktop: paginated 2-col grid with side dots, auto-rotating. */}
+            <div className="hidden md:block relative overflow-hidden pr-6 min-h-[560px]">
               {!hasLoaded ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[1, 2, 3, 4].map(i => (
@@ -363,7 +385,7 @@ const HomeFeed: React.FC = () => {
               )}
             </div>
 
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
+            <div className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 flex-col items-center gap-2">
               {Array.from({ length: Math.max(pages.length, 3) }).map((_, i) => {
                 const isRealPage = i < pages.length;
                 return (
