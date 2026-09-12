@@ -7,6 +7,17 @@ import './index.css';
 
 console.log('Main.tsx is starting');
 
+// Dark mode UI is removed for now (light mode first, dark mode revisited
+// later) - clear any 'dark' class/preference a previous session's now-
+// deleted theme toggle may have left behind, so the site always renders
+// in light mode regardless of prior local state or OS preference.
+document.documentElement.classList.remove('dark');
+try {
+  localStorage.setItem('theme', 'light');
+} catch {
+  // ignore (e.g. storage disabled)
+}
+
 import React from 'react';
 
 class GlobalErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: Error | null}> {

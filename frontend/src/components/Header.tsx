@@ -4,7 +4,6 @@ import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import IhemaLogo from './IhemaLogo';
 import { useSocialSettings } from '../hooks/useSocialSettings';
-import ThemeToggle from './ThemeToggle';
 import NotificationCenter from './NotificationCenter';
 import { useAuth } from '../hooks/useAPI';
 import { authAPI, searchAPI } from '../services/api';
@@ -158,8 +157,6 @@ const Header = () => {
               </div>
             )}
           </div>
-
-          <ThemeToggle />
 
           <button
             onClick={() => setIsMenuOpen(true)}
@@ -414,32 +411,29 @@ const Header = () => {
               </div>
             </nav>
 
-            <div className="px-5 py-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                {socialLinks.facebook !== '#' && (
-                  <a
-                    href={socialLinks.facebook}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-amber-700 transition-colors"
-                    aria-label="Facebook"
-                  >
-                    <Facebook className="h-4 w-4" />
-                  </a>
-                )}
-                {socialLinks.twitter !== '#' && (
-                  <a
-                    href={socialLinks.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-amber-700 transition-colors"
-                    aria-label="Twitter"
-                  >
-                    <Twitter className="h-4 w-4" />
-                  </a>
-                )}
-              </div>
-              <ThemeToggle />
+            <div className="px-5 py-4 border-t border-gray-100 dark:border-gray-800 flex items-center gap-4">
+              {socialLinks.facebook !== '#' && (
+                <a
+                  href={socialLinks.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-amber-700 transition-colors"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="h-4 w-4" />
+                </a>
+              )}
+              {socialLinks.twitter !== '#' && (
+                <a
+                  href={socialLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-amber-700 transition-colors"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="h-4 w-4" />
+                </a>
+              )}
             </div>
           </div>
         </div>
