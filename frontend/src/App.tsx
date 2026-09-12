@@ -34,6 +34,7 @@ const ScrollToTop = () => {
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
+import PageHeader from './components/PageHeader';
 import Announcements from './components/Announcements';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
@@ -83,6 +84,22 @@ const BARE_LAYOUT_PATHS = ['/register', '/forgot-password', '/reset-password', '
 // their own content rather than always right above the footer.
 const OWN_ANNOUNCEMENTS_PATHS = ['/', '/about'];
 
+// Every page whose hero banner is just a title/subtitle over the site's
+// background image - rendered once at the shell level (like Header/Hero/
+// Footer) so it never unmounts/refades on navigation between them, only
+// the title and subtitle swap.
+const PAGE_HEADERS: Record<string, { title: string; subtitle: string }> = {
+  '/about': { title: 'ABOUT', subtitle: 'WHO WE ARE' },
+  '/donate': { title: 'Support the Word', subtitle: 'FOSTERING FAITH THROUGH YOUR GENEROSITY' },
+  '/contact': { title: 'CONTACT', subtitle: 'GET IN TOUCH' },
+  '/events': { title: 'Community Calendar', subtitle: 'Join us as we grow together in faith, knowledge, and fellowship.' },
+  '/prayer-wall': { title: 'Community Prayer Wall', subtitle: 'A sacred space to share burdens and lift each other up in prayer.' },
+  '/watch': { title: 'Watch', subtitle: 'LIVE STREAMS & VIDEOS' },
+  '/login': { title: 'Sign In', subtitle: 'WELCOME BACK TO THE COMMUNITY' },
+  '/terms': { title: 'Terms of Service', subtitle: 'WALKING TOGETHER IN UNITY' },
+  '/privacy': { title: 'Privacy Policy', subtitle: 'PROTECTING YOUR SPIRITUAL DATA' },
+};
+
 function AppContent() {
   const location = useLocation();
   // Key by pathname so navigating between different pages replays the page
@@ -96,6 +113,7 @@ function AppContent() {
 
   const isBareLayout = BARE_LAYOUT_PATHS.includes(location.pathname);
   const showAnnouncements = !isBareLayout && !OWN_ANNOUNCEMENTS_PATHS.includes(location.pathname);
+  const pageHeader = PAGE_HEADERS[location.pathname];
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
@@ -105,6 +123,7 @@ function AppContent() {
           not the whole page. */}
       {!isBareLayout && <Header />}
       {location.pathname === '/' && <Hero />}
+      {pageHeader && <PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} />}
       <Suspense fallback={<PageLoader />}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={routeKey}>

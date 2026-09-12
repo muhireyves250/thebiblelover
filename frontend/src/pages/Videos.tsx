@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Play, AlertTriangle } from 'lucide-react';
 import { homeFeedAPI } from '../services/api';
 import type { HomeFeedVideo } from '../services/api.d';
-import PageHeader from '../components/PageHeader';
 import SEO from '../components/SEO';
 
 const formatDate = (dateString: string) =>
@@ -104,7 +103,6 @@ const Videos = () => {
                 title="Watch"
                 description="Every live stream and video The Bible Lover has published on YouTube, in one place."
             />
-            <PageHeader title="Watch" subtitle="LIVE STREAMS &amp; VIDEOS" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 {loading ? (

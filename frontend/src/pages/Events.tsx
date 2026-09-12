@@ -3,7 +3,6 @@ import { Calendar, MapPin, Clock, Users, ArrowRight, Search } from 'lucide-react
 import { Link } from 'react-router-dom';
 import { eventAPI } from '../services/api';
 import type { Event } from '../services/api.d';
-import PageHeader from '../components/PageHeader';
 import SEO from '../components/SEO';
 
 const Events = () => {
@@ -40,10 +39,6 @@ const Events = () => {
             <SEO
                 title="Events Calendar"
                 description="Join our upcoming Bible studies, worship sessions, and community gatherings. Find out what's happening at The Bible Lover."
-            />
-            <PageHeader
-                title="Community Calendar"
-                subtitle="Join us as we grow together in faith, knowledge, and fellowship."
             />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

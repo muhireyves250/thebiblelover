@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import PageHeader from '../components/PageHeader';
 import SEO from '../components/SEO';
 import { contactAPI } from '../services/api';
 import { useAPI } from '../hooks/useAPI';
@@ -46,7 +45,6 @@ const Contact = () => {
         title="Contact Us" 
         description="Have a question or want to share your thoughts? Get in touch with The Bible Lover. We'd love to hear from you."
       />
-      <PageHeader title="CONTACT" subtitle="GET IN TOUCH" />
 
       {/* Contact Content */}
       <section className="py-16 bg-white">

@@ -1,5 +1,4 @@
 import React from 'react';
-import PageHeader from '../components/PageHeader';
 import SEO from '../components/SEO';
 import { Shield, Lock, Eye, Globe, Mail } from 'lucide-react';
 
@@ -14,7 +13,6 @@ const Privacy: React.FC = () => {
     return (
         <div className="bg-white min-h-screen">
             <SEO title="Privacy Policy" description="How we protect your data at The Bible Lover." />
-            <PageHeader title="Privacy Policy" subtitle="PROTECTING YOUR SPIRITUAL DATA" />
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <p className="text-sm text-gray-400 mb-8">Last Updated: March 12, 2026</p>

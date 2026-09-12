@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Gift, CheckCircle, AlertCircle, ShieldCheck, Globe, Users, ArrowRight } from 'lucide-react';
-import PageHeader from '../components/PageHeader';
 import SEO from '../components/SEO';
 // @ts-ignore
 import { donationsAPI } from '../services/api';
@@ -250,7 +249,6 @@ const Donate = () => {
         title="Support the Mission"
         description="Your generosity helps us spread the word of God. Partner with The Bible Lover to build community and provide spiritual resources globally."
       />
-      <PageHeader title="Support the Word" subtitle="FOSTERING FAITH THROUGH YOUR GENEROSITY" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">

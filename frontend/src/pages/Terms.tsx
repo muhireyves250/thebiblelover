@@ -1,5 +1,4 @@
 import React from 'react';
-import PageHeader from '../components/PageHeader';
 import SEO from '../components/SEO';
 import { Heart, ShieldCheck, Users, Handshake, Info, UserCheck, Ban, Copyright, XCircle, Scale, RefreshCw } from 'lucide-react';
 
@@ -14,7 +13,6 @@ const Terms: React.FC = () => {
     return (
         <div className="bg-white min-h-screen">
             <SEO title="Terms of Service" description="Guidelines for the Bible Lover community." />
-            <PageHeader title="Terms of Service" subtitle="WALKING TOGETHER IN UNITY" />
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <p className="text-sm text-gray-400 mb-8">Last Updated: March 12, 2026</p>

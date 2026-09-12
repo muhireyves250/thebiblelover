@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal } from 'lucide-react';
-import PageHeader from '../components/PageHeader';
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
 
@@ -119,11 +118,6 @@ const PrayerWall = () => {
 
     return (
         <div className="min-h-screen bg-white">
-            <PageHeader
-                title="Community Prayer Wall"
-                subtitle="A sacred space to share burdens and lift each other up in prayer."
-            />
-
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 {/* Actions & Filters */}
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">

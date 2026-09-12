@@ -1,5 +1,4 @@
 import { useContentSettings } from '../hooks/useContentSettings';
-import PageHeader from '../components/PageHeader';
 import Announcements from '../components/Announcements';
 import SEO from '../components/SEO';
 
@@ -37,7 +36,6 @@ const About = () => {
         title="About Us"
         description="Discover the story and mission of The Bible Lover. Our goal is to provide a spiritual home for everyone seeking wisdom through the Holy Scriptures."
       />
-      <PageHeader title="ABOUT" subtitle="WHO WE ARE" />
 
       {/* Who We Are */}
       <section className="py-20 bg-white">
