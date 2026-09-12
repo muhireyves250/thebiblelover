@@ -13,7 +13,7 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
 
     return (
         <div className="group bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
-            <div className="relative h-36 md:h-48 bg-gray-100 overflow-hidden">
+            <div className="relative h-48 md:h-56 bg-gray-100 overflow-hidden">
                 {playing ? (
                     <iframe
                         className="absolute inset-0 w-full h-full"
@@ -81,7 +81,7 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
 
 const VideoCardSkeleton = () => (
     <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
-        <div className="h-36 md:h-48 bg-gray-200 animate-pulse" />
+        <div className="h-48 md:h-56 bg-gray-200 animate-pulse" />
         <div className="p-3 md:p-6">
             <div className="flex items-center justify-between mb-2 md:mb-4">
                 <div className="h-4 w-14 bg-gray-200 rounded animate-pulse" />
