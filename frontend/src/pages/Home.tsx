@@ -32,11 +32,11 @@ const Home = () => {
 
           <div className="relative mt-auto px-4 pb-4">
             <h2 className="font-sans text-lg font-black uppercase tracking-tight leading-snug text-white">
-              Welcome back, <span className="text-amber-400">friend</span>
+              Welcome back, <span className="text-amber-700/80">friend</span>
             </h2>
             <div className="flex items-center gap-3 mt-1">
-              <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.3em] text-amber-400">
-                <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" /> Daily Inspiration
+              <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.3em] text-amber-700/80">
+                <Star className="w-2.5 h-2.5 fill-amber-700/80 text-amber-700/80" /> Daily Inspiration
               </span>
             </div>
           </div>
