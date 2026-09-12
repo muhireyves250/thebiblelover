@@ -321,7 +321,7 @@ const Header = () => {
                 href={socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1 rounded focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+                className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5 text-gray-700 hover:text-amber-700 transition-colors" />
@@ -332,7 +332,7 @@ const Header = () => {
                 href={socialLinks.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1 rounded focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+                className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                 aria-label="Twitter"
               >
                 <Twitter className="h-5 w-5 text-gray-700 hover:text-amber-700 transition-colors" />
@@ -372,7 +372,7 @@ const Header = () => {
               </Link>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 -mr-2 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded text-gray-400 hover:text-gray-600"
+                className="p-2 -mr-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                 aria-label="Close navigation menu"
               >
                 <X className="h-5 w-5" />
