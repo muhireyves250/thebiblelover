@@ -33,6 +33,7 @@ const ScrollToTop = () => {
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Hero from './components/Hero';
 import Announcements from './components/Announcements';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
@@ -98,10 +99,12 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
-      {/* Header and Footer sit outside the animated/keyed route tree so
-          they never unmount on navigation - only the routed content below
-          swaps (and shows its own loading skeleton), not the whole page. */}
+      {/* Header, Hero (on the homepage) and Footer sit outside the animated/
+          keyed route tree so they never unmount on navigation - only the
+          routed content below swaps (and shows its own loading skeleton),
+          not the whole page. */}
       {!isBareLayout && <Header />}
+      {location.pathname === '/' && <Hero />}
       <Suspense fallback={<PageLoader />}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={routeKey}>
