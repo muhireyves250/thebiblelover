@@ -50,23 +50,25 @@
     opacity: 0.05;
   }
 
-  /* Custom Minimalist Scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
+  /* Scrolling stays fully functional everywhere - the scrollbar itself is
+     just never rendered, on the page and on any internal scroll container
+     (sidebars, dropdowns, comment lists, etc). */
+  html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/legacy Edge */
   }
 
-  ::-webkit-scrollbar-track {
-    background: var(--bg-primary);
+  html::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/WebKit */
   }
 
-  ::-webkit-scrollbar-thumb {
-    background: var(--premium-gold);
-    border-radius: 10px;
-    opacity: 0.5;
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-primary);
+  *::-webkit-scrollbar {
+    display: none;
   }
 }
 
