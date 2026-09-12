@@ -39,6 +39,7 @@ import Announcements from './components/Announcements';
 import MobileBottomNav from './components/MobileBottomNav';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
+import { BlogGridSkeleton } from './components/BlogGrid';
 
 // Lazy load all other pages
 const About = lazy(() => import('./pages/About'));
@@ -142,7 +143,7 @@ function AppContent() {
             <Route path="/about" element={<PageTransition><About /></PageTransition>} />
             <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />
             <Route path="/donate" element={<PageTransition><Donate /></PageTransition>} />
-            <Route path="/posts" element={<PageTransition><Posts /></PageTransition>} />
+            <Route path="/posts" element={<Suspense fallback={<BlogGridSkeleton />}><PageTransition><Posts /></PageTransition></Suspense>} />
             <Route path="/players" element={<PageTransition><Players /></PageTransition>} />
             <Route path="/players/:id" element={<PageTransition><PlayerDetail /></PageTransition>} />
             <Route path="/verses" element={<PageTransition><Verses /></PageTransition>} />
