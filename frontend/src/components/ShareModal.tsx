@@ -53,109 +53,77 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, post }) => {
 
   if (!isOpen) return null;
 
+  const socialButtons = [
+    { key: 'facebook', label: 'Facebook', Icon: Facebook, bg: 'bg-[#1877F2]' },
+    { key: 'twitter', label: 'Twitter', Icon: Twitter, bg: 'bg-[#1DA1F2]' },
+    { key: 'linkedin', label: 'LinkedIn', Icon: Linkedin, bg: 'bg-[#0A66C2]' },
+    { key: 'email', label: 'Email', Icon: Mail, bg: 'bg-gray-500' },
+  ] as const;
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50">
-      <div
-        className="absolute inset-0"
-        onClick={onClose}
-      />
-      <div className="relative bg-white rounded-t-2xl sm:rounded-lg max-w-md w-full max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 pb-[env(safe-area-inset-bottom)]">
-        <div className="flex justify-between items-center px-4 py-3 sm:p-6 border-b border-gray-200">
-          <h2 className="text-base sm:text-xl font-semibold text-gray-900">Share This Post</h2>
+      <div className="absolute inset-0" onClick={onClose} />
+      <div className="relative bg-white rounded-t-3xl sm:rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-200 animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 pb-[env(safe-area-inset-bottom)]">
+        {/* Drag handle - mobile only */}
+        <div className="sm:hidden flex justify-center pt-2.5 pb-1">
+          <span className="w-10 h-1 rounded-full bg-gray-300" />
+        </div>
+
+        <div className="flex justify-between items-start gap-3 px-5 pt-2 pb-4 sm:p-6 sm:pb-4">
+          <div className="min-w-0">
+            <span className="flex items-center gap-1.5 text-[10px] sm:text-xs font-black uppercase tracking-widest text-amber-700 mb-1">
+              <Share2 className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Share This Post
+            </span>
+            <h3 className="text-sm sm:text-lg font-bold text-gray-900 leading-snug line-clamp-2">{post.title}</h3>
+          </div>
           <button
             onClick={onClose}
-            className="p-1.5 -mr-1.5 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            className="hidden sm:flex shrink-0 p-1.5 -mr-1.5 -mt-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
           >
-            <X className="h-5 w-5 sm:h-6 sm:w-6" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="p-4 sm:p-6">
-          {/* Post Info */}
-          <div className="mb-4 sm:mb-6">
-            <h3 className="text-sm sm:text-lg font-medium text-gray-900 mb-1 sm:mb-2 line-clamp-2">{post.title}</h3>
-            <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">{shareDescription}</p>
-          </div>
-
+        <div className="px-5 pb-5 sm:px-6 sm:pb-6">
           {/* Share Options */}
-          <div className="space-y-2.5 sm:space-y-4">
-            <h4 className="text-xs sm:text-sm font-medium text-gray-700">Share on Social Media</h4>
-            <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          <div className="grid grid-cols-4 gap-2 sm:gap-3">
+            {socialButtons.map(({ key, label, Icon, bg }) => (
               <button
-                onClick={() => handleShare('facebook')}
-                className="flex items-center space-x-2 sm:space-x-3 p-2.5 sm:p-3 border border-gray-200 rounded-lg active:bg-gray-100 sm:hover:bg-gray-50 transition-colors"
+                key={key}
+                onClick={() => handleShare(key)}
+                className="flex flex-col items-center gap-1.5 group"
               >
-                <Facebook className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-gray-900">Facebook</span>
+                <span className={`flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full ${bg} shadow-sm transition-transform group-active:scale-90 sm:group-hover:scale-105`}>
+                  <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+                </span>
+                <span className="text-[10px] sm:text-xs font-semibold text-gray-700">{label}</span>
               </button>
-
-              <button
-                onClick={() => handleShare('twitter')}
-                className="flex items-center space-x-2 sm:space-x-3 p-2.5 sm:p-3 border border-gray-200 rounded-lg active:bg-gray-100 sm:hover:bg-gray-50 transition-colors"
-              >
-                <Twitter className="h-4 w-4 sm:h-5 sm:w-5 text-blue-400 shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-gray-900">Twitter</span>
-              </button>
-
-              <button
-                onClick={() => handleShare('linkedin')}
-                className="flex items-center space-x-2 sm:space-x-3 p-2.5 sm:p-3 border border-gray-200 rounded-lg active:bg-gray-100 sm:hover:bg-gray-50 transition-colors"
-              >
-                <Linkedin className="h-4 w-4 sm:h-5 sm:w-5 text-blue-700 shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-gray-900">LinkedIn</span>
-              </button>
-
-              <button
-                onClick={() => handleShare('email')}
-                className="flex items-center space-x-2 sm:space-x-3 p-2.5 sm:p-3 border border-gray-200 rounded-lg active:bg-gray-100 sm:hover:bg-gray-50 transition-colors"
-              >
-                <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 shrink-0" />
-                <span className="text-xs sm:text-sm font-medium text-gray-900">Email</span>
-              </button>
-            </div>
+            ))}
           </div>
 
           {/* Copy Link */}
-          <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
-            <h4 className="text-xs sm:text-sm font-medium text-gray-700 mb-2 sm:mb-3">Copy Link</h4>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-              <input
-                type="text"
-                value={postUrl}
-                readOnly
-                className="min-w-0 flex-1 px-3 py-2 border border-gray-300 rounded-md text-xs sm:text-sm bg-gray-50 truncate"
-              />
+          <div className="mt-5 sm:mt-6">
+            <div className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-full pl-4 pr-1.5 py-1.5">
+              <span className="min-w-0 flex-1 text-xs sm:text-sm text-gray-500 truncate">{postUrl}</span>
               <button
                 onClick={copyToClipboard}
-                className={`flex items-center justify-center space-x-2 px-4 py-2.5 sm:py-2 rounded-md transition-colors shrink-0 ${
+                className={`flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full text-xs sm:text-sm font-bold transition-colors shrink-0 ${
                   copied
-                    ? 'bg-green-100 text-green-700 border border-green-300'
-                    : 'bg-gray-100 text-gray-700 active:bg-gray-200 sm:hover:bg-gray-200'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-amber-700 text-white active:bg-amber-800 sm:hover:bg-amber-800'
                 }`}
               >
                 {copied ? (
                   <>
-                    <Check className="h-4 w-4" />
-                    <span className="text-sm">Copied!</span>
+                    <Check className="h-3.5 w-3.5" /> Copied
                   </>
                 ) : (
                   <>
-                    <Copy className="h-4 w-4" />
-                    <span className="text-sm">Copy</span>
+                    <Copy className="h-3.5 w-3.5" /> Copy
                   </>
                 )}
               </button>
             </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-end mt-5 sm:mt-6">
-            <button
-              onClick={onClose}
-              className="w-full sm:w-auto px-4 py-2.5 sm:py-2 text-gray-700 bg-gray-100 rounded-md active:bg-gray-200 sm:hover:bg-gray-200 transition-colors"
-            >
-              Close
-            </button>
           </div>
         </div>
       </div>
