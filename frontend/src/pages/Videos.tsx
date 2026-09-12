@@ -13,7 +13,7 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
 
     return (
         <div className="group bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
-            <div className="relative h-48 md:h-56 bg-gray-100 overflow-hidden">
+            <div className={`relative bg-gray-100 overflow-hidden ${playing ? 'h-64 md:h-80' : 'h-48 md:h-56'}`}>
                 {playing ? (
                     <iframe
                         className="absolute inset-0 w-full h-full"
