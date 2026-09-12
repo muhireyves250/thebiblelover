@@ -3,6 +3,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import PageTransition from './components/PageTransition';
+import RouteErrorBoundary from './components/RouteErrorBoundary';
 
 // Simple PageView Tracker
 const PageViewTracker = () => {
@@ -145,6 +146,7 @@ function AppContent() {
           ? <div className="hidden md:block"><PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} /></div>
           : <PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} />
       )}
+      <RouteErrorBoundary>
       <Suspense fallback={<PageLoader />}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={routeKey}>
@@ -183,6 +185,7 @@ function AppContent() {
           </Routes>
         </AnimatePresence>
       </Suspense>
+      </RouteErrorBoundary>
       {showAnnouncements && <div className="hidden md:block"><Announcements /></div>}
       {!isBareLayout && <div className="hidden md:block"><Footer /></div>}
       {!isBareLayout && <div className="md:hidden h-20" aria-hidden="true" />}

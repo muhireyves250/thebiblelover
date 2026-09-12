@@ -19,25 +19,14 @@ try {
 }
 
 import React from 'react';
+import { reloadForFreshBuild, isChunkLoadError } from './lib/chunkReload';
 
-// After a redeploy, a page left open (or opened via a stale cached link)
-// still references the OLD content-hashed chunk filenames (e.g.
-// Posts-Cl2iZZ3i.js), which no longer exist once the new build's assets
-// replace them - any lazy-loaded route then fails with "Failed to fetch
-// dynamically imported module". Vite fires `vite:preloadError` for
-// exactly this case; the fix is a one-time hard reload to pick up the
-// current build, guarded so a genuinely broken chunk doesn't reload
-// forever.
-const CHUNK_RELOAD_KEY = 'chunk-reload-attempted';
-const reloadForFreshBuild = () => {
-  if (sessionStorage.getItem(CHUNK_RELOAD_KEY)) return;
-  sessionStorage.setItem(CHUNK_RELOAD_KEY, '1');
-  window.location.reload();
-};
+// A chunk-load failure that happens INSIDE the routed content is caught
+// lower down, by App.tsx's own RouteErrorBoundary, so Header/
+// Announcements/bottom nav keep rendering around it. This root listener
+// is only a safety net for a preload failure that fires before React
+// even gets a chance to mount (or outside any component tree).
 window.addEventListener('vite:preloadError', reloadForFreshBuild);
-
-const isChunkLoadError = (error: Error | null) =>
-  !!error && /failed to fetch dynamically imported module|error loading dynamically imported module/i.test(error.message);
 
 class GlobalErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean, error: Error | null}> {
   constructor(props) {
@@ -54,29 +43,7 @@ class GlobalErrorBoundary extends React.Component<{children: React.ReactNode}, {
   render() {
     if (this.state.hasError) {
       if (isChunkLoadError(this.state.error)) {
-        return (
-          <div className="min-h-screen bg-white">
-            <div className="h-16 border-b border-gray-200 flex items-center px-4 sm:px-6 lg:px-10">
-              <div className="h-6 w-32 bg-gray-200 rounded animate-pulse" />
-            </div>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
-              <div className="h-8 w-2/3 bg-gray-200 rounded animate-pulse" />
-              <div className="h-4 w-full bg-gray-200 rounded animate-pulse" />
-              <div className="h-4 w-5/6 bg-gray-200 rounded animate-pulse" />
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="border border-gray-200 rounded-lg overflow-hidden">
-                    <div className="h-40 bg-gray-200 animate-pulse" />
-                    <div className="p-4 space-y-2">
-                      <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
-                      <div className="h-3 w-1/2 bg-gray-200 rounded animate-pulse" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
+        return null;
       }
       return (
         <div style={{ padding: '20px', background: '#ffebee', color: '#c62828', minHeight: '100vh', fontFamily: 'monospace' }}>
