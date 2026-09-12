@@ -15,15 +15,17 @@ const Home = () => {
         title="Home"
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
-      <div className="md:hidden relative isolate overflow-hidden px-5 py-8">
-        <div className="absolute inset-0 bg-cover bg-center" style={getBackgroundStyle()} />
-        <div className="absolute inset-0 bg-gray-950/70" />
-        <div className="relative">
-          <span className="block w-10 h-[2px] bg-amber-500 mb-3" />
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-amber-400 mb-1">Welcome back</p>
-          <h2 className="font-serif text-xl font-semibold text-white tracking-tight">
-            Here's what's new today, friend.
-          </h2>
+      <div className="md:hidden px-4 pt-4">
+        <div className="relative isolate overflow-hidden rounded-2xl border border-gray-300 shadow-sm px-5 py-8">
+          <div className="absolute inset-0 bg-cover bg-center" style={getBackgroundStyle()} />
+          <div className="absolute inset-0 bg-gray-950/70" />
+          <div className="relative">
+            <span className="block w-10 h-[2px] bg-amber-500 mb-3" />
+            <p className="text-[11px] font-black uppercase tracking-[0.3em] text-amber-400 mb-1">Welcome back</p>
+            <h2 className="font-serif text-xl font-semibold text-white tracking-tight">
+              Here's what's new today, friend.
+            </h2>
+          </div>
         </div>
       </div>
       <HomeFeed />
