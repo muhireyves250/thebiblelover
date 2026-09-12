@@ -23,7 +23,7 @@ const categoryLabel = (item: HomeFeedItem) =>
   item.type === 'POST' ? item.category.replace(/_/g, ' ') : item.type === 'LIVE' ? 'Live' : 'Video';
 
 const StatsRow: React.FC<{ item: HomeFeedItem }> = ({ item }) => (
-  <div className="flex items-center justify-between pt-2 mt-2 border-t border-gray-100">
+  <div className="flex items-center justify-between pt-1 mt-1 border-t border-gray-100">
     <span className="text-[11px] text-gray-400">{formatDateTime(item.publishedAt)}</span>
     <div className="flex items-center gap-3 text-[11px] text-gray-400">
       <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {item.views}</span>
