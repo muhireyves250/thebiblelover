@@ -257,7 +257,7 @@ const Header = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => searchQuery.trim() && setShowDropdown(true)}
-                  className="pl-9 pr-4 py-1.5 text-xs border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent w-24 md:w-32 transition-all focus:w-32 md:focus:w-48"
+                  className="pl-9 pr-4 py-1.5 text-xs border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-1 focus:ring-amber-500 focus:border-transparent w-24 md:w-32 transition-all focus:w-32 md:focus:w-48"
                   aria-label="Search"
                 />
                 {isSearching && (
