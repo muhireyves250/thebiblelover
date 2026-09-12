@@ -343,12 +343,12 @@ const Header = () => {
 
       {/* Mobile slide-out drawer */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-[100]">
+        <div className="md:hidden fixed inset-0 h-[100dvh] w-screen z-[100]">
           <div
-            className="absolute inset-0 bg-black/50 animate-in fade-in duration-200"
+            className="absolute inset-0 h-full w-full bg-black/50 animate-in fade-in duration-200"
             onClick={() => setIsMenuOpen(false)}
           />
-          <div className="absolute inset-y-0 right-0 w-80 max-w-[88vw] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+          <div className="absolute top-0 right-0 h-full w-80 max-w-[88vw] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             <div className="flex items-center justify-between px-5 py-5 border-b border-gray-100">
               <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2">
                 {logoSettings.logoUrl && logoSettings.showText ? (
