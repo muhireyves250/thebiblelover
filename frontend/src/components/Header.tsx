@@ -110,7 +110,7 @@ const Header = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => searchQuery.trim() && setShowDropdown(true)}
-                className="w-full pl-4 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 transition-colors"
+                className="w-full pl-4 pr-11 py-2.5 text-sm border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-700 transition-colors"
                 aria-label="Search"
               />
               <button
