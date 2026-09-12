@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Copy, Check, Facebook, Twitter, Linkedin, Mail, Share2 } from 'lucide-react';
 
 interface ShareModalProps {
@@ -60,7 +61,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, post }) => {
     { key: 'email', label: 'Email', Icon: Mail, bg: 'bg-gray-500' },
   ] as const;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-[100]">
       <div className="absolute inset-0" onClick={onClose} />
       <div className="relative bg-white text-gray-900 rounded-t-3xl sm:rounded-2xl max-w-md w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-200 animate-in slide-in-from-bottom sm:zoom-in-95 duration-300 pb-[env(safe-area-inset-bottom)]">
@@ -127,7 +128,8 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, post }) => {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
