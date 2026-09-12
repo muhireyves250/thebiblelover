@@ -16,7 +16,7 @@ const MobileBottomNav = () => {
       className="md:hidden fixed inset-x-3 bottom-0 z-50 pb-[env(safe-area-inset-bottom)]"
       aria-label="Primary"
     >
-      <div className="relative flex items-stretch justify-around gap-0.5 px-2 bg-white/95 backdrop-blur-xl rounded-t-3xl rounded-b-none border-2 border-b-0 border-gray-300 shadow-2xl overflow-hidden">
+      <div className="relative flex items-stretch justify-around gap-0.5 px-2 bg-white/95 backdrop-blur-xl rounded-t-[2rem] rounded-b-none border-2 border-b-0 border-gray-300 shadow-2xl overflow-hidden">
         <span className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
         {TABS.map(({ path, label, icon: Icon }) => {
           const isActive = path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
