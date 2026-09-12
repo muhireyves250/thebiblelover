@@ -103,7 +103,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
             </Link>
           )}
         </div>
-        <p className="hidden md:block text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4">{item.excerpt}</p>
+        <p className="text-xs md:text-sm text-gray-500 leading-relaxed line-clamp-2 md:line-clamp-3 mb-2 md:mb-4">{item.excerpt}</p>
         <StatsRow item={item} />
       </div>
     </div>
