@@ -43,8 +43,8 @@ const Home = () => {
         </div>
       </div>
       <HomeFeed />
+      <PlayerDesk />
       <div className="hidden md:block">
-        <PlayerDesk />
         <VerseDesk />
         <AboutDesk />
       </div>
