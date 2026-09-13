@@ -60,7 +60,7 @@ const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void;
         {dayAbbrev(item.displayDate)}
       </span>
     </Link>
-    <div className="relative flex-1 p-6 flex flex-col justify-center border-t sm:border-t-0 sm:border-l-4 border-amber-700">
+    <div className="relative flex-1 p-4 md:p-6 flex flex-col justify-center border-t sm:border-t-0 sm:border-l-4 border-amber-700">
       <CategoryTag item={item} />
       <Link to={`/verses/${item.id}`}>
         <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug mb-3 line-clamp-4 hover:text-amber-700 transition-colors">
@@ -184,30 +184,46 @@ const VerseDesk: React.FC = () => {
   }
 
   return (
-    <section className="py-20 bg-white isolate">
+    <section className="py-6 md:py-20 bg-white isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex items-start justify-between gap-6 mb-6 flex-wrap">
+        <div className="flex items-start justify-between gap-4 md:gap-6 mb-4 md:mb-6 flex-wrap">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-1.5 md:mb-2">
               <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Verse Desk</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Verse Desk</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Verse of the Day</h2>
-            <p className="text-sm text-gray-500 mt-2">Daily encouragement · Scripture · Faith &amp; reflection</p>
+            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Verse of the Day</h2>
+            <p className="hidden md:block text-sm text-gray-500 mt-2">Daily encouragement · Scripture · Faith &amp; reflection</p>
           </div>
           <Link
             to="/verses"
-            className="flex items-center gap-2 px-5 py-2.5 border border-gray-300 rounded-md text-xs font-bold uppercase tracking-widest text-gray-700 hover:bg-gray-50 transition-colors shrink-0"
+            className="flex items-center gap-1.5 md:gap-2 px-3 py-1.5 md:px-5 md:py-2.5 border border-gray-300 rounded-md text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-700 hover:bg-gray-50 transition-colors shrink-0"
           >
-            All Verses <ChevronRight className="w-3.5 h-3.5" />
+            All Verses <ChevronRight className="w-3 h-3 md:w-3.5 md:h-3.5" />
           </Link>
         </div>
 
-        <div className="border-t border-gray-200 mb-5" />
+        {/* Mobile: just today's featured verse, no filter/list */}
+        <div className="md:hidden">
+          {!hasLoaded ? (
+            <div className="h-full flex flex-col sm:flex-row bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
+              <div className="w-full min-h-[160px] bg-gray-300 animate-pulse" />
+              <div className="flex-1 p-4">
+                <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
+              </div>
+            </div>
+          ) : featured ? (
+            <FeaturedVerseCard item={featured} onShare={handleShare} isSharing={isSharing} />
+          ) : (
+            <NoVersesYet />
+          )}
+        </div>
 
-        {/* Filter bar */}
-        <div className="flex items-center justify-between gap-4 flex-wrap mb-8">
+        <div className="hidden md:block border-t border-gray-200 mb-5" />
+
+        {/* Filter bar - desktop only */}
+        <div className="hidden md:flex items-center justify-between gap-4 flex-wrap mb-8">
           <div className="flex items-center gap-3 flex-wrap">
             <span className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mr-1">Filter</span>
             {DAY_TABS.map(tab => (
@@ -229,10 +245,10 @@ const VerseDesk: React.FC = () => {
           </span>
         </div>
 
-        <div className="border-t border-gray-200 mb-8" />
+        <div className="hidden md:block border-t border-gray-200 mb-8" />
 
-        {/* Featured + list */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
+        {/* Featured + list - desktop only */}
+        <div className="hidden md:grid grid-cols-1 lg:grid-cols-5 gap-6 items-stretch">
           <div className="lg:col-span-3">
             {!hasLoaded ? (
               <div className="h-full flex flex-col sm:flex-row bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">

@@ -44,8 +44,8 @@ const Home = () => {
       </div>
       <HomeFeed />
       <PlayerDesk />
+      <VerseDesk />
       <div className="hidden md:block">
-        <VerseDesk />
         <AboutDesk />
       </div>
 
