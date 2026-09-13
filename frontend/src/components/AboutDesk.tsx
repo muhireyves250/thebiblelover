@@ -30,6 +30,19 @@ const AboutDesk: React.FC = () => {
   const goTo = (i: number) => setIndex((i + panels.length) % panels.length);
   const active = panels[index];
 
+  // Mobile: swipe left/right to change panels (app-style), instead of
+  // the desktop's arrow buttons.
+  const touchStartX = React.useRef<number | null>(null);
+  const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 40) {
+      goTo(delta < 0 ? index + 1 : index - 1);
+    }
+    touchStartX.current = null;
+  };
+
   return (
     <section className="py-6 md:py-20 bg-white isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,7 +55,7 @@ const AboutDesk: React.FC = () => {
             <h2 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Our Story &amp; Mission</h2>
             <p className="hidden md:block text-sm text-gray-500 mt-2">Who we are, where we started, and what we&apos;re building together</p>
           </div>
-          <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
+          <div className="hidden md:flex items-center gap-1.5 md:gap-2 shrink-0">
             <button
               onClick={() => goTo(index - 1)}
               aria-label="Previous"
@@ -64,6 +77,8 @@ const AboutDesk: React.FC = () => {
           className="relative bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
         >
           <AnimatePresence mode="wait">
             <motion.div
