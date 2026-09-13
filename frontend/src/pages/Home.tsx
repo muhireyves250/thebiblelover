@@ -45,9 +45,7 @@ const Home = () => {
       <HomeFeed />
       <PlayerDesk />
       <VerseDesk />
-      <div className="hidden md:block">
-        <AboutDesk />
-      </div>
+      <AboutDesk />
 
       <div className="hidden md:block"><Announcements /></div>
     </>

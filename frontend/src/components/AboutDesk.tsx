@@ -31,31 +31,31 @@ const AboutDesk: React.FC = () => {
   const active = panels[index];
 
   return (
-    <section className="py-20 bg-white isolate">
+    <section className="py-6 md:py-20 bg-white isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-start justify-between gap-6 mb-8 flex-wrap">
+        <div className="flex items-start justify-between gap-4 md:gap-6 mb-4 md:mb-8 flex-wrap">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-1.5 md:mb-2">
               <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">About Us</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">About Us</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Our Story &amp; Mission</h2>
-            <p className="text-sm text-gray-500 mt-2">Who we are, where we started, and what we&apos;re building together</p>
+            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Our Story &amp; Mission</h2>
+            <p className="hidden md:block text-sm text-gray-500 mt-2">Who we are, where we started, and what we&apos;re building together</p>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
             <button
               onClick={() => goTo(index - 1)}
               aria-label="Previous"
-              className="w-9 h-9 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
+              className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
             </button>
             <button
               onClick={() => goTo(index + 1)}
               aria-label="Next"
-              className="w-9 h-9 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
+              className="w-7 h-7 md:w-9 md:h-9 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3.5 h-3.5 md:w-4 md:h-4" />
             </button>
           </div>
         </div>
@@ -72,25 +72,25 @@ const AboutDesk: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center p-6 md:p-10"
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-12 items-center p-4 md:p-10"
             >
               <div className="rounded-lg overflow-hidden border border-gray-200">
                 <img
                   src={active.image}
                   alt={active.title}
-                  className="w-full h-64 md:h-80 object-cover"
+                  className="w-full h-40 sm:h-64 md:h-80 object-cover"
                   loading="lazy"
                   decoding="async"
                 />
               </div>
               <div>
-                <h3 className="text-2xl font-black uppercase tracking-tight text-gray-900 mb-4">{active.title}</h3>
-                <p className="text-gray-700 leading-relaxed whitespace-pre-line mb-6 line-clamp-[8]">
+                <h3 className="text-base md:text-2xl font-black uppercase tracking-tight text-gray-900 mb-2 md:mb-4">{active.title}</h3>
+                <p className="text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-line mb-4 md:mb-6 line-clamp-4 md:line-clamp-[8]">
                   {active.content}
                 </p>
                 <Link
                   to="/about"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-amber-700 text-white text-xs font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-md bg-amber-700 text-white text-[11px] md:text-xs font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors"
                 >
                   Learn More
                 </Link>
@@ -99,7 +99,7 @@ const AboutDesk: React.FC = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center justify-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-2 mt-4 md:mt-6">
           {panels.map((p, i) => (
             <button
               key={p.key}
