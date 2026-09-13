@@ -635,7 +635,6 @@ const PlayerDetail: React.FC = () => {
                     </Link>
                   ))}
                 </div>
-                </div>
               </div>
             )}
           </aside>
