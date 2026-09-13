@@ -1,12 +1,15 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Play, Pause, Heart } from 'lucide-react';
+import { ChevronRight, Play, Pause, Heart, MoreVertical } from 'lucide-react';
 import { useAudioEpisodes } from '../hooks/useAudioEpisodes';
 import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+const formatTime = (dateString: string) =>
+  new Date(dateString).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
 
 const useInlinePlayer = () => {
   const [playingId, setPlayingId] = useState<string | null>(null);
@@ -97,6 +100,32 @@ const SmallCard: React.FC<{ episode: AudioEpisode }> = ({ episode }) => (
   </Link>
 );
 
+const AudioRow: React.FC<{ episode: AudioEpisode; playingId: string | null; onToggle: (e: AudioEpisode) => void }> = ({ episode, playingId, onToggle }) => {
+  const isPlaying = playingId === episode.id;
+  return (
+    <Link
+      to={`/players/${episode.id}`}
+      className="flex items-center gap-3 bg-gradient-to-r from-gray-800 to-gray-950 rounded-2xl p-2.5 shadow-md"
+    >
+      <img src={episode.coverImage} alt={episode.title} className="w-14 h-14 rounded-xl object-cover shrink-0" loading="lazy" />
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-bold text-white leading-snug line-clamp-2">{episode.title}</p>
+        <p className="text-[11px] text-gray-400 mt-0.5">{formatDate(episode.episodeDate)} &middot;{formatTime(episode.episodeDate)}</p>
+      </div>
+      <button
+        onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(episode); }}
+        className="shrink-0 w-9 h-9 rounded-full border border-gray-600 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+        aria-label={isPlaying ? 'Pause' : 'Play'}
+      >
+        {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+      </button>
+      <span className="shrink-0 text-gray-500">
+        <MoreVertical className="w-4 h-4" />
+      </span>
+    </Link>
+  );
+};
+
 const DeskColumn: React.FC<{ label: string; slot: 'MORNING' | 'EVENING'; episodes: AudioEpisode[]; playingId: string | null; onToggle: (e: AudioEpisode) => void }> = ({ label, slot, episodes, playingId, onToggle }) => {
   const [big, small] = episodes;
   return (
@@ -108,10 +137,18 @@ const DeskColumn: React.FC<{ label: string; slot: 'MORNING' | 'EVENING'; episode
         </Link>
       </div>
       {big ? (
-        <div className="space-y-2.5 md:space-y-3">
-          <BigCard episode={big} playingId={playingId} onToggle={onToggle} />
-          {small && <SmallCard episode={small} />}
-        </div>
+        <>
+          {/* Mobile: dark audio-row cards */}
+          <div className="md:hidden space-y-2.5">
+            <AudioRow episode={big} playingId={playingId} onToggle={onToggle} />
+            {small && <AudioRow episode={small} playingId={playingId} onToggle={onToggle} />}
+          </div>
+          {/* Desktop: big/small card layout */}
+          <div className="hidden md:block space-y-3">
+            <BigCard episode={big} playingId={playingId} onToggle={onToggle} />
+            {small && <SmallCard episode={small} />}
+          </div>
+        </>
       ) : (
         <div className="h-40 md:h-64 flex items-center justify-center text-center text-xs md:text-sm text-gray-400 bg-white border border-dashed border-gray-300 rounded-lg">
           No {label.toLowerCase()} episodes yet
