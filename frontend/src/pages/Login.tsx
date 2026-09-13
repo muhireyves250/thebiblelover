@@ -49,8 +49,8 @@ const Login: React.FC = () => {
     <div className="bg-white">
       <SEO title="Sign In" description="Sign in to your Bible Lover account." />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-12">
-      <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2 items-stretch">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-12">
+      <div className="bg-white md:border md:border-gray-300 rounded-lg md:shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2 items-stretch">
         {/* Photo */}
         <div className="hidden lg:block relative">
           <img
@@ -71,11 +71,11 @@ const Login: React.FC = () => {
         </div>
 
         {/* Login form */}
-        <div className="flex items-center justify-center p-4 md:p-10">
+        <div className="flex items-center justify-center p-3 md:p-10">
       <div className="max-w-md w-full">
-        <div className="text-center mb-3 md:mb-4">
-          <div className="md:hidden flex items-center justify-center gap-2 mb-1.5">
-            <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+        <div className="text-center mb-2 md:mb-4">
+          <div className="md:hidden flex items-center justify-center gap-2 mb-1">
+            <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Sign In</span>
           </div>
           <p className="text-xs md:text-sm text-gray-500">
@@ -84,7 +84,7 @@ const Login: React.FC = () => {
         </div>
 
         <div>
-          <form className="space-y-3.5 md:space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-2.5 md:space-y-4" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-3 md:px-4 py-2.5 md:py-3 rounded-md text-xs md:text-sm">
                 {error}
@@ -172,10 +172,10 @@ const Login: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-3.5 pt-3.5 md:mt-4 md:pt-4 border-t border-gray-100">
-            <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-1.5 md:mb-2">Demo Credentials</p>
-            <div className="bg-gray-50 border border-gray-100 p-2.5 md:p-3 rounded-md">
-              <p className="text-xs md:text-sm text-gray-600 text-center leading-relaxed">
+          <div className="mt-2.5 pt-2.5 md:mt-4 md:pt-4 border-t border-gray-100">
+            <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-1 md:mb-2">Demo Credentials</p>
+            <div className="bg-gray-50 border border-gray-100 py-1.5 px-2.5 md:p-3 rounded-md">
+              <p className="text-[11px] md:text-sm text-gray-600 text-center leading-snug">
                 <strong className="text-gray-900">Email:</strong> admin@biblelover.com<br />
                 <strong className="text-gray-900">Password:</strong> admin123
               </p>
@@ -183,7 +183,7 @@ const Login: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-center text-xs md:text-sm text-gray-500 mt-3.5 md:mt-4">
+        <p className="text-center text-[11px] md:text-sm text-gray-500 mt-2.5 md:mt-4">
           Don't have an account?{' '}
           <Link to="/register" className="font-bold text-amber-700 hover:text-amber-800 transition-colors">
             Join the family
