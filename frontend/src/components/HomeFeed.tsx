@@ -48,7 +48,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
 
   return (
     <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-      <div className="relative flex-1 min-h-[230px] md:min-h-[320px] bg-gray-100 overflow-hidden">
+      <div className="relative flex-1 min-h-[200px] md:min-h-[290px] bg-gray-100 overflow-hidden">
         {video && playing ? (
           <>
             <iframe
