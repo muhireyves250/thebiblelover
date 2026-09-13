@@ -177,6 +177,7 @@ const PlayerDesk: React.FC = () => {
               <span className="w-1 h-4 bg-amber-700 rounded-sm" />
               <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Player Desk</span>
             </div>
+            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Morning &amp; Evening</h2>
             <p className="hidden md:block text-sm text-gray-500 mt-2">Short audio devotionals to start and close your day</p>
           </div>
           <Link
