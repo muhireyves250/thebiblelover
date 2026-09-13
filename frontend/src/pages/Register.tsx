@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Mail, Lock, BookOpen, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { User, Mail, Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
 
@@ -12,14 +12,14 @@ const Register: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
-    
+
     const navigate = useNavigate();
     const { login } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
-        
+
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;
@@ -47,17 +47,17 @@ const Register: React.FC = () => {
 
     if (isSuccess) {
         return (
-            <div className="min-h-screen bg-stone-50 flex items-center justify-center p-4">
-                <div className="max-w-md w-full text-center space-y-8 animate-in fade-in zoom-in duration-700">
-                    <div className="w-20 h-20 bg-emerald-100 rounded-3xl flex items-center justify-center mx-auto text-emerald-600 shadow-xl shadow-emerald-900/10">
-                        <CheckCircle2 className="w-10 h-10" />
+            <div className="min-h-screen bg-white flex items-center justify-center p-4">
+                <div className="max-w-md w-full text-center space-y-6 bg-white border border-gray-300 rounded-lg shadow-sm p-8 animate-in fade-in zoom-in duration-700">
+                    <div className="w-16 h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto text-amber-700">
+                        <CheckCircle2 className="w-8 h-8" />
                     </div>
                     <div className="space-y-2">
-                        <h2 className="text-3xl font-serif text-gray-900">Welcome Home!</h2>
-                        <p className="text-gray-500">Your spiritual journey with our community begins now.</p>
+                        <h2 className="text-2xl font-black uppercase tracking-tight text-gray-900">Welcome Home!</h2>
+                        <p className="text-gray-500 text-sm">Your spiritual journey with our community begins now.</p>
                     </div>
-                    <div className="pt-8 flex justify-center">
-                        <div className="w-8 h-8 border-2 border-emerald-600 border-t-transparent animate-spin rounded-full"></div>
+                    <div className="pt-2 flex justify-center">
+                        <div className="w-6 h-6 border-2 border-amber-700 border-t-transparent animate-spin rounded-full"></div>
                     </div>
                 </div>
             </div>
@@ -65,90 +65,96 @@ const Register: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-stone-50 flex items-center justify-center p-3 sm:p-4">
-            <div className="max-w-xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white rounded-3xl sm:rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100">
+        <div className="min-h-screen bg-white flex items-center justify-center p-3 sm:p-4">
+            <div className="max-w-xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
                 {/* Left Side: Branding/Visual */}
-                <div className="hidden lg:block relative bg-gray-900 p-12">
-                    <div className="absolute inset-0 opacity-40">
-                        <img
-                            src="https://images.unsplash.com/photo-1544427920-c49ccfb85579?auto=format&fit=crop&q=80&w=1000"
-                            alt="Spiritual path"
-                            className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
-                    </div>
-                    <div className="relative h-full flex flex-col justify-between z-10">
-                        <div className="flex items-center gap-3">
-                            <BookOpen className="h-8 w-8 text-amber-500" />
-                            <span className="text-white font-serif text-xl tracking-tight">The Bible Lover</span>
+                <div className="hidden lg:block relative">
+                    <img
+                        src="/images/about.png"
+                        alt="The Bible Lover"
+                        className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute bottom-10 left-10 right-10">
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="w-1 h-4 bg-amber-500 rounded-sm" />
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">The Bible Lover</span>
                         </div>
-                        <div className="space-y-4">
-                            <h2 className="text-3xl font-serif text-white leading-tight italic">"Come to me, all you who are weary and burdened, and I will give you rest."</h2>
-                            <p className="text-gray-400 text-sm font-medium">— Matthew 11:28</p>
-                        </div>
+                        <h2 className="text-2xl font-serif text-white leading-snug italic">
+                            "Come to me, all you who are weary and burdened, and I will give you rest."
+                        </h2>
+                        <p className="text-gray-300 text-sm font-medium mt-2">— Matthew 11:28</p>
                     </div>
                 </div>
 
                 {/* Right Side: Form */}
-                <div className="p-5 sm:p-8 md:p-12">
-                    <div className="mb-4 sm:mb-10 text-center lg:text-left">
-                        <h1 className="text-xl sm:text-3xl font-serif text-gray-900 mb-1 sm:mb-2">Join the Family</h1>
+                <div className="p-5 sm:p-8 md:p-10">
+                    <div className="mb-4 sm:mb-8 text-center lg:text-left">
+                        <div className="hidden lg:flex items-center gap-2 mb-2">
+                            <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Register</span>
+                        </div>
+                        <div className="lg:hidden flex items-center justify-center gap-2 mb-1.5">
+                            <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Register</span>
+                        </div>
+                        <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-gray-900 mb-1">Join the Family</h1>
                         <p className="text-gray-500 text-xs sm:text-sm">Create your disciple profile today.</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
                         {error && (
-                            <div className="p-3 sm:p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-600 text-xs font-bold animate-shake">
+                            <div className="p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-xs sm:text-sm animate-shake">
                                 {error}
                             </div>
                         )}
 
-                        <div className="space-y-2.5 sm:space-y-4">
+                        <div className="space-y-2.5 sm:space-y-3.5">
                             <div className="relative group">
-                                <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
                                 <input
                                     type="text"
                                     placeholder="Full Name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
-                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-2.5 sm:py-4 pl-11 sm:pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
+                                    className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
                                 <input
                                     type="email"
                                     placeholder="Email Address"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-2.5 sm:py-4 pl-11 sm:pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
+                                    className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
                                 <input
                                     type="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-2.5 sm:py-4 pl-11 sm:pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
+                                    className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
                                 <input
                                     type="password"
                                     placeholder="Confirm Password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
-                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-2.5 sm:py-4 pl-11 sm:pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
+                                    className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
                         </div>
@@ -156,27 +162,27 @@ const Register: React.FC = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full bg-amber-600 hover:bg-amber-700 text-white rounded-2xl py-3 sm:py-4 px-6 font-bold text-sm shadow-xl shadow-amber-900/10 transition-all group active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2"
+                            className="w-full bg-amber-700 hover:bg-amber-800 text-white rounded-md py-2.5 sm:py-3 px-6 font-bold text-xs sm:text-sm uppercase tracking-widest transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                             {isLoading ? 'Creating Profile...' : (
                                 <>
-                                    Begin Journey <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                    Begin Journey <ArrowRight className="h-4 w-4" />
                                 </>
                             )}
                         </button>
                     </form>
 
-                    <div className="mt-4 sm:mt-8 text-center bg-gray-50 rounded-2xl p-3 sm:p-4">
-                        <p className="text-xs text-gray-500">
+                    <div className="mt-3.5 sm:mt-6 text-center bg-gray-50 border border-gray-100 rounded-md p-3">
+                        <p className="text-xs sm:text-sm text-gray-500">
                             Already part of the family?{' '}
-                            <Link to="/login" className="text-amber-600 font-bold hover:underline">Sign In</Link>
+                            <Link to="/login" className="text-amber-700 font-bold hover:text-amber-800 transition-colors">Sign In</Link>
                         </p>
                     </div>
 
-                    <div className="mt-3 sm:mt-6 flex justify-center items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                        <Link to="/terms" className="hover:text-gray-600">Terms</Link>
+                    <div className="mt-3 sm:mt-4 flex justify-center items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                        <Link to="/terms" className="hover:text-amber-700 transition-colors">Terms</Link>
                         <div className="w-1 h-1 bg-gray-200 rounded-full"></div>
-                        <Link to="/privacy" className="hover:text-gray-600">Privacy</Link>
+                        <Link to="/privacy" className="hover:text-amber-700 transition-colors">Privacy</Link>
                     </div>
                 </div>
             </div>
