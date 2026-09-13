@@ -116,7 +116,7 @@ const Header = () => {
           ) : (
             <Link
               to="/"
-              className="shrink-0 px-2 py-1 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+              className="shrink-0 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded-md"
               aria-label="Home"
             >
               <img src="/images/logo.png" alt="Logo" className="h-9 w-auto object-contain" />

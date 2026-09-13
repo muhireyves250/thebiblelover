@@ -49,7 +49,7 @@ const Login: React.FC = () => {
     <div className="bg-white">
       <SEO title="Sign In" description="Sign in to your Bible Lover account." />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-12">
       <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2 items-stretch">
         {/* Photo */}
         <div className="hidden lg:block relative">
@@ -71,24 +71,28 @@ const Login: React.FC = () => {
         </div>
 
         {/* Login form */}
-        <div className="flex items-center justify-center p-6 md:p-10">
+        <div className="flex items-center justify-center p-4 md:p-10">
       <div className="max-w-md w-full">
-        <div className="text-center mb-4">
-          <p className="text-sm text-gray-500">
+        <div className="text-center mb-3 md:mb-4">
+          <div className="md:hidden flex items-center justify-center gap-2 mb-1.5">
+            <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Sign In</span>
+          </div>
+          <p className="text-xs md:text-sm text-gray-500">
             Sign in to your Bible Lover account
           </p>
         </div>
 
         <div>
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-3.5 md:space-y-4" onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+              <div className="bg-red-50 border border-red-200 text-red-700 px-3 md:px-4 py-2.5 md:py-3 rounded-md text-xs md:text-sm">
                 {error}
               </div>
             )}
 
             <div>
-              <label htmlFor="email" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">
+              <label htmlFor="email" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
                 Email address
               </label>
               <input
@@ -99,13 +103,13 @@ const Login: React.FC = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                 placeholder="Enter your email"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">
+              <label htmlFor="password" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
                 Password
               </label>
               <div className="relative">
@@ -117,7 +121,7 @@ const Login: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2.5 pr-10 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                  className="w-full px-3 py-2 md:py-2.5 pr-10 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                   placeholder="Enter your password"
                 />
                 <button
@@ -142,12 +146,12 @@ const Login: React.FC = () => {
                   type="checkbox"
                   className="h-4 w-4 accent-amber-700 rounded cursor-pointer"
                 />
-                <label htmlFor="remember-me" className="text-sm text-gray-600 cursor-pointer">
+                <label htmlFor="remember-me" className="text-xs md:text-sm text-gray-600 cursor-pointer">
                   Remember me
                 </label>
               </div>
 
-              <Link to="/forgot-password" className="text-sm font-bold text-amber-700 hover:text-amber-800 transition-colors">
+              <Link to="/forgot-password" className="text-xs md:text-sm font-bold text-amber-700 hover:text-amber-800 transition-colors">
                 Forgot your password?
               </Link>
             </div>
@@ -155,7 +159,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-amber-700 text-white py-3 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full bg-amber-700 text-white py-2.5 md:py-3 rounded-md text-xs md:text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -168,10 +172,10 @@ const Login: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-4 pt-4 border-t border-gray-100">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-2">Demo Credentials</p>
-            <div className="bg-gray-50 border border-gray-100 p-3 rounded-md">
-              <p className="text-sm text-gray-600 text-center leading-relaxed">
+          <div className="mt-3.5 pt-3.5 md:mt-4 md:pt-4 border-t border-gray-100">
+            <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-1.5 md:mb-2">Demo Credentials</p>
+            <div className="bg-gray-50 border border-gray-100 p-2.5 md:p-3 rounded-md">
+              <p className="text-xs md:text-sm text-gray-600 text-center leading-relaxed">
                 <strong className="text-gray-900">Email:</strong> admin@biblelover.com<br />
                 <strong className="text-gray-900">Password:</strong> admin123
               </p>
@@ -179,7 +183,7 @@ const Login: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <p className="text-center text-xs md:text-sm text-gray-500 mt-3.5 md:mt-4">
           Don't have an account?{' '}
           <Link to="/register" className="font-bold text-amber-700 hover:text-amber-800 transition-colors">
             Join the family
