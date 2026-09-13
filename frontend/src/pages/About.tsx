@@ -5,15 +5,15 @@ import SEO from '../components/SEO';
 const SectionHeader = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) => (
   <>
     <div className="absolute inset-0 bg-black/25 transition-colors duration-300 group-hover:bg-black/35" />
-    <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/85 via-black/55 to-transparent px-5 pb-16 pt-5">
-      <div className="flex items-center gap-2 mb-2">
+    <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/85 via-black/55 to-transparent px-4 md:px-5 pb-10 md:pb-16 pt-4 md:pt-5">
+      <div className="flex items-center gap-2 mb-1.5 md:mb-2">
         <span className="w-4 h-[2px] bg-amber-500" />
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-amber-400">{eyebrow}</span>
+        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] text-amber-400">{eyebrow}</span>
       </div>
-      <h2 className="font-serif text-3xl md:text-4xl font-semibold tracking-tight text-white drop-shadow-sm">
+      <h2 className="font-serif text-xl md:text-4xl font-semibold tracking-tight text-white drop-shadow-sm">
         {title}
       </h2>
-      <p className="text-sm font-light text-gray-200 mt-2 tracking-wide">{subtitle}</p>
+      <p className="hidden md:block text-sm font-light text-gray-200 mt-2 tracking-wide">{subtitle}</p>
     </div>
   </>
 );
@@ -37,11 +37,19 @@ const About = () => {
         description="Discover the story and mission of The Bible Lover. Our goal is to provide a spiritual home for everyone seeking wisdom through the Holy Scriptures."
       />
 
+      <div className="md:hidden max-w-7xl mx-auto px-4 pt-3">
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="w-1 h-4 bg-amber-700 rounded-sm" />
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">About</span>
+        </div>
+        <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Who We Are</h1>
+      </div>
+
       {/* Who We Are */}
-      <section className="py-20 bg-white">
+      <section className="py-3 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="group relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-4 md:p-10">
+            <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={aboutSection?.imageUrl || '/images/about.png'}
                 alt={aboutSection?.title || 'About Us'}
@@ -50,7 +58,7 @@ const About = () => {
               />
               <SectionHeader eyebrow="About Us" title="Who We Are" subtitle="A community built around God's Word" />
             </div>
-            <div className="space-y-5 text-gray-700 leading-relaxed">
+            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
                 {aboutSection?.content ||
                   'Welcome to Bible Lovers, a place where God’s Word comes alive and transforms hearts.'}
@@ -81,10 +89,10 @@ const About = () => {
       </section>
 
       {/* Our Story */}
-      <section className="py-20 bg-white">
+      <section className="py-3 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="group relative float-right w-1/2 h-64 md:h-80 ml-6 md:ml-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-4 md:p-10">
+            <div className="group relative float-none sm:float-right w-full sm:w-1/2 h-48 sm:h-64 md:h-80 ml-0 sm:ml-6 md:ml-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={storySection?.imageUrl || '/images/story.png'}
                 alt={storySection?.title || 'Our Story'}
@@ -93,7 +101,7 @@ const About = () => {
               />
               <SectionHeader eyebrow="Our Journey" title="Our Story" subtitle="How a simple calling became a community" />
             </div>
-            <div className="space-y-5 text-gray-700 leading-relaxed">
+            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
                 {storySection?.content ||
                   'Our story began with a passion for God’s Word and a desire to help others experience its life-changing power.'}
@@ -124,10 +132,10 @@ const About = () => {
       </section>
 
       {/* Our Mission */}
-      <section className="py-20 bg-white">
+      <section className="py-3 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-6 md:p-10">
-            <div className="group relative float-left w-1/2 h-64 md:h-80 mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-4 md:p-10">
+            <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={missionSection?.imageUrl || '/images/mission.png'}
                 alt={missionSection?.title || 'Our Mission'}
@@ -136,7 +144,7 @@ const About = () => {
               />
               <SectionHeader eyebrow="Our Purpose" title="Our Mission" subtitle="What we're committed to, every single day" />
             </div>
-            <div className="space-y-5 text-gray-700 leading-relaxed">
+            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 leading-relaxed">
               <p className="whitespace-pre-line">
                 {missionSection?.content ||
                   'Our mission is to inspire and equip believers to grow deeper in their faith.'}
