@@ -101,19 +101,27 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         {/* Mobile bar: home / search pill / theme / profile / menu */}
         <div className="flex md:hidden items-center gap-2 h-12">
-          <Link
-            to="/"
-            className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
-            aria-label="Home"
-          >
-            {logoSettings.logoUrl && !logoSettings.showText ? (
-              <img src={logoSettings.logoUrl} alt="Logo" className="h-5 w-5 object-contain" />
-            ) : logoSettings.logoUrl ? (
-              <Home className="h-5 w-5" />
-            ) : (
-              <img src="/images/logo.png" alt="Logo" className="h-5 w-auto object-contain" />
-            )}
-          </Link>
+          {logoSettings.logoUrl ? (
+            <Link
+              to="/"
+              className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+              aria-label="Home"
+            >
+              {!logoSettings.showText ? (
+                <img src={logoSettings.logoUrl} alt="Logo" className="h-5 w-5 object-contain" />
+              ) : (
+                <Home className="h-5 w-5" />
+              )}
+            </Link>
+          ) : (
+            <Link
+              to="/"
+              className="shrink-0 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded-md"
+              aria-label="Home"
+            >
+              <img src="/images/logo.png" alt="Logo" className="h-9 w-auto object-contain" />
+            </Link>
+          )}
 
           <div className="relative flex-1" ref={mobileSearchRef}>
             <form onSubmit={handleSearch} className="group relative flex items-center" role="search">
