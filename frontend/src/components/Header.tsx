@@ -108,8 +108,10 @@ const Header = () => {
           >
             {logoSettings.logoUrl && !logoSettings.showText ? (
               <img src={logoSettings.logoUrl} alt="Logo" className="h-5 w-5 object-contain" />
-            ) : (
+            ) : logoSettings.logoUrl ? (
               <Home className="h-5 w-5" />
+            ) : (
+              <img src="/images/logo.png" alt="Logo" className="h-5 w-auto object-contain" />
             )}
           </Link>
 
