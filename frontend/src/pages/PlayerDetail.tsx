@@ -30,7 +30,11 @@ const MobileAudioPlayer: React.FC<{
   prevHref?: string;
   nextHref?: string;
   onShare: () => void;
-}> = ({ episode, prevHref, nextHref, onShare }) => {
+  formattedDate: string;
+  isLiked: boolean;
+  likeCount: number;
+  onLike: () => void;
+}> = ({ episode, prevHref, nextHref, onShare, formattedDate, isLiked, likeCount, onLike }) => {
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -71,19 +75,39 @@ const MobileAudioPlayer: React.FC<{
       {episode.coverImage && (
         <div className="relative w-full h-56">
           <img src={episode.coverImage} alt={episode.title} className="w-full h-full object-cover" loading="lazy" />
+          <div className="absolute top-3 right-3 flex items-center gap-2">
+            <button
+              onClick={onLike}
+              aria-label={isLiked ? 'Unlike episode' : 'Like episode'}
+              className={`w-9 h-9 rounded-full backdrop-blur-md flex items-center justify-center shadow-sm transition-colors ${isLiked ? 'bg-red-600/90 text-white' : 'bg-black/40 text-white hover:bg-black/55'}`}
+            >
+              <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+            </button>
+            <button
+              onClick={onShare}
+              aria-label="Share"
+              className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white shadow-sm hover:bg-black/55 transition-colors"
+            >
+              <Share2 className="w-4 h-4" />
+            </button>
+            <a
+              href={episode.audioUrl}
+              download
+              aria-label="Download"
+              className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white shadow-sm hover:bg-black/55 transition-colors"
+            >
+              <Download className="w-4 h-4" />
+            </a>
+          </div>
+          {likeCount > 0 && (
+            <span className="absolute bottom-3 left-3 px-2 py-1 rounded-full bg-black/40 backdrop-blur-md text-white text-[11px] font-bold flex items-center gap-1">
+              <Heart className="w-3 h-3 fill-current" /> {likeCount}
+            </span>
+          )}
         </div>
       )}
 
       <div className="p-4">
-        <div className="flex items-center justify-center gap-6 mb-4">
-          <button onClick={onShare} aria-label="Share" className="w-9 h-9 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 hover:bg-amber-100 transition-colors">
-            <Share2 className="w-4 h-4" />
-          </button>
-          <a href={episode.audioUrl} download aria-label="Download" className="w-9 h-9 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 hover:bg-amber-100 transition-colors">
-            <Download className="w-4 h-4" />
-          </a>
-        </div>
-
         <div className="text-center mb-3">
           <h1 className="text-base font-black uppercase tracking-tight text-gray-900 leading-snug">{episode.title}</h1>
           <p className="text-xs text-gray-500 mt-1">{slotLabel(episode.slot)} Devotional</p>
@@ -132,6 +156,19 @@ const MobileAudioPlayer: React.FC<{
           <button onClick={() => skip(10)} aria-label="Forward 10 seconds" className="text-gray-500 hover:text-amber-700 transition-colors">
             <RotateCw className="w-5 h-5" />
           </button>
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line mb-3">{episode.description}</p>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+              <span className="text-xs font-bold text-amber-800">A</span>
+            </div>
+            <div className="text-xs">
+              <p className="font-bold text-gray-900">Admin User</p>
+              <p className="text-gray-500">{formattedDate}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -314,6 +351,10 @@ const PlayerDetail: React.FC = () => {
                   prevHref={prevEpisodeId ? `/players/${prevEpisodeId}` : undefined}
                   nextHref={nextEpisodeId ? `/players/${nextEpisodeId}` : undefined}
                   onShare={handleShare}
+                  formattedDate={formattedDate}
+                  isLiked={isLiked}
+                  likeCount={likeCount}
+                  onLike={handleLike}
                 />
               <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8 mb-4 md:mb-8">
                 <span className="hidden md:inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
@@ -337,10 +378,10 @@ const PlayerDetail: React.FC = () => {
 
                 <audio controls src={episode.audioUrl} className="hidden md:block w-full mb-6" />
 
-                <p className="text-sm md:text-lg text-gray-700 leading-relaxed whitespace-pre-line mb-4 md:mb-6">{episode.description}</p>
+                <p className="hidden md:block text-sm md:text-lg text-gray-700 leading-relaxed whitespace-pre-line mb-4 md:mb-6">{episode.description}</p>
 
                 <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200">
-                  <div className="flex items-center gap-2.5 md:gap-3">
+                  <div className="hidden md:flex items-center gap-2.5 md:gap-3">
                     <div className="w-8 h-8 md:w-9 md:h-9 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
                       <span className="text-xs font-bold text-amber-800">A</span>
                     </div>
@@ -544,32 +585,56 @@ const PlayerDetail: React.FC = () => {
                     Listen More &rarr;
                   </Link>
                 </div>
-                <div className="space-y-3 md:space-y-4">
+                {/* Mobile: audio-row style, matching the Home page's Player Desk */}
+                <div className="md:hidden space-y-2.5">
                   {recentEpisodes.map((re: any) => (
-                    <Link key={re.id} to={`/players/${re.id}`} className="flex items-start gap-2.5 md:gap-3 group">
+                    <Link
+                      key={re.id}
+                      to={`/players/${re.id}`}
+                      className="flex items-center gap-3 bg-white border border-gray-300 rounded-2xl p-2.5 shadow-sm hover:border-gray-400 hover:shadow-md transition-all"
+                    >
                       {re.coverImage && (
-                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                        <img src={re.coverImage} alt={re.title} className="w-14 h-14 rounded-xl object-cover shrink-0" loading="lazy" />
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <p className="font-sans text-sm font-bold text-gray-900 leading-snug line-clamp-2">{re.title}</p>
+                        <p className="text-[11px] text-gray-400 mt-0.5">{formattedFull(re.episodeDate)} &middot; {slotLabel(re.slot)}</p>
+                      </div>
+                      <span className="shrink-0 w-9 h-9 rounded-full border border-amber-200 bg-amber-50 flex items-center justify-center text-amber-700">
+                        <Play className="w-4 h-4 ml-0.5" />
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Desktop: thumbnail + text row */}
+                <div className="hidden md:block space-y-4">
+                  {recentEpisodes.map((re: any) => (
+                    <Link key={re.id} to={`/players/${re.id}`} className="flex items-start gap-3 group">
+                      {re.coverImage && (
+                        <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
                           <img src={re.coverImage} alt={re.title} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">
-                        <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
+                        <span className="block text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
                           {slotLabel(re.slot)}
                         </span>
-                        <p className="text-xs md:text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
+                        <p className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
                           {re.title}
                         </p>
-                        <div className="flex items-center justify-between mt-1 md:mt-1.5">
-                          <span className="text-[10px] md:text-[11px] text-gray-400">
+                        <div className="flex items-center justify-between mt-1.5">
+                          <span className="text-[11px] text-gray-400">
                             {formattedFull(re.episodeDate)}
                           </span>
-                          <span className="text-[10px] md:text-[11px] text-gray-400">
+                          <span className="text-[11px] text-gray-400">
                             {re.likes || 0} &middot; {re.commentsCount ?? 0}
                           </span>
                         </div>
                       </div>
                     </Link>
                   ))}
+                </div>
                 </div>
               </div>
             )}
