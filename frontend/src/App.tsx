@@ -81,7 +81,7 @@ const PageLoader = () => (
 
 // Routes with no site chrome at all (auth flows, admin dashboard) - every
 // other route gets the persistent Header/Footer below.
-const BARE_LAYOUT_PATHS = ['/register', '/forgot-password', '/reset-password', '/dashboard'];
+const BARE_LAYOUT_PATHS = ['/forgot-password', '/reset-password', '/dashboard'];
 
 // Home and About render their own Announcements inline, positioned inside
 // their own content rather than always right above the footer.
