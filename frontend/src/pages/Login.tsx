@@ -74,7 +74,7 @@ const Login: React.FC = () => {
         <div className="flex items-center justify-center p-3 md:p-10">
       <div className="max-w-md w-full">
         <div className="text-center mb-2 md:mb-4">
-          <div className="md:hidden flex items-center justify-center gap-2 mb-1">
+          <div className="hidden md:flex items-center justify-center gap-2 mb-1">
             <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Sign In</span>
           </div>
@@ -172,12 +172,11 @@ const Login: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-2.5 pt-2.5 md:mt-4 md:pt-4 border-t border-gray-100">
-            <p className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-1 md:mb-2">Demo Credentials</p>
-            <div className="bg-gray-50 border border-gray-100 py-1.5 px-2.5 md:p-3 rounded-md">
-              <p className="text-[11px] md:text-sm text-gray-600 text-center leading-snug">
-                <strong className="text-gray-900">Email:</strong> admin@biblelover.com<br />
-                <strong className="text-gray-900">Password:</strong> admin123
+          <div className="mt-2 pt-2 md:mt-4 md:pt-4 border-t border-gray-100">
+            <p className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-2">Demo Credentials</p>
+            <div className="bg-gray-50 border border-gray-100 py-1 px-2 md:p-3 rounded-md">
+              <p className="text-[10px] md:text-sm text-gray-600 text-center leading-snug">
+                <strong className="text-gray-900">admin@biblelover.com</strong> / <strong className="text-gray-900">admin123</strong>
               </p>
             </div>
           </div>
