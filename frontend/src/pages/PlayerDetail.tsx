@@ -159,10 +159,15 @@ const MobileAudioPlayer: React.FC<{
         </div>
 
         <div className="mt-4 pt-4 border-t border-gray-100">
-          <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line mb-3">{episode.description}</p>
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
-              <span className="text-xs font-bold text-amber-800">A</span>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">About this Episode</span>
+          </div>
+          <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line mb-4">{episode.description}</p>
+
+          <div className="flex items-center gap-2.5 pt-3 border-t border-gray-100">
+            <div className="w-9 h-9 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+              <span className="text-sm font-bold text-amber-800">A</span>
             </div>
             <div className="text-xs">
               <p className="font-bold text-gray-900">Admin User</p>
@@ -380,8 +385,8 @@ const PlayerDetail: React.FC = () => {
 
                 <p className="hidden md:block text-sm md:text-lg text-gray-700 leading-relaxed whitespace-pre-line mb-4 md:mb-6">{episode.description}</p>
 
-                <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200">
-                  <div className="hidden md:flex items-center gap-2.5 md:gap-3">
+                <div className="hidden md:flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200">
+                  <div className="flex items-center gap-2.5 md:gap-3">
                     <div className="w-8 h-8 md:w-9 md:h-9 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
                       <span className="text-xs font-bold text-amber-800">A</span>
                     </div>
