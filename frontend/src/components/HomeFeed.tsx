@@ -380,13 +380,13 @@ const HomeFeed: React.FC = () => {
             {/* Mobile: swipe left to switch between the featured broadcast
                 and other recent videos/lives, snap-scrolling one full card
                 at a time. Desktop keeps the single static featured card. */}
-            <div className="md:hidden flex-1">
+            <div className="md:hidden h-[340px]">
               {!hasLoaded ? (
                 <FeaturedCardSkeleton />
               ) : featuredCarouselItems.length > 0 ? (
-                <div ref={featuredScrollRef} className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-1">
+                <div ref={featuredScrollRef} className="flex gap-3 h-full overflow-x-auto snap-x snap-mandatory scroll-smooth pb-1">
                   {featuredCarouselItems.map(item => (
-                    <div key={`${item.type}-${item.id}`} className="w-full shrink-0 snap-start">
+                    <div key={`${item.type}-${item.id}`} className="w-full h-full shrink-0 snap-start">
                       <FeaturedCard item={item} onPlayingChange={setIsFeaturedPlaying} />
                     </div>
                   ))}
