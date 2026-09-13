@@ -105,21 +105,21 @@ const AudioRow: React.FC<{ episode: AudioEpisode; playingId: string | null; onTo
   return (
     <Link
       to={`/players/${episode.id}`}
-      className="flex items-center gap-3 bg-gradient-to-r from-gray-800 to-gray-950 rounded-2xl p-2.5 shadow-md"
+      className="flex items-center gap-3 bg-white border border-gray-300 rounded-2xl p-2.5 shadow-sm hover:border-gray-400 hover:shadow-md transition-all"
     >
       <img src={episode.coverImage} alt={episode.title} className="w-14 h-14 rounded-xl object-cover shrink-0" loading="lazy" />
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-bold text-white leading-snug line-clamp-2">{episode.title}</p>
+        <p className="font-sans text-sm font-bold text-gray-900 leading-snug line-clamp-2">{episode.title}</p>
         <p className="text-[11px] text-gray-400 mt-0.5">{formatDate(episode.episodeDate)} &middot;{formatTime(episode.episodeDate)}</p>
       </div>
       <button
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(episode); }}
-        className="shrink-0 w-9 h-9 rounded-full border border-gray-600 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+        className="shrink-0 w-9 h-9 rounded-full border border-amber-200 bg-amber-50 flex items-center justify-center text-amber-700 hover:bg-amber-700 hover:text-white hover:border-amber-700 transition-colors"
         aria-label={isPlaying ? 'Pause' : 'Play'}
       >
         {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
       </button>
-      <span className="shrink-0 text-gray-500">
+      <span className="shrink-0 text-gray-400">
         <MoreVertical className="w-4 h-4" />
       </span>
     </Link>
@@ -196,8 +196,8 @@ const PlayerDesk: React.FC = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
-            <DeskColumn label="Morning" slot="MORNING" episodes={morning} playingId={playingId} onToggle={toggle} />
-            <DeskColumn label="Evening" slot="EVENING" episodes={evening} playingId={playingId} onToggle={toggle} />
+            <DeskColumn label="Morning Prayer" slot="MORNING" episodes={morning} playingId={playingId} onToggle={toggle} />
+            <DeskColumn label="Evening Prayer" slot="EVENING" episodes={evening} playingId={playingId} onToggle={toggle} />
           </div>
         )}
       </div>
