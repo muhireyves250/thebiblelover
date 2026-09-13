@@ -367,7 +367,7 @@ const Header = () => {
             onClick={() => setIsMenuOpen(false)}
           />
           <div className="absolute top-0 right-0 h-full w-80 max-w-[88vw] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-            <div className="flex items-center justify-between px-5 py-5 border-b border-gray-100">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
               <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2">
                 {logoSettings.logoUrl && logoSettings.showText ? (
                   <>
@@ -394,10 +394,12 @@ const Header = () => {
                 { path: '/', label: 'Home' },
                 { path: '/about', label: 'About' },
                 { path: '/posts', label: 'Blog' },
+                { path: '/players', label: 'Devotionals' },
                 { path: '/watch', label: 'Watch' },
                 { path: '/verses', label: 'Bible Verses' },
                 { path: '/prayer-wall', label: 'Prayer Wall' },
                 { path: '/events', label: 'Events' },
+                { path: '/donate', label: 'Donate' },
                 { path: '/contact', label: 'Contact' },
               ].map((link) => {
                 const isActive = link.path === '/' ? location.pathname === '/' : location.pathname.startsWith(link.path);
