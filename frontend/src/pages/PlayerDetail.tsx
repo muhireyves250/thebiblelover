@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
 import { useFetch, useCachedFetch } from '../hooks/useAPI';
-import { Heart, MessageCircle, Tag, Calendar, Share2, Download, Play, Pause, SkipBack, SkipForward, RotateCcw, RotateCw } from 'lucide-react';
+import { Heart, MessageCircle, Tag, Calendar, Share2, Download, Play, Pause, SkipBack, SkipForward, RotateCcw, RotateCw, ArrowLeft } from 'lucide-react';
 import SEO from '../components/SEO';
 import ShareButtons from '../components/ShareButtons';
 
@@ -151,7 +151,7 @@ const PlayerDetail: React.FC = () => {
   // Recent episodes (sidebar list)
   const { data: recentData, loading: recentLoading } = useFetch<any>(() => audioEpisodesAPI.getEpisodes({ page: 1, limit: 11 } as any), []);
   const allEpisodes = recentData?.data?.episodes || recentData?.episodes || [];
-  const recentEpisodes = allEpisodes.filter((e: any) => e.id !== id).slice(0, 10);
+  const recentEpisodes = allEpisodes.filter((e: any) => e.id !== id).slice(0, 5);
 
   // Previous/next episode (mobile player's transport controls) - ordered
   // chronologically so "next" always means the newer episode.
@@ -262,47 +262,51 @@ const PlayerDetail: React.FC = () => {
         <SEO title={episode.title} description={episode.description} image={episode.coverImage} type="article" />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Breadcrumb */}
-        <nav className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">
-          <Link to="/" className="hover:text-amber-700 transition-colors">Home</Link>
-          <span className="mx-2">/</span>
-          <Link to="/players" className="hover:text-amber-700 transition-colors">Devotionals</Link>
-          <span className="mx-2">/</span>
-          {episode ? (
-            <span className="text-amber-700">{slotLabel(episode.slot)}</span>
-          ) : (
-            <span className="inline-block h-3 w-20 bg-gray-200 rounded animate-pulse align-middle" />
-          )}
-        </nav>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-10">
+        <Link
+          to="/players"
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-3 md:mb-6"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" /> Back to Devotionals
+        </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-10">
           {/* Main column */}
           <article className="lg:col-span-2">
             {showSkeleton ? (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
-                <div className="h-6 w-32 bg-gray-300 rounded animate-pulse mb-4" />
-                <div className="h-9 bg-gray-300 rounded animate-pulse w-3/4 mb-2" />
-                <div className="h-9 bg-gray-300 rounded animate-pulse w-1/2 mb-4" />
-                <div className="h-64 md:h-80 bg-gray-300 rounded-lg animate-pulse mb-6" />
-                <div className="h-10 bg-gray-300 rounded animate-pulse mb-6" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-6" />
-                <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gray-300 animate-pulse shrink-0" />
-                    <div className="space-y-1.5">
-                      <div className="h-3.5 w-28 bg-gray-300 rounded animate-pulse" />
-                      <div className="h-3 w-36 bg-gray-300 rounded animate-pulse" />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {[1, 2, 3].map(i => (
-                      <div key={i} className="h-8 w-16 bg-gray-300 rounded-full animate-pulse" />
-                    ))}
+              <>
+                <div className="md:hidden bg-white border border-gray-300 rounded-2xl shadow-sm overflow-hidden mb-4">
+                  <div className="h-56 bg-gray-300 animate-pulse" />
+                  <div className="p-4 space-y-3">
+                    <div className="h-4 w-2/3 bg-gray-300 rounded animate-pulse mx-auto" />
+                    <div className="h-1.5 w-full bg-gray-200 rounded animate-pulse" />
+                    <div className="h-10 w-10 bg-gray-300 rounded-full animate-pulse mx-auto" />
                   </div>
                 </div>
-              </div>
+                <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
+                  <div className="h-6 w-32 bg-gray-300 rounded animate-pulse mb-4" />
+                  <div className="h-9 bg-gray-300 rounded animate-pulse w-3/4 mb-2" />
+                  <div className="h-9 bg-gray-300 rounded animate-pulse w-1/2 mb-4" />
+                  <div className="h-64 md:h-80 bg-gray-300 rounded-lg animate-pulse mb-6" />
+                  <div className="h-10 bg-gray-300 rounded animate-pulse mb-6" />
+                  <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
+                  <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-6" />
+                  <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-gray-300 animate-pulse shrink-0" />
+                      <div className="space-y-1.5">
+                        <div className="h-3.5 w-28 bg-gray-300 rounded animate-pulse" />
+                        <div className="h-3 w-36 bg-gray-300 rounded animate-pulse" />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="h-8 w-16 bg-gray-300 rounded-full animate-pulse" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </>
             ) : (
               <>
                 <MobileAudioPlayer
@@ -311,7 +315,7 @@ const PlayerDetail: React.FC = () => {
                   nextHref={nextEpisodeId ? `/players/${nextEpisodeId}` : undefined}
                   onShare={handleShare}
                 />
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
+              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8 mb-4 md:mb-8">
                 <span className="hidden md:inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
                   {slotLabel(episode.slot)} Episode
                 </span>
@@ -333,29 +337,29 @@ const PlayerDetail: React.FC = () => {
 
                 <audio controls src={episode.audioUrl} className="hidden md:block w-full mb-6" />
 
-                <p className="text-gray-700 text-sm md:text-lg leading-relaxed whitespace-pre-line mb-6">{episode.description}</p>
+                <p className="text-sm md:text-lg text-gray-700 leading-relaxed whitespace-pre-line mb-4 md:mb-6">{episode.description}</p>
 
-                <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+                <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200">
+                  <div className="flex items-center gap-2.5 md:gap-3">
+                    <div className="w-8 h-8 md:w-9 md:h-9 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
                       <span className="text-xs font-bold text-amber-800">A</span>
                     </div>
-                    <div className="text-sm">
+                    <div className="text-xs md:text-sm">
                       <p className="font-bold text-gray-900">Admin User</p>
                       <p className="text-gray-500">{formattedDate}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
                     <button
                       onClick={handleLike}
                       disabled={isLiking}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border rounded-full text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`inline-flex items-center gap-1 md:gap-1.5 px-2.5 md:px-3 py-1 md:py-1.5 border rounded-full text-xs md:text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
                       aria-label={isLiked ? 'Unlike episode' : 'Like episode'}
                     >
-                      <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} /> Like &middot; {likeCount}
+                      <Heart className={`h-3.5 w-3.5 md:h-4 md:w-4 ${isLiked ? 'fill-current' : ''}`} /> Like &middot; {likeCount}
                     </button>
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
+                    <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
                       <MessageCircle className="w-4 h-4" /> Comment &middot; {comments.length}
                     </span>
                     <ShareButtons title={episode.title} />
@@ -363,40 +367,40 @@ const PlayerDetail: React.FC = () => {
                 </div>
 
                 {/* Comments */}
-                <section className="mt-8 pt-8 border-t border-gray-200">
-                  <div className="flex items-center gap-2 mb-6">
+                <section className="mt-6 pt-6 md:mt-8 md:pt-8 border-t border-gray-200">
+                  <div className="flex items-center gap-2 mb-4 md:mb-6">
                     <span className="w-1 h-4 bg-amber-700 rounded-sm" />
                     <h2 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">
                       Comments <span className="text-gray-400">&middot; {comments.length}</span>
                     </h2>
                   </div>
 
-                  <div className="space-y-3 mb-8">
+                  <div className="space-y-2.5 md:space-y-3 mb-6 md:mb-8">
                     {comments.map((c: any) => (
-                      <div key={c.id} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                        <div className="flex items-start gap-3">
-                          <div className="w-9 h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-bold shrink-0">
+                      <div key={c.id} className="border border-gray-200 rounded-lg p-3 md:p-4 bg-gray-50">
+                        <div className="flex items-start gap-2.5 md:gap-3">
+                          <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs md:text-sm font-bold shrink-0">
                             {c.authorName?.charAt(0)?.toUpperCase() || 'U'}
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
-                              <span className="text-sm font-bold text-gray-900">{c.authorName || 'Anonymous'}</span>
-                              <span className="text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
+                              <span className="text-xs md:text-sm font-bold text-gray-900">{c.authorName || 'Anonymous'}</span>
+                              <span className="text-[10px] md:text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
                             </div>
-                            <p className="mt-1.5 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
+                            <p className="mt-1 md:mt-1.5 text-xs md:text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
                           </div>
                         </div>
                       </div>
                     ))}
                     {comments.length === 0 && (
-                      <div className="border border-dashed border-gray-300 rounded-lg p-6 text-center text-gray-500 text-sm">No comments yet. Be the first to comment!</div>
+                      <div className="border border-dashed border-gray-300 rounded-lg p-4 md:p-6 text-center text-gray-500 text-xs md:text-sm">No comments yet. Be the first to comment!</div>
                     )}
                   </div>
 
-                  <form onSubmit={submitComment} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <form onSubmit={submitComment} className="space-y-2.5 md:space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-4">
                       <div>
-                        <label htmlFor="commentName" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Name</label>
+                        <label htmlFor="commentName" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Name</label>
                         <input
                           id="commentName"
                           name="commentName"
@@ -405,11 +409,11 @@ const PlayerDetail: React.FC = () => {
                           autoComplete="name"
                           value={authorName}
                           onChange={(e) => setAuthorName(e.target.value)}
-                          className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                          className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                         />
                       </div>
                       <div>
-                        <label htmlFor="commentEmail" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Email</label>
+                        <label htmlFor="commentEmail" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Email</label>
                         <input
                           id="commentEmail"
                           name="commentEmail"
@@ -418,12 +422,12 @@ const PlayerDetail: React.FC = () => {
                           autoComplete="email"
                           value={authorEmail}
                           onChange={(e) => setAuthorEmail(e.target.value)}
-                          className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                          className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                         />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="commentContent" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Comment</label>
+                      <label htmlFor="commentContent" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Comment</label>
                       <textarea
                         id="commentContent"
                         name="commentContent"
@@ -432,13 +436,13 @@ const PlayerDetail: React.FC = () => {
                         autoComplete="off"
                         value={commentContent}
                         onChange={(e) => setCommentContent(e.target.value)}
-                        className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                        className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={isSubmittingComment}
-                      className="px-6 py-2.5 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
+                      className="w-full sm:w-auto px-5 md:px-6 py-2 md:py-2.5 bg-amber-700 text-white text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
                     >
                       {isSubmittingComment ? 'Posting…' : 'Post Comment'}
                     </button>
@@ -450,9 +454,9 @@ const PlayerDetail: React.FC = () => {
           </article>
 
           {/* Sidebar */}
-          <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
-            {/* Written By */}
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+          <aside className="lg:col-span-1 space-y-4 md:space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+            {/* Written By - desktop only, purely informational and redundant with the author row already shown above */}
+            <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-5">
               <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</h3>
               {!episode ? (
                 <div className="flex items-center gap-3">
@@ -476,12 +480,12 @@ const PlayerDetail: React.FC = () => {
             </div>
 
             {/* Episode Details */}
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Episode Details</h3>
+            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+              <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-4">Episode Details</h3>
               {!episode ? (
                 <dl className="space-y-1">
                   {[Tag, Calendar, Heart, MessageCircle].map((Icon, i) => (
-                    <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
+                    <div key={i} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 last:border-0">
                       <dt className="flex items-center gap-2 text-gray-500">
                         <Icon className="w-3.5 h-3.5 text-gray-300" />
                         <span className="h-3 w-16 bg-gray-200 rounded animate-pulse" />
@@ -498,12 +502,12 @@ const PlayerDetail: React.FC = () => {
                     [Heart, 'Likes', likeCount],
                     [MessageCircle, 'Comments', comments.length]
                   ].map(([Icon, label, value]: any) => (
-                    <div key={label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
-                      <dt className="flex items-center gap-2 text-gray-500 text-sm">
-                        <Icon className="w-3.5 h-3.5 text-amber-700" />
+                    <div key={label} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 last:border-0">
+                      <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm">
+                        <Icon className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
                         {label}
                       </dt>
-                      <dd className="font-bold text-gray-900 text-sm">{value}</dd>
+                      <dd className="font-bold text-gray-900 text-xs md:text-sm">{value}</dd>
                     </div>
                   ))}
                 </dl>
@@ -512,15 +516,15 @@ const PlayerDetail: React.FC = () => {
 
             {/* Recent Episodes */}
             {recentLoading && recentEpisodes.length === 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-                <div className="flex items-center justify-between mb-4">
+              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+                <div className="flex items-center justify-between mb-3 md:mb-4">
                   <div className="h-3 w-24 bg-gray-300 rounded animate-pulse" />
                   <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
                 </div>
-                <div className="space-y-4">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="flex items-start gap-3">
-                      <div className="w-16 h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
+                <div className="space-y-3 md:space-y-4">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <div key={i} className="flex items-start gap-2.5 md:gap-3">
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
                       <div className="flex-1 space-y-2">
                         <div className="h-2.5 w-16 bg-gray-300 rounded animate-pulse" />
                         <div className="h-3.5 bg-gray-300 rounded animate-pulse w-full" />
@@ -533,33 +537,33 @@ const PlayerDetail: React.FC = () => {
             )}
 
             {recentEpisodes.length > 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Episodes</h3>
-                  <Link to="/players" className="text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
+              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+                <div className="flex items-center justify-between mb-3 md:mb-4">
+                  <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Episodes</h3>
+                  <Link to="/players" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
                     Listen More &rarr;
                   </Link>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-3 md:space-y-4">
                   {recentEpisodes.map((re: any) => (
-                    <Link key={re.id} to={`/players/${re.id}`} className="flex items-start gap-3 group">
+                    <Link key={re.id} to={`/players/${re.id}`} className="flex items-start gap-2.5 md:gap-3 group">
                       {re.coverImage && (
-                        <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
                           <img src={re.coverImage} alt={re.title} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">
-                        <span className="block text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
+                        <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
                           {slotLabel(re.slot)}
                         </span>
-                        <p className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
+                        <p className="text-xs md:text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
                           {re.title}
                         </p>
-                        <div className="flex items-center justify-between mt-1.5">
-                          <span className="text-[11px] text-gray-400">
+                        <div className="flex items-center justify-between mt-1 md:mt-1.5">
+                          <span className="text-[10px] md:text-[11px] text-gray-400">
                             {formattedFull(re.episodeDate)}
                           </span>
-                          <span className="text-[11px] text-gray-400">
+                          <span className="text-[10px] md:text-[11px] text-gray-400">
                             {re.likes || 0} &middot; {re.commentsCount ?? 0}
                           </span>
                         </div>
