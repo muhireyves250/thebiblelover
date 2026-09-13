@@ -2,9 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { blogAPI, authAPI, searchAPI } from '../services/api';
 import { useFetch, useCachedFetch } from '../hooks/useAPI';
-import { Heart, Eye, MessageCircle, Tag, Calendar, Clock, ArrowLeft } from 'lucide-react';
+import { Heart, Eye, MessageCircle, Tag, Calendar, Clock, ArrowLeft, Share2 } from 'lucide-react';
 import SEO from '../components/SEO';
-import ShareButtons from '../components/ShareButtons';
+import ShareModal from '../components/ShareModal';
 import AudioReader from '../components/AudioReader';
 import BibleReference from '../components/BibleReference';
 
@@ -41,6 +41,9 @@ const BlogPost: React.FC = () => {
     [post?.id]
   );
   const comments = commentsData?.data?.comments || commentsData?.comments || [];
+
+  // Share modal
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   // Like state
   const [isLiking, setIsLiking] = useState<boolean>(false);
@@ -314,7 +317,13 @@ const BlogPost: React.FC = () => {
                 <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
                   <MessageCircle className="w-4 h-4" /> Comment &middot; {post._count?.comments ?? comments.length}
                 </span>
-                <ShareButtons title={post.title} />
+                <button
+                  onClick={() => setIsShareModalOpen(true)}
+                  className="inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border border-gray-200 rounded-full text-xs md:text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                  aria-label="Share post"
+                >
+                  <Share2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> Share
+                </button>
               </div>
             </div>
 
@@ -534,6 +543,15 @@ const BlogPost: React.FC = () => {
           </aside>
         </div>
       </div>
+
+      {post && (
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          title={post.title}
+          excerpt={post.excerpt}
+        />
+      )}
     </div>
   );
 };

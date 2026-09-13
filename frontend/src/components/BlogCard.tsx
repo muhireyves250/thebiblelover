@@ -187,11 +187,9 @@ const BlogCard: React.FC<BlogCardProps> = ({
       <ShareModal
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
-        post={{
-          title: title,
-          slug: slug,
-          excerpt: excerpt
-        }}
+        title={title}
+        url={`${window.location.origin}/blog/${slug}`}
+        excerpt={excerpt}
       />
     </motion.article>
   );

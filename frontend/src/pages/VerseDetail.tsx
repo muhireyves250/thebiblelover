@@ -7,7 +7,7 @@ import { useBibleVerse } from '../hooks/useBibleVerse';
 import { useCachedFetch } from '../hooks/useAPI';
 import { Calendar, BookOpen, Languages, Share2, ArrowLeft } from 'lucide-react';
 import SEO from '../components/SEO';
-import BibleVerseShareModal from '../components/BibleVerseShareModal';
+import ShareModal from '../components/ShareModal';
 
 const reference = (v?: BibleVerse) => (v ? `${v.book} ${v.chapter}:${v.verse}` : '');
 
@@ -45,22 +45,12 @@ const VerseDetail: React.FC = () => {
   }, [featured, items, id]);
 
   const { shareVerse } = useBibleVerse();
-  const [isSharing, setIsSharing] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [shareData, setShareData] = useState<any>(null);
 
-  const handleShare = async () => {
-    if (!verse || isSharing) return;
-    setIsSharing(true);
-    try {
-      const result = await shareVerse(verse.id, 'COPY_LINK');
-      if (result.success && result.data) {
-        setShareData(result.data);
-        setIsShareModalOpen(true);
-      }
-    } finally {
-      setIsSharing(false);
-    }
+  const handleShare = () => {
+    if (!verse) return;
+    shareVerse(verse.id, 'COPY_LINK').catch(() => {});
+    setIsShareModalOpen(true);
   };
 
   if (!verse && !loading) {
@@ -135,10 +125,9 @@ const VerseDetail: React.FC = () => {
 
                   <button
                     onClick={handleShare}
-                    disabled={isSharing}
-                    className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-gray-900 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50"
+                    className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-gray-900 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-800 transition-colors"
                   >
-                    <Share2 className="w-3 h-3" /> {isSharing ? 'Sharing...' : 'Share'}
+                    <Share2 className="w-3 h-3" /> Share
                   </button>
                 </div>
               </div>
@@ -244,17 +233,13 @@ const VerseDetail: React.FC = () => {
       </div>
 
       {verse && (
-        <BibleVerseShareModal
+        <ShareModal
           isOpen={isShareModalOpen}
           onClose={() => setIsShareModalOpen(false)}
-          verse={{
-            id: verse.id,
-            verse: verse.text,
-            reference: reference(verse),
-            translation: verse.translation,
-            image: verse.image
-          }}
-          shareData={shareData}
+          title={reference(verse)}
+          url={`${window.location.origin}/verses/${verse.id}`}
+          excerpt={verse.text}
+          heading="Share This Verse"
         />
       )}
     </div>

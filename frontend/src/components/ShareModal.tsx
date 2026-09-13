@@ -5,20 +5,22 @@ import { X, Copy, Check, Facebook, Twitter, Linkedin, Mail, Share2 } from 'lucid
 interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
-  post: {
-    title: string;
-    slug: string;
-    excerpt?: string;
-  };
+  title: string;
+  url?: string;
+  excerpt?: string;
+  heading?: string;
 }
 
-const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, post }) => {
+// The one share sheet used everywhere in the app (blog posts/cards,
+// episodes, verses, events) - callers just pass what they're sharing;
+// this owns the actual UI/behavior so every "Share" button looks and
+// works the same.
+const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, title, url, excerpt, heading = 'Share This Post' }) => {
   const [copied, setCopied] = useState(false);
-  
-  const currentUrl = window.location.origin;
-  const postUrl = `${currentUrl}/blog/${post.slug}`;
-  const shareText = `${post.title} - The Bible Lover`;
-  const shareDescription = post.excerpt || 'Check out this blog post from The Bible Lover';
+
+  const postUrl = url || window.location.href;
+  const shareText = `${title} - The Bible Lover`;
+  const shareDescription = excerpt || 'Check this out from The Bible Lover';
 
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`,
@@ -72,8 +74,8 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, post }) => {
 
         <div className="flex justify-between items-start gap-3 px-5 pt-2 pb-4 sm:p-6 sm:pb-4">
           <div className="min-w-0">
-            <h3 className="font-sans text-lg sm:text-xl font-black uppercase tracking-tight text-gray-900 leading-snug">Share This Post</h3>
-            <p className="font-sans text-xs sm:text-sm text-gray-500 truncate mt-0.5">{post.title}</p>
+            <h3 className="font-sans text-lg sm:text-xl font-black uppercase tracking-tight text-gray-900 leading-snug">{heading}</h3>
+            <p className="font-sans text-xs sm:text-sm text-gray-500 truncate mt-0.5">{title}</p>
           </div>
           <button
             onClick={onClose}

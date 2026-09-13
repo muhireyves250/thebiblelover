@@ -5,7 +5,7 @@ import type { AudioEpisode } from '../services/api.d';
 import { useFetch, useCachedFetch } from '../hooks/useAPI';
 import { Heart, MessageCircle, Tag, Calendar, Share2, Download, Play, Pause, SkipBack, SkipForward, RotateCcw, RotateCw, ArrowLeft } from 'lucide-react';
 import SEO from '../components/SEO';
-import ShareButtons from '../components/ShareButtons';
+import ShareModal from '../components/ShareModal';
 
 const slotLabel = (slot?: string) => (slot === 'MORNING' ? 'Morning' : 'Evening');
 
@@ -207,15 +207,8 @@ const PlayerDetail: React.FC = () => {
     };
   }, [allEpisodes, id]);
 
-  const handleShare = async () => {
-    if (!episode) return;
-    const shareUrl = window.location.href;
-    if (navigator.share) {
-      try { await navigator.share({ title: episode.title, url: shareUrl }); } catch { /* cancelled */ }
-    } else {
-      try { await navigator.clipboard.writeText(shareUrl); } catch { /* clipboard unavailable */ }
-    }
-  };
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const handleShare = () => setIsShareModalOpen(true);
 
   // Comments
   const { data: commentsData, refetch: refetchComments } = useFetch<any>(
@@ -427,7 +420,13 @@ const PlayerDetail: React.FC = () => {
                     <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
                       <MessageCircle className="w-4 h-4" /> Comment &middot; {comments.length}
                     </span>
-                    <ShareButtons title={episode.title} />
+                    <button
+                      onClick={handleShare}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                      aria-label="Share episode"
+                    >
+                      <Share2 className="w-4 h-4" /> Share
+                    </button>
                   </div>
                 </div>
 
@@ -664,6 +663,15 @@ const PlayerDetail: React.FC = () => {
           </aside>
         </div>
       </div>
+
+      {episode && (
+        <ShareModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          title={episode.title}
+          heading="Share This Episode"
+        />
+      )}
     </div>
   );
 };

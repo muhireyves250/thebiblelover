@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, Share2 } from 'lucide-react';
 import { useVerseArchive, type VerseArchiveItem } from '../hooks/useVerseArchive';
 import { useBibleVerse } from '../hooks/useBibleVerse';
-import BibleVerseShareModal from './BibleVerseShareModal';
+import ShareModal from './ShareModal';
 
 const DAY_TABS: { label: string; day: number | null }[] = [
   { label: 'All', day: null },
@@ -47,7 +47,7 @@ const MetaRow: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
   </div>
 );
 
-const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void; isSharing: boolean }> = ({ item, onShare, isSharing }) => (
+const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void }> = ({ item, onShare }) => (
   <div className="h-full flex flex-col sm:flex-row bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm">
     <Link to={`/verses/${item.id}`} className="relative w-full sm:w-[45%] shrink-0 min-h-[220px] bg-gray-100 overflow-hidden block">
       <img
@@ -74,10 +74,9 @@ const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void;
         <span className="text-[11px] text-gray-400">{formatDate(item.displayDate)}</span>
         <button
           onClick={onShare}
-          disabled={isSharing}
-          className="flex items-center gap-1.5 px-4 py-1.5 bg-gray-900 text-white text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 px-4 py-1.5 bg-gray-900 text-white text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-800 transition-colors"
         >
-          <Share2 className="w-3 h-3" /> {isSharing ? 'Sharing...' : 'Share'}
+          <Share2 className="w-3 h-3" /> Share
         </button>
       </div>
     </div>
@@ -128,9 +127,8 @@ const VerseDesk: React.FC = () => {
   const { featured, items, hasLoaded } = useVerseArchive(13);
   const { shareVerse } = useBibleVerse();
   const [activeDay, setActiveDay] = useState<number | null>(null);
-  const [isSharing, setIsSharing] = useState(false);
+  
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [shareData, setShareData] = useState<any>(null);
 
   // `featured` is the single latest verse overall and `items` the rest, in
   // the same descending order — flatten them back into one timeline so a
@@ -165,18 +163,10 @@ const VerseDesk: React.FC = () => {
     [allVerses, displayedFeatured]
   );
 
-  const handleShare = async () => {
-    if (!displayedFeatured || isSharing) return;
-    setIsSharing(true);
-    try {
-      const result = await shareVerse(displayedFeatured.id, 'COPY_LINK');
-      if (result.success && result.data) {
-        setShareData(result.data);
-        setIsShareModalOpen(true);
-      }
-    } finally {
-      setIsSharing(false);
-    }
+  const handleShare = () => {
+    if (!displayedFeatured) return;
+    shareVerse(displayedFeatured.id, 'COPY_LINK').catch(() => {});
+    setIsShareModalOpen(true);
   };
 
   if (hasLoaded && !featured && items.length === 0) {
@@ -214,7 +204,7 @@ const VerseDesk: React.FC = () => {
               </div>
             </div>
           ) : featured ? (
-            <FeaturedVerseCard item={featured} onShare={handleShare} isSharing={isSharing} />
+            <FeaturedVerseCard item={featured} onShare={handleShare} />
           ) : (
             <NoVersesYet />
           )}
@@ -258,7 +248,7 @@ const VerseDesk: React.FC = () => {
                 </div>
               </div>
             ) : displayedFeatured ? (
-              <FeaturedVerseCard item={displayedFeatured} onShare={handleShare} isSharing={isSharing} />
+              <FeaturedVerseCard item={displayedFeatured} onShare={handleShare} />
             ) : (
               <NoVersesYet />
             )}
@@ -277,17 +267,13 @@ const VerseDesk: React.FC = () => {
       </div>
 
       {displayedFeatured && (
-        <BibleVerseShareModal
+        <ShareModal
           isOpen={isShareModalOpen}
           onClose={() => setIsShareModalOpen(false)}
-          verse={{
-            id: displayedFeatured.id,
-            verse: displayedFeatured.text,
-            reference: displayedFeatured.reference,
-            translation: displayedFeatured.translation,
-            image: displayedFeatured.image
-          }}
-          shareData={shareData}
+          title={displayedFeatured.reference}
+          url={`${window.location.origin}/verses/${displayedFeatured.id}`}
+          excerpt={displayedFeatured.text}
+          heading="Share This Verse"
         />
       )}
     </section>
