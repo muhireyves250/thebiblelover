@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
 import { useFetch, useCachedFetch } from '../hooks/useAPI';
-import { Heart, MessageCircle, Tag, Calendar } from 'lucide-react';
+import { Heart, MessageCircle, Tag, Calendar, Share2, Download, Play, Pause, SkipBack, SkipForward, RotateCcw, RotateCw } from 'lucide-react';
 import SEO from '../components/SEO';
 import ShareButtons from '../components/ShareButtons';
 
@@ -13,6 +13,130 @@ const formattedFull = (dateString?: string) =>
   dateString
     ? new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
     : '';
+
+const formatSeconds = (seconds: number) => {
+  if (!isFinite(seconds) || seconds < 0) return '00:00';
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+};
+
+// Mobile-only full player card - matches the reference's layout (cover
+// art, icon row, title/subtitle, seek bar, transport controls) but
+// recolored to the site's own white/amber palette instead of the
+// reference's dark theme.
+const MobileAudioPlayer: React.FC<{
+  episode: AudioEpisode;
+  prevHref?: string;
+  nextHref?: string;
+  onShare: () => void;
+}> = ({ episode, prevHref, nextHref, onShare }) => {
+  const audioRef = React.useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) audio.play(); else audio.pause();
+  };
+
+  const skip = (seconds: number) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = Math.min(Math.max(audio.currentTime + seconds, 0), duration || audio.duration || 0);
+  };
+
+  const seekTo = (value: number) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = value;
+    setCurrentTime(value);
+  };
+
+  const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+  return (
+    <div className="md:hidden bg-white border border-gray-300 rounded-2xl shadow-sm overflow-hidden mb-6">
+      <audio
+        ref={audioRef}
+        src={episode.audioUrl}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+      />
+
+      {episode.coverImage && (
+        <div className="relative w-full h-56">
+          <img src={episode.coverImage} alt={episode.title} className="w-full h-full object-cover" loading="lazy" />
+        </div>
+      )}
+
+      <div className="p-4">
+        <div className="flex items-center justify-center gap-6 mb-4">
+          <button onClick={onShare} aria-label="Share" className="w-9 h-9 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 hover:bg-amber-100 transition-colors">
+            <Share2 className="w-4 h-4" />
+          </button>
+          <a href={episode.audioUrl} download aria-label="Download" className="w-9 h-9 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-700 hover:bg-amber-100 transition-colors">
+            <Download className="w-4 h-4" />
+          </a>
+        </div>
+
+        <div className="text-center mb-3">
+          <h1 className="text-base font-black uppercase tracking-tight text-gray-900 leading-snug">{episode.title}</h1>
+          <p className="text-xs text-gray-500 mt-1">{slotLabel(episode.slot)} Devotional</p>
+        </div>
+
+        <div className="mb-1">
+          <input
+            type="range"
+            min={0}
+            max={duration || 0}
+            value={currentTime}
+            onChange={(e) => seekTo(Number(e.target.value))}
+            className="w-full h-1.5 accent-amber-700 cursor-pointer"
+          />
+        </div>
+        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-4">
+          <span>{formatSeconds(currentTime)}</span>
+          <span>{formatSeconds(duration)}</span>
+        </div>
+
+        <div className="flex items-center justify-center gap-5">
+          <button onClick={() => skip(-10)} aria-label="Rewind 10 seconds" className="text-gray-500 hover:text-amber-700 transition-colors">
+            <RotateCcw className="w-5 h-5" />
+          </button>
+          {prevHref ? (
+            <Link to={prevHref} aria-label="Previous episode" className="text-gray-500 hover:text-amber-700 transition-colors">
+              <SkipBack className="w-5 h-5" fill="currentColor" />
+            </Link>
+          ) : (
+            <span className="text-gray-200"><SkipBack className="w-5 h-5" fill="currentColor" /></span>
+          )}
+          <button
+            onClick={togglePlay}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+            className="w-14 h-14 rounded-full bg-amber-700 hover:bg-amber-800 text-white flex items-center justify-center shadow-md transition-colors"
+          >
+            {isPlaying ? <Pause className="w-6 h-6" fill="currentColor" /> : <Play className="w-6 h-6 ml-0.5" fill="currentColor" />}
+          </button>
+          {nextHref ? (
+            <Link to={nextHref} aria-label="Next episode" className="text-gray-500 hover:text-amber-700 transition-colors">
+              <SkipForward className="w-5 h-5" fill="currentColor" />
+            </Link>
+          ) : (
+            <span className="text-gray-200"><SkipForward className="w-5 h-5" fill="currentColor" /></span>
+          )}
+          <button onClick={() => skip(10)} aria-label="Forward 10 seconds" className="text-gray-500 hover:text-amber-700 transition-colors">
+            <RotateCw className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const PlayerDetail: React.FC = () => {
   const { id = '' } = useParams<{ id: string }>();
@@ -26,7 +150,30 @@ const PlayerDetail: React.FC = () => {
 
   // Recent episodes (sidebar list)
   const { data: recentData, loading: recentLoading } = useFetch<any>(() => audioEpisodesAPI.getEpisodes({ page: 1, limit: 11 } as any), []);
-  const recentEpisodes = (recentData?.data?.episodes || recentData?.episodes || []).filter((e: any) => e.id !== id).slice(0, 10);
+  const allEpisodes = recentData?.data?.episodes || recentData?.episodes || [];
+  const recentEpisodes = allEpisodes.filter((e: any) => e.id !== id).slice(0, 10);
+
+  // Previous/next episode (mobile player's transport controls) - ordered
+  // chronologically so "next" always means the newer episode.
+  const { prevEpisodeId, nextEpisodeId } = useMemo(() => {
+    const sorted = [...allEpisodes].sort((a: any, b: any) => new Date(a.episodeDate).getTime() - new Date(b.episodeDate).getTime());
+    const index = sorted.findIndex((e: any) => e.id === id);
+    if (index === -1) return { prevEpisodeId: undefined, nextEpisodeId: undefined };
+    return {
+      prevEpisodeId: index > 0 ? sorted[index - 1].id : undefined,
+      nextEpisodeId: index < sorted.length - 1 ? sorted[index + 1].id : undefined
+    };
+  }, [allEpisodes, id]);
+
+  const handleShare = async () => {
+    if (!episode) return;
+    const shareUrl = window.location.href;
+    if (navigator.share) {
+      try { await navigator.share({ title: episode.title, url: shareUrl }); } catch { /* cancelled */ }
+    } else {
+      try { await navigator.clipboard.writeText(shareUrl); } catch { /* clipboard unavailable */ }
+    }
+  };
 
   // Comments
   const { data: commentsData, refetch: refetchComments } = useFetch<any>(
@@ -157,16 +304,23 @@ const PlayerDetail: React.FC = () => {
                 </div>
               </div>
             ) : (
+              <>
+                <MobileAudioPlayer
+                  episode={episode}
+                  prevHref={prevEpisodeId ? `/players/${prevEpisodeId}` : undefined}
+                  nextHref={nextEpisodeId ? `/players/${nextEpisodeId}` : undefined}
+                  onShare={handleShare}
+                />
               <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
-                <span className="inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
+                <span className="hidden md:inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
                   {slotLabel(episode.slot)} Episode
                 </span>
-                <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-4">
+                <h1 className="hidden md:block text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-4">
                   {episode.title}
                 </h1>
 
                 {episode.coverImage && (
-                  <div className="relative w-full h-64 md:h-80 mb-6 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                  <div className="hidden md:block relative w-full h-64 md:h-80 mb-6 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
                     <img
                       src={episode.coverImage}
                       alt={episode.title}
@@ -177,9 +331,9 @@ const PlayerDetail: React.FC = () => {
                   </div>
                 )}
 
-                <audio controls src={episode.audioUrl} className="w-full mb-6" />
+                <audio controls src={episode.audioUrl} className="hidden md:block w-full mb-6" />
 
-                <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line mb-6">{episode.description}</p>
+                <p className="text-gray-700 text-sm md:text-lg leading-relaxed whitespace-pre-line mb-6">{episode.description}</p>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
                   <div className="flex items-center gap-3">
@@ -291,6 +445,7 @@ const PlayerDetail: React.FC = () => {
                   </form>
                 </section>
               </div>
+              </>
             )}
           </article>
 
