@@ -8,7 +8,7 @@ const IhemaLogo: React.FC<IhemaLogoProps> = ({ className = '' }) => (
   <img
     src="/images/logo.png"
     alt="Ihema - The Bible Lover"
-    className={`h-8 md:h-10 w-auto object-contain select-none ${className}`}
+    className={`h-11 md:h-14 w-auto object-contain select-none ${className}`}
   />
 );
 
