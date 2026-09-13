@@ -1,11 +1,17 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight, X } from 'lucide-react';
+import { Play, AlertTriangle, Eye, Heart, MessageCircle, ArrowRight, X, Share2 } from 'lucide-react';
 import { useHomeFeed, type HomeFeedItem } from '../hooks/useHomeFeed';
 import { useContentSettings } from '../hooks/useContentSettings';
 import { homeFeedAPI } from '../services/api';
 import type { HomeFeedVideo } from '../services/api.d';
+import ShareModal from './ShareModal';
+
+const shareUrlFor = (item: HomeFeedItem) => {
+  const href = item.type === 'POST' ? `/blog/${item.slug}` : item.url;
+  return href.startsWith('http') ? href : `${window.location.origin}${href}`;
+};
 
 const PAGE_SIZE = 4;
 const AUTO_ROTATE_MS = 6000;
@@ -25,19 +31,25 @@ const itemHref = (item: HomeFeedItem) => (item.type === 'POST' ? `/blog/${item.s
 const categoryLabel = (item: HomeFeedItem) =>
   item.type === 'POST' ? item.category.replace(/_/g, ' ') : item.type === 'LIVE' ? 'Live' : 'Video';
 
-const StatsRow: React.FC<{ item: HomeFeedItem }> = ({ item }) => (
+const StatsRow: React.FC<{ item: HomeFeedItem; onShare?: () => void }> = ({ item, onShare }) => (
   <div className="flex items-center justify-between pt-1 mt-1 border-t border-gray-100">
     <span className="text-[9px] md:text-[11px] text-gray-400 truncate">{formatDateTime(item.publishedAt)}</span>
     <div className="flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[11px] text-gray-400 shrink-0">
       <span className="flex items-center gap-0.5 md:gap-1"><Eye className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.views}</span>
       <span className="flex items-center gap-0.5 md:gap-1"><Heart className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.likes}</span>
       <span className="flex items-center gap-0.5 md:gap-1"><MessageCircle className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.comments}</span>
+      {onShare && (
+        <button onClick={onShare} aria-label="Share" className="flex items-center hover:text-amber-700 transition-colors">
+          <Share2 className="w-2.5 h-2.5 md:w-3 md:h-3" />
+        </button>
+      )}
     </div>
   </div>
 );
 
 const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: boolean) => void }> = ({ item, onPlayingChange }) => {
   const [playing, setPlaying] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
   const isLive = item.type === 'LIVE';
   const video = isVideoLike(item);
 
@@ -48,7 +60,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
 
   return (
     <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-      <div className="relative flex-1 min-h-[200px] md:min-h-[290px] bg-gray-100 overflow-hidden">
+      <div className="relative flex-1 min-h-[180px] md:min-h-[270px] bg-gray-100 overflow-hidden">
         {video && playing ? (
           <>
             <iframe
@@ -121,8 +133,16 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
           )}
         </div>
         <p className="text-xs md:text-sm text-gray-500 leading-relaxed line-clamp-1 md:line-clamp-3 mb-2 md:mb-4">{item.excerpt}</p>
-        <StatsRow item={item} />
+        <StatsRow item={item} onShare={() => setIsShareOpen(true)} />
       </div>
+
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        title={item.title}
+        url={shareUrlFor(item)}
+        excerpt={item.excerpt}
+      />
     </div>
   );
 };
