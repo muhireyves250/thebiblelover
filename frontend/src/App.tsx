@@ -156,7 +156,7 @@ function AppContent() {
             <Route path="/donate" element={<PageTransition><Donate /></PageTransition>} />
             <Route path="/posts" element={<Suspense fallback={<BlogGridSkeleton />}><PageTransition><Posts /></PageTransition></Suspense>} />
             <Route path="/players" element={<Suspense fallback={null}><PageTransition><Players /></PageTransition></Suspense>} />
-            <Route path="/players/:id" element={<PageTransition><PlayerDetail /></PageTransition>} />
+            <Route path="/players/:id" element={<Suspense fallback={null}><PageTransition><PlayerDetail /></PageTransition></Suspense>} />
             <Route path="/verses" element={<Suspense fallback={null}><PageTransition><Verses /></PageTransition></Suspense>} />
             <Route path="/verses/:id" element={<Suspense fallback={null}><PageTransition><VerseDetail /></PageTransition></Suspense>} />
             <Route path="/search" element={<PageTransition><Search /></PageTransition>} />
