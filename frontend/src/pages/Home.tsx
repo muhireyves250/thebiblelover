@@ -4,6 +4,7 @@ import PlayerDesk from '../components/PlayerDesk';
 import VerseDesk from '../components/VerseDesk';
 import Announcements from '../components/Announcements';
 import AboutDesk from '../components/AboutDesk';
+import NewsletterSubscribe from '../components/NewsletterSubscribe';
 import SEO from '../components/SEO';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
 
@@ -46,6 +47,10 @@ const Home = () => {
       <PlayerDesk />
       <VerseDesk />
       <AboutDesk />
+
+      <div className="md:hidden mt-6">
+        <NewsletterSubscribe />
+      </div>
 
       <div className="hidden md:block"><Announcements /></div>
     </>
