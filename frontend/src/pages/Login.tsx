@@ -46,11 +46,11 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="bg-white min-h-[75vh] md:min-h-0 flex flex-col justify-center">
+    <div className="min-h-[75vh] md:min-h-screen bg-white flex items-center justify-center p-3 sm:p-4">
       <SEO title="Sign In" description="Sign in to your Bible Lover account." />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-12 w-full">
-      <div className="bg-white md:border md:border-gray-300 rounded-lg md:shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2 items-stretch">
+      <div className="max-w-4xl w-full">
+      <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2 items-stretch">
         {/* Photo */}
         <div className="hidden lg:block relative">
           <img
@@ -71,7 +71,7 @@ const Login: React.FC = () => {
         </div>
 
         {/* Login form */}
-        <div className="flex items-center justify-center p-3 md:p-10">
+        <div className="flex items-center justify-center p-5 sm:p-8 md:p-10">
       <div className="max-w-md w-full">
         <div className="text-center mb-2 md:mb-4">
           <div className="flex items-center justify-center gap-2 mb-1.5 md:mb-1">
