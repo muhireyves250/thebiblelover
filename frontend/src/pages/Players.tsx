@@ -4,6 +4,7 @@ import { Play } from 'lucide-react';
 import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -52,10 +53,10 @@ const Players: React.FC = () => {
         <div className="mb-4 md:mb-6">
           <div className="flex items-center gap-2 mb-2">
             <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Devotionals</span>
+            <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Devotionals</AutoText>
           </div>
-          <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-gray-900">All Episodes</h1>
-          <p className="text-sm text-gray-500 mt-2">Browse all morning and evening audio devotionals.</p>
+          <AutoText as="h1" className="text-2xl md:text-4xl font-black uppercase tracking-tight text-gray-900">All Episodes</AutoText>
+          <AutoText as="p" className="text-sm text-gray-500 mt-2">Browse all morning and evening audio devotionals.</AutoText>
         </div>
 
         <div className="flex gap-2 md:gap-3 mb-6 md:mb-8 overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0 pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
@@ -73,7 +74,7 @@ const Players: React.FC = () => {
                   : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
               }`}
             >
-              {tab.label}
+              <AutoText as="span">{tab.label}</AutoText>
             </button>
           ))}
         </div>
@@ -88,9 +89,9 @@ const Players: React.FC = () => {
             </div>
           </>
         ) : loadError ? (
-          <p className="text-gray-500">Failed to load episodes. Please try again later.</p>
+          <AutoText as="p" className="text-gray-500">Failed to load episodes. Please try again later.</AutoText>
         ) : episodes.length === 0 ? (
-          <p className="text-gray-500">No episodes found.</p>
+          <AutoText as="p" className="text-gray-500">No episodes found.</AutoText>
         ) : (
           <>
             {/* Mobile: audio-row style, matching Home's Player Desk */}

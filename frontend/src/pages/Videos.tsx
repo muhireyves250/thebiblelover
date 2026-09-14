@@ -3,6 +3,7 @@ import { Play, AlertTriangle, Clock, Eye } from 'lucide-react';
 import { homeFeedAPI } from '../services/api';
 import type { HomeFeedVideo } from '../services/api.d';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 
 const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -36,7 +37,7 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
                                 </span>
-                                <span className="text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest">Live</span>
+                                <AutoText as="span" className="text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest">Live</AutoText>
                             </div>
                         )}
                         <button
@@ -134,10 +135,10 @@ const Videos = () => {
                 <div className="md:hidden mb-4">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Live Streams &amp; Videos</span>
+                        <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Live Streams &amp; Videos</AutoText>
                     </div>
-                    <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Watch</h1>
-                    <p className="text-sm text-gray-500 mt-2">Every live stream and video The Bible Lover has published on YouTube, in one place.</p>
+                    <AutoText as="h1" className="text-2xl font-black uppercase tracking-tight text-gray-900">Watch</AutoText>
+                    <AutoText as="p" className="text-sm text-gray-500 mt-2">Every live stream and video The Bible Lover has published on YouTube, in one place.</AutoText>
                 </div>
 
                 {/* Filters */}
@@ -151,7 +152,7 @@ const Videos = () => {
                                 : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
                                 }`}
                         >
-                            {f.name}
+                            <AutoText as="span">{f.name}</AutoText>
                         </button>
                     ))}
                 </div>
@@ -163,11 +164,11 @@ const Videos = () => {
                 ) : error ? (
                     <div className="text-center py-16 bg-white border border-dashed border-gray-300 rounded-lg">
                         <AlertTriangle className="h-10 w-10 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-bold text-gray-900 mb-1">Failed to load videos</h3>
-                        <p className="text-gray-500 text-sm">Please try again later.</p>
+                        <AutoText as="h3" className="text-lg font-bold text-gray-900 mb-1">Failed to load videos</AutoText>
+                        <AutoText as="p" className="text-gray-500 text-sm">Please try again later.</AutoText>
                     </div>
                 ) : visibleItems.length === 0 ? (
-                    <p className="text-gray-500 text-center py-16">No videos found.</p>
+                    <AutoText as="p" className="text-gray-500 text-center py-16">No videos found.</AutoText>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                         {visibleItems.map(item => (

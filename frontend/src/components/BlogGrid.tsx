@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import BlogCard from './BlogCard';
 import { blogAPI } from '../services/api';
 import { useCachedFetch } from '../hooks/useAPI';
+import AutoText from './AutoText';
 
 interface BlogGridProps {
   limit?: number;
@@ -15,7 +16,7 @@ export const BlogGridSkeleton: React.FC = () => (
   <section className="py-3 md:py-20 bg-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-3 md:mb-10">
-        <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-2 md:mb-8">All Posts</h2>
+        <AutoText as="h2" className="text-sm tracking-widest uppercase text-gray-500 mb-2 md:mb-8">All Posts</AutoText>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
         {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -75,13 +76,13 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
       <section className="py-3 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Error Loading Posts</h2>
+            <AutoText as="h2" className="text-2xl font-bold text-gray-900 mb-4">Error Loading Posts</AutoText>
             <p className="text-gray-600 mb-4">{error}</p>
             <button
               onClick={refetch}
               className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
             >
-              Try Again
+              <AutoText as="span">Try Again</AutoText>
             </button>
           </div>
         </div>
@@ -93,7 +94,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
     <section className="py-3 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-3 md:mb-10">
-          <h2 className="text-sm tracking-widest uppercase text-gray-500 mb-2 md:mb-8">All Posts</h2>
+          <AutoText as="h2" className="text-sm tracking-widest uppercase text-gray-500 mb-2 md:mb-8">All Posts</AutoText>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8" aria-live="polite">
           {postsToRender.map((post) => (
@@ -103,7 +104,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ limit, showViewAll = false }) => {
         {showViewAll && (
           <div className="text-center mt-10">
             <Link to="/posts" className="inline-flex items-center gap-1.5 text-sm font-bold text-amber-700 hover:text-amber-800 transition-colors">
-              View all posts
+              <AutoText as="span">View all posts</AutoText>
             </Link>
           </div>
         )}
