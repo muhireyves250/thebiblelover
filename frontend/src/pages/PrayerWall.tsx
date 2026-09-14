@@ -3,6 +3,7 @@ import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCirc
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
 import { useTranslatedText } from '../hooks/useDynamicTranslation';
+import AutoText from '../components/AutoText';
 
 const PrayerRequestText = ({ title, content }: { title: string; content: string }) => {
     const translatedTitle = useTranslatedText(title);
@@ -135,9 +136,9 @@ const PrayerWall = () => {
     return (
         <div className="min-h-screen bg-white">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
-                <h1 className="md:hidden text-lg font-black uppercase tracking-tight text-gray-900 mb-3">
+                <AutoText as="h1" className="md:hidden text-lg font-black uppercase tracking-tight text-gray-900 mb-3">
                     A sacred space to share burdens and lift each other up in prayer.
-                </h1>
+                </AutoText>
 
                 {/* Actions & Filters */}
                 <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-10 gap-3 md:gap-4">
@@ -155,7 +156,7 @@ const PrayerWall = () => {
                                     }`}
                             >
                                 <cat.icon className="w-3.5 h-3.5" />
-                                <span>{cat.name}</span>
+                                <AutoText as="span">{cat.name}</AutoText>
                             </button>
                         ))}
                     </div>
@@ -165,14 +166,14 @@ const PrayerWall = () => {
                         className="w-full md:w-auto flex items-center justify-center gap-2 bg-amber-700 text-white px-5 py-2.5 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors shrink-0"
                     >
                         <Plus className="h-4 w-4" />
-                        <span>Share a Request</span>
+                        <AutoText as="span">Share a Request</AutoText>
                     </button>
                 </div>
 
                 {success && (
                     <div className="mb-8 p-4 bg-green-50 border border-green-200 text-green-800 text-sm rounded-md flex items-center gap-3">
                         <CheckCircle className="h-5 w-5 shrink-0" />
-                        <p className="font-medium">{success}</p>
+                        <AutoText as="p" className="font-medium">{success}</AutoText>
                     </div>
                 )}
 
@@ -197,7 +198,7 @@ const PrayerWall = () => {
                                         <div className="absolute top-0 right-0 p-3 md:p-4">
                                             <div className="bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 md:px-2.5 md:py-1 rounded text-[9px] md:text-[10px] font-black uppercase tracking-widest flex items-center gap-1 md:gap-1.5">
                                                 <Sparkles className="h-2.5 w-2.5 md:h-3 md:w-3" />
-                                                Answered
+                                                <AutoText as="span">Answered</AutoText>
                                             </div>
                                         </div>
                                     )}
@@ -208,7 +209,7 @@ const PrayerWall = () => {
                                             </span>
                                             {request.status === 'ANSWERED' && (
                                                 <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-green-50 text-green-700 text-[9px] md:text-[10px] font-black rounded border border-green-200 uppercase tracking-widest">
-                                                    Praise Report
+                                                    <AutoText as="span">Praise Report</AutoText>
                                                 </span>
                                             )}
                                         </div>
@@ -232,7 +233,7 @@ const PrayerWall = () => {
                                         </div>
                                         <div>
                                             <p className="text-xs md:text-sm font-bold text-gray-900">{request.user?.name}</p>
-                                            <p className="text-[9px] md:text-[10px] text-gray-400 uppercase font-bold tracking-widest">Community Member</p>
+                                            <AutoText as="p" className="text-[9px] md:text-[10px] text-gray-400 uppercase font-bold tracking-widest">Community Member</AutoText>
                                         </div>
                                     </div>
                                 </div>
@@ -250,7 +251,7 @@ const PrayerWall = () => {
                                             disabled={request.status === 'ANSWERED'}
                                         >
                                             <Heart className={`h-3 w-3 md:h-3.5 md:w-3.5 ${((request as any).supportedByMe || request.status === 'ANSWERED') ? 'fill-current' : ''}`} />
-                                            <span>{request.status === 'ANSWERED' ? 'Amen' : "I'm Praying"}</span>
+                                            <AutoText as="span">{request.status === 'ANSWERED' ? 'Amen' : "I'm Praying"}</AutoText>
                                         </button>
 
                                         {currentUser?.id === (request as any).userId && (
@@ -289,10 +290,10 @@ const PrayerWall = () => {
                         <div className="w-16 h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto mb-5">
                             <Heart className="w-7 h-7 text-amber-700" />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-900 mb-1">No prayer requests found</h3>
-                        <p className="text-gray-500 text-sm max-w-sm mx-auto">
+                        <AutoText as="h3" className="text-lg font-bold text-gray-900 mb-1">No prayer requests found</AutoText>
+                        <AutoText as="p" className="text-gray-500 text-sm max-w-sm mx-auto">
                             Be the first to share a burden or request guidance from our community.
-                        </p>
+                        </AutoText>
                     </div>
                 )}
 
@@ -334,16 +335,16 @@ const PrayerWall = () => {
                         <div className="mb-6">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                                <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Share a Testimony or Prayer Request</span>
+                                <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Share a Testimony or Prayer Request</AutoText>
                             </div>
-                            <p className="text-gray-500 text-sm italic">"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7</p>
+                            <AutoText as="p" className="text-gray-500 text-sm italic">"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7</AutoText>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             {!currentUser && (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Your Name</label>
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Your Name</AutoText></label>
                                         <div className="relative group">
                                             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
                                             <input
@@ -358,7 +359,7 @@ const PrayerWall = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Email</label>
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Email</AutoText></label>
                                         <div className="relative group">
                                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
                                             <input
@@ -376,7 +377,7 @@ const PrayerWall = () => {
                             )}
 
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Request Title</label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Request Title</AutoText></label>
                                 <div className="relative group">
                                     <Type className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
                                     <input
@@ -391,7 +392,7 @@ const PrayerWall = () => {
                             </div>
 
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Category</label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Category</AutoText></label>
                                 <div className="relative group">
                                     <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600 pointer-events-none" />
                                     <select
@@ -407,7 +408,7 @@ const PrayerWall = () => {
                             </div>
 
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Tell us more so we can pray specifically</label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Tell us more so we can pray specifically</AutoText></label>
                                 <textarea
                                     required
                                     rows={4}
@@ -428,7 +429,7 @@ const PrayerWall = () => {
                                 />
                                 <label htmlFor="isAnonymous" className="text-sm font-semibold text-amber-900 cursor-pointer flex items-center gap-1.5">
                                     <Shield className="h-4 w-4" />
-                                    Post anonymously
+                                    <AutoText as="span">Post anonymously</AutoText>
                                 </label>
                             </div>
 
@@ -449,7 +450,7 @@ const PrayerWall = () => {
                                 ) : (
                                     <>
                                         <MessageSquare className="h-4 w-4" />
-                                        <span>Post Request</span>
+                                        <AutoText as="span">Post Request</AutoText>
                                     </>
                                 )}
                             </button>
