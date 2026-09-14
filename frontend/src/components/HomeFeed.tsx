@@ -377,7 +377,7 @@ const HomeFeed: React.FC = () => {
   }, [items.length]);
 
   return (
-    <section className="py-3 md:py-20 bg-white dark:bg-transparent isolate">
+    <section className="py-3 md:py-20 bg-white dark:bg-transparent isolate border-t border-gray-200 dark:border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-10 items-stretch">
           {/* Featured / Broadcast column */}
