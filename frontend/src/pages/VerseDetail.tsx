@@ -8,6 +8,7 @@ import { useCachedFetch } from '../hooks/useAPI';
 import { Calendar, BookOpen, Languages, Share2, ArrowLeft } from 'lucide-react';
 import SEO from '../components/SEO';
 import ShareModal from '../components/ShareModal';
+import AutoText from '../components/AutoText';
 
 const reference = (v?: BibleVerse) => (v ? `${v.book} ${v.chapter}:${v.verse}` : '');
 
@@ -57,14 +58,14 @@ const VerseDetail: React.FC = () => {
     return (
       <div className="min-h-screen bg-white">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-serif text-gray-900 mb-3">
+          <AutoText as="h1" className="text-2xl font-serif text-gray-900 mb-3">
             {error ? 'Error loading verse' : 'Verse not found'}
-          </h1>
+          </AutoText>
           <p className="text-gray-600 mb-6">
-            {error || "We couldn't find the verse you're looking for."}
+            {error || <AutoText as="span">We couldn't find the verse you're looking for.</AutoText>}
           </p>
           {error && (
-            <button onClick={refetch} className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800">Try again</button>
+            <button onClick={refetch} className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800"><AutoText>Try again</AutoText></button>
           )}
         </div>
       </div>
@@ -84,7 +85,7 @@ const VerseDetail: React.FC = () => {
           to="/verses"
           className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-3 md:mb-6"
         >
-          <ArrowLeft className="w-3.5 h-3.5" /> Back to Verses
+          <ArrowLeft className="w-3.5 h-3.5" /> <AutoText as="span">Back to Verses</AutoText>
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-10">
@@ -127,7 +128,7 @@ const VerseDetail: React.FC = () => {
                     onClick={handleShare}
                     className="flex items-center gap-1.5 px-3 md:px-4 py-1 md:py-1.5 bg-gray-900 text-white text-[10px] md:text-[11px] font-bold uppercase tracking-widest rounded-full hover:bg-gray-800 transition-colors"
                   >
-                    <Share2 className="w-3 h-3" /> Share
+                    <Share2 className="w-3 h-3" /> <AutoText as="span">Share</AutoText>
                   </button>
                 </div>
               </div>
@@ -138,7 +139,7 @@ const VerseDetail: React.FC = () => {
           <aside className="lg:col-span-1 space-y-4 md:space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             {/* Verse Details */}
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
-              <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-4">Verse Details</h3>
+              <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-4">Verse Details</AutoText>
               {!verse ? (
                 <dl className="space-y-1">
                   {[BookOpen, Calendar, Languages, Share2].map((Icon, i) => (
@@ -162,7 +163,7 @@ const VerseDetail: React.FC = () => {
                     <div key={label} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 last:border-0">
                       <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm">
                         <Icon className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
-                        {label}
+                        <AutoText as="span">{label}</AutoText>
                       </dt>
                       <dd className="font-bold text-gray-900 text-xs md:text-sm">{value}</dd>
                     </div>
@@ -196,9 +197,9 @@ const VerseDetail: React.FC = () => {
             {recentLoaded && recentVerses.length > 0 && (
               <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
-                  <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Verses</h3>
+                  <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Verses</AutoText>
                   <Link to="/verses" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
-                    All Verses &rarr;
+                    <AutoText as="span">All Verses</AutoText> &rarr;
                   </Link>
                 </div>
                 <div className="space-y-3 md:space-y-4">

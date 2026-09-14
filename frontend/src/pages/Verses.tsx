@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useVerseArchive, type VerseArchiveItem } from '../hooks/useVerseArchive';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 
 const DAY_TABS: { label: string; day: number | null }[] = [
   { label: 'All', day: null },
@@ -92,15 +93,15 @@ const Verses: React.FC = () => {
         <div className="mb-4 md:mb-6">
           <div className="flex items-center gap-2 mb-2">
             <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Verses</span>
+            <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Verses</AutoText>
           </div>
-          <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-gray-900">All Verses</h1>
-          <p className="text-sm text-gray-500 mt-2">Browse every verse of the day from our archive.</p>
+          <AutoText as="h1" className="text-2xl md:text-4xl font-black uppercase tracking-tight text-gray-900">All Verses</AutoText>
+          <AutoText as="p" className="text-sm text-gray-500 mt-2">Browse every verse of the day from our archive.</AutoText>
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8">
           <div className="flex items-center gap-2 md:gap-3 overflow-x-auto md:flex-wrap -mx-4 px-4 md:mx-0 md:px-0 pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mr-1 shrink-0">Filter</span>
+            <AutoText as="span" className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mr-1 shrink-0">Filter</AutoText>
             {DAY_TABS.map(tab => (
               <button
                 key={tab.label}
@@ -116,7 +117,7 @@ const Verses: React.FC = () => {
             ))}
           </div>
           <span className="text-xs font-bold uppercase tracking-widest text-gray-400 whitespace-nowrap">
-            {filteredVerses.length} Verses
+            {filteredVerses.length} <AutoText as="span">Verses</AutoText>
           </span>
         </div>
 
@@ -125,7 +126,7 @@ const Verses: React.FC = () => {
             {[1, 2, 3, 4, 5, 6].map(i => <VerseCardSkeleton key={i} />)}
           </div>
         ) : filteredVerses.length === 0 ? (
-          <p className="text-gray-500">No verses found for this day.</p>
+          <AutoText as="p" className="text-gray-500">No verses found for this day.</AutoText>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {filteredVerses.map(item => (
