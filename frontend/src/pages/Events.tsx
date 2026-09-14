@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { eventAPI } from '../services/api';
 import type { Event } from '../services/api.d';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 
 const Events = () => {
     const [events, setEvents] = useState<Event[]>([]);
@@ -45,10 +46,10 @@ const Events = () => {
                 <div className="md:hidden mb-4">
                     <div className="flex items-center gap-2 mb-2">
                         <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                        <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Events</span>
+                        <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Events</AutoText>
                     </div>
-                    <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Community Calendar</h1>
-                    <p className="text-sm text-gray-500 mt-2">Join us as we grow together in faith, knowledge, and fellowship.</p>
+                    <AutoText as="h1" className="text-2xl font-black uppercase tracking-tight text-gray-900">Community Calendar</AutoText>
+                    <AutoText as="p" className="text-sm text-gray-500 mt-2">Join us as we grow together in faith, knowledge, and fellowship.</AutoText>
                 </div>
 
                 {/* Controls */}
@@ -63,7 +64,7 @@ const Events = () => {
                                     : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
                                     }`}
                             >
-                                {t === 'ALL' ? 'All Events' : t.charAt(0) + t.slice(1).toLowerCase()}
+                                <AutoText as="span">{t === 'ALL' ? 'All Events' : t.charAt(0) + t.slice(1).toLowerCase()}</AutoText>
                             </button>
                         ))}
                     </div>
@@ -89,8 +90,8 @@ const Events = () => {
                 ) : filteredEvents.length === 0 ? (
                     <div className="text-center py-16 bg-white border border-dashed border-gray-300 rounded-lg">
                         <Calendar className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-bold text-gray-900">No events found</h3>
-                        <p className="text-gray-500 text-sm mt-1">Adjust your filters or check back later.</p>
+                        <AutoText as="h3" className="text-lg font-bold text-gray-900">No events found</AutoText>
+                        <AutoText as="p" className="text-gray-500 text-sm mt-1">Adjust your filters or check back later.</AutoText>
                     </div>
                 ) : (
                     <div className="space-y-10 md:space-y-16">
@@ -99,7 +100,7 @@ const Events = () => {
                             <section>
                                 <div className="flex items-center gap-2 mb-4 md:mb-6">
                                     <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                                    <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Upcoming Gatherings</h2>
+                                    <AutoText as="h2" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Upcoming Gatherings</AutoText>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                                     {upcomingEvents.map((event) => (
@@ -114,7 +115,7 @@ const Events = () => {
                             <section className="opacity-75">
                                 <div className="flex items-center gap-2 mb-4 md:mb-6">
                                     <span className="w-1 h-4 bg-gray-400 rounded-sm" />
-                                    <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400">Past Events</h2>
+                                    <AutoText as="h2" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-gray-400">Past Events</AutoText>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                                     {pastEvents.map((event) => (
@@ -151,7 +152,7 @@ const EventCard = ({ event, isPast }: { event: Event, isPast?: boolean }) => {
                 </div>
                 {!isPast && (
                     <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3 bg-black/70 px-2 py-1 md:px-3 md:py-1.5 rounded text-white">
-                        <p className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-gray-300 leading-none mb-0.5">Joined</p>
+                        <AutoText as="p" className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-gray-300 leading-none mb-0.5">Joined</AutoText>
                         <p className="text-xs md:text-sm font-bold leading-none">{event._count?.rsvps || 0}</p>
                     </div>
                 )}

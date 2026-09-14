@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Calendar, MapPin, Clock, Users, ArrowLeft, Share2, Heart, CheckCircle2, User as UserIcon, ExternalLink, X } from 'lucide-react';
 import { eventAPI, authAPI } from '../services/api';
 import type { Event } from '../services/api.d';
+import AutoText from '../components/AutoText';
 
 const EventDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -194,9 +195,9 @@ const EventDetail = () => {
     if (!event) {
         return (
             <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-                <h2 className="text-2xl font-serif text-gray-900 mb-4">Event not found</h2>
+                <AutoText as="h2" className="text-2xl font-serif text-gray-900 mb-4">Event not found</AutoText>
                 <Link to="/events" className="text-amber-700 font-bold flex items-center gap-2 hover:text-amber-800 transition-colors">
-                    <ArrowLeft className="h-4 w-4" /> Back to Calendar
+                    <ArrowLeft className="h-4 w-4" /> <AutoText as="span">Back to Calendar</AutoText>
                 </Link>
             </div>
         );
@@ -212,7 +213,7 @@ const EventDetail = () => {
                     to="/events"
                     className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-3 md:mb-6"
                 >
-                    <ArrowLeft className="w-3.5 h-3.5" /> Back to Events
+                    <ArrowLeft className="w-3.5 h-3.5" /> <AutoText as="span">Back to Events</AutoText>
                 </Link>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-10">
@@ -226,7 +227,7 @@ const EventDetail = () => {
                                 {isToday && (
                                     <span className="inline-flex items-center gap-1.5 px-2 py-0.5 md:px-2.5 md:py-1 bg-red-50 text-red-600 border border-red-200 text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded">
                                         <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-pulse" />
-                                        Live Today
+                                        <AutoText as="span">Live Today</AutoText>
                                     </span>
                                 )}
                             </div>
@@ -247,7 +248,7 @@ const EventDetail = () => {
 
                             <div className="flex items-center gap-2 mb-2 md:mb-4">
                                 <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                                <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">About this Event</h2>
+                                <AutoText as="h2" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">About this Event</AutoText>
                             </div>
                             <p className="text-sm md:text-base text-gray-700 leading-relaxed">
                                 {event.description}
@@ -257,7 +258,7 @@ const EventDetail = () => {
                         <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8">
                             <div className="flex items-center gap-2 mb-3 md:mb-6">
                                 <Users className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
-                                <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Who's Joining?</h3>
+                                <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Who's Joining?</AutoText>
                             </div>
                             <div className="flex flex-wrap gap-3 md:gap-4">
                                 {event.rsvps && event.rsvps.length > 0 && (
@@ -289,7 +290,7 @@ const EventDetail = () => {
                                     ))
                                 )}
                                 {(!event.rsvps || event.rsvps.length === 0) && (!event.guestRsvps || event.guestRsvps.length === 0) && (
-                                    <p className="text-gray-400 text-xs md:text-sm italic">No RSVPs yet. Be the first to join!</p>
+                                    <AutoText as="p" className="text-gray-400 text-xs md:text-sm italic">No RSVPs yet. Be the first to join!</AutoText>
                                 )}
                             </div>
                         </div>
@@ -298,12 +299,12 @@ const EventDetail = () => {
                     {/* Sidebar */}
                     <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
                         <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
-                            <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-4">Event Details</h3>
+                            <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-4">Event Details</AutoText>
                             <dl className="space-y-1">
                                 <div className="flex items-start justify-between gap-3 py-2 md:py-2.5 border-b border-gray-100">
                                     <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm shrink-0">
                                         <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
-                                        Date
+                                        <AutoText as="span">Date</AutoText>
                                     </dt>
                                     <dd className="font-bold text-gray-900 text-xs md:text-sm text-right">
                                         {startDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
@@ -312,7 +313,7 @@ const EventDetail = () => {
                                 <div className="flex items-start justify-between gap-3 py-2 md:py-2.5 border-b border-gray-100">
                                     <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm shrink-0">
                                         <Clock className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
-                                        Time
+                                        <AutoText as="span">Time</AutoText>
                                     </dt>
                                     <dd className="font-bold text-gray-900 text-xs md:text-sm">
                                         {startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
@@ -321,13 +322,13 @@ const EventDetail = () => {
                                 <div className="flex items-start justify-between gap-3 py-2 md:py-2.5">
                                     <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm shrink-0">
                                         <MapPin className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
-                                        Location
+                                        <AutoText as="span">Location</AutoText>
                                     </dt>
                                     <dd className="font-bold text-gray-900 text-xs md:text-sm text-right min-w-0">
                                         <span className="block truncate">{event.location}</span>
                                         {event.location.includes('http') && (
                                             <a href={event.location} target="_blank" rel="noopener noreferrer" className="text-amber-700 text-[11px] md:text-xs font-bold inline-flex items-center gap-1 mt-1 hover:text-amber-800 hover:underline">
-                                                Open Link <ExternalLink className="h-3 w-3" />
+                                                <AutoText as="span">Open Link</AutoText> <ExternalLink className="h-3 w-3" />
                                             </a>
                                         )}
                                     </dd>
@@ -344,23 +345,23 @@ const EventDetail = () => {
                                         }`}
                                 >
                                     {isRSVPed ? (
-                                        <><CheckCircle2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> {currentUser ? 'Selected to Join' : "You're Joining"}</>
+                                        <><CheckCircle2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> <AutoText as="span">{currentUser ? 'Selected to Join' : "You're Joining"}</AutoText></>
                                     ) : (
-                                        'Join this Event'
+                                        <AutoText as="span">Join this Event</AutoText>
                                     )}
                                 </button>
                                 <p className="text-center text-[9px] md:text-[10px] text-gray-400 font-bold tracking-widest uppercase">
-                                    {event._count?.rsvps || 0} People are confirmed
+                                    {event._count?.rsvps || 0} <AutoText as="span">People are confirmed</AutoText>
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex gap-2.5 md:gap-3">
                             <button className="flex-1 py-2 md:py-2.5 border border-gray-300 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors">
-                                <Share2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> Share
+                                <Share2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> <AutoText as="span">Share</AutoText>
                             </button>
                             <button className="flex-1 py-2 md:py-2.5 border border-gray-300 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors">
-                                <Heart className="h-3.5 w-3.5 md:h-4 md:w-4" /> Save
+                                <Heart className="h-3.5 w-3.5 md:h-4 md:w-4" /> <AutoText as="span">Save</AutoText>
                             </button>
                         </div>
 
@@ -385,9 +386,9 @@ const EventDetail = () => {
                         {otherEvents.length > 0 && (
                             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
                                 <div className="flex items-center justify-between mb-3 md:mb-4">
-                                    <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Other Events</h3>
+                                    <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Other Events</AutoText>
                                     <Link to="/events" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
-                                        See All &rarr;
+                                        <AutoText as="span">See All</AutoText> &rarr;
                                     </Link>
                                 </div>
                                 <div className="space-y-3 md:space-y-4">
@@ -435,14 +436,14 @@ const EventDetail = () => {
                         <div className="mb-6">
                             <div className="flex items-center gap-2 mb-2">
                                 <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                                <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Join this Event</span>
+                                <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Join this Event</AutoText>
                             </div>
-                            <p className="text-gray-500 text-sm">Tell us who's coming so we can prepare a spot for you.</p>
+                            <AutoText as="p" className="text-gray-500 text-sm">Tell us who's coming so we can prepare a spot for you.</AutoText>
                         </div>
 
                         <form onSubmit={handleGuestRSVP} className="space-y-4">
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Your Name</label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Your Name</AutoText></label>
                                 <input
                                     required
                                     type="text"
@@ -454,7 +455,7 @@ const EventDetail = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Email</label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Email</AutoText></label>
                                 <input
                                     required
                                     type="email"
@@ -477,7 +478,7 @@ const EventDetail = () => {
                                 disabled={guestSubmitting}
                                 className="w-full bg-amber-700 text-white py-3 rounded-md text-sm font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors disabled:opacity-50"
                             >
-                                {guestSubmitting ? 'Joining…' : 'Confirm RSVP'}
+                                {guestSubmitting ? <AutoText as="span">Joining…</AutoText> : <AutoText as="span">Confirm RSVP</AutoText>}
                             </button>
                         </form>
                     </div>
