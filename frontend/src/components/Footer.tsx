@@ -5,6 +5,7 @@ import { Facebook, Twitter, Instagram, CheckCircle2 } from 'lucide-react';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import { useContentSettings } from '../hooks/useContentSettings';
 import { newsletterAPI } from '../services/api';
+import IhemaLogo from './IhemaLogo';
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -54,7 +55,7 @@ const Footer = () => {
               ) : logoSettings.logoUrl ? (
                 <img src={logoSettings.logoUrl} alt="Logo" className="h-9 object-contain" />
               ) : (
-                <span className="text-xl font-sans font-extrabold text-gray-900 dark:text-white tracking-tight">{logoSettings.logoText}</span>
+                <IhemaLogo />
               )}
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed max-w-sm">

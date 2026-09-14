@@ -122,7 +122,8 @@ const Header = () => {
               className="shrink-0 focus:outline-none focus:ring-2 focus:ring-amber-600/50 rounded-md"
               aria-label="Home"
             >
-              <img src="/images/logo.png" alt="Logo" className="h-9 w-auto object-contain" />
+              <img src="/images/logo.png" alt="Logo" className="h-9 w-auto object-contain dark:hidden" />
+              <img src="/images/logo-dark.png" alt="Logo" className="h-12 w-auto object-contain hidden dark:block" />
             </Link>
           )}
 
