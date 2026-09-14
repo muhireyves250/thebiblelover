@@ -401,6 +401,8 @@ const Header = () => {
                 { path: '/events', label: 'Events' },
                 { path: '/donate', label: 'Donate' },
                 { path: '/contact', label: 'Contact' },
+                { path: '/terms', label: 'Terms' },
+                { path: '/privacy', label: 'Privacy' },
               ].map((link) => {
                 const isActive = link.path === '/' ? location.pathname === '/' : location.pathname.startsWith(link.path);
                 return (
