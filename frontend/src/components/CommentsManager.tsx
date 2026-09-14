@@ -22,14 +22,14 @@ const CommentsManager = ({
     return (
         <div className="space-y-3">
             {/* Comments Header - Professional Ultra Compact */}
-            <div className="bg-gradient-to-r from-white to-gray-50 rounded-lg shadow-md border border-gray-200 p-3">
+            <div className="bg-gradient-to-r from-white to-gray-50 rounded-lg shadow-md border border-gray-200 dark:border-white/10 p-3">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-lg">
                             <MessageSquare className="h-4 w-4 text-white" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-gray-900">Comments Management</h3>
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Comments Management</h3>
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
@@ -83,7 +83,7 @@ const CommentsManager = ({
             </div>
 
             {/* Comments List - Professional Ultra Compact */}
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+            <div className="bg-white dark:bg-[#141417] rounded-lg shadow-md border border-gray-200 dark:border-white/10 overflow-hidden">
                 <div className="bg-gradient-to-r from-purple-50 to-indigo-50 px-3 py-2 border-b border-purple-200">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
@@ -91,7 +91,7 @@ const CommentsManager = ({
                                 <MessageSquare className="h-3 w-3 text-white" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-bold text-gray-900">Recent Comments</h4>
+                                <h4 className="text-sm font-bold text-gray-900 dark:text-white">Recent Comments</h4>
                             </div>
                         </div>
                         <div className="flex items-center space-x-3">
@@ -118,7 +118,7 @@ const CommentsManager = ({
                             scrollbarColor: '#d1d5db #f3f4f6'
                         }}>
                         {comments.slice(0, showAllComments ? comments.length : 2).map((comment) => (
-                            <div key={comment.id} className="p-2 border-b border-gray-100 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-300 group">
+                            <div key={comment.id} className="p-2 border-b border-gray-100 dark:border-white/5 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-300 group">
                                 <div className="flex items-start space-x-3">
                                     {/* Author Avatar */}
                                     <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0 group-hover:shadow-lg transition-all duration-300">
@@ -130,7 +130,7 @@ const CommentsManager = ({
                                     {/* Comment Content */}
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center space-x-2 mb-1">
-                                            <h5 className="text-xs font-bold text-gray-900 truncate group-hover:text-purple-600 transition-colors duration-200">{comment.authorName}</h5>
+                                            <h5 className="text-xs font-bold text-gray-900 dark:text-white truncate group-hover:text-purple-600 transition-colors duration-200">{comment.authorName}</h5>
                                             {comment.isApproved ? (
                                                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300">
                                                     <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></div>
@@ -145,8 +145,8 @@ const CommentsManager = ({
                                         </div>
 
                                         <div className="mb-2">
-                                            <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
-                                                <p className="text-xs text-gray-700 leading-relaxed">
+                                            <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-3 border border-gray-200 dark:border-white/10">
+                                                <p className="text-xs text-gray-700 dark:text-gray-200 leading-relaxed">
                                                     {expandedComments.has(comment.id) ? (
                                                         <>
                                                             {comment.content}
@@ -180,14 +180,14 @@ const CommentsManager = ({
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between text-xs text-gray-500">
+                                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                                             <div className="flex items-center space-x-2">
-                                                <div className="flex items-center space-x-1 px-2 py-0.5 bg-gray-100 rounded-full">
+                                                <div className="flex items-center space-x-1 px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded-full">
                                                     <BookOpen className="h-2 w-2" />
                                                     <span className="font-medium">{comment.postSlug}</span>
                                                 </div>
                                                 <span>•</span>
-                                                <span className="text-gray-400">{new Date(comment.timestamp).toLocaleDateString()}</span>
+                                                <span className="text-gray-400 dark:text-gray-500">{new Date(comment.timestamp).toLocaleDateString()}</span>
                                             </div>
 
                                             {/* Actions */}
@@ -222,8 +222,8 @@ const CommentsManager = ({
                                 <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
                                     <MessageSquare className="h-6 w-6 text-purple-400" />
                                 </div>
-                                <h3 className="text-sm font-bold text-gray-900 mb-1">No Comments Yet</h3>
-                                <p className="text-xs text-gray-500">Comments from your blog posts will appear here</p>
+                                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">No Comments Yet</h3>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Comments from your blog posts will appear here</p>
                             </div>
                         )}
 
@@ -232,7 +232,7 @@ const CommentsManager = ({
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center space-x-2">
                                         <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                                        <p className="text-xs font-semibold text-gray-700">
+                                        <p className="text-xs font-semibold text-gray-700 dark:text-gray-200">
                                             {showAllComments
                                                 ? `Showing all ${comments.length} comments`
                                                 : `Showing 2 of ${comments.length} comments`

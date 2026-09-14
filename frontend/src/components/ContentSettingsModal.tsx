@@ -124,19 +124,19 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
                 {/* Header */}
-                <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                <div className="p-6 border-b border-gray-100 dark:border-white/5 flex items-center justify-between bg-gray-50/50">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-indigo-100/50 rounded-lg text-indigo-600">
                             <Layout className="w-5 h-5" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-serif text-gray-900">Site Content</h2>
-                            <p className="text-sm text-gray-500">Update static page content</p>
+                            <h2 className="text-xl font-serif text-gray-900 dark:text-white">Site Content</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Update static page content</p>
                         </div>
                     </div>
-                    <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                    <button onClick={onClose} className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
@@ -148,15 +148,15 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                 ) : (
                     <div className="flex flex-1 overflow-hidden">
                         {/* Sidebar Tabs */}
-                        <div className="w-48 bg-gray-50 border-r border-gray-100 overflow-y-auto">
+                        <div className="w-48 bg-gray-50 dark:bg-white/5 border-r border-gray-100 dark:border-white/5 overflow-y-auto">
                             <div className="p-4 space-y-1">
                                 {tabs.map(tab => (
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${activeTab === tab.id
-                                            ? 'bg-white text-indigo-600 shadow-sm ring-1 ring-gray-200'
-                                            : 'text-gray-600 hover:bg-gray-100'
+                                            ? 'bg-white dark:bg-[#141417] text-indigo-600 shadow-sm ring-1 ring-gray-200'
+                                            : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100'
                                             }`}
                                     >
                                         {tab.label}
@@ -171,34 +171,34 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                                 {activeTab === 'heroSection' ? (
                                     <div className="space-y-6">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Main Heading (Title)</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Main Heading (Title)</label>
                                             <input
                                                 type="text"
                                                 name="title"
                                                 value={formData.title}
                                                 onChange={handleInputChange}
-                                                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+                                                className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
                                                 placeholder="e.g. THE BIBLE LOVER"
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Subheading (Subtitle)</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Subheading (Subtitle)</label>
                                             <input
                                                 type="text"
                                                 name="content"
                                                 value={formData.content}
                                                 onChange={handleInputChange}
-                                                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+                                                className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
                                                 placeholder="e.g. READ ALL ABOUT IT"
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Hero Video (Bottom Left)</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Hero Video (Bottom Left)</label>
                                             <div className="space-y-4">
                                                 {formData.videoUrl && (
-                                                    <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 border border-gray-200 relative group">
+                                                    <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-white/10 border border-gray-200 dark:border-white/10 relative group">
                                                         <video
                                                             src={formData.videoUrl}
                                                             controls
@@ -217,24 +217,24 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                                                         value={formData.videoUrl || ''}
                                                         onChange={handleInputChange}
                                                         placeholder="Enter video URL..."
-                                                        className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-sm"
+                                                        className="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-sm"
                                                     />
-                                                    <label className={`cursor-pointer px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
-                                                        <Video className="w-4 h-4 text-gray-400" />
-                                                        <span className="text-sm font-medium text-gray-600">
+                                                    <label className={`cursor-pointer px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 transition-colors flex items-center gap-2 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                                                        <Video className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                                                        <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                                                             {uploading ? '...' : 'Upload Video'}
                                                         </span>
                                                         <input type="file" className="hidden" accept="video/*" onChange={handleVideoUpload} />
                                                     </label>
                                                 </div>
-                                                <p className="text-xs text-gray-500">Max size: 50MB. Formats: MP4, WebM.</p>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400">Max size: 50MB. Formats: MP4, WebM.</p>
                                             </div>
 
                                             <div className="mt-8">
-                                                <label className="block text-sm font-medium text-gray-700 mb-2">Hero Background Image</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Hero Background Image</label>
                                                 <div className="space-y-4">
                                                     {formData.imageUrl && (
-                                                        <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 border border-gray-200 relative group">
+                                                        <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-white/10 border border-gray-200 dark:border-white/10 relative group">
                                                             <img
                                                                 src={formData.imageUrl}
                                                                 alt="Hero Background Preview"
@@ -253,11 +253,11 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                                                             value={formData.imageUrl}
                                                             onChange={handleInputChange}
                                                             placeholder="Enter image URL..."
-                                                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-sm"
+                                                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-sm"
                                                         />
-                                                        <label className={`cursor-pointer px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
-                                                            <Upload className="w-4 h-4 text-gray-400" />
-                                                            <span className="text-sm font-medium text-gray-600">
+                                                        <label className={`cursor-pointer px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 transition-colors flex items-center gap-2 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                                                            <Upload className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                                                            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                                                                 {uploading ? '...' : 'Upload Image'}
                                                             </span>
                                                             <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
@@ -270,19 +270,19 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                                 ) : (
                                     <>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Section Title</label>
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Section Title</label>
                                             <input
                                                 type="text"
                                                 name="title"
                                                 value={formData.title}
                                                 onChange={handleInputChange}
-                                                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+                                                className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
                                                 placeholder="Enter section title..."
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                 {activeTab === 'announcementsSection' ? 'Announcements (one per line)' : 'Section Content'}
                                             </label>
                                             <textarea
@@ -290,20 +290,20 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                                                 value={formData.content}
                                                 onChange={handleInputChange}
                                                 rows={6}
-                                                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none resize-none"
+                                                className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none resize-none"
                                                 placeholder={activeTab === 'announcementsSection' ? 'One announcement per line...' : 'Enter section description...'}
                                             />
                                             {activeTab === 'announcementsSection' && (
-                                                <p className="text-xs text-gray-500 mt-2">Each line becomes one sliding announcement on the homepage.</p>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Each line becomes one sliding announcement on the homepage.</p>
                                             )}
                                         </div>
 
                                         {activeTab !== 'announcementsSection' && (
                                             <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-2">Section Image</label>
+                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Section Image</label>
                                                 <div className="space-y-4">
                                                     {formData.imageUrl && (
-                                                        <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 border border-gray-200 relative group">
+                                                        <div className="aspect-video w-full rounded-lg overflow-hidden bg-gray-100 dark:bg-white/10 border border-gray-200 dark:border-white/10 relative group">
                                                             <img
                                                                 src={formData.imageUrl}
                                                                 alt="Section Preview"
@@ -322,11 +322,11 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                                                             value={formData.imageUrl}
                                                             onChange={handleInputChange}
                                                             placeholder="Enter image URL..."
-                                                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-sm"
+                                                            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-sm"
                                                         />
-                                                        <label className={`cursor-pointer px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
-                                                            <Upload className="w-4 h-4 text-gray-400" />
-                                                            <span className="text-sm font-medium text-gray-600">
+                                                        <label className={`cursor-pointer px-4 py-2 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-gray-50 transition-colors flex items-center gap-2 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                                                            <Upload className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                                                            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                                                                 {uploading ? '...' : 'Upload'}
                                                             </span>
                                                             <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
@@ -338,11 +338,11 @@ const ContentSettingsModal: React.FC<ContentSettingsModalProps> = ({ isOpen, onC
                                     </>
                                 )}
 
-                                <div className="pt-4 border-t border-gray-100 flex items-center justify-end">
+                                <div className="pt-4 border-t border-gray-100 dark:border-white/5 flex items-center justify-end">
                                     <button
                                         type="button"
                                         onClick={onClose}
-                                        className="px-6 py-2 rounded-lg text-gray-600 hover:bg-gray-100 font-medium transition-colors mr-3"
+                                        className="px-6 py-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 font-medium transition-colors mr-3"
                                     >
                                         Cancel
                                     </button>

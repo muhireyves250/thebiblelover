@@ -33,9 +33,9 @@ const categoryLabel = (item: HomeFeedItem) =>
   item.type === 'POST' ? item.category.replace(/_/g, ' ') : item.type === 'LIVE' ? 'Live' : 'Video';
 
 const StatsRow: React.FC<{ item: HomeFeedItem; onShare?: () => void }> = ({ item, onShare }) => (
-  <div className="flex items-center justify-between pt-1 mt-1 border-t border-gray-100">
-    <span className="text-[9px] md:text-[11px] text-gray-400 truncate">{formatDateTime(item.publishedAt)}</span>
-    <div className="flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[11px] text-gray-400 shrink-0">
+  <div className="flex items-center justify-between pt-1 mt-1 border-t border-gray-100 dark:border-white/5">
+    <span className="text-[9px] md:text-[11px] text-gray-400 dark:text-gray-500 truncate">{formatDateTime(item.publishedAt)}</span>
+    <div className="flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[11px] text-gray-400 dark:text-gray-500 shrink-0">
       <span className="flex items-center gap-0.5 md:gap-1"><Eye className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.views}</span>
       <span className="flex items-center gap-0.5 md:gap-1"><Heart className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.likes}</span>
       <span className="flex items-center gap-0.5 md:gap-1"><MessageCircle className="w-2.5 h-2.5 md:w-3 md:h-3" /> {item.comments}</span>
@@ -60,8 +60,8 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
   };
 
   return (
-    <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-      <div className="relative flex-1 min-h-[180px] md:min-h-[270px] bg-gray-100 overflow-hidden">
+    <div className="h-full flex flex-col bg-white dark:bg-[#141417] rounded-2xl overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm">
+      <div className="relative flex-1 min-h-[180px] md:min-h-[270px] bg-gray-100 dark:bg-white/10 overflow-hidden">
         {video && playing ? (
           <>
             <iframe
@@ -92,8 +92,8 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
               <div className="absolute top-4 left-4 flex flex-col gap-2">
                 <div className="flex items-center gap-1.5 px-3 py-1 bg-red-600 rounded-full shadow-lg w-fit">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white dark:bg-[#141417] opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white dark:bg-[#141417]" />
                   </span>
                   <AutoText as="span" className="text-white text-[11px] font-black uppercase tracking-widest">Live</AutoText>
                 </div>
@@ -124,16 +124,16 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
         <div className="flex items-start gap-2 md:gap-3 mb-1.5 md:mb-3">
           <span className="mt-2 w-2 h-2 rounded-full bg-red-600 shrink-0" />
           {video ? (
-            <h3 className="text-sm md:text-xl font-bold text-gray-900 uppercase leading-snug line-clamp-2">{item.title}</h3>
+            <h3 className="text-sm md:text-xl font-bold text-gray-900 dark:text-white uppercase leading-snug line-clamp-2">{item.title}</h3>
           ) : (
             <Link to={itemHref(item)} className="group/title">
-              <h3 className="text-sm md:text-xl font-bold text-gray-900 uppercase leading-snug line-clamp-2 group-hover/title:text-amber-700 transition-colors">
+              <h3 className="text-sm md:text-xl font-bold text-gray-900 dark:text-white uppercase leading-snug line-clamp-2 group-hover/title:text-amber-700 transition-colors">
                 {item.title}
               </h3>
             </Link>
           )}
         </div>
-        <p className="text-xs md:text-sm text-gray-500 leading-relaxed line-clamp-1 md:line-clamp-3 mb-2 md:mb-4">{item.excerpt}</p>
+        <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-1 md:line-clamp-3 mb-2 md:mb-4">{item.excerpt}</p>
         <StatsRow item={item} onShare={() => setIsShareOpen(true)} />
       </div>
 
@@ -151,8 +151,8 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
 const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   const video = isVideoLike(item);
   const card = (
-    <div className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-all group">
-      <div className="relative h-24 md:h-36 bg-gray-100 overflow-hidden">
+    <div className="bg-white dark:bg-[#141417] rounded-lg overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-all group">
+      <div className="relative h-24 md:h-36 bg-gray-100 dark:bg-white/10 overflow-hidden">
         <img
           src={item.thumbnail}
           alt={item.title}
@@ -171,7 +171,7 @@ const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
         <span className="block text-[10px] md:text-[11px] font-bold uppercase tracking-wider text-amber-700 mb-1 md:mb-2">
           {categoryLabel(item)}
         </span>
-        <h4 className="text-xs md:text-sm font-bold text-gray-900 uppercase leading-snug line-clamp-2 mb-1 group-hover:text-amber-700 transition-colors">
+        <h4 className="text-xs md:text-sm font-bold text-gray-900 dark:text-white uppercase leading-snug line-clamp-2 mb-1 group-hover:text-amber-700 transition-colors">
           {item.title}
         </h4>
         <StatsRow item={item} />
@@ -194,8 +194,8 @@ const HeroVideoCard: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-      <div className="relative flex-1 min-h-[220px] bg-gray-100 overflow-hidden">
+    <div className="h-full flex flex-col bg-white dark:bg-[#141417] rounded-2xl overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm">
+      <div className="relative flex-1 min-h-[220px] bg-gray-100 dark:bg-white/10 overflow-hidden">
         {playing ? (
           <video
             src={videoUrl}
@@ -231,11 +231,11 @@ const HeroVideoCard: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
       <div className="p-6">
         <div className="flex items-start gap-3 mb-3">
           <span className="mt-2 w-2 h-2 rounded-full bg-red-600 shrink-0" />
-          <AutoText as="h3" className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug">
+          <AutoText as="h3" className="text-lg md:text-xl font-bold text-gray-900 dark:text-white uppercase leading-snug">
             A Word While You Wait
           </AutoText>
         </div>
-        <AutoText as="p" className="text-sm text-gray-500 leading-relaxed">
+        <AutoText as="p" className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
           We're not live right now, but take a moment with this reflection from The Bible Lover.
           Check back soon for our next broadcast, or explore our channel for more teachings.
         </AutoText>
@@ -245,13 +245,13 @@ const HeroVideoCard: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
 };
 
 const NoVideoPlaceholder: React.FC = () => (
-  <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-    <div className="flex-1 min-h-[220px] bg-gray-50 flex flex-col items-center justify-center text-center px-8">
+  <div className="h-full flex flex-col bg-white dark:bg-[#141417] rounded-2xl overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm">
+    <div className="flex-1 min-h-[220px] bg-gray-50 dark:bg-white/5 flex flex-col items-center justify-center text-center px-8">
       <span className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center mb-4">
         <Play className="w-6 h-6 text-amber-700 ml-0.5" fill="currentColor" />
       </span>
-      <p className="text-sm font-bold text-gray-700 mb-1">No live stream right now</p>
-      <p className="text-xs text-gray-400 mb-4">Check our channel for the latest videos and teachings.</p>
+      <p className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">No live stream right now</p>
+      <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">Check our channel for the latest videos and teachings.</p>
       <a
         href={YOUTUBE_CHANNEL_URL}
         target="_blank"
@@ -265,36 +265,36 @@ const NoVideoPlaceholder: React.FC = () => (
 );
 
 const ReportCardSkeleton: React.FC = () => (
-  <div className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow-sm h-full">
-    <div className="h-14 md:h-36 bg-gray-300 animate-pulse" />
+  <div className="bg-white dark:bg-[#141417] rounded-lg overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm h-full">
+    <div className="h-14 md:h-36 bg-gray-300 dark:bg-white/10 animate-pulse" />
     <div className="p-1.5 md:p-4">
-      <div className="hidden md:block h-3 w-20 bg-gray-300 rounded animate-pulse mb-2" />
-      <div className="h-3 md:h-4 w-full bg-gray-300 rounded animate-pulse mb-1 md:mb-2" />
-      <div className="hidden md:block h-4 w-2/3 bg-gray-300 rounded animate-pulse mb-4" />
-      <div className="h-2 md:h-3 w-3/4 bg-gray-300 rounded animate-pulse mt-1" />
+      <div className="hidden md:block h-3 w-20 bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-2" />
+      <div className="h-3 md:h-4 w-full bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-1 md:mb-2" />
+      <div className="hidden md:block h-4 w-2/3 bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-4" />
+      <div className="h-2 md:h-3 w-3/4 bg-gray-300 dark:bg-white/10 rounded animate-pulse mt-1" />
     </div>
   </div>
 );
 
 const FeaturedCardSkeleton: React.FC = () => (
-  <div className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
-    <div className="flex-1 min-h-[140px] md:min-h-[220px] bg-gray-300 animate-pulse" />
+  <div className="h-full flex flex-col bg-white dark:bg-[#141417] rounded-2xl overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm">
+    <div className="flex-1 min-h-[140px] md:min-h-[220px] bg-gray-300 dark:bg-white/10 animate-pulse" />
     <div className="p-3 md:p-6">
       <div className="flex items-start gap-2 md:gap-3 mb-1.5 md:mb-3">
-        <span className="mt-1.5 w-1.5 h-1.5 md:mt-2 md:w-2 md:h-2 rounded-full bg-gray-200 shrink-0" />
-        <div className="h-4 md:h-6 w-3/4 bg-gray-300 rounded animate-pulse" />
+        <span className="mt-1.5 w-1.5 h-1.5 md:mt-2 md:w-2 md:h-2 rounded-full bg-gray-200 dark:bg-white/10 shrink-0" />
+        <div className="h-4 md:h-6 w-3/4 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
       </div>
-      <div className="h-3 md:h-4 w-full bg-gray-300 rounded animate-pulse mb-2 md:mb-2" />
-      <div className="hidden md:block h-4 w-5/6 bg-gray-300 rounded animate-pulse mb-4" />
-      <div className="h-2.5 md:h-3 w-1/2 bg-gray-300 rounded animate-pulse" />
+      <div className="h-3 md:h-4 w-full bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-2 md:mb-2" />
+      <div className="hidden md:block h-4 w-5/6 bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-4" />
+      <div className="h-2.5 md:h-3 w-1/2 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
     </div>
   </div>
 );
 
 const NoReflectionsYet: React.FC = () => (
-  <div className="h-full min-h-[240px] flex flex-col items-center justify-center text-center bg-white rounded-xl border border-dashed border-gray-300 px-8">
-    <AutoText as="p" className="text-sm font-bold text-gray-700 mb-1">No reflections yet</AutoText>
-    <AutoText as="p" className="text-xs text-gray-400">Check back soon — new posts will show up here.</AutoText>
+  <div className="h-full min-h-[240px] flex flex-col items-center justify-center text-center bg-white dark:bg-[#141417] rounded-xl border border-dashed border-gray-300 dark:border-white/10 px-8">
+    <AutoText as="p" className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">No reflections yet</AutoText>
+    <AutoText as="p" className="text-xs text-gray-400 dark:text-gray-500">Check back soon — new posts will show up here.</AutoText>
   </div>
 );
 
@@ -377,17 +377,17 @@ const HomeFeed: React.FC = () => {
   }, [items.length]);
 
   return (
-    <section className="py-3 md:py-20 bg-white isolate">
+    <section className="py-3 md:py-20 bg-white dark:bg-[#141417] isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-10 items-stretch">
           {/* Featured / Broadcast column */}
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between mb-2 md:mb-4">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1.5 bg-gray-100 rounded-md text-xs font-black uppercase tracking-widest text-gray-900">
+                <span className="px-3 py-1.5 bg-gray-100 dark:bg-white/10 rounded-md text-xs font-black uppercase tracking-widest text-gray-900 dark:text-white">
                   Watch
                 </span>
-                <span className="text-xs font-bold uppercase tracking-widest text-gray-400">
+                <span className="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
                   Live Stream
                 </span>
               </div>
@@ -439,7 +439,7 @@ const HomeFeed: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-2 md:mb-4 gap-4">
               <AutoText as="h2" className="text-xs font-black uppercase tracking-widest text-amber-700 whitespace-nowrap">Latest Reflections</AutoText>
-              <Link to="/posts" className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
+              <Link to="/posts" className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-gray-900 transition-colors whitespace-nowrap">
                 View All <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -506,8 +506,8 @@ const HomeFeed: React.FC = () => {
                       isRealPage
                         ? i === currentPage
                           ? 'h-6 bg-amber-600'
-                          : 'h-2 bg-gray-300 hover:bg-gray-400 cursor-pointer'
-                        : 'h-2 bg-gray-200 cursor-default'
+                          : 'h-2 bg-gray-300 dark:bg-white/10 hover:bg-gray-400 cursor-pointer'
+                        : 'h-2 bg-gray-200 dark:bg-white/10 cursor-default'
                     }`}
                   />
                 );

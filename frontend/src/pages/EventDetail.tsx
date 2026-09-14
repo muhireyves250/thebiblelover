@@ -119,67 +119,67 @@ const EventDetail = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-white">
+            <div className="min-h-screen bg-white dark:bg-[#141417]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-10">
                     <nav className="mb-3 md:mb-6">
-                        <span className="inline-block h-3 w-48 bg-gray-200 rounded animate-pulse" />
+                        <span className="inline-block h-3 w-48 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                     </nav>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-10">
                         <article className="lg:col-span-2">
-                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
-                                <div className="h-6 w-24 bg-gray-200 rounded animate-pulse mb-4" />
-                                <div className="h-9 bg-gray-200 rounded animate-pulse w-3/4 mb-2" />
-                                <div className="h-9 bg-gray-200 rounded animate-pulse w-1/2 mb-6" />
-                                <div className="w-full h-64 md:h-80 bg-gray-200 rounded-lg animate-pulse mb-6" />
-                                <div className="h-3 w-32 bg-gray-200 rounded animate-pulse mb-4" />
-                                <div className="h-4 bg-gray-200 rounded animate-pulse w-full mb-2" />
-                                <div className="h-4 bg-gray-200 rounded animate-pulse w-full mb-2" />
-                                <div className="h-4 bg-gray-200 rounded animate-pulse w-2/3" />
+                            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-6 md:p-8 mb-8">
+                                <div className="h-6 w-24 bg-gray-200 dark:bg-white/10 rounded animate-pulse mb-4" />
+                                <div className="h-9 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-3/4 mb-2" />
+                                <div className="h-9 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-1/2 mb-6" />
+                                <div className="w-full h-64 md:h-80 bg-gray-200 dark:bg-white/10 rounded-lg animate-pulse mb-6" />
+                                <div className="h-3 w-32 bg-gray-200 dark:bg-white/10 rounded animate-pulse mb-4" />
+                                <div className="h-4 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-full mb-2" />
+                                <div className="h-4 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-full mb-2" />
+                                <div className="h-4 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-2/3" />
                             </div>
 
-                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8">
-                                <div className="h-3 w-32 bg-gray-200 rounded animate-pulse mb-6" />
+                            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-6 md:p-8">
+                                <div className="h-3 w-32 bg-gray-200 dark:bg-white/10 rounded animate-pulse mb-6" />
                                 <div className="flex flex-wrap gap-4">
                                     {[1, 2, 3, 4].map(i => (
-                                        <div key={i} className="w-12 h-12 rounded-full bg-gray-200 animate-pulse" />
+                                        <div key={i} className="w-12 h-12 rounded-full bg-gray-200 dark:bg-white/10 animate-pulse" />
                                     ))}
                                 </div>
                             </div>
                         </article>
 
                         <aside className="lg:col-span-1 space-y-6">
-                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-                                <div className="h-3 w-28 bg-gray-200 rounded animate-pulse mb-4" />
+                            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-5">
+                                <div className="h-3 w-28 bg-gray-200 dark:bg-white/10 rounded animate-pulse mb-4" />
                                 <dl className="space-y-1">
                                     {[Calendar, Clock, MapPin].map((Icon, i) => (
-                                        <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
-                                            <dt className="flex items-center gap-2 text-gray-500">
+                                        <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 dark:border-white/5 last:border-0">
+                                            <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                                                 <Icon className="w-3.5 h-3.5 text-gray-300" />
-                                                <span className="h-3 w-14 bg-gray-200 rounded animate-pulse" />
+                                                <span className="h-3 w-14 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                                             </dt>
-                                            <dd className="h-3 w-24 bg-gray-200 rounded animate-pulse" />
+                                            <dd className="h-3 w-24 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                                         </div>
                                     ))}
                                 </dl>
-                                <div className="mt-5 pt-5 border-t border-gray-100 space-y-3">
-                                    <div className="h-11 bg-gray-200 rounded-md animate-pulse" />
-                                    <div className="h-3 w-32 bg-gray-200 rounded animate-pulse mx-auto" />
+                                <div className="mt-5 pt-5 border-t border-gray-100 dark:border-white/5 space-y-3">
+                                    <div className="h-11 bg-gray-200 dark:bg-white/10 rounded-md animate-pulse" />
+                                    <div className="h-3 w-32 bg-gray-200 dark:bg-white/10 rounded animate-pulse mx-auto" />
                                 </div>
                             </div>
                             <div className="flex gap-3">
-                                <div className="flex-1 h-10 border border-gray-200 rounded-md bg-gray-100 animate-pulse" />
-                                <div className="flex-1 h-10 border border-gray-200 rounded-md bg-gray-100 animate-pulse" />
+                                <div className="flex-1 h-10 border border-gray-200 dark:border-white/10 rounded-md bg-gray-100 dark:bg-white/10 animate-pulse" />
+                                <div className="flex-1 h-10 border border-gray-200 dark:border-white/10 rounded-md bg-gray-100 dark:bg-white/10 animate-pulse" />
                             </div>
-                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-                                <div className="h-3 w-24 bg-gray-200 rounded animate-pulse mb-4" />
+                            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-5">
+                                <div className="h-3 w-24 bg-gray-200 dark:bg-white/10 rounded animate-pulse mb-4" />
                                 <div className="space-y-4">
                                     {[1, 2, 3].map(i => (
                                         <div key={i} className="flex items-start gap-3">
-                                            <div className="w-16 h-16 rounded-md bg-gray-200 animate-pulse shrink-0" />
+                                            <div className="w-16 h-16 rounded-md bg-gray-200 dark:bg-white/10 animate-pulse shrink-0" />
                                             <div className="flex-1 space-y-2">
-                                                <div className="h-2.5 w-16 bg-gray-200 rounded animate-pulse" />
-                                                <div className="h-3.5 bg-gray-200 rounded animate-pulse w-full" />
+                                                <div className="h-2.5 w-16 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
+                                                <div className="h-3.5 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-full" />
                                             </div>
                                         </div>
                                     ))}
@@ -194,8 +194,8 @@ const EventDetail = () => {
 
     if (!event) {
         return (
-            <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
-                <AutoText as="h2" className="text-2xl font-serif text-gray-900 mb-4">Event not found</AutoText>
+            <div className="min-h-screen bg-white dark:bg-[#141417] flex flex-col items-center justify-center p-4">
+                <AutoText as="h2" className="text-2xl font-serif text-gray-900 dark:text-white mb-4">Event not found</AutoText>
                 <Link to="/events" className="text-amber-700 font-bold flex items-center gap-2 hover:text-amber-800 transition-colors">
                     <ArrowLeft className="h-4 w-4" /> <AutoText as="span">Back to Calendar</AutoText>
                 </Link>
@@ -207,11 +207,11 @@ const EventDetail = () => {
     const isToday = new Date(event.date).toLocaleDateString() === new Date().toLocaleDateString();
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white dark:bg-[#141417]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-10">
                 <Link
                     to="/events"
-                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-3 md:mb-6"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-amber-700 transition-colors mb-3 md:mb-6"
                 >
                     <ArrowLeft className="w-3.5 h-3.5" /> <AutoText as="span">Back to Events</AutoText>
                 </Link>
@@ -219,7 +219,7 @@ const EventDetail = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-10">
                     {/* Main column */}
                     <article className="lg:col-span-2">
-                        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8 mb-4 md:mb-8">
+                        <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-8 mb-4 md:mb-8">
                             <div className="flex flex-wrap items-center gap-2 mb-2 md:mb-4">
                                 <span className="inline-block px-2 py-0.5 md:px-2.5 md:py-1 bg-amber-700 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded">
                                     {event.type}
@@ -232,12 +232,12 @@ const EventDetail = () => {
                                 )}
                             </div>
 
-                            <h1 className="text-lg md:text-3xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-3 md:mb-6">
+                            <h1 className="text-lg md:text-3xl font-black uppercase tracking-tight text-gray-900 dark:text-white leading-tight mb-3 md:mb-6">
                                 {event.title}
                             </h1>
 
                             {event.thumbnail && (
-                                <div className="relative w-full h-40 sm:h-64 md:h-80 mb-4 md:mb-6 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                                <div className="relative w-full h-40 sm:h-64 md:h-80 mb-4 md:mb-6 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm">
                                     <img
                                         src={event.thumbnail}
                                         alt={event.title}
@@ -250,12 +250,12 @@ const EventDetail = () => {
                                 <span className="w-1 h-4 bg-amber-700 rounded-sm" />
                                 <AutoText as="h2" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">About this Event</AutoText>
                             </div>
-                            <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+                            <p className="text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
                                 {event.description}
                             </p>
                         </div>
 
-                        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8">
+                        <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-8">
                             <div className="flex items-center gap-2 mb-3 md:mb-6">
                                 <Users className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
                                 <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Who's Joining?</AutoText>
@@ -280,8 +280,8 @@ const EventDetail = () => {
                                 {event.guestRsvps && event.guestRsvps.length > 0 && (
                                     event.guestRsvps.map((rsvp) => (
                                         <div key={rsvp.id} className="group relative">
-                                            <div className="w-9 h-9 md:w-12 md:h-12 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center">
-                                                <UserIcon className="h-4 w-4 md:h-5 md:w-5 text-gray-400" />
+                                            <div className="w-9 h-9 md:w-12 md:h-12 rounded-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center">
+                                                <UserIcon className="h-4 w-4 md:h-5 md:w-5 text-gray-400 dark:text-gray-500" />
                                             </div>
                                             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap text-[10px] font-bold bg-gray-900 text-white px-2 py-1 rounded z-10 pointer-events-none">
                                                 {rsvp.guestName}
@@ -290,7 +290,7 @@ const EventDetail = () => {
                                     ))
                                 )}
                                 {(!event.rsvps || event.rsvps.length === 0) && (!event.guestRsvps || event.guestRsvps.length === 0) && (
-                                    <AutoText as="p" className="text-gray-400 text-xs md:text-sm italic">No RSVPs yet. Be the first to join!</AutoText>
+                                    <AutoText as="p" className="text-gray-400 dark:text-gray-500 text-xs md:text-sm italic">No RSVPs yet. Be the first to join!</AutoText>
                                 )}
                             </div>
                         </div>
@@ -298,33 +298,33 @@ const EventDetail = () => {
 
                     {/* Sidebar */}
                     <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
-                        <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+                        <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
                             <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-4">Event Details</AutoText>
                             <dl className="space-y-1">
-                                <div className="flex items-start justify-between gap-3 py-2 md:py-2.5 border-b border-gray-100">
-                                    <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm shrink-0">
+                                <div className="flex items-start justify-between gap-3 py-2 md:py-2.5 border-b border-gray-100 dark:border-white/5">
+                                    <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs md:text-sm shrink-0">
                                         <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
                                         <AutoText as="span">Date</AutoText>
                                     </dt>
-                                    <dd className="font-bold text-gray-900 text-xs md:text-sm text-right">
+                                    <dd className="font-bold text-gray-900 dark:text-white text-xs md:text-sm text-right">
                                         {startDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
                                     </dd>
                                 </div>
-                                <div className="flex items-start justify-between gap-3 py-2 md:py-2.5 border-b border-gray-100">
-                                    <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm shrink-0">
+                                <div className="flex items-start justify-between gap-3 py-2 md:py-2.5 border-b border-gray-100 dark:border-white/5">
+                                    <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs md:text-sm shrink-0">
                                         <Clock className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
                                         <AutoText as="span">Time</AutoText>
                                     </dt>
-                                    <dd className="font-bold text-gray-900 text-xs md:text-sm">
+                                    <dd className="font-bold text-gray-900 dark:text-white text-xs md:text-sm">
                                         {startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
                                     </dd>
                                 </div>
                                 <div className="flex items-start justify-between gap-3 py-2 md:py-2.5">
-                                    <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm shrink-0">
+                                    <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs md:text-sm shrink-0">
                                         <MapPin className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
                                         <AutoText as="span">Location</AutoText>
                                     </dt>
-                                    <dd className="font-bold text-gray-900 text-xs md:text-sm text-right min-w-0">
+                                    <dd className="font-bold text-gray-900 dark:text-white text-xs md:text-sm text-right min-w-0">
                                         <span className="block truncate">{event.location}</span>
                                         {event.location.includes('http') && (
                                             <a href={event.location} target="_blank" rel="noopener noreferrer" className="text-amber-700 text-[11px] md:text-xs font-bold inline-flex items-center gap-1 mt-1 hover:text-amber-800 hover:underline">
@@ -335,7 +335,7 @@ const EventDetail = () => {
                                 </div>
                             </dl>
 
-                            <div className="mt-4 pt-4 md:mt-5 md:pt-5 border-t border-gray-100 space-y-2.5 md:space-y-3">
+                            <div className="mt-4 pt-4 md:mt-5 md:pt-5 border-t border-gray-100 dark:border-white/5 space-y-2.5 md:space-y-3">
                                 <button
                                     onClick={handleRSVP}
                                     disabled={isRSVPed && !currentUser}
@@ -350,32 +350,32 @@ const EventDetail = () => {
                                         <AutoText as="span">Join this Event</AutoText>
                                     )}
                                 </button>
-                                <p className="text-center text-[9px] md:text-[10px] text-gray-400 font-bold tracking-widest uppercase">
+                                <p className="text-center text-[9px] md:text-[10px] text-gray-400 dark:text-gray-500 font-bold tracking-widest uppercase">
                                     {event._count?.rsvps || 0} <AutoText as="span">People are confirmed</AutoText>
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex gap-2.5 md:gap-3">
-                            <button className="flex-1 py-2 md:py-2.5 border border-gray-300 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors">
+                            <button className="flex-1 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 transition-colors">
                                 <Share2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> <AutoText as="span">Share</AutoText>
                             </button>
-                            <button className="flex-1 py-2 md:py-2.5 border border-gray-300 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors">
+                            <button className="flex-1 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 transition-colors">
                                 <Heart className="h-3.5 w-3.5 md:h-4 md:w-4" /> <AutoText as="span">Save</AutoText>
                             </button>
                         </div>
 
                         {/* Other Events */}
                         {otherEventsLoading && otherEvents.length === 0 && (
-                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
-                                <div className="h-3 w-24 bg-gray-200 rounded animate-pulse mb-3 md:mb-4" />
+                            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
+                                <div className="h-3 w-24 bg-gray-200 dark:bg-white/10 rounded animate-pulse mb-3 md:mb-4" />
                                 <div className="space-y-3 md:space-y-4">
                                     {[1, 2, 3].map(i => (
                                         <div key={i} className="flex items-start gap-2.5 md:gap-3">
-                                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-200 animate-pulse shrink-0" />
+                                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-200 dark:bg-white/10 animate-pulse shrink-0" />
                                             <div className="flex-1 space-y-2">
-                                                <div className="h-2.5 w-16 bg-gray-200 rounded animate-pulse" />
-                                                <div className="h-3.5 bg-gray-200 rounded animate-pulse w-full" />
+                                                <div className="h-2.5 w-16 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
+                                                <div className="h-3.5 bg-gray-200 dark:bg-white/10 rounded animate-pulse w-full" />
                                             </div>
                                         </div>
                                     ))}
@@ -384,7 +384,7 @@ const EventDetail = () => {
                         )}
 
                         {otherEvents.length > 0 && (
-                            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+                            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
                                 <div className="flex items-center justify-between mb-3 md:mb-4">
                                     <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Other Events</AutoText>
                                     <Link to="/events" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
@@ -394,7 +394,7 @@ const EventDetail = () => {
                                 <div className="space-y-3 md:space-y-4">
                                     {otherEvents.map((oe) => (
                                         <Link key={oe.id} to={`/events/${oe.id}`} className="flex items-start gap-2.5 md:gap-3 group">
-                                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 dark:bg-white/10 shrink-0">
                                                 <img
                                                     src={oe.thumbnail || 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=800'}
                                                     alt={oe.title}
@@ -406,10 +406,10 @@ const EventDetail = () => {
                                                 <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
                                                     {oe.type}
                                                 </span>
-                                                <p className="text-xs md:text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
+                                                <p className="text-xs md:text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
                                                     {oe.title}
                                                 </p>
-                                                <span className="text-[10px] md:text-[11px] text-gray-400">
+                                                <span className="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500">
                                                     {new Date(oe.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                                 </span>
                                             </div>
@@ -425,10 +425,10 @@ const EventDetail = () => {
             {/* Guest RSVP Modal */}
             {showGuestForm && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-                    <div className="bg-white border border-gray-300 rounded-lg shadow-sm max-w-md w-full p-6 md:p-8 relative">
+                    <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 max-w-md w-full p-6 md:p-8 relative">
                         <button
                             onClick={() => setShowGuestForm(false)}
-                            className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+                            className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-gray-100 text-gray-400 dark:text-gray-500 hover:text-gray-600 transition-colors"
                         >
                             <X className="h-5 w-5" />
                         </button>
@@ -438,31 +438,31 @@ const EventDetail = () => {
                                 <span className="w-1 h-4 bg-amber-700 rounded-sm" />
                                 <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Join this Event</AutoText>
                             </div>
-                            <AutoText as="p" className="text-gray-500 text-sm">Tell us who's coming so we can prepare a spot for you.</AutoText>
+                            <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-sm">Tell us who's coming so we can prepare a spot for you.</AutoText>
                         </div>
 
                         <form onSubmit={handleGuestRSVP} className="space-y-4">
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Your Name</AutoText></label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1.5"><AutoText>Your Name</AutoText></label>
                                 <input
                                     required
                                     type="text"
                                     autoComplete="name"
                                     value={guestName}
                                     onChange={(e) => setGuestName(e.target.value)}
-                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full px-3 py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                     placeholder="Your name"
                                 />
                             </div>
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Email</AutoText></label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1.5"><AutoText>Email</AutoText></label>
                                 <input
                                     required
                                     type="email"
                                     autoComplete="email"
                                     value={guestEmail}
                                     onChange={(e) => setGuestEmail(e.target.value)}
-                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full px-3 py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                     placeholder="your.email@example.com"
                                 />
                             </div>

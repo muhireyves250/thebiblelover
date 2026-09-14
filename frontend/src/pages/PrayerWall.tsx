@@ -10,10 +10,10 @@ const PrayerRequestText = ({ title, content }: { title: string; content: string 
     const translatedContent = useTranslatedText(content);
     return (
         <>
-            <h3 className="text-sm md:text-lg font-bold text-gray-900 mb-2 md:mb-3 group-hover:text-amber-700 transition-colors">
+            <h3 className="text-sm md:text-lg font-bold text-gray-900 dark:text-white mb-2 md:mb-3 group-hover:text-amber-700 transition-colors">
                 {translatedTitle}
             </h3>
-            <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-4 md:mb-6 line-clamp-4">
+            <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm leading-relaxed mb-4 md:mb-6 line-clamp-4">
                 {translatedContent}
             </p>
         </>
@@ -134,9 +134,9 @@ const PrayerWall = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white dark:bg-[#141417]">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
-                <AutoText as="h1" className="md:hidden text-lg font-black uppercase tracking-tight text-gray-900 mb-3">
+                <AutoText as="h1" className="md:hidden text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-3">
                     A sacred space to share burdens and lift each other up in prayer.
                 </AutoText>
 
@@ -152,7 +152,7 @@ const PrayerWall = () => {
                                 }}
                                 className={`flex items-center gap-1.5 shrink-0 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-colors ${activeCategory === cat.id
                                     ? 'bg-amber-700 text-white border-amber-700'
-                                    : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
+                                    : 'bg-white dark:bg-[#141417] text-gray-500 dark:text-gray-400 border-gray-300 dark:border-white/10 hover:border-gray-400'
                                     }`}
                             >
                                 <cat.icon className="w-3.5 h-3.5" />
@@ -182,17 +182,17 @@ const PrayerWall = () => {
                 {loading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[1, 2, 3, 4, 5, 6].map(i => (
-                            <div key={i} className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 animate-pulse">
-                                <div className="h-6 w-3/4 bg-gray-200 rounded mb-4"></div>
-                                <div className="h-20 bg-gray-100 rounded mb-6"></div>
-                                <div className="h-9 w-1/2 bg-gray-200 rounded-md"></div>
+                            <div key={i} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-6 animate-pulse">
+                                <div className="h-6 w-3/4 bg-gray-200 dark:bg-white/10 rounded mb-4"></div>
+                                <div className="h-20 bg-gray-100 dark:bg-white/10 rounded mb-6"></div>
+                                <div className="h-9 w-1/2 bg-gray-200 dark:bg-white/10 rounded-md"></div>
                             </div>
                         ))}
                     </div>
                 ) : requests.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
                         {requests.map(request => (
-                            <div key={request.id} className="group bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
+                            <div key={request.id} className="group bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
                                 <div className="p-4 md:p-6 flex-1 relative">
                                     {request.status === 'ANSWERED' && (
                                         <div className="absolute top-0 right-0 p-3 md:p-4">
@@ -213,7 +213,7 @@ const PrayerWall = () => {
                                                 </span>
                                             )}
                                         </div>
-                                        <span className="text-gray-400 text-[10px] md:text-xs flex items-center shrink-0">
+                                        <span className="text-gray-400 dark:text-gray-500 text-[10px] md:text-xs flex items-center shrink-0">
                                             <Clock className="h-2.5 w-2.5 md:h-3 md:w-3 mr-1" />
                                             {new Date(request.createdAt).toLocaleDateString()}
                                         </span>
@@ -232,13 +232,13 @@ const PrayerWall = () => {
                                             )}
                                         </div>
                                         <div>
-                                            <p className="text-xs md:text-sm font-bold text-gray-900">{request.user?.name}</p>
-                                            <AutoText as="p" className="text-[9px] md:text-[10px] text-gray-400 uppercase font-bold tracking-widest">Community Member</AutoText>
+                                            <p className="text-xs md:text-sm font-bold text-gray-900 dark:text-white">{request.user?.name}</p>
+                                            <AutoText as="p" className="text-[9px] md:text-[10px] text-gray-400 dark:text-gray-500 uppercase font-bold tracking-widest">Community Member</AutoText>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="px-4 py-3 md:px-6 md:py-4 flex items-center justify-between border-t border-gray-100 bg-gray-50">
+                                <div className="px-4 py-3 md:px-6 md:py-4 flex items-center justify-between border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5">
                                     <div className="flex items-center gap-1.5 md:gap-2">
                                         <button
                                             onClick={() => handlePray(request.id)}
@@ -246,7 +246,7 @@ const PrayerWall = () => {
                                                 ? 'bg-green-100 text-green-700 cursor-default'
                                                 : (request as any).supportedByMe
                                                     ? 'bg-amber-700 text-white'
-                                                    : 'bg-white text-amber-700 border border-amber-200 hover:bg-amber-700 hover:text-white hover:border-amber-700'
+                                                    : 'bg-white dark:bg-[#141417] text-amber-700 border border-amber-200 hover:bg-amber-700 hover:text-white hover:border-amber-700'
                                                 }`}
                                             disabled={request.status === 'ANSWERED'}
                                         >
@@ -268,7 +268,7 @@ const PrayerWall = () => {
                                                 }}
                                                 className={`p-1.5 md:p-2 rounded-md border transition-colors ${request.status === 'ANSWERED'
                                                     ? 'bg-amber-100 border-amber-200 text-amber-700 hover:bg-amber-200'
-                                                    : 'bg-white border-gray-200 text-gray-400 hover:text-amber-700 hover:border-amber-200'
+                                                    : 'bg-white dark:bg-[#141417] border-gray-200 dark:border-white/10 text-gray-400 dark:text-gray-500 hover:text-amber-700 hover:border-amber-200'
                                                 }`}
                                                 title={request.status === 'ANSWERED' ? 'Return to Active Prayer' : 'Mark as Answered (Praise Report)'}
                                             >
@@ -286,12 +286,12 @@ const PrayerWall = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-16 bg-white border border-dashed border-gray-300 rounded-lg">
+                    <div className="text-center py-16 bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/10 rounded-lg">
                         <div className="w-16 h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto mb-5">
                             <Heart className="w-7 h-7 text-amber-700" />
                         </div>
-                        <AutoText as="h3" className="text-lg font-bold text-gray-900 mb-1">No prayer requests found</AutoText>
-                        <AutoText as="p" className="text-gray-500 text-sm max-w-sm mx-auto">
+                        <AutoText as="h3" className="text-lg font-bold text-gray-900 dark:text-white mb-1">No prayer requests found</AutoText>
+                        <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-sm max-w-sm mx-auto">
                             Be the first to share a burden or request guidance from our community.
                         </AutoText>
                     </div>
@@ -303,17 +303,17 @@ const PrayerWall = () => {
                         <button
                             disabled={pagination.page === 1}
                             onClick={() => setPagination({ ...pagination, page: pagination.page - 1 })}
-                            className="p-2.5 rounded-md border border-gray-300 hover:border-amber-600 hover:text-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="p-2.5 rounded-md border border-gray-300 dark:border-white/10 hover:border-amber-600 hover:text-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <ArrowRight className="h-4 w-4 rotate-180" />
                         </button>
-                        <span className="text-sm font-bold text-gray-700">
+                        <span className="text-sm font-bold text-gray-700 dark:text-gray-200">
                             Page {pagination.page} of {pagination.pages}
                         </span>
                         <button
                             disabled={pagination.page === pagination.pages}
                             onClick={() => setPagination({ ...pagination, page: pagination.page + 1 })}
-                            className="p-2.5 rounded-md border border-gray-300 hover:border-amber-600 hover:text-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="p-2.5 rounded-md border border-gray-300 dark:border-white/10 hover:border-amber-600 hover:text-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <ArrowRight className="h-4 w-4" />
                         </button>
@@ -324,10 +324,10 @@ const PrayerWall = () => {
             {/* Submit Modal */}
             {showForm && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-                    <div className="bg-white border border-gray-300 rounded-lg shadow-sm max-w-lg w-full p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
+                    <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 max-w-lg w-full p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
                         <button
                             onClick={() => setShowForm(false)}
-                            className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+                            className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-gray-100 text-gray-400 dark:text-gray-500 hover:text-gray-600 transition-colors"
                         >
                             <Plus className="h-5 w-5 rotate-45" />
                         </button>
@@ -337,16 +337,16 @@ const PrayerWall = () => {
                                 <span className="w-1 h-4 bg-amber-700 rounded-sm" />
                                 <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Share a Testimony or Prayer Request</AutoText>
                             </div>
-                            <AutoText as="p" className="text-gray-500 text-sm italic">"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7</AutoText>
+                            <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-sm italic">"Cast all your anxiety on him because he cares for you." — 1 Peter 5:7</AutoText>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             {!currentUser && (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Your Name</AutoText></label>
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1.5"><AutoText>Your Name</AutoText></label>
                                         <div className="relative group">
-                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                                             <input
                                                 required
                                                 type="text"
@@ -354,14 +354,14 @@ const PrayerWall = () => {
                                                 placeholder="Your name"
                                                 value={formData.guestName}
                                                 onChange={e => setFormData({ ...formData, guestName: e.target.value })}
-                                                className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                                className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                             />
                                         </div>
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Email</AutoText></label>
+                                        <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1.5"><AutoText>Email</AutoText></label>
                                         <div className="relative group">
-                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                                             <input
                                                 required
                                                 type="email"
@@ -369,7 +369,7 @@ const PrayerWall = () => {
                                                 placeholder="your.email@example.com"
                                                 value={formData.guestEmail}
                                                 onChange={e => setFormData({ ...formData, guestEmail: e.target.value })}
-                                                className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                                className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                             />
                                         </div>
                                     </div>
@@ -377,28 +377,28 @@ const PrayerWall = () => {
                             )}
 
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Request Title</AutoText></label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1.5"><AutoText>Request Title</AutoText></label>
                                 <div className="relative group">
-                                    <Type className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                    <Type className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                                     <input
                                         required
                                         type="text"
                                         placeholder="e.g., Healing for my Mother"
                                         value={formData.title}
                                         onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                        className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                        className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Category</AutoText></label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1.5"><AutoText>Category</AutoText></label>
                                 <div className="relative group">
-                                    <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600 pointer-events-none" />
+                                    <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600 pointer-events-none" />
                                     <select
                                         value={formData.category}
                                         onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors appearance-none"
+                                        className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors appearance-none"
                                     >
                                         {CATEGORIES.filter(c => c.id !== 'ALL').map(cat => (
                                             <option key={cat.id} value={cat.id}>{cat.name}</option>
@@ -408,14 +408,14 @@ const PrayerWall = () => {
                             </div>
 
                             <div>
-                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5"><AutoText>Tell us more so we can pray specifically</AutoText></label>
+                                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1.5"><AutoText>Tell us more so we can pray specifically</AutoText></label>
                                 <textarea
                                     required
                                     rows={4}
                                     placeholder="Share as much or as little as you're comfortable with..."
                                     value={formData.content}
                                     onChange={e => setFormData({ ...formData, content: e.target.value })}
-                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors resize-none"
+                                    className="w-full px-3 py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors resize-none"
                                 ></textarea>
                             </div>
 

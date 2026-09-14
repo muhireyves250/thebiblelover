@@ -46,7 +46,7 @@ const AudioEpisodeManager: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-gray-900">Morning/Evening Episodes</h2>
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white">Morning/Evening Episodes</h2>
         <button
           onClick={() => setShowAddModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-amber-700 text-white rounded-lg text-sm font-bold hover:bg-amber-800"
@@ -56,16 +56,16 @@ const AudioEpisodeManager: React.FC = () => {
       </div>
 
       {loading ? (
-        <p className="text-sm text-gray-500">Loading episodes...</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">Loading episodes...</p>
       ) : loadError ? (
         <p className="text-sm text-red-600">Failed to load episodes. Please try again later.</p>
       ) : episodes.length === 0 ? (
-        <p className="text-sm text-gray-500">No episodes yet.</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">No episodes yet.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-left text-xs uppercase text-gray-500 border-b">
+              <tr className="text-left text-xs uppercase text-gray-500 dark:text-gray-400 border-b">
                 <th className="py-2">Episode</th>
                 <th className="py-2">Slot</th>
                 <th className="py-2">Date</th>
@@ -80,7 +80,7 @@ const AudioEpisodeManager: React.FC = () => {
                 <tr key={episode.id} className="border-b hover:bg-gray-50">
                   <td className="py-2 flex items-center gap-2">
                     <img src={episode.coverImage} alt={episode.title} className="w-10 h-10 rounded object-cover" />
-                    <span className="font-medium text-gray-900">{episode.title}</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{episode.title}</span>
                   </td>
                   <td className="py-2">{episode.slot === 'MORNING' ? 'Morning' : 'Evening'}</td>
                   <td className="py-2">{new Date(episode.episodeDate).toLocaleDateString()}</td>
@@ -91,7 +91,7 @@ const AudioEpisodeManager: React.FC = () => {
                     <span className="inline-flex items-center gap-1"><MessageSquare className="w-3 h-3 text-purple-500" /> {episode.commentsCount ?? 0}</span>
                   </td>
                   <td className="py-2">
-                    <span className={`px-2 py-0.5 rounded text-xs font-bold ${episode.isPublished ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold ${episode.isPublished ? 'bg-green-100 text-green-700' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400'}`}>
                       {episode.isPublished ? 'Published' : 'Draft'}
                     </span>
                   </td>
@@ -112,7 +112,7 @@ const AudioEpisodeManager: React.FC = () => {
         </div>
       )}
 
-      <div className="pt-6 border-t border-gray-200">
+      <div className="pt-6 border-t border-gray-200 dark:border-white/10">
         <AudioCommentsManager />
       </div>
 
@@ -135,11 +135,11 @@ const AudioEpisodeManager: React.FC = () => {
 
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-sm w-full p-6">
-            <p className="text-gray-900 font-bold mb-2">Delete this episode?</p>
-            <p className="text-sm text-gray-500 mb-4">This cannot be undone.</p>
+          <div className="bg-white dark:bg-[#141417] rounded-xl max-w-sm w-full p-6">
+            <p className="text-gray-900 dark:text-white font-bold mb-2">Delete this episode?</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">This cannot be undone.</p>
             <div className="flex justify-end gap-3">
-              <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700">Cancel</button>
+              <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 text-gray-700 dark:text-gray-200">Cancel</button>
               <button onClick={() => handleDelete(deleteConfirm)} className="px-4 py-2 rounded-lg bg-red-600 text-white font-bold">Delete</button>
             </div>
           </div>

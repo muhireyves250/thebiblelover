@@ -32,12 +32,12 @@ const NewsletterSubscribe = () => {
 
     return (
         <div className="px-4 md:px-0">
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-6">
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-6">
                 <div className="flex items-center gap-2 mb-1.5">
                     <span className="w-1 h-3.5 md:h-4 bg-amber-700 rounded-sm" />
                     <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t('footer.stayInspired')}</span>
                 </div>
-                <p className="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">
+                <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300 mb-3 md:mb-4">
                     {t('footer.newsletterBlurb')}
                 </p>
 
@@ -49,14 +49,14 @@ const NewsletterSubscribe = () => {
                 ) : (
                     <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2.5">
                         <div className="relative flex-1 group">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                             <input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                                 placeholder={t('footer.emailPlaceholder')}
-                                className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm placeholder-gray-400 focus:border-amber-600 focus:outline-none transition-colors"
+                                className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm placeholder-gray-400 focus:border-amber-600 focus:outline-none transition-colors"
                             />
                         </div>
                         <button

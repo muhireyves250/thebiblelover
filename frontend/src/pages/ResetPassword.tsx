@@ -53,7 +53,7 @@ const ResetPassword: React.FC = () => {
     return (
         <div className="min-h-screen bg-stone-50 flex items-center justify-center p-4">
             <div className="max-w-md w-full">
-                <div className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-gray-100 relative overflow-hidden">
+                <div className="bg-white dark:bg-[#141417] rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-gray-100 dark:border-white/5 relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-32 h-32 bg-amber-50 rounded-br-[5rem] -ml-8 -mt-8 opacity-50 z-0"></div>
 
                     <div className="relative z-10">
@@ -61,8 +61,8 @@ const ResetPassword: React.FC = () => {
                             <div className="w-16 h-16 bg-amber-600 rounded-2xl flex items-center justify-center mx-auto text-white mb-6 shadow-xl shadow-amber-900/20">
                                 <ShieldCheck className="w-8 h-8" />
                             </div>
-                            <h1 className="text-3xl font-serif text-gray-900 mb-2">New Strength</h1>
-                            <p className="text-gray-500 text-sm">Secure your account's return</p>
+                            <h1 className="text-3xl font-serif text-gray-900 dark:text-white mb-2">New Strength</h1>
+                            <p className="text-gray-500 dark:text-gray-400 text-sm">Secure your account's return</p>
                         </div>
 
                         {isSuccess ? (
@@ -71,11 +71,11 @@ const ResetPassword: React.FC = () => {
                                     <CheckCircle2 className="w-8 h-8" />
                                 </div>
                                 <div className="space-y-2">
-                                    <h3 className="text-xl font-bold text-gray-900">Renewal Complete</h3>
-                                    <p className="text-gray-500 text-sm">Your password has been successfully restored.</p>
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Renewal Complete</h3>
+                                    <p className="text-gray-500 dark:text-gray-400 text-sm">Your password has been successfully restored.</p>
                                 </div>
                                 <div className="pt-4 flex items-center justify-center gap-3">
-                                    <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">Redirecting to login</span>
+                                    <span className="text-xs text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest">Redirecting to login</span>
                                     <div className="w-4 h-4 border-2 border-amber-600 border-t-transparent animate-spin rounded-full"></div>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@ const ResetPassword: React.FC = () => {
                                 {!token ? (
                                     <Link 
                                         to="/forgot-password"
-                                        className="w-full inline-flex items-center justify-center py-4 px-6 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all"
+                                        className="w-full inline-flex items-center justify-center py-4 px-6 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 text-gray-600 dark:text-gray-300 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all"
                                     >
                                         Request New Token
                                     </Link>
@@ -99,26 +99,26 @@ const ResetPassword: React.FC = () => {
                                     <>
                                         <div className="space-y-4">
                                             <div className="relative group">
-                                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-amber-600" />
+                                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500 group-focus-within:text-amber-600" />
                                                 <input 
                                                     type="password"
                                                     placeholder="New Password"
                                                     value={password}
                                                     onChange={(e) => setPassword(e.target.value)}
                                                     required
-                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
+                                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
                                                 />
                                             </div>
 
                                             <div className="relative group">
-                                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-amber-600" />
+                                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500 group-focus-within:text-amber-600" />
                                                 <input 
                                                     type="password"
                                                     placeholder="Confirm New Password"
                                                     value={confirmPassword}
                                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                                     required
-                                                    className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
+                                                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
                                                 />
                                             </div>
                                         </div>

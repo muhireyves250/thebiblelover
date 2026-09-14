@@ -31,7 +31,7 @@ const LanguageSwitcher: React.FC<{ variant?: 'header' | 'drawer' }> = ({ variant
   if (variant === 'drawer') {
     return (
       <div className="px-1">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">{t('language.label')}</p>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">{t('language.label')}</p>
         <div className="grid grid-cols-3 gap-2">
           {SUPPORTED_LANGUAGES.map((lang) => (
             <button
@@ -40,7 +40,7 @@ const LanguageSwitcher: React.FC<{ variant?: 'header' | 'drawer' }> = ({ variant
               className={`py-2 rounded-md text-xs font-bold uppercase tracking-widest border transition-colors ${
                 current === lang
                   ? 'bg-amber-700 border-amber-700 text-white'
-                  : 'border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-700'
+                  : 'border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:border-amber-600 hover:text-amber-700'
               }`}
             >
               {LANGUAGE_LABELS[lang].short}
@@ -56,19 +56,19 @@ const LanguageSwitcher: React.FC<{ variant?: 'header' | 'drawer' }> = ({ variant
       <button
         onClick={() => setIsOpen((v) => !v)}
         aria-label={t('language.label')}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-gray-300 text-gray-600 hover:border-amber-600 hover:text-amber-700 transition-colors text-xs font-bold uppercase tracking-widest"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:border-amber-600 hover:text-amber-700 transition-colors text-xs font-bold uppercase tracking-widest"
       >
         <Globe className="h-3.5 w-3.5" />
         {LANGUAGE_LABELS[current].short}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-300 rounded-md shadow-lg py-1.5 z-50">
+        <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md shadow-lg py-1.5 z-50">
           {SUPPORTED_LANGUAGES.map((lang) => (
             <button
               key={lang}
               onClick={() => changeLanguage(lang)}
-              className="w-full flex items-center justify-between px-3.5 py-2 text-sm text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors"
+              className="w-full flex items-center justify-between px-3.5 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-amber-50 hover:text-amber-700 transition-colors"
             >
               <span>{t(LANGUAGE_LABELS[lang].key)}</span>
               {current === lang && <Check className="h-4 w-4 text-amber-700" />}

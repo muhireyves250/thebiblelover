@@ -48,14 +48,14 @@ const Register: React.FC = () => {
 
     if (isSuccess) {
         return (
-            <div className="min-h-[75vh] md:min-h-screen bg-white flex items-center justify-center p-4">
-                <div className="max-w-md w-full text-center space-y-6 bg-white border border-gray-300 rounded-lg shadow-sm p-8 animate-in fade-in zoom-in duration-700">
+            <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-[#141417] flex items-center justify-center p-4">
+                <div className="max-w-md w-full text-center space-y-6 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-8 animate-in fade-in zoom-in duration-700">
                     <div className="w-16 h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto text-amber-700">
                         <CheckCircle2 className="w-8 h-8" />
                     </div>
                     <div className="space-y-2">
-                        <AutoText as="h2" className="text-2xl font-black uppercase tracking-tight text-gray-900">Welcome Home!</AutoText>
-                        <AutoText as="p" className="text-gray-500 text-sm">Your spiritual journey with our community begins now.</AutoText>
+                        <AutoText as="h2" className="text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Welcome Home!</AutoText>
+                        <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-sm">Your spiritual journey with our community begins now.</AutoText>
                     </div>
                     <div className="pt-2 flex justify-center">
                         <div className="w-6 h-6 border-2 border-amber-700 border-t-transparent animate-spin rounded-full"></div>
@@ -66,8 +66,8 @@ const Register: React.FC = () => {
     }
 
     return (
-        <div className="min-h-[75vh] md:min-h-screen bg-white flex items-center justify-center p-3 sm:p-4">
-            <div className="max-w-xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
+        <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-[#141417] flex items-center justify-center p-3 sm:p-4">
+            <div className="max-w-xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden">
                 {/* Left Side: Branding/Visual */}
                 <div className="hidden lg:block relative">
                     <img
@@ -99,8 +99,8 @@ const Register: React.FC = () => {
                             <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
                             <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Register</AutoText>
                         </div>
-                        <AutoText as="h1" className="text-xl sm:text-2xl font-black uppercase tracking-tight text-gray-900 mb-1">Join the Family</AutoText>
-                        <AutoText as="p" className="text-gray-500 text-xs sm:text-sm">Create your disciple profile today.</AutoText>
+                        <AutoText as="h1" className="text-xl sm:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-1">Join the Family</AutoText>
+                        <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Create your disciple profile today.</AutoText>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
@@ -112,50 +112,50 @@ const Register: React.FC = () => {
 
                         <div className="space-y-2.5 sm:space-y-3.5">
                             <div className="relative group">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                                 <input
                                     type="text"
                                     placeholder="Full Name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
-                                    className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
                             <div className="relative group">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                                 <input
                                     type="email"
                                     placeholder="Email Address"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
                             <div className="relative group">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                                 <input
                                     type="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
                             <div className="relative group">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                                 <input
                                     type="password"
                                     placeholder="Confirm Password"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
-                                    className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
                         </div>
@@ -173,16 +173,16 @@ const Register: React.FC = () => {
                         </button>
                     </form>
 
-                    <div className="mt-3.5 sm:mt-6 text-center bg-gray-50 border border-gray-100 rounded-md p-3">
-                        <p className="text-xs sm:text-sm text-gray-500">
+                    <div className="mt-3.5 sm:mt-6 text-center bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-md p-3">
+                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                             <AutoText as="span">Already part of the family?</AutoText>{' '}
                             <Link to="/login" className="text-amber-700 font-bold hover:text-amber-800 transition-colors"><AutoText>Sign In</AutoText></Link>
                         </p>
                     </div>
 
-                    <div className="mt-3 sm:mt-4 flex justify-center items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                    <div className="mt-3 sm:mt-4 flex justify-center items-center gap-4 text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest">
                         <Link to="/terms" className="hover:text-amber-700 transition-colors"><AutoText>Terms</AutoText></Link>
-                        <div className="w-1 h-1 bg-gray-200 rounded-full"></div>
+                        <div className="w-1 h-1 bg-gray-200 dark:bg-white/10 rounded-full"></div>
                         <Link to="/privacy" className="hover:text-amber-700 transition-colors"><AutoText>Privacy</AutoText></Link>
                     </div>
                 </div>

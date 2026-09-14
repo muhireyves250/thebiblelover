@@ -69,7 +69,7 @@ const DonationsManager = ({
             </div>
 
             {/* Professional Donations List */}
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+            <div className="bg-white dark:bg-[#141417] rounded-lg shadow-md border border-gray-200 dark:border-white/10 overflow-hidden">
                 <div className="bg-gradient-to-r from-emerald-50 to-green-50 px-3 py-2 border-b border-emerald-200">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
@@ -77,7 +77,7 @@ const DonationsManager = ({
                                 <DollarSign className="h-3 w-3 text-white" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-bold text-gray-900">Recent Donations</h4>
+                                <h4 className="text-sm font-bold text-gray-900 dark:text-white">Recent Donations</h4>
                             </div>
                         </div>
                         <div className="flex items-center space-x-3">
@@ -114,7 +114,7 @@ const DonationsManager = ({
                         scrollbarColor: '#d1d5db #f3f4f6'
                     }}>
                         {donations.slice(0, showAllDonations ? donations.length : 5).map((donation) => (
-                            <div key={donation.id} className="p-2 border-b border-gray-100 hover:bg-gradient-to-r hover:from-gray-50 hover:to-emerald-50 transition-all duration-300 group">
+                            <div key={donation.id} className="p-2 border-b border-gray-100 dark:border-white/5 hover:bg-gradient-to-r hover:from-gray-50 hover:to-emerald-50 transition-all duration-300 group">
                                 <div className="flex items-start space-x-3">
                                     {/* Donor Avatar */}
                                     <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0 group-hover:shadow-lg transition-all duration-300">
@@ -126,7 +126,7 @@ const DonationsManager = ({
                                     {/* Donation Content */}
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center space-x-2 mb-1">
-                                            <h5 className="text-xs font-bold text-gray-900 truncate group-hover:text-emerald-600 transition-colors duration-200">
+                                            <h5 className="text-xs font-bold text-gray-900 dark:text-white truncate group-hover:text-emerald-600 transition-colors duration-200">
                                                 {donation.donorName || 'Anonymous'}
                                             </h5>
                                             {donation.status === 'COMPLETED' || !donation.status ? (
@@ -147,23 +147,23 @@ const DonationsManager = ({
                                             )}
                                         </div>
 
-                                        <p className="text-xs text-gray-700 mb-2 line-clamp-1 group-hover:text-gray-900 transition-colors duration-200">
+                                        <p className="text-xs text-gray-700 dark:text-gray-200 mb-2 line-clamp-1 group-hover:text-gray-900 transition-colors duration-200">
                                             {donation.message || 'Thank you for your generous donation!'}
                                         </p>
 
-                                        <div className="flex items-center justify-between text-xs text-gray-500">
+                                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                                             <div className="flex items-center space-x-2">
                                                 <div className="flex items-center space-x-1 px-2 py-0.5 bg-emerald-100 rounded-full">
                                                     <DollarSign className="h-2 w-2" />
                                                     <span className="font-bold text-emerald-700">${donation.amount}</span>
                                                 </div>
                                                 <span>•</span>
-                                                <div className="flex items-center space-x-1 px-2 py-0.5 bg-gray-100 rounded-full">
+                                                <div className="flex items-center space-x-1 px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded-full">
                                                     <CreditCard className="h-2 w-2" />
                                                     <span className="font-medium">{donation.paymentMethod || 'OTHER'}</span>
                                                 </div>
                                                 <span>•</span>
-                                                <span className="text-gray-400">{new Date(donation.timestamp).toLocaleDateString()}</span>
+                                                <span className="text-gray-400 dark:text-gray-500">{new Date(donation.timestamp).toLocaleDateString()}</span>
                                             </div>
 
                                             {/* Actions */}
@@ -198,8 +198,8 @@ const DonationsManager = ({
                                 <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-green-100 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
                                     <DollarSign className="h-6 w-6 text-emerald-400" />
                                 </div>
-                                <h3 className="text-sm font-bold text-gray-900 mb-1">No Donations Yet</h3>
-                                <p className="text-xs text-gray-500">Donations from supporters will appear here</p>
+                                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">No Donations Yet</h3>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Donations from supporters will appear here</p>
                             </div>
                         )}
 
@@ -208,7 +208,7 @@ const DonationsManager = ({
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center space-x-2">
                                         <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                                        <p className="text-xs font-semibold text-gray-700">
+                                        <p className="text-xs font-semibold text-gray-700 dark:text-gray-200">
                                             {showAllDonations
                                                 ? `Showing all ${donations.length} donations`
                                                 : `Showing 5 of ${donations.length} donations`

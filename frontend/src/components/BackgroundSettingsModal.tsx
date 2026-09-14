@@ -142,12 +142,12 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">Background Settings</h2>
+      <div className="bg-white dark:bg-[#141417] rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-white/10">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Background Settings</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600"
           >
             <X className="h-6 w-6" />
           </button>
@@ -160,7 +160,7 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Image URL */}
                 <div>
-                  <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Background Image URL
                   </label>
                   <input
@@ -169,14 +169,14 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                     name="imageUrl"
                     value={settings.imageUrl}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                     placeholder="https://example.com/image.jpg"
                   />
                 </div>
 
                 {/* File Upload */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Or Upload Image
                   </label>
                   <div className="flex items-center space-x-4">
@@ -184,7 +184,7 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                       type="button"
                       onClick={handleUploadClick}
                       disabled={isUploading || isSaving}
-                      className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:ring-1 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
+                      className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-white/10 rounded-md hover:bg-gray-50 focus:ring-1 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
                     >
                       <Upload className="h-4 w-4" />
                       <span>{isUploading ? 'Uploading...' : 'Upload Image'}</span>
@@ -212,7 +212,7 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
 
                 {/* Image Opacity */}
                 <div>
-                  <label htmlFor="opacity" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="opacity" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Image Opacity: {Math.round(settings.opacity * 100)}%
                   </label>
                   <input
@@ -224,13 +224,13 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                     step="0.1"
                     value={settings.opacity}
                     onChange={handleChange}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    className="w-full h-2 bg-gray-200 dark:bg-white/10 rounded-lg appearance-none cursor-pointer"
                   />
                 </div>
 
                 {/* Overlay Color */}
                 <div>
-                  <label htmlFor="overlayColor" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="overlayColor" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Overlay Color
                   </label>
                   <div className="flex items-center space-x-3">
@@ -240,20 +240,20 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                       name="overlayColor"
                       value={settings.overlayColor}
                       onChange={handleChange}
-                      className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
+                      className="w-12 h-10 border border-gray-300 dark:border-white/10 rounded cursor-pointer"
                     />
                     <input
                       type="text"
                       value={settings.overlayColor}
                       onChange={handleChange}
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                     />
                   </div>
                 </div>
 
                 {/* Overlay Opacity */}
                 <div>
-                  <label htmlFor="overlayOpacity" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="overlayOpacity" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Overlay Opacity: {Math.round(settings.overlayOpacity * 100)}%
                   </label>
                   <input
@@ -265,17 +265,17 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                     step="0.1"
                     value={settings.overlayOpacity}
                     onChange={handleChange}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    className="w-full h-2 bg-gray-200 dark:bg-white/10 rounded-lg appearance-none cursor-pointer"
                   />
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex justify-between items-center pt-6 border-t border-gray-200">
+                <div className="flex justify-between items-center pt-6 border-t border-gray-200 dark:border-white/10">
                   <button
                     type="button"
                     onClick={resetToDefault}
                     disabled={isSaving}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50"
+                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50"
                   >
                     <RotateCcw className="h-4 w-4" />
                     <span>Reset to Default</span>
@@ -286,7 +286,7 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                       type="button"
                       onClick={onClose}
                       disabled={isSaving}
-                      className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50"
+                      className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50"
                     >
                       Cancel
                     </button>
@@ -308,11 +308,11 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
             {/* Preview Panel */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium text-gray-900">Preview</h3>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white">Preview</h3>
                 <button
                   type="button"
                   onClick={() => setPreviewMode(!previewMode)}
-                  className="flex items-center space-x-2 px-3 py-1 text-sm text-gray-600 hover:text-gray-900"
+                  className="flex items-center space-x-2 px-3 py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900"
                 >
                   {previewMode ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   <span>{previewMode ? 'Hide' : 'Show'} Preview</span>
@@ -320,7 +320,7 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
               </div>
 
               {previewMode && (
-                <div className="relative h-64 rounded-lg overflow-hidden border border-gray-200">
+                <div className="relative h-64 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10">
                   <div
                     className="absolute inset-0"
                     style={getPreviewStyle()}
@@ -330,9 +330,9 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
                     style={getPreviewOverlayStyle()}
                   />
                   <div className="relative z-10 flex items-center justify-center h-full">
-                    <div className="bg-white bg-opacity-90 px-6 py-4 rounded-lg">
-                      <h4 className="text-lg font-serif text-gray-900">Sample Title</h4>
-                      <p className="text-gray-600">This is how your background will look</p>
+                    <div className="bg-white dark:bg-[#141417] bg-opacity-90 px-6 py-4 rounded-lg">
+                      <h4 className="text-lg font-serif text-gray-900 dark:text-white">Sample Title</h4>
+                      <p className="text-gray-600 dark:text-gray-300">This is how your background will look</p>
                     </div>
                   </div>
                 </div>
@@ -341,11 +341,11 @@ const BackgroundSettingsModal: React.FC<BackgroundSettingsModalProps> = ({
               {/* Current Image Preview */}
               {settings.imageUrl && (
                 <div>
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">Current Image</h4>
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Current Image</h4>
                   <img
                     src={settings.imageUrl}
                     alt="Background preview"
-                    className="w-full h-32 object-cover rounded-lg border border-gray-200"
+                    className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-white/10"
                   />
                 </div>
               )}

@@ -14,10 +14,10 @@ const StorageManager = ({
     updateStorageInfo
 }: StorageManagerProps) => {
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div className="p-6 border-b border-gray-200">
-                <h3 className="text-lg font-medium text-gray-900">Storage Management</h3>
-                <p className="text-sm text-gray-600 mt-1">Manage your website's localStorage data and prevent quota exceeded errors. <strong>Your blog posts are never automatically deleted.</strong></p>
+        <div className="bg-white dark:bg-[#141417] rounded-lg shadow-sm border border-gray-200 dark:border-white/10">
+            <div className="p-6 border-b border-gray-200 dark:border-white/10">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white">Storage Management</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Manage your website's localStorage data and prevent quota exceeded errors. <strong>Your blog posts are never automatically deleted.</strong></p>
             </div>
             <div className="p-6">
                 {storageInfo && (
@@ -42,16 +42,16 @@ const StorageManager = ({
                             </div>
                         </div>
 
-                        <div className={`p-4 rounded-lg ${storageInfo.isNearLimit ? 'bg-red-50' : 'bg-gray-50'}`}>
+                        <div className={`p-4 rounded-lg ${storageInfo.isNearLimit ? 'bg-red-50' : 'bg-gray-50 dark:bg-white/5'}`}>
                             <div className="flex items-center">
-                                <div className={`h-8 w-8 ${storageInfo.isNearLimit ? 'text-red-600' : 'text-gray-600'}`}>
+                                <div className={`h-8 w-8 ${storageInfo.isNearLimit ? 'text-red-600' : 'text-gray-600 dark:text-gray-300'}`}>
                                     {storageInfo.isNearLimit ? '⚠️' : '✅'}
                                 </div>
                                 <div className="ml-3">
-                                    <p className={`text-sm font-medium ${storageInfo.isNearLimit ? 'text-red-800' : 'text-gray-800'}`}>
+                                    <p className={`text-sm font-medium ${storageInfo.isNearLimit ? 'text-red-800' : 'text-gray-800 dark:text-gray-100'}`}>
                                         Status
                                     </p>
-                                    <p className={`text-lg font-bold ${storageInfo.isNearLimit ? 'text-red-900' : 'text-gray-900'}`}>
+                                    <p className={`text-lg font-bold ${storageInfo.isNearLimit ? 'text-red-900' : 'text-gray-900 dark:text-white'}`}>
                                         {storageInfo.isNearLimit ? 'Near Limit' : 'Healthy'}
                                     </p>
                                 </div>

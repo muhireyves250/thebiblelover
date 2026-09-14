@@ -123,7 +123,7 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
               className="w-8 h-8 object-contain"
             />
           )}
-          <span className="text-lg font-serif text-gray-900">{settings.logoText}</span>
+          <span className="text-lg font-serif text-gray-900 dark:text-white">{settings.logoText}</span>
         </div>
       );
     } else if (settings.logoUrl) {
@@ -136,7 +136,7 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
       );
     } else {
       return (
-        <span className="text-lg font-serif text-gray-900">{settings.logoText}</span>
+        <span className="text-lg font-serif text-gray-900 dark:text-white">{settings.logoText}</span>
       );
     }
   };
@@ -145,12 +145,12 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">Logo Settings</h2>
+      <div className="bg-white dark:bg-[#141417] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-white/10">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Logo Settings</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600"
           >
             <X className="h-6 w-6" />
           </button>
@@ -163,7 +163,7 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Logo Text */}
                 <div>
-                  <label htmlFor="logoText" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="logoText" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Logo Text
                   </label>
                   <input
@@ -172,7 +172,7 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
                     name="logoText"
                     value={settings.logoText}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                     placeholder="Enter logo text"
                   />
                 </div>
@@ -185,16 +185,16 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
                     name="showText"
                     checked={settings.showText}
                     onChange={handleChange}
-                    className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 dark:border-white/10 rounded"
                   />
-                  <label htmlFor="showText" className="ml-2 block text-sm text-gray-900">
+                  <label htmlFor="showText" className="ml-2 block text-sm text-gray-900 dark:text-white">
                     Show text alongside logo image
                   </label>
                 </div>
 
                 {/* Logo Image URL */}
                 <div>
-                  <label htmlFor="logoUrl" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="logoUrl" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Logo Image URL
                   </label>
                   <input
@@ -203,14 +203,14 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
                     name="logoUrl"
                     value={settings.logoUrl}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                     placeholder="https://example.com/logo.png"
                   />
                 </div>
 
                 {/* File Upload */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Or Upload Logo Image
                   </label>
                   <div className="flex items-center space-x-4">
@@ -218,7 +218,7 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
                       type="button"
                       onClick={handleUploadClick}
                       disabled={isUploading}
-                      className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:ring-1 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
+                      className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-white/10 rounded-md hover:bg-gray-50 focus:ring-1 focus:ring-amber-500 focus:border-transparent disabled:opacity-50"
                     >
                       <Upload className="h-4 w-4" />
                       <span>{isUploading ? 'Uploading...' : 'Upload Logo'}</span>
@@ -241,17 +241,17 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
                     onChange={handleFileUpload}
                     className="hidden"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     Recommended: PNG or SVG format, max 2MB
                   </p>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex justify-between items-center pt-6 border-t border-gray-200">
+                <div className="flex justify-between items-center pt-6 border-t border-gray-200 dark:border-white/10">
                   <button
                     type="button"
                     onClick={resetToDefault}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-md hover:bg-gray-200 transition-colors"
                   >
                     <RotateCcw className="h-4 w-4" />
                     <span>Reset to Default</span>
@@ -261,7 +261,7 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
                     <button
                       type="button"
                       onClick={onClose}
-                      className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                      className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-md hover:bg-gray-200 transition-colors"
                     >
                       Cancel
                     </button>
@@ -279,11 +279,11 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
             {/* Preview Panel */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium text-gray-900">Preview</h3>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white">Preview</h3>
                 <button
                   type="button"
                   onClick={() => setPreviewMode(!previewMode)}
-                  className="flex items-center space-x-2 px-3 py-1 text-sm text-gray-600 hover:text-gray-900"
+                  className="flex items-center space-x-2 px-3 py-1 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900"
                 >
                   {previewMode ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   <span>{previewMode ? 'Hide' : 'Show'} Preview</span>
@@ -291,7 +291,7 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
               </div>
               
               {previewMode && (
-                <div className="border border-gray-200 rounded-lg p-6 bg-gray-50">
+                <div className="border border-gray-200 dark:border-white/10 rounded-lg p-6 bg-gray-50 dark:bg-white/5">
                   <div className="flex items-center justify-center h-20">
                     {getPreviewLogo()}
                   </div>
@@ -301,8 +301,8 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
               {/* Current Logo Preview */}
               {settings.logoUrl && (
                 <div>
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">Current Logo</h4>
-                  <div className="border border-gray-200 rounded-lg p-4 bg-white">
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Current Logo</h4>
+                  <div className="border border-gray-200 dark:border-white/10 rounded-lg p-4 bg-white dark:bg-[#141417]">
                     <img
                       src={settings.logoUrl}
                       alt="Logo preview"
@@ -314,17 +314,17 @@ const LogoSettingsModal: React.FC<LogoSettingsModalProps> = ({
 
               {/* Logo Type Icons */}
               <div className="space-y-3">
-                <h4 className="text-sm font-medium text-gray-700">Logo Display Options</h4>
+                <h4 className="text-sm font-medium text-gray-700 dark:text-gray-200">Logo Display Options</h4>
                 <div className="space-y-2">
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
                     <Image className="h-4 w-4" />
                     <span>Image only</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
                     <Type className="h-4 w-4" />
                     <span>Text only</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
                     <Image className="h-4 w-4" />
                     <Type className="h-4 w-4" />
                     <span>Image + Text</span>

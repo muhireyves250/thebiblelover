@@ -56,12 +56,12 @@ const VerseDetail: React.FC = () => {
 
   if (!verse && !loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-[#141417]">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-          <AutoText as="h1" className="text-2xl font-serif text-gray-900 mb-3">
+          <AutoText as="h1" className="text-2xl font-serif text-gray-900 dark:text-white mb-3">
             {error ? 'Error loading verse' : 'Verse not found'}
           </AutoText>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
             {error || <AutoText as="span">We couldn't find the verse you're looking for.</AutoText>}
           </p>
           {error && (
@@ -75,7 +75,7 @@ const VerseDetail: React.FC = () => {
   const showSkeleton = loading || !verse;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-[#141417]">
       {verse && (
         <SEO title={reference(verse)} description={verse.text} image={verse.image} type="article" />
       )}
@@ -83,7 +83,7 @@ const VerseDetail: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-10">
         <Link
           to="/verses"
-          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-3 md:mb-6"
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-amber-700 transition-colors mb-3 md:mb-6"
         >
           <ArrowLeft className="w-3.5 h-3.5" /> <AutoText as="span">Back to Verses</AutoText>
         </Link>
@@ -92,20 +92,20 @@ const VerseDetail: React.FC = () => {
           {/* Main column */}
           <article className="lg:col-span-2">
             {showSkeleton ? (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8 mb-4 md:mb-8">
-                <div className="h-6 w-32 bg-gray-300 rounded animate-pulse mb-4" />
-                <div className="h-40 sm:h-64 md:h-80 bg-gray-300 rounded-lg animate-pulse mb-6" />
-                <div className="h-9 bg-gray-300 rounded animate-pulse w-full mb-2" />
-                <div className="h-9 bg-gray-300 rounded animate-pulse w-2/3 mb-4" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-1/3" />
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-8 mb-4 md:mb-8">
+                <div className="h-6 w-32 bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-4" />
+                <div className="h-40 sm:h-64 md:h-80 bg-gray-300 dark:bg-white/10 rounded-lg animate-pulse mb-6" />
+                <div className="h-9 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full mb-2" />
+                <div className="h-9 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-2/3 mb-4" />
+                <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-1/3" />
               </div>
             ) : (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8 mb-4 md:mb-8">
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-8 mb-4 md:mb-8">
                 <span className="inline-block px-2 py-0.5 md:px-2.5 md:py-1 bg-amber-700 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded mb-2 md:mb-4">
                   {dayAbbrev(verse.displayDate)} &middot; {verse.translation}
                 </span>
 
-                <div className="relative w-full h-40 sm:h-64 md:h-80 mb-4 md:mb-6 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                <div className="relative w-full h-40 sm:h-64 md:h-80 mb-4 md:mb-6 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm">
                   <img
                     src={verse.image || '/images/about.png'}
                     alt={reference(verse)}
@@ -115,13 +115,13 @@ const VerseDetail: React.FC = () => {
                   />
                 </div>
 
-                <h1 className="text-lg md:text-3xl font-bold text-gray-900 uppercase leading-snug mb-3 md:mb-4">
+                <h1 className="text-lg md:text-3xl font-bold text-gray-900 dark:text-white uppercase leading-snug mb-3 md:mb-4">
                   "{verse.text}"
                 </h1>
 
-                <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-2 border-b border-gray-200">
-                  <p className="text-sm md:text-lg text-gray-600">
-                    {reference(verse)} <span className="text-gray-400 text-xs md:text-base">({verse.translation})</span>
+                <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-2 border-b border-gray-200 dark:border-white/10">
+                  <p className="text-sm md:text-lg text-gray-600 dark:text-gray-300">
+                    {reference(verse)} <span className="text-gray-400 dark:text-gray-500 text-xs md:text-base">({verse.translation})</span>
                   </p>
 
                   <button
@@ -138,17 +138,17 @@ const VerseDetail: React.FC = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-4 md:space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             {/* Verse Details */}
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
               <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-4">Verse Details</AutoText>
               {!verse ? (
                 <dl className="space-y-1">
                   {[BookOpen, Calendar, Languages, Share2].map((Icon, i) => (
-                    <div key={i} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 last:border-0">
-                      <dt className="flex items-center gap-2 text-gray-500">
+                    <div key={i} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 dark:border-white/5 last:border-0">
+                      <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                         <Icon className="w-3.5 h-3.5 text-gray-300" />
-                        <span className="h-3 w-16 bg-gray-200 rounded animate-pulse" />
+                        <span className="h-3 w-16 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                       </dt>
-                      <dd className="h-3 w-10 bg-gray-200 rounded animate-pulse" />
+                      <dd className="h-3 w-10 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                     </div>
                   ))}
                 </dl>
@@ -160,12 +160,12 @@ const VerseDetail: React.FC = () => {
                     [Languages, 'Translation', verse.translation],
                     [Share2, 'Shares', verse.shareCount]
                   ].map(([Icon, label, value]: any) => (
-                    <div key={label} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 last:border-0">
-                      <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm">
+                    <div key={label} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 dark:border-white/5 last:border-0">
+                      <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs md:text-sm">
                         <Icon className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
                         <AutoText as="span">{label}</AutoText>
                       </dt>
-                      <dd className="font-bold text-gray-900 text-xs md:text-sm">{value}</dd>
+                      <dd className="font-bold text-gray-900 dark:text-white text-xs md:text-sm">{value}</dd>
                     </div>
                   ))}
                 </dl>
@@ -174,19 +174,19 @@ const VerseDetail: React.FC = () => {
 
             {/* Recent Verses */}
             {!recentLoaded && (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
-                  <div className="h-3 w-24 bg-gray-300 rounded animate-pulse" />
-                  <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
+                  <div className="h-3 w-24 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
+                  <div className="h-3 w-20 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
                 </div>
                 <div className="space-y-3 md:space-y-4">
                   {[1, 2, 3, 4, 5].map(i => (
                     <div key={i} className="flex items-start gap-2.5 md:gap-3">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-300 dark:bg-white/10 animate-pulse shrink-0" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-2.5 w-16 bg-gray-300 rounded animate-pulse" />
-                        <div className="h-3.5 bg-gray-300 rounded animate-pulse w-full" />
-                        <div className="h-3.5 bg-gray-300 rounded animate-pulse w-2/3" />
+                        <div className="h-2.5 w-16 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
+                        <div className="h-3.5 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full" />
+                        <div className="h-3.5 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-2/3" />
                       </div>
                     </div>
                   ))}
@@ -195,7 +195,7 @@ const VerseDetail: React.FC = () => {
             )}
 
             {recentLoaded && recentVerses.length > 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
                   <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Verses</AutoText>
                   <Link to="/verses" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
@@ -205,21 +205,21 @@ const VerseDetail: React.FC = () => {
                 <div className="space-y-3 md:space-y-4">
                   {recentVerses.map((rv) => (
                     <Link key={rv.id} to={`/verses/${rv.id}`} className="flex items-start gap-2.5 md:gap-3 group">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 dark:bg-white/10 shrink-0">
                         <img src={rv.image || '/images/about.png'} alt={rv.reference} className="w-full h-full object-cover" loading="lazy" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
                           {dayAbbrev(rv.displayDate)}
                         </span>
-                        <p className="text-xs md:text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
+                        <p className="text-xs md:text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
                           {rv.reference}
                         </p>
                         <div className="flex items-center justify-between mt-1 md:mt-1.5">
-                          <span className="text-[10px] md:text-[11px] text-gray-400">
+                          <span className="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500">
                             {formattedFull(rv.displayDate)}
                           </span>
-                          <span className="text-[10px] md:text-[11px] text-gray-400">
+                          <span className="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500">
                             {rv.shareCount || 0} shares
                           </span>
                         </div>

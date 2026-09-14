@@ -188,9 +188,9 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               onClick={(e) => e.stopPropagation()}
-              className="absolute bottom-12 right-3 w-48 max-h-40 overflow-y-auto bg-white rounded-lg shadow-xl border border-gray-200 p-2"
+              className="absolute bottom-12 right-3 w-48 max-h-40 overflow-y-auto bg-white dark:bg-[#141417] rounded-lg shadow-xl border border-gray-200 dark:border-white/10 p-2"
             >
-              <p className="text-[10px] font-bold text-gray-400 uppercase px-1 mb-1">Narrator Voice</p>
+              <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase px-1 mb-1">Narrator Voice</p>
               {voices.map(voice => (
                 <button
                   key={voice.name}
@@ -199,13 +199,13 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
                     setShowSettings(false);
                     if (isSpeaking) speak();
                   }}
-                  className={`w-full text-left px-2 py-1.5 rounded text-xs truncate transition-colors ${selectedVoice === voice.name ? 'bg-amber-50 text-amber-900 font-bold' : 'text-gray-600 hover:bg-gray-50'}`}
+                  className={`w-full text-left px-2 py-1.5 rounded text-xs truncate transition-colors ${selectedVoice === voice.name ? 'bg-amber-50 text-amber-900 font-bold' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50'}`}
                 >
                   {voice.name.replace('Microsoft ', '').replace('Google ', '')}
                 </button>
               ))}
               {voices.length === 0 && (
-                <p className="text-xs text-gray-400 px-2 py-1.5">No voices available</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500 px-2 py-1.5">No voices available</p>
               )}
             </motion.div>
           )}
@@ -216,7 +216,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
 
   return (
     <div className="w-full max-w-2xl mb-12">
-      <div className="bg-white rounded-3xl p-6 border border-amber-100 shadow-xl shadow-amber-900/5 relative overflow-hidden group">
+      <div className="bg-white dark:bg-[#141417] rounded-3xl p-6 border border-amber-100 shadow-xl shadow-amber-900/5 relative overflow-hidden group">
         {/* Animated Background Pulse */}
         <AnimatePresence>
           {isSpeaking && (
@@ -241,20 +241,20 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
               </div>
               <div>
                 <p className="text-[10px] font-black text-amber-600 uppercase tracking-[0.2em]">Spiritual Audio</p>
-                <h3 className="text-sm font-bold text-gray-900 line-clamp-1">{title || 'Community Word'}</h3>
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white line-clamp-1">{title || 'Community Word'}</h3>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => setShowSettings(!showSettings)}
-                className={`p-2 rounded-xl transition-all ${showSettings ? 'bg-amber-100 text-amber-700' : 'text-gray-400 hover:text-amber-600 hover:bg-amber-50'}`}
+                className={`p-2 rounded-xl transition-all ${showSettings ? 'bg-amber-100 text-amber-700' : 'text-gray-400 dark:text-gray-500 hover:text-amber-600 hover:bg-amber-50'}`}
               >
                 <User className="h-5 w-5" />
               </button>
               <button 
                 onClick={toggleSpeed}
-                className="px-3 py-1.5 bg-gray-50 hover:bg-amber-50 text-gray-600 hover:text-amber-700 rounded-xl text-xs font-bold transition-all border border-gray-100 flex items-center gap-1.5"
+                className="px-3 py-1.5 bg-gray-50 dark:bg-white/5 hover:bg-amber-50 text-gray-600 dark:text-gray-300 hover:text-amber-700 rounded-xl text-xs font-bold transition-all border border-gray-100 dark:border-white/5 flex items-center gap-1.5"
               >
                 <FastForward className="h-3 w-3" />
                 {playbackSpeed}x
@@ -263,7 +263,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
           </div>
 
           {/* Progress Bar */}
-          <div className="relative h-2 bg-gray-100 rounded-full mb-8 overflow-hidden">
+          <div className="relative h-2 bg-gray-100 dark:bg-white/10 rounded-full mb-8 overflow-hidden">
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
@@ -275,7 +275,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
             <button 
               onClick={reset}
               disabled={!isSpeaking && !isPaused && progress === 0}
-              className="p-3 text-gray-400 hover:text-amber-600 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+              className="p-3 text-gray-400 dark:text-gray-500 hover:text-amber-600 disabled:opacity-30 disabled:pointer-events-none transition-colors"
             >
               <RotateCcw className="h-5 w-5" />
             </button>
@@ -301,9 +301,9 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mt-6 pt-6 border-t border-gray-100"
+                className="mt-6 pt-6 border-t border-gray-100 dark:border-white/5"
               >
-                <label className="block text-[10px] font-bold text-gray-400 uppercase mb-3">Narrator Voice</label>
+                <label className="block text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase mb-3">Narrator Voice</label>
                 <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto custom-scrollbar">
                   {voices.map(voice => (
                     <button
@@ -312,7 +312,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
                         setSelectedVoice(voice.name);
                         if (isSpeaking) speak(); // Restart with new voice
                       }}
-                      className={`text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all ${selectedVoice === voice.name ? 'bg-amber-50 text-amber-900 font-bold border border-amber-100' : 'text-gray-500 hover:bg-gray-50'}`}
+                      className={`text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between transition-all ${selectedVoice === voice.name ? 'bg-amber-50 text-amber-900 font-bold border border-amber-100' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50'}`}
                     >
                       <span>{voice.name.replace('Microsoft ', '').replace('Google ', '')}</span>
                       {selectedVoice === voice.name && <div className="w-1.5 h-1.5 bg-amber-600 rounded-full" />}
@@ -326,7 +326,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
       </div>
       
       {/* Podcast Subtitle */}
-      <div className="mt-4 flex items-center justify-center gap-2 text-gray-400">
+      <div className="mt-4 flex items-center justify-center gap-2 text-gray-400 dark:text-gray-500">
         <div className="w-1 h-1 bg-amber-300 rounded-full animate-ping" />
         <span className="text-[10px] font-bold tracking-widest uppercase italic">The Bible Lover Podcast Engine</span>
       </div>

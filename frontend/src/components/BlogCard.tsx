@@ -90,9 +90,9 @@ const BlogCard: React.FC<BlogCardProps> = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="group bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:shadow-md hover:border-gray-400 transition-all duration-300"
+      className="group bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden hover:shadow-md hover:border-gray-400 transition-all duration-300"
     >
-      <Link to={`/blog/${slug}`} className="block w-full bg-gray-50 relative overflow-hidden aspect-[16/9] md:aspect-[16/10]">
+      <Link to={`/blog/${slug}`} className="block w-full bg-gray-50 dark:bg-white/5 relative overflow-hidden aspect-[16/9] md:aspect-[16/10]">
         {isPremium && (
           <div className="absolute top-3 right-3 z-10">
             <span className="px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm">
@@ -132,8 +132,8 @@ const BlogCard: React.FC<BlogCardProps> = ({
             )}
           </div>
           <div className="leading-tight min-w-0">
-            <p className="text-sm font-bold text-gray-900 truncate">{author.name}</p>
-            <p className="text-[11px] font-medium text-gray-500 uppercase tracking-wider">{formatDate(publishedAt)} • {readTime} min read</p>
+            <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{author.name}</p>
+            <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">{formatDate(publishedAt)} • {readTime} min read</p>
           </div>
         </div>
 
@@ -144,19 +144,19 @@ const BlogCard: React.FC<BlogCardProps> = ({
         )}
 
         <Link to={`/blog/${slug}`} className="hidden md:block">
-          <h2 className={`font-sans font-bold uppercase text-gray-900 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
+          <h2 className={`font-sans font-bold uppercase text-gray-900 dark:text-white mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
             {translatedTitle}
           </h2>
         </Link>
 
         <Link to={`/blog/${slug}`} className="block">
-          <p className="text-gray-600 text-[11px] md:text-sm leading-relaxed mb-1.5 md:mb-5 line-clamp-2">
+          <p className="text-gray-600 dark:text-gray-300 text-[11px] md:text-sm leading-relaxed mb-1.5 md:mb-5 line-clamp-2">
             {translatedExcerpt || 'No excerpt available'}
           </p>
         </Link>
 
-        <div className="pt-1.5 md:pt-4 border-t border-gray-100 flex items-center justify-between">
-          <div className="flex items-center gap-2 md:gap-4 text-[9px] md:text-xs font-bold text-gray-500">
+        <div className="pt-1.5 md:pt-4 border-t border-gray-100 dark:border-white/5 flex items-center justify-between">
+          <div className="flex items-center gap-2 md:gap-4 text-[9px] md:text-xs font-bold text-gray-500 dark:text-gray-400">
             <span className="flex items-center gap-1 md:gap-1.5"><Eye className="w-2.5 h-2.5 md:w-3.5 md:h-3.5" /> {_views}</span>
             <span className="flex items-center gap-1 md:gap-1.5"><Heart className="w-2.5 h-2.5 md:w-3.5 md:h-3.5" /> {likeCount}</span>
           </div>
@@ -164,7 +164,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={(e) => { e.preventDefault(); setIsShareModalOpen(true); }}
-              className="p-1 md:p-1.5 border border-gray-200 text-gray-400 hover:text-amber-700 hover:border-amber-200 rounded-full transition-colors"
+              className="p-1 md:p-1.5 border border-gray-200 dark:border-white/10 text-gray-400 dark:text-gray-500 hover:text-amber-700 hover:border-amber-200 rounded-full transition-colors"
               aria-label="Share post"
             >
               <Share2 className="h-2.5 w-2.5 md:h-3.5 md:w-3.5" />
@@ -175,7 +175,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
               disabled={isLiking}
               className={`p-1 md:p-1.5 rounded-full border transition-colors flex items-center gap-1 md:gap-1.5 ${isLiked
                 ? 'bg-red-50 border-red-100 text-red-600'
-                : 'border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-100'
+                : 'border-gray-200 dark:border-white/10 text-gray-400 dark:text-gray-500 hover:text-red-500 hover:border-red-100'
                 } ${isLiking ? 'opacity-50' : ''}`}
               aria-label={isLiked ? 'Unlike post' : 'Like post'}
             >

@@ -40,7 +40,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white border-t border-gray-200 pt-14 pb-8 isolate">
+    <footer className="bg-white dark:bg-[#141417] border-t border-gray-200 dark:border-white/10 pt-14 pb-8 isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-10 gap-x-10 mb-12">
           {/* Brand */}
@@ -49,15 +49,15 @@ const Footer = () => {
               {logoSettings.logoUrl && logoSettings.showText ? (
                 <>
                   <img src={logoSettings.logoUrl} alt="Logo" className="w-9 h-9 object-contain" />
-                  <span className="text-xl font-sans font-extrabold text-gray-900 tracking-tight">{logoSettings.logoText}</span>
+                  <span className="text-xl font-sans font-extrabold text-gray-900 dark:text-white tracking-tight">{logoSettings.logoText}</span>
                 </>
               ) : logoSettings.logoUrl ? (
                 <img src={logoSettings.logoUrl} alt="Logo" className="h-9 object-contain" />
               ) : (
-                <span className="text-xl font-sans font-extrabold text-gray-900 tracking-tight">{logoSettings.logoText}</span>
+                <span className="text-xl font-sans font-extrabold text-gray-900 dark:text-white tracking-tight">{logoSettings.logoText}</span>
               )}
             </div>
-            <p className="text-gray-500 text-sm leading-relaxed max-w-sm">
+            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed max-w-sm">
               {footerSettings.description}
             </p>
             <div className="flex items-center gap-3">
@@ -71,10 +71,10 @@ const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-md border border-gray-300 flex items-center justify-center hover:border-amber-700 hover:bg-amber-50 transition-colors group"
+                  className="w-9 h-9 rounded-md border border-gray-300 dark:border-white/10 flex items-center justify-center hover:border-amber-700 hover:bg-amber-50 transition-colors group"
                   aria-label={social.label}
                 >
-                  <social.icon className="h-4 w-4 text-gray-500 group-hover:text-amber-700" />
+                  <social.icon className="h-4 w-4 text-gray-500 dark:text-gray-400 group-hover:text-amber-700" />
                 </a>
               ))}
             </div>
@@ -93,7 +93,7 @@ const Footer = () => {
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    className="text-gray-600 hover:text-amber-700 transition-colors text-sm"
+                    className="text-gray-600 dark:text-gray-300 hover:text-amber-700 transition-colors text-sm"
                   >
                     {item.label}
                   </Link>
@@ -106,18 +106,18 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">{t('footer.company')}</h3>
             <ul className="space-y-3">
-              <li><Link to="/terms" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">{t('nav.terms')}</Link></li>
-              <li><Link to="/privacy" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">{t('nav.privacy')}</Link></li>
-              <li><span className="text-gray-600 text-sm">{footerSettings.email}</span></li>
-              <li><span className="text-gray-600 text-sm">{footerSettings.location}</span></li>
+              <li><Link to="/terms" className="text-gray-600 dark:text-gray-300 hover:text-amber-700 transition-colors text-sm">{t('nav.terms')}</Link></li>
+              <li><Link to="/privacy" className="text-gray-600 dark:text-gray-300 hover:text-amber-700 transition-colors text-sm">{t('nav.privacy')}</Link></li>
+              <li><span className="text-gray-600 dark:text-gray-300 text-sm">{footerSettings.email}</span></li>
+              <li><span className="text-gray-600 dark:text-gray-300 text-sm">{footerSettings.location}</span></li>
             </ul>
           </div>
 
           {/* Newsletter card */}
           <div className="lg:col-span-4">
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6">
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-6">
               <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 block mb-2">{t('footer.stayInspired')}</span>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                 {t('footer.newsletterBlurb')}
               </p>
 
@@ -129,7 +129,7 @@ const Footer = () => {
               ) : (
                 <form onSubmit={handleSubscribe} className="space-y-3">
                   <div>
-                    <label htmlFor="footer-email" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">
+                    <label htmlFor="footer-email" className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1.5">
                       Email <span className="text-amber-700">*</span>
                     </label>
                     <input
@@ -138,10 +138,10 @@ const Footer = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full bg-white border border-gray-300 rounded-md py-2.5 px-3 text-gray-900 text-sm placeholder-gray-400 focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 px-3 text-gray-900 dark:text-white text-sm placeholder-gray-400 focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
-                  <label className="flex items-start gap-2 text-xs text-gray-500 cursor-pointer">
+                  <label className="flex items-start gap-2 text-xs text-gray-500 dark:text-gray-400 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={agreed}
@@ -168,11 +168,11 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
-          <div className="text-gray-400 text-[11px] font-medium tracking-wide">
+        <div className="border-t border-gray-200 dark:border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+          <div className="text-gray-400 dark:text-gray-500 text-[11px] font-medium tracking-wide">
             {footerSettings.copyrightText}
           </div>
-          <div className="flex items-center gap-3 text-gray-400 text-[11px] font-medium">
+          <div className="flex items-center gap-3 text-gray-400 dark:text-gray-500 text-[11px] font-medium">
             <span>{footerSettings.email}</span>
             <span>·</span>
             <span>{footerSettings.location}</span>

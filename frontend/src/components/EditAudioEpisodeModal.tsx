@@ -65,32 +65,32 @@ const EditAudioEpisodeModal: React.FC<EditAudioEpisodeModalProps> = ({ isOpen, e
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+      <div className="bg-white dark:bg-[#141417] rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900">Edit Episode</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Edit Episode</h2>
+          <button onClick={onClose} className="text-gray-400 dark:text-gray-500 hover:text-gray-600">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">Title</label>
+            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+              className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">Description</label>
+            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Description</label>
             <textarea
               rows={4}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+              className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
             />
           </div>
 
@@ -106,42 +106,42 @@ const EditAudioEpisodeModal: React.FC<EditAudioEpisodeModalProps> = ({ isOpen, e
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">Slot</label>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Slot</label>
               <select
                 value={formData.slot}
                 onChange={(e) => setFormData({ ...formData, slot: e.target.value as 'MORNING' | 'EVENING' })}
-                className="w-full px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
               >
                 <option value="MORNING">Morning</option>
                 <option value="EVENING">Evening</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">Date</label>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Date</label>
               <input
                 type="date"
                 value={formData.episodeDate}
                 onChange={(e) => setFormData({ ...formData, episodeDate: e.target.value })}
-                className="w-full px-4 py-2.5 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
               />
             </div>
           </div>
 
           <div className="flex items-center justify-between">
-            <label className="text-sm font-bold text-gray-700">Published</label>
+            <label className="text-sm font-bold text-gray-700 dark:text-gray-200">Published</label>
             <button
               type="button"
               onClick={() => setFormData({ ...formData, isPublished: !formData.isPublished })}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${formData.isPublished ? 'bg-amber-700' : 'bg-gray-200'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${formData.isPublished ? 'bg-amber-700' : 'bg-gray-200 dark:bg-white/10'}`}
             >
-              <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.isPublished ? 'translate-x-6' : 'translate-x-1'}`} />
+              <span className={`inline-block h-4 w-4 transform rounded-full bg-white dark:bg-[#141417] transition-transform ${formData.isPublished ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
           </div>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
 
           <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-lg text-gray-700 border border-gray-300">
+            <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-lg text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/10">
               Cancel
             </button>
             <button

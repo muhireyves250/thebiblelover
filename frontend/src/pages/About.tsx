@@ -25,22 +25,22 @@ const About = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white animate-pulse">
+      <div className="min-h-screen bg-white dark:bg-[#141417] animate-pulse">
         <div className="md:hidden max-w-7xl mx-auto px-4 pt-3">
-          <div className="h-3 w-16 bg-gray-100 rounded-sm mb-2" />
-          <div className="h-7 w-40 bg-gray-100 rounded-md" />
+          <div className="h-3 w-16 bg-gray-100 dark:bg-white/10 rounded-sm mb-2" />
+          <div className="h-7 w-40 bg-gray-100 dark:bg-white/10 rounded-md" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 md:pt-10 space-y-3 md:space-y-6">
-          <div className="h-48 md:h-72 bg-gray-100 rounded-lg" />
-          <div className="h-48 md:h-72 bg-gray-100 rounded-lg" />
-          <div className="h-48 md:h-72 bg-gray-100 rounded-lg" />
+          <div className="h-48 md:h-72 bg-gray-100 dark:bg-white/10 rounded-lg" />
+          <div className="h-48 md:h-72 bg-gray-100 dark:bg-white/10 rounded-lg" />
+          <div className="h-48 md:h-72 bg-gray-100 dark:bg-white/10 rounded-lg" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-[#141417]">
       <SEO
         title="About Us"
         description="Discover the story and mission of The Bible Lover. Our goal is to provide a spiritual home for everyone seeking wisdom through the Holy Scriptures."
@@ -51,14 +51,14 @@ const About = () => {
           <span className="w-1 h-4 bg-amber-700 rounded-sm" />
           <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">About</AutoText>
         </div>
-        <AutoText as="h1" className="text-2xl font-black uppercase tracking-tight text-gray-900">Who We Are</AutoText>
+        <AutoText as="h1" className="text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Who We Are</AutoText>
       </div>
 
       {/* Who We Are */}
-      <section className="py-3 md:py-20 bg-white">
+      <section className="py-3 md:py-20 bg-white dark:bg-[#141417]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-4 md:p-10">
-            <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden p-4 md:p-10">
+            <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={aboutSection?.imageUrl || '/images/about.png'}
                 alt={aboutSection?.title || 'About Us'}
@@ -67,7 +67,7 @@ const About = () => {
               />
               <SectionHeader eyebrow="About Us" title="Who We Are" subtitle="A community built around God's Word" />
             </div>
-            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 leading-relaxed">
+            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
               <p className="whitespace-pre-line">
                 {aboutSection?.content ||
                   'Welcome to Bible Lovers, a place where God’s Word comes alive and transforms hearts.'}
@@ -98,10 +98,10 @@ const About = () => {
       </section>
 
       {/* Our Story */}
-      <section className="py-3 md:py-20 bg-white">
+      <section className="py-3 md:py-20 bg-white dark:bg-[#141417]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-4 md:p-10">
-            <div className="group relative float-none sm:float-right w-full sm:w-1/2 h-48 sm:h-64 md:h-80 ml-0 sm:ml-6 md:ml-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden p-4 md:p-10">
+            <div className="group relative float-none sm:float-right w-full sm:w-1/2 h-48 sm:h-64 md:h-80 ml-0 sm:ml-6 md:ml-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={storySection?.imageUrl || '/images/story.png'}
                 alt={storySection?.title || 'Our Story'}
@@ -110,7 +110,7 @@ const About = () => {
               />
               <SectionHeader eyebrow="Our Journey" title="Our Story" subtitle="How a simple calling became a community" />
             </div>
-            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 leading-relaxed">
+            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
               <p className="whitespace-pre-line">
                 {storySection?.content ||
                   'Our story began with a passion for God’s Word and a desire to help others experience its life-changing power.'}
@@ -141,10 +141,10 @@ const About = () => {
       </section>
 
       {/* Our Mission */}
-      <section className="py-3 md:py-20 bg-white">
+      <section className="py-3 md:py-20 bg-white dark:bg-[#141417]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden p-4 md:p-10">
-            <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden p-4 md:p-10">
+            <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
               <img
                 src={missionSection?.imageUrl || '/images/mission.png'}
                 alt={missionSection?.title || 'Our Mission'}
@@ -153,24 +153,24 @@ const About = () => {
               />
               <SectionHeader eyebrow="Our Purpose" title="Our Mission" subtitle="What we're committed to, every single day" />
             </div>
-            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 leading-relaxed">
+            <div className="space-y-3 md:space-y-5 text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed">
               <p className="whitespace-pre-line">
                 {missionSection?.content ||
                   'Our mission is to inspire and equip believers to grow deeper in their faith.'}
               </p>
               <p>
                 In practice, that mission rests on four commitments we return to constantly. First,
-                <strong className="text-gray-900"> teaching</strong> — making Scripture clear and
+                <strong className="text-gray-900 dark:text-white"> teaching</strong> — making Scripture clear and
                 accessible, whether that's a five-minute morning devotional or a deeper study of a whole
-                book of the Bible. Second, <strong className="text-gray-900">daily rhythm</strong> —
+                book of the Bible. Second, <strong className="text-gray-900 dark:text-white">daily rhythm</strong> —
                 helping people build a habit of meeting God every morning and closing every evening in His
                 presence, rather than treating faith as a once-a-week event.
               </p>
               <p>
-                Third, <strong className="text-gray-900">community</strong> — because Scripture keeps
+                Third, <strong className="text-gray-900 dark:text-white">community</strong> — because Scripture keeps
                 telling us not to do this alone. Comments, shared reflections, and prayer requests exist so
                 that encouragement and accountability are always within reach. Fourth,
-                <strong className="text-gray-900"> transformation</strong> — our measure of success was
+                <strong className="text-gray-900 dark:text-white"> transformation</strong> — our measure of success was
                 never page views. It's changed lives: patience where there used to be anger, generosity
                 where there used to be fear, hope where there used to be despair.
               </p>

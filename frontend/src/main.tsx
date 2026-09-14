@@ -8,13 +8,12 @@ import './index.css';
 
 console.log('Main.tsx is starting');
 
-// Dark mode UI is removed for now (light mode first, dark mode revisited
-// later) - clear any 'dark' class/preference a previous session's now-
-// deleted theme toggle may have left behind, so the site always renders
-// in light mode regardless of prior local state or OS preference.
-document.documentElement.classList.remove('dark');
+// Apply the saved (or OS-preferred) theme before React mounts, so the
+// page never flashes light before ThemeToggle's own effect catches up.
 try {
-  localStorage.setItem('theme', 'light');
+  const stored = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+  document.documentElement.classList.toggle('dark', stored === 'dark' || (stored !== 'light' && prefersDark));
 } catch {
   // ignore (e.g. storage disabled)
 }

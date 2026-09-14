@@ -40,7 +40,7 @@ const WhatsAppWidget: React.FC = () => {
             </div>
 
             {/* Tooltip / Label */}
-            <span className="absolute right-20 bg-white text-gray-800 px-3 py-1.5 rounded-lg text-sm font-medium shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-100 dark:border-gray-800">
+            <span className="absolute right-20 bg-white dark:bg-[#141417] text-gray-800 dark:text-gray-100 px-3 py-1.5 rounded-lg text-sm font-medium shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-gray-100 dark:border-white/5 dark:border-gray-800">
                 Chat with us
                 {/* Triangle arrow */}
                 <span className="absolute top-1/2 -right-1.5 -translate-y-1/2 border-8 border-transparent border-l-white"></span>

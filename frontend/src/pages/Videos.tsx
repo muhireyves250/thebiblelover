@@ -13,8 +13,8 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
     const isLive = item.type === 'LIVE';
 
     return (
-        <div className="group bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
-            <div className={`relative bg-gray-100 overflow-hidden ${playing ? 'h-64 md:h-80' : 'h-48 md:h-56'}`}>
+        <div className="group bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
+            <div className={`relative bg-gray-100 dark:bg-white/10 overflow-hidden ${playing ? 'h-64 md:h-80' : 'h-48 md:h-56'}`}>
                 {playing ? (
                     <iframe
                         className="absolute inset-0 w-full h-full"
@@ -34,8 +34,8 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
                         {isLive && (
                             <div className="absolute top-2 left-2 md:top-3 md:left-3 flex items-center gap-1.5 px-2 py-0.5 md:px-2.5 md:py-1 bg-red-600 rounded-full shadow-lg">
                                 <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white dark:bg-[#141417] opacity-75" />
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white dark:bg-[#141417]" />
                                 </span>
                                 <AutoText as="span" className="text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest">Live</AutoText>
                             </div>
@@ -58,19 +58,19 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
                     <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-amber-50 text-amber-700 text-[9px] md:text-[10px] font-black rounded border border-amber-100 uppercase tracking-widest">
                         {isLive ? 'Live' : 'Video'}
                     </span>
-                    <span className="text-gray-400 text-[10px] md:text-xs flex items-center shrink-0">
+                    <span className="text-gray-400 dark:text-gray-500 text-[10px] md:text-xs flex items-center shrink-0">
                         <Clock className="h-2.5 w-2.5 md:h-3 md:w-3 mr-1" />
                         {formatDate(item.publishedAt)}
                     </span>
                 </div>
 
-                <h3 className="text-sm md:text-lg font-bold text-gray-900 leading-snug line-clamp-2 mb-2 md:mb-3 group-hover:text-amber-700 transition-colors">
+                <h3 className="text-sm md:text-lg font-bold text-gray-900 dark:text-white leading-snug line-clamp-2 mb-2 md:mb-3 group-hover:text-amber-700 transition-colors">
                     {item.title}
                 </h3>
-                <p className="text-xs md:text-sm text-gray-600 leading-relaxed line-clamp-2 md:line-clamp-3">{item.excerpt}</p>
+                <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-2 md:line-clamp-3">{item.excerpt}</p>
             </div>
 
-            <div className="px-3 py-2.5 md:px-6 md:py-4 flex items-center justify-end border-t border-gray-100 bg-gray-50">
+            <div className="px-3 py-2.5 md:px-6 md:py-4 flex items-center justify-end border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5">
                 <div className="flex items-center gap-1 md:gap-1.5 px-2 py-1 md:px-2.5 md:py-1.5 rounded border border-amber-200 bg-amber-50 text-amber-800 font-bold text-[10px] md:text-xs">
                     <Eye className="h-3 w-3 md:h-3.5 md:w-3.5" />
                     <span>{item.views}</span>
@@ -81,19 +81,19 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
 };
 
 const VideoCardSkeleton = () => (
-    <div className="bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden">
-        <div className="h-48 md:h-56 bg-gray-200 animate-pulse" />
+    <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden">
+        <div className="h-48 md:h-56 bg-gray-200 dark:bg-white/10 animate-pulse" />
         <div className="p-3 md:p-6">
             <div className="flex items-center justify-between mb-2 md:mb-4">
-                <div className="h-4 w-14 bg-gray-200 rounded animate-pulse" />
-                <div className="h-3 w-16 bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 w-14 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
+                <div className="h-3 w-16 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
             </div>
-            <div className="h-4 w-full bg-gray-200 rounded animate-pulse mb-2" />
-            <div className="h-4 w-2/3 bg-gray-200 rounded animate-pulse mb-3" />
-            <div className="h-3 w-full bg-gray-200 rounded animate-pulse" />
+            <div className="h-4 w-full bg-gray-200 dark:bg-white/10 rounded animate-pulse mb-2" />
+            <div className="h-4 w-2/3 bg-gray-200 dark:bg-white/10 rounded animate-pulse mb-3" />
+            <div className="h-3 w-full bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
         </div>
-        <div className="px-3 py-2.5 md:px-6 md:py-4 flex justify-end border-t border-gray-100 bg-gray-50">
-            <div className="h-5 w-14 bg-gray-200 rounded animate-pulse" />
+        <div className="px-3 py-2.5 md:px-6 md:py-4 flex justify-end border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5">
+            <div className="h-5 w-14 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
         </div>
     </div>
 );
@@ -125,7 +125,7 @@ const Videos = () => {
     const visibleItems = activeFilter === 'ALL' ? items : items.filter(item => item.type === activeFilter);
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white dark:bg-[#141417]">
             <SEO
                 title="Watch"
                 description="Every live stream and video The Bible Lover has published on YouTube, in one place."
@@ -137,8 +137,8 @@ const Videos = () => {
                         <span className="w-1 h-4 bg-amber-700 rounded-sm" />
                         <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Live Streams &amp; Videos</AutoText>
                     </div>
-                    <AutoText as="h1" className="text-2xl font-black uppercase tracking-tight text-gray-900">Watch</AutoText>
-                    <AutoText as="p" className="text-sm text-gray-500 mt-2">Every live stream and video The Bible Lover has published on YouTube, in one place.</AutoText>
+                    <AutoText as="h1" className="text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Watch</AutoText>
+                    <AutoText as="p" className="text-sm text-gray-500 dark:text-gray-400 mt-2">Every live stream and video The Bible Lover has published on YouTube, in one place.</AutoText>
                 </div>
 
                 {/* Filters */}
@@ -149,7 +149,7 @@ const Videos = () => {
                             onClick={() => setActiveFilter(f.id)}
                             className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-colors ${activeFilter === f.id
                                 ? 'bg-amber-700 text-white border-amber-700'
-                                : 'bg-white text-gray-500 border-gray-300 hover:border-gray-400'
+                                : 'bg-white dark:bg-[#141417] text-gray-500 dark:text-gray-400 border-gray-300 dark:border-white/10 hover:border-gray-400'
                                 }`}
                         >
                             <AutoText as="span">{f.name}</AutoText>
@@ -162,13 +162,13 @@ const Videos = () => {
                         {[1, 2, 3, 4, 5, 6].map(i => <VideoCardSkeleton key={i} />)}
                     </div>
                 ) : error ? (
-                    <div className="text-center py-16 bg-white border border-dashed border-gray-300 rounded-lg">
+                    <div className="text-center py-16 bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/10 rounded-lg">
                         <AlertTriangle className="h-10 w-10 text-gray-300 mx-auto mb-4" />
-                        <AutoText as="h3" className="text-lg font-bold text-gray-900 mb-1">Failed to load videos</AutoText>
-                        <AutoText as="p" className="text-gray-500 text-sm">Please try again later.</AutoText>
+                        <AutoText as="h3" className="text-lg font-bold text-gray-900 dark:text-white mb-1">Failed to load videos</AutoText>
+                        <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-sm">Please try again later.</AutoText>
                     </div>
                 ) : visibleItems.length === 0 ? (
-                    <AutoText as="p" className="text-gray-500 text-center py-16">No videos found.</AutoText>
+                    <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-center py-16">No videos found.</AutoText>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                         {visibleItems.map(item => (

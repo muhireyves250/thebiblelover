@@ -41,31 +41,31 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white dark:bg-[#141417]">
       <SEO 
         title="Contact Us" 
         description="Have a question or want to share your thoughts? Get in touch with The Bible Lover. We'd love to hear from you."
       />
 
       {/* Contact Content */}
-      <section className="py-3 md:py-16 bg-white">
+      <section className="py-3 md:py-16 bg-white dark:bg-[#141417]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-4 md:mb-10">
             <div className="flex items-center gap-2 mb-1.5 md:mb-2">
               <span className="w-1 h-4 bg-amber-700 rounded-sm" />
               <AutoText as="span" className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Get In Touch</AutoText>
             </div>
-            <AutoText as="h2" className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900 mb-1.5 md:mb-3">
+            <AutoText as="h2" className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-1.5 md:mb-3">
               Let's Connect
             </AutoText>
-            <AutoText as="p" className="text-sm md:text-base text-gray-600 leading-relaxed max-w-2xl">
+            <AutoText as="p" className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
               Have a question about a book, want to collaborate, or just want to share your thoughts? I'd love to hear from you.
             </AutoText>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-10">
             {/* Contact Form */}
-            <div className="lg:col-span-2 bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8">
+            <div className="lg:col-span-2 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-8">
               <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4 md:mb-6">Send a Message</AutoText>
 
               {isSubmitted && (
@@ -83,7 +83,7 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-3.5 md:space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
+                    <label htmlFor="name" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5">
                       <AutoText>Name *</AutoText>
                     </label>
                     <input
@@ -93,13 +93,13 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full px-3 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                       placeholder="Your name"
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
+                    <label htmlFor="email" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5">
                       <AutoText>Email *</AutoText>
                     </label>
                     <input
@@ -109,14 +109,14 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full px-3 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                       placeholder="your.email@example.com"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
+                  <label htmlFor="subject" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5">
                     <AutoText>Subject (Optional)</AutoText>
                   </label>
                   <input
@@ -125,13 +125,13 @@ const Contact = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                    className="w-full px-3 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     placeholder="What's this about?"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
+                  <label htmlFor="message" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5">
                     <AutoText>Message *</AutoText>
                   </label>
                   <textarea
@@ -141,7 +141,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors resize-none"
+                    className="w-full px-3 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors resize-none"
                     placeholder="Tell me what's on your mind..."
                   />
                 </div>
@@ -168,26 +168,26 @@ const Contact = () => {
 
             {/* Contact Information */}
             <div className="lg:col-span-1 space-y-4 md:space-y-6">
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-6">
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-6">
                 <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-5">Contact Information</AutoText>
                 <div className="space-y-3 md:space-y-4">
-                  <div className="flex items-start gap-2.5 md:gap-3 pb-3 md:pb-4 border-b border-gray-100">
+                  <div className="flex items-start gap-2.5 md:gap-3 pb-3 md:pb-4 border-b border-gray-100 dark:border-white/5">
                     <div className="w-8 h-8 md:w-9 md:h-9 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center shrink-0">
                       <Mail className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
                     </div>
                     <div>
-                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Email</AutoText>
-                      <p className="text-gray-900 text-xs md:text-sm font-bold">hello@thebiblelover.com</p>
+                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Email</AutoText>
+                      <p className="text-gray-900 dark:text-white text-xs md:text-sm font-bold">hello@thebiblelover.com</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-2.5 md:gap-3 pb-3 md:pb-4 border-b border-gray-100">
+                  <div className="flex items-start gap-2.5 md:gap-3 pb-3 md:pb-4 border-b border-gray-100 dark:border-white/5">
                     <div className="w-8 h-8 md:w-9 md:h-9 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center shrink-0">
                       <Phone className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
                     </div>
                     <div>
-                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Phone</AutoText>
-                      <p className="text-gray-900 text-xs md:text-sm font-bold">+1 (555) 123-4567</p>
+                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Phone</AutoText>
+                      <p className="text-gray-900 dark:text-white text-xs md:text-sm font-bold">+1 (555) 123-4567</p>
                     </div>
                   </div>
 
@@ -196,16 +196,16 @@ const Contact = () => {
                       <MapPin className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
                     </div>
                     <div>
-                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Location</AutoText>
-                      <p className="text-gray-900 text-xs md:text-sm font-bold">New York, NY</p>
+                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Location</AutoText>
+                      <p className="text-gray-900 dark:text-white text-xs md:text-sm font-bold">New York, NY</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-6">
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-6">
                 <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-2 md:mb-3">Response Time</AutoText>
-                <AutoText as="p" className="text-gray-600 text-xs md:text-sm leading-relaxed">
+                <AutoText as="p" className="text-gray-600 dark:text-gray-300 text-xs md:text-sm leading-relaxed">
                   I typically respond to messages within 24-48 hours. For urgent inquiries,
                   please mention it in your message subject line.
                 </AutoText>

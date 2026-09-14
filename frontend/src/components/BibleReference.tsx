@@ -209,7 +209,7 @@ const BibleReference: React.FC<BibleReferenceProps> = ({ children }) => {
             }}
             className="pointer-events-auto transition-all duration-300"
           >
-            <div className="bg-white rounded-2xl shadow-2xl border border-amber-100 overflow-hidden transform -translate-x-1/2 -mt-2">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl border border-amber-100 overflow-hidden transform -translate-x-1/2 -mt-2">
               <div className="bg-amber-50 px-4 py-2 flex items-center justify-between border-b border-amber-100">
                 <span className="text-amber-900 font-bold text-sm flex items-center gap-1.5">
                   <BookOpen size={14} /> {tooltip.reference}
@@ -243,14 +243,14 @@ const BibleReference: React.FC<BibleReferenceProps> = ({ children }) => {
                               <button
                                 key={t.id}
                                 onClick={() => setActiveTranslation(t.translation)}
-                                className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${activeTranslation === t.translation ? 'bg-amber-100 text-amber-800' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'}`}
+                                className={`px-2 py-0.5 rounded text-[10px] font-bold transition-all ${activeTranslation === t.translation ? 'bg-amber-100 text-amber-800' : 'bg-gray-50 dark:bg-white/5 text-gray-400 dark:text-gray-500 hover:bg-gray-100'}`}
                               >
                                 {t.translation}
                               </button>
                             ))}
                           </div>
                         )}
-                        <p className="text-gray-700 italic text-sm leading-relaxed mb-4">
+                        <p className="text-gray-700 dark:text-gray-200 italic text-sm leading-relaxed mb-4">
                           "{translations.find(t => t.translation === activeTranslation)?.text || tooltip.text}"
                         </p>
                       </div>
@@ -259,7 +259,7 @@ const BibleReference: React.FC<BibleReferenceProps> = ({ children }) => {
                         {translations.map(t => (
                           <div key={t.id} className="border-b border-amber-50 pb-3 last:border-0">
                             <div className="text-[10px] font-bold text-amber-600 mb-1">{t.translation}</div>
-                            <p className="text-gray-700 text-sm leading-relaxed italic">"{t.text}"</p>
+                            <p className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed italic">"{t.text}"</p>
                           </div>
                         ))}
                       </div>
@@ -278,7 +278,7 @@ const BibleReference: React.FC<BibleReferenceProps> = ({ children }) => {
                         onClick={() => {
                           navigator.clipboard.writeText(`${translations.find(t => t.translation === activeTranslation)?.text} - ${tooltip.reference} (${activeTranslation})`);
                         }}
-                        className="text-[10px] font-bold text-gray-400 hover:text-amber-600 flex items-center gap-1 transition-colors"
+                        className="text-[10px] font-bold text-gray-400 dark:text-gray-500 hover:text-amber-600 flex items-center gap-1 transition-colors"
                       >
                         Copy Reference
                       </button>
@@ -288,7 +288,7 @@ const BibleReference: React.FC<BibleReferenceProps> = ({ children }) => {
               </div>
             </div>
             {/* Tooltip Arrow */}
-            <div className="w-3 h-3 bg-white border-r border-b border-amber-100 transform rotate-45 mx-auto -mt-1.5 shadow-sm"></div>
+            <div className="w-3 h-3 bg-white dark:bg-[#141417] border-r border-b border-amber-100 transform rotate-45 mx-auto -mt-1.5 shadow-sm"></div>
           </motion.div>
         )}
       </AnimatePresence>

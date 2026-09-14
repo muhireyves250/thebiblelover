@@ -123,12 +123,12 @@ const BlogPost: React.FC = () => {
   */}
   if (!post && !loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-[#141417]">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-          <AutoText as="h1" className="text-2xl font-serif text-gray-900 mb-3">
+          <AutoText as="h1" className="text-2xl font-serif text-gray-900 dark:text-white mb-3">
             {error ? 'Error loading post' : 'Post not found'}
           </AutoText>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
             {error || <AutoText as="span">We couldn't find the post you're looking for.</AutoText>}
           </p>
           {error && (
@@ -142,7 +142,7 @@ const BlogPost: React.FC = () => {
   const showSkeleton = loading || !post;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-[#141417]">
       {post && (
         <SEO
           title={post.title}
@@ -155,7 +155,7 @@ const BlogPost: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-20">
         <Link
           to="/posts"
-          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-3 md:mb-6"
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-amber-700 transition-colors mb-3 md:mb-6"
         >
           <ArrowLeft className="w-3.5 h-3.5" /> <AutoText as="span">Back to Blog</AutoText>
         </Link>
@@ -164,59 +164,59 @@ const BlogPost: React.FC = () => {
           {/* Main column */}
           <article className="lg:col-span-2">
           {showSkeleton ? (
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-6 md:p-8 mb-8">
               {/* Category badge */}
-              <div className="h-6 w-24 bg-gray-300 rounded animate-pulse mb-4" />
+              <div className="h-6 w-24 bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-4" />
               {/* Title (2 lines) */}
-              <div className="h-9 bg-gray-300 rounded animate-pulse w-3/4 mb-2" />
-              <div className="h-9 bg-gray-300 rounded animate-pulse w-1/2 mb-4" />
+              <div className="h-9 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-3/4 mb-2" />
+              <div className="h-9 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-1/2 mb-4" />
               {/* Excerpt */}
-              <div className="h-6 bg-gray-300 rounded animate-pulse w-full mb-6" />
+              <div className="h-6 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full mb-6" />
 
               <div className="mb-6">
                 {/* Floated image, matching the real w-1/2 h-64/h-80 */}
-                <div className="w-1/2 h-64 md:h-80 bg-gray-300 rounded-lg animate-pulse float-left mr-6 md:mr-8 mb-4 border border-gray-200" />
+                <div className="w-1/2 h-64 md:h-80 bg-gray-300 dark:bg-white/10 rounded-lg animate-pulse float-left mr-6 md:mr-8 mb-4 border border-gray-200 dark:border-white/10" />
                 {/* Content paragraphs wrapping the image */}
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-2" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-2/3 mb-2" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-                <div className="h-4 bg-gray-300 rounded animate-pulse w-3/4" />
+                <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full mb-2" />
+                <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full mb-2" />
+                <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-5/6 mb-2" />
+                <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full mb-2" />
+                <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-2/3 mb-2" />
+                <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full mb-2" />
+                <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-3/4" />
                 <div className="clear-both" />
               </div>
 
               {/* Byline + stats row, matching the real border-b block */}
-              <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
+              <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200 dark:border-white/10">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-gray-300 animate-pulse shrink-0" />
+                  <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-white/10 animate-pulse shrink-0" />
                   <div className="space-y-1.5">
-                    <div className="h-3.5 w-28 bg-gray-300 rounded animate-pulse" />
-                    <div className="h-3 w-36 bg-gray-300 rounded animate-pulse" />
+                    <div className="h-3.5 w-28 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
+                    <div className="h-3 w-36 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="h-8 w-16 bg-gray-300 rounded-full animate-pulse" />
+                    <div key={i} className="h-8 w-16 bg-gray-300 dark:bg-white/10 rounded-full animate-pulse" />
                   ))}
                 </div>
               </div>
             </div>
           ) : (
-          <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8 mb-8">
+          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-8 mb-8">
             <span className="inline-block px-2 py-1 md:px-2.5 bg-amber-700 text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded mb-2 md:mb-4">
               {categoryLabel(post.category)}
             </span>
-            <h1 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-2 md:mb-4">
+            <h1 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900 dark:text-white leading-tight mb-2 md:mb-4">
               {post.title}
             </h1>
 
-            <p className="text-sm md:text-lg text-gray-600 leading-relaxed mb-4 md:mb-6">{post.excerpt}</p>
+            <p className="text-sm md:text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4 md:mb-6">{post.excerpt}</p>
 
             <div className="mb-6">
               {post.featuredImage && (
-                <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
+                <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-4 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
                   <img
                     src={post.featuredImage}
                     alt={post.title}
@@ -236,14 +236,14 @@ const BlogPost: React.FC = () => {
                       <div className="h-40"></div>
                     </div>
                     <div className="absolute inset-x-0 bottom-0 top-0 flex flex-col items-center justify-center bg-gradient-to-t from-white via-white/80 to-transparent pt-20 pb-10 text-center">
-                      <div className="bg-white p-8 rounded-2xl shadow-2xl border border-amber-100 max-w-md mx-auto transform hover:scale-105 transition-transform duration-300">
+                      <div className="bg-white dark:bg-[#141417] p-8 rounded-2xl shadow-2xl border border-amber-100 max-w-md mx-auto transform hover:scale-105 transition-transform duration-300">
                         <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
                           <svg className="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                           </svg>
                         </div>
-                        <AutoText as="h3" className="text-2xl font-serif text-gray-900 mb-3">Premium Content</AutoText>
-                        <AutoText as="p" className="text-gray-700 mb-8 leading-relaxed">
+                        <AutoText as="h3" className="text-2xl font-serif text-gray-900 dark:text-white mb-3">Premium Content</AutoText>
+                        <AutoText as="p" className="text-gray-700 dark:text-gray-200 mb-8 leading-relaxed">
                           This deep dive is exclusive to our community members. Join us today to unlock full access to this and all other premium reflections.
                         </AutoText>
                         <div className="flex flex-col space-y-3">
@@ -269,12 +269,12 @@ const BlogPost: React.FC = () => {
                       <div dangerouslySetInnerHTML={{ __html: post.content }} />
                     ) : (
                       <div
-                        className="text-gray-800 whitespace-pre-wrap leading-relaxed space-y-4 prose prose-amber max-w-none"
+                        className="text-gray-800 dark:text-gray-100 whitespace-pre-wrap leading-relaxed space-y-4 prose prose-amber max-w-none"
                         dangerouslySetInnerHTML={{
                           __html: post.content
-                            .replace(/^###\s+(.+)$/gm, '<h4 class="text-lg font-bold text-gray-900 mt-6 mb-2">$1</h4>')
-                            .replace(/^##\s+(.+)$/gm, '<h3 class="text-xl font-serif text-gray-900 mt-8 mb-3">$1</h3>')
-                            .replace(/^#\s+(.+)$/gm, '<h2 class="text-2xl font-serif text-gray-900 mt-10 mb-4">$1</h2>')
+                            .replace(/^###\s+(.+)$/gm, '<h4 class="text-lg font-bold text-gray-900 dark:text-white mt-6 mb-2">$1</h4>')
+                            .replace(/^##\s+(.+)$/gm, '<h3 class="text-xl font-serif text-gray-900 dark:text-white mt-8 mb-3">$1</h3>')
+                            .replace(/^#\s+(.+)$/gm, '<h2 class="text-2xl font-serif text-gray-900 dark:text-white mt-10 mb-4">$1</h2>')
                             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                         }}
                       />
@@ -286,41 +286,41 @@ const BlogPost: React.FC = () => {
               <div className="clear-both" />
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200">
+            <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200 dark:border-white/10">
               <div className="flex items-center gap-2.5 md:gap-3">
-                <div className="w-8 h-8 md:w-9 md:h-9 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+                <div className="w-8 h-8 md:w-9 md:h-9 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden flex items-center justify-center shrink-0">
                   {post.author?.profileImage ? (
                     <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                   ) : (
-                    <span className="text-xs font-bold text-gray-600">
+                    <span className="text-xs font-bold text-gray-600 dark:text-gray-300">
                       {(post.author?.name || 'A').charAt(0).toUpperCase()}
                     </span>
                   )}
                 </div>
                 <div className="text-xs md:text-sm">
-                  <p className="font-bold text-gray-900">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
-                  <p className="text-gray-500">{formattedDate} &middot; {post.readTime} min read</p>
+                  <p className="font-bold text-gray-900 dark:text-white">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
+                  <p className="text-gray-500 dark:text-gray-400">{formattedDate} &middot; {post.readTime} min read</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-1.5 md:gap-2 flex-wrap">
-                <span className="inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border border-gray-200 rounded-full text-xs md:text-sm text-gray-600">
+                <span className="inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border border-gray-200 dark:border-white/10 rounded-full text-xs md:text-sm text-gray-600 dark:text-gray-300">
                   <Eye className="w-3.5 h-3.5 md:w-4 md:h-4" /> {post.views}
                 </span>
                 <button
                   onClick={handleLike}
                   disabled={isLiking}
-                  className={`inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border rounded-full text-xs md:text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border rounded-full text-xs md:text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
                   aria-label={isLiked ? 'Unlike post' : 'Like post'}
                 >
                   <Heart className={`h-3.5 w-3.5 md:h-4 md:w-4 ${isLiked ? 'fill-current' : ''}`} /> <AutoText as="span">Like</AutoText> &middot; {likeCount}
                 </button>
-                <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
+                <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 dark:border-white/10 rounded-full text-sm text-gray-600 dark:text-gray-300">
                   <MessageCircle className="w-4 h-4" /> <AutoText as="span">Comment</AutoText> &middot; {post._count?.comments ?? comments.length}
                 </span>
                 <button
                   onClick={() => setIsShareModalOpen(true)}
-                  className="inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border border-gray-200 rounded-full text-xs md:text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                  className="inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border border-gray-200 dark:border-white/10 rounded-full text-xs md:text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 transition-colors"
                   aria-label="Share post"
                 >
                   <Share2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> <AutoText as="span">Share</AutoText>
@@ -329,40 +329,40 @@ const BlogPost: React.FC = () => {
             </div>
 
             {/* Comments */}
-            <section className="mt-6 pt-6 md:mt-8 md:pt-8 border-t border-gray-200">
+            <section className="mt-6 pt-6 md:mt-8 md:pt-8 border-t border-gray-200 dark:border-white/10">
               <div className="flex items-center gap-2 mb-3 md:mb-6">
                 <span className="w-1 h-3.5 md:h-4 bg-amber-700 rounded-sm" />
                 <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">
-                  <AutoText as="span">Comments</AutoText> <span className="text-gray-400">&middot; {comments.length}</span>
+                  <AutoText as="span">Comments</AutoText> <span className="text-gray-400 dark:text-gray-500">&middot; {comments.length}</span>
                 </h2>
               </div>
 
               <div className="space-y-2 md:space-y-3 mb-5 md:mb-8">
                 {comments.map((c: any) => (
-                  <div key={c.id} className="border border-gray-200 rounded-lg p-2.5 md:p-4 bg-gray-50">
+                  <div key={c.id} className="border border-gray-200 dark:border-white/10 rounded-lg p-2.5 md:p-4 bg-gray-50 dark:bg-white/5">
                     <div className="flex items-start gap-2 md:gap-3">
                       <div className="w-6 h-6 md:w-9 md:h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-[10px] md:text-sm font-bold shrink-0">
                         {c.authorName?.charAt(0)?.toUpperCase() || 'U'}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[11px] md:text-sm font-bold text-gray-900">{c.authorName || <AutoText as="span">Anonymous</AutoText>}</span>
-                          <span className="text-[9px] md:text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
+                          <span className="text-[11px] md:text-sm font-bold text-gray-900 dark:text-white">{c.authorName || <AutoText as="span">Anonymous</AutoText>}</span>
+                          <span className="text-[9px] md:text-[11px] text-gray-400 dark:text-gray-500 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
                         </div>
-                        <p className="mt-0.5 md:mt-1.5 text-[11px] md:text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
+                        <p className="mt-0.5 md:mt-1.5 text-[11px] md:text-sm text-gray-700 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">{c.content}</p>
                       </div>
                     </div>
                   </div>
                 ))}
                 {comments.length === 0 && (
-                  <AutoText as="div" className="border border-dashed border-gray-300 rounded-lg p-3 md:p-6 text-center text-gray-500 text-[11px] md:text-sm">No comments yet. Be the first to comment!</AutoText>
+                  <AutoText as="div" className="border border-dashed border-gray-300 dark:border-white/10 rounded-lg p-3 md:p-6 text-center text-gray-500 dark:text-gray-400 text-[11px] md:text-sm">No comments yet. Be the first to comment!</AutoText>
                 )}
               </div>
 
               <form onSubmit={submitComment} className="space-y-2.5 md:space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-4">
                   <div>
-                    <label htmlFor="commentName" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Name</AutoText></label>
+                    <label htmlFor="commentName" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5"><AutoText>Name</AutoText></label>
                     <input
                       id="commentName"
                       name="commentName"
@@ -371,11 +371,11 @@ const BlogPost: React.FC = () => {
                       autoComplete="name"
                       value={authorName}
                       onChange={(e) => setAuthorName(e.target.value)}
-                      className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
                   <div>
-                    <label htmlFor="commentEmail" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Email</AutoText></label>
+                    <label htmlFor="commentEmail" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5"><AutoText>Email</AutoText></label>
                     <input
                       id="commentEmail"
                       name="commentEmail"
@@ -384,12 +384,12 @@ const BlogPost: React.FC = () => {
                       autoComplete="email"
                       value={authorEmail}
                       onChange={(e) => setAuthorEmail(e.target.value)}
-                      className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                      className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="commentContent" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Comment</AutoText></label>
+                  <label htmlFor="commentContent" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5"><AutoText>Comment</AutoText></label>
                   <textarea
                     id="commentContent"
                     name="commentContent"
@@ -398,7 +398,7 @@ const BlogPost: React.FC = () => {
                     autoComplete="off"
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
-                    className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                    className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                   />
                 </div>
                 <button
@@ -417,14 +417,14 @@ const BlogPost: React.FC = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             {/* Written By - desktop only */}
-            <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+            <div className="hidden md:block bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-5">
               <AutoText as="h3" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</AutoText>
               {!post ? (
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-gray-200 animate-pulse shrink-0" />
+                  <div className="w-11 h-11 rounded-full bg-gray-200 dark:bg-white/10 animate-pulse shrink-0" />
                   <div className="space-y-1.5">
-                    <div className="h-3.5 w-24 bg-gray-200 rounded animate-pulse" />
-                    <div className="h-2.5 w-32 bg-gray-200 rounded animate-pulse" />
+                    <div className="h-3.5 w-24 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
+                    <div className="h-2.5 w-32 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                   </div>
                 </div>
               ) : (
@@ -437,25 +437,25 @@ const BlogPost: React.FC = () => {
                     )}
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900 text-sm">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
-                    <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400">The Bible Lover Author</AutoText>
+                    <p className="font-bold text-gray-900 dark:text-white text-sm">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
+                    <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">The Bible Lover Author</AutoText>
                   </div>
                 </div>
               )}
             </div>
 
             {/* Story Details - desktop only */}
-            <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+            <div className="hidden md:block bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-5">
               <AutoText as="h3" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Story Details</AutoText>
               {!post ? (
                 <dl className="space-y-1">
                   {[Tag, Calendar, Clock, Eye, Heart, MessageCircle].map((Icon, i) => (
-                    <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
-                      <dt className="flex items-center gap-2 text-gray-500">
+                    <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 dark:border-white/5 last:border-0">
+                      <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                         <Icon className="w-3.5 h-3.5 text-gray-300" />
-                        <span className="h-3 w-16 bg-gray-200 rounded animate-pulse" />
+                        <span className="h-3 w-16 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                       </dt>
-                      <dd className="h-3 w-10 bg-gray-200 rounded animate-pulse" />
+                      <dd className="h-3 w-10 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                     </div>
                   ))}
                 </dl>
@@ -469,12 +469,12 @@ const BlogPost: React.FC = () => {
                   [Heart, 'Likes', likeCount],
                   [MessageCircle, 'Comments', post._count?.comments ?? comments.length]
                 ].map(([Icon, label, value]: any) => (
-                  <div key={label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
-                    <dt className="flex items-center gap-2 text-gray-500 text-sm">
+                  <div key={label} className="flex items-center justify-between py-2.5 border-b border-gray-100 dark:border-white/5 last:border-0">
+                    <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm">
                       <Icon className="w-3.5 h-3.5 text-amber-700" />
                       <AutoText as="span">{label}</AutoText>
                     </dt>
-                    <dd className="font-bold text-gray-900 text-sm">{value}</dd>
+                    <dd className="font-bold text-gray-900 dark:text-white text-sm">{value}</dd>
                   </div>
                 ))}
               </dl>
@@ -483,19 +483,19 @@ const BlogPost: React.FC = () => {
 
             {/* Recent Stories */}
             {recentLoading && recentPosts.length === 0 && (
-              <div className="bg-white md:border md:border-gray-300 md:rounded-lg md:shadow-sm p-0 md:p-5">
+              <div className="bg-white dark:bg-[#141417] md:border md:border-gray-300 md:rounded-lg md:shadow-sm p-0 md:p-5">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
-                  <div className="h-3 w-24 bg-gray-300 rounded animate-pulse" />
-                  <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
+                  <div className="h-3 w-24 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
+                  <div className="h-3 w-20 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
                 </div>
                 <div className="space-y-3 md:space-y-4">
                   {[1, 2, 3, 4, 5].map(i => (
                     <div key={i} className="flex items-start gap-2.5 md:gap-3">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-300 dark:bg-white/10 animate-pulse shrink-0" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-2.5 w-16 bg-gray-300 rounded animate-pulse" />
-                        <div className="h-3.5 bg-gray-300 rounded animate-pulse w-full" />
-                        <div className="h-3.5 bg-gray-300 rounded animate-pulse w-2/3" />
+                        <div className="h-2.5 w-16 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
+                        <div className="h-3.5 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full" />
+                        <div className="h-3.5 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-2/3" />
                       </div>
                     </div>
                   ))}
@@ -504,7 +504,7 @@ const BlogPost: React.FC = () => {
             )}
 
             {recentPosts.length > 0 && (
-              <div className="bg-white md:border md:border-gray-300 md:rounded-lg md:shadow-sm p-0 md:p-5">
+              <div className="bg-white dark:bg-[#141417] md:border md:border-gray-300 md:rounded-lg md:shadow-sm p-0 md:p-5">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
                   <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Stories</AutoText>
                   <Link to="/posts" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
@@ -516,7 +516,7 @@ const BlogPost: React.FC = () => {
                   {recentPosts.map((rp: any) => (
                     <Link key={rp.id} to={`/blog/${rp.slug}`} className="flex items-start gap-2.5 md:gap-3 group">
                       {rp.featuredImage && (
-                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-md overflow-hidden bg-gray-100 dark:bg-white/10 shrink-0">
                           <img src={rp.featuredImage} alt={rp.title} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
@@ -524,14 +524,14 @@ const BlogPost: React.FC = () => {
                         <span className="block text-[9px] md:text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
                           {categoryLabel(rp.category)}
                         </span>
-                        <p className="text-xs md:text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
+                        <p className="text-xs md:text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
                           {rp.title}
                         </p>
                         <div className="flex items-center justify-between mt-1 md:mt-1.5">
-                          <span className="text-[10px] md:text-[11px] text-gray-400">
+                          <span className="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500">
                             {new Date(rp.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                           </span>
-                          <span className="text-[10px] md:text-[11px] text-gray-400">
+                          <span className="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500">
                             {rp.views || 0} &middot; {rp.likes || 0} &middot; {rp._count?.comments ?? 0}
                           </span>
                         </div>

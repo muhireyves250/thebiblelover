@@ -120,7 +120,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <label className="block text-sm font-medium text-gray-700">Audio</label>
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Audio</label>
 
       <div className="flex gap-2 mb-2">
         <button
@@ -128,7 +128,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
           onClick={() => setMode('upload')}
           disabled={disabled || isRecording || isStarting}
           className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wide border ${
-            mode === 'upload' ? 'bg-amber-700 text-white border-amber-700' : 'bg-white text-gray-600 border-gray-300'
+            mode === 'upload' ? 'bg-amber-700 text-white border-amber-700' : 'bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 border-gray-300 dark:border-white/10'
           }`}
         >
           Upload
@@ -138,7 +138,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
           onClick={() => setMode('record')}
           disabled={disabled || isRecording || isStarting}
           className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wide border ${
-            mode === 'record' ? 'bg-amber-700 text-white border-amber-700' : 'bg-white text-gray-600 border-gray-300'
+            mode === 'record' ? 'bg-amber-700 text-white border-amber-700' : 'bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 border-gray-300 dark:border-white/10'
           }`}
         >
           Record
@@ -161,7 +161,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
 
       {mode === 'upload' ? (
         <div
-          className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors border-gray-300 hover:border-gray-400 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors border-gray-300 dark:border-white/10 hover:border-gray-400 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={disabled ? undefined : openFileDialog}
         >
           <input
@@ -175,24 +175,24 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
           {uploading ? (
             <div className="flex flex-col items-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700 mb-2"></div>
-              <p className="text-sm text-gray-600">Uploading...</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">Uploading...</p>
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <Upload className="w-8 h-8 text-gray-400 mb-2" />
-              <p className="text-sm text-gray-600">
+              <Upload className="w-8 h-8 text-gray-400 dark:text-gray-500 mb-2" />
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 <span className="text-amber-700 font-medium">Click to upload</span> an audio file
               </p>
-              <p className="text-xs text-gray-500 mt-1">MP3, WAV, OGG, M4A up to 50MB</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">MP3, WAV, OGG, M4A up to 50MB</p>
             </div>
           )}
         </div>
       ) : (
-        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+        <div className="border-2 border-dashed border-gray-300 dark:border-white/10 rounded-lg p-6 text-center">
           {uploading ? (
             <div className="flex flex-col items-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700 mb-2"></div>
-              <p className="text-sm text-gray-600">Uploading recording...</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">Uploading recording...</p>
             </div>
           ) : (
             <button

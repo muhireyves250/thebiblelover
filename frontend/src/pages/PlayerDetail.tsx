@@ -63,7 +63,7 @@ const MobileAudioPlayer: React.FC<{
   const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="md:hidden bg-white border border-gray-300 rounded-2xl shadow-sm overflow-hidden mb-6">
+    <div className="md:hidden bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-2xl shadow-sm overflow-hidden mb-6">
       <audio
         ref={audioRef}
         src={episode.audioUrl}
@@ -110,8 +110,8 @@ const MobileAudioPlayer: React.FC<{
 
       <div className="p-4">
         <div className="text-center mb-3">
-          <h1 className="text-base font-black uppercase tracking-tight text-gray-900 leading-snug">{episode.title}</h1>
-          <p className="text-xs text-gray-500 mt-1">{slotLabel(episode.slot)} Devotional</p>
+          <h1 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white leading-snug">{episode.title}</h1>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{slotLabel(episode.slot)} Devotional</p>
         </div>
 
         <div className="mb-1">
@@ -124,17 +124,17 @@ const MobileAudioPlayer: React.FC<{
             className="w-full h-1.5 accent-amber-700 cursor-pointer"
           />
         </div>
-        <div className="flex items-center justify-between text-[11px] text-gray-400 mb-4">
+        <div className="flex items-center justify-between text-[11px] text-gray-400 dark:text-gray-500 mb-4">
           <span>{formatSeconds(currentTime)}</span>
           <span>{formatSeconds(duration)}</span>
         </div>
 
         <div className="flex items-center justify-center gap-5">
-          <button onClick={() => skip(-10)} aria-label="Rewind 10 seconds" className="text-gray-500 hover:text-amber-700 transition-colors">
+          <button onClick={() => skip(-10)} aria-label="Rewind 10 seconds" className="text-gray-500 dark:text-gray-400 hover:text-amber-700 transition-colors">
             <RotateCcw className="w-5 h-5" />
           </button>
           {prevHref ? (
-            <Link to={prevHref} aria-label="Previous episode" className="text-gray-500 hover:text-amber-700 transition-colors">
+            <Link to={prevHref} aria-label="Previous episode" className="text-gray-500 dark:text-gray-400 hover:text-amber-700 transition-colors">
               <SkipBack className="w-5 h-5" fill="currentColor" />
             </Link>
           ) : (
@@ -148,31 +148,31 @@ const MobileAudioPlayer: React.FC<{
             {isPlaying ? <Pause className="w-6 h-6" fill="currentColor" /> : <Play className="w-6 h-6 ml-0.5" fill="currentColor" />}
           </button>
           {nextHref ? (
-            <Link to={nextHref} aria-label="Next episode" className="text-gray-500 hover:text-amber-700 transition-colors">
+            <Link to={nextHref} aria-label="Next episode" className="text-gray-500 dark:text-gray-400 hover:text-amber-700 transition-colors">
               <SkipForward className="w-5 h-5" fill="currentColor" />
             </Link>
           ) : (
             <span className="text-gray-200"><SkipForward className="w-5 h-5" fill="currentColor" /></span>
           )}
-          <button onClick={() => skip(10)} aria-label="Forward 10 seconds" className="text-gray-500 hover:text-amber-700 transition-colors">
+          <button onClick={() => skip(10)} aria-label="Forward 10 seconds" className="text-gray-500 dark:text-gray-400 hover:text-amber-700 transition-colors">
             <RotateCw className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-gray-100">
+        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-white/5">
           <div className="flex items-center gap-2 mb-2">
             <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
             <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">About this Episode</AutoText>
           </div>
-          <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line mb-4">{episode.description}</p>
+          <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-line mb-4">{episode.description}</p>
 
-          <div className="flex items-center gap-2.5 pt-3 border-t border-gray-100">
+          <div className="flex items-center gap-2.5 pt-3 border-t border-gray-100 dark:border-white/5">
             <div className="w-9 h-9 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
               <span className="text-sm font-bold text-amber-800">A</span>
             </div>
             <div className="text-xs">
-              <AutoText as="p" className="font-bold text-gray-900">Admin User</AutoText>
-              <p className="text-gray-500">{formattedDate}</p>
+              <AutoText as="p" className="font-bold text-gray-900 dark:text-white">Admin User</AutoText>
+              <p className="text-gray-500 dark:text-gray-400">{formattedDate}</p>
             </div>
           </div>
         </div>
@@ -274,12 +274,12 @@ const PlayerDetail: React.FC = () => {
 
   if (!episode && !loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-[#141417]">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-          <AutoText as="h1" className="text-2xl font-serif text-gray-900 mb-3">
+          <AutoText as="h1" className="text-2xl font-serif text-gray-900 dark:text-white mb-3">
             {error ? 'Error loading episode' : 'Episode not found'}
           </AutoText>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
             {error || <AutoText as="span">We couldn't find the episode you're looking for.</AutoText>}
           </p>
           {error && (
@@ -293,7 +293,7 @@ const PlayerDetail: React.FC = () => {
   const showSkeleton = loading || !episode;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-[#141417]">
       {episode && (
         <SEO title={episode.title} description={episode.description} image={episode.coverImage} type="article" />
       )}
@@ -301,7 +301,7 @@ const PlayerDetail: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-10">
         <Link
           to="/players"
-          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-3 md:mb-6"
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 hover:text-amber-700 transition-colors mb-3 md:mb-6"
         >
           <ArrowLeft className="w-3.5 h-3.5" /> <AutoText as="span">Back to Devotionals</AutoText>
         </Link>
@@ -311,52 +311,52 @@ const PlayerDetail: React.FC = () => {
           <article className="lg:col-span-2">
             {showSkeleton ? (
               <>
-                <div className="md:hidden bg-white border border-gray-300 rounded-2xl shadow-sm overflow-hidden mb-4">
-                  <div className="h-56 bg-gray-300 animate-pulse" />
+                <div className="md:hidden bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-2xl shadow-sm overflow-hidden mb-4">
+                  <div className="h-56 bg-gray-300 dark:bg-white/10 animate-pulse" />
                   <div className="p-4 space-y-3">
-                    <div className="h-4 w-2/3 bg-gray-300 rounded animate-pulse mx-auto" />
-                    <div className="h-3 w-1/3 bg-gray-200 rounded animate-pulse mx-auto" />
-                    <div className="h-1.5 w-full bg-gray-200 rounded animate-pulse" />
+                    <div className="h-4 w-2/3 bg-gray-300 dark:bg-white/10 rounded animate-pulse mx-auto" />
+                    <div className="h-3 w-1/3 bg-gray-200 dark:bg-white/10 rounded animate-pulse mx-auto" />
+                    <div className="h-1.5 w-full bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                     <div className="flex items-center justify-center gap-5 py-1">
-                      <div className="h-5 w-5 bg-gray-200 rounded-full animate-pulse" />
-                      <div className="h-5 w-5 bg-gray-200 rounded-full animate-pulse" />
-                      <div className="h-14 w-14 bg-gray-300 rounded-full animate-pulse" />
-                      <div className="h-5 w-5 bg-gray-200 rounded-full animate-pulse" />
-                      <div className="h-5 w-5 bg-gray-200 rounded-full animate-pulse" />
+                      <div className="h-5 w-5 bg-gray-200 dark:bg-white/10 rounded-full animate-pulse" />
+                      <div className="h-5 w-5 bg-gray-200 dark:bg-white/10 rounded-full animate-pulse" />
+                      <div className="h-14 w-14 bg-gray-300 dark:bg-white/10 rounded-full animate-pulse" />
+                      <div className="h-5 w-5 bg-gray-200 dark:bg-white/10 rounded-full animate-pulse" />
+                      <div className="h-5 w-5 bg-gray-200 dark:bg-white/10 rounded-full animate-pulse" />
                     </div>
-                    <div className="pt-3 border-t border-gray-100 space-y-2">
-                      <div className="h-3 w-24 bg-gray-200 rounded animate-pulse" />
-                      <div className="h-3.5 w-full bg-gray-200 rounded animate-pulse" />
-                      <div className="h-3.5 w-5/6 bg-gray-200 rounded animate-pulse" />
+                    <div className="pt-3 border-t border-gray-100 dark:border-white/5 space-y-2">
+                      <div className="h-3 w-24 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
+                      <div className="h-3.5 w-full bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
+                      <div className="h-3.5 w-5/6 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                       <div className="flex items-center gap-2.5 pt-2">
-                        <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse shrink-0" />
+                        <div className="w-9 h-9 rounded-full bg-gray-200 dark:bg-white/10 animate-pulse shrink-0" />
                         <div className="space-y-1.5">
-                          <div className="h-3 w-20 bg-gray-200 rounded animate-pulse" />
-                          <div className="h-2.5 w-16 bg-gray-200 rounded animate-pulse" />
+                          <div className="h-3 w-20 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
+                          <div className="h-2.5 w-16 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-8 mb-8">
-                  <div className="h-6 w-32 bg-gray-300 rounded animate-pulse mb-4" />
-                  <div className="h-9 bg-gray-300 rounded animate-pulse w-3/4 mb-2" />
-                  <div className="h-9 bg-gray-300 rounded animate-pulse w-1/2 mb-4" />
-                  <div className="h-64 md:h-80 bg-gray-300 rounded-lg animate-pulse mb-6" />
-                  <div className="h-10 bg-gray-300 rounded animate-pulse mb-6" />
-                  <div className="h-4 bg-gray-300 rounded animate-pulse w-full mb-2" />
-                  <div className="h-4 bg-gray-300 rounded animate-pulse w-5/6 mb-6" />
-                  <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200">
+                <div className="hidden md:block bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-6 md:p-8 mb-8">
+                  <div className="h-6 w-32 bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-4" />
+                  <div className="h-9 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-3/4 mb-2" />
+                  <div className="h-9 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-1/2 mb-4" />
+                  <div className="h-64 md:h-80 bg-gray-300 dark:bg-white/10 rounded-lg animate-pulse mb-6" />
+                  <div className="h-10 bg-gray-300 dark:bg-white/10 rounded animate-pulse mb-6" />
+                  <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full mb-2" />
+                  <div className="h-4 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-5/6 mb-6" />
+                  <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-gray-200 dark:border-white/10">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-gray-300 animate-pulse shrink-0" />
+                      <div className="w-9 h-9 rounded-full bg-gray-300 dark:bg-white/10 animate-pulse shrink-0" />
                       <div className="space-y-1.5">
-                        <div className="h-3.5 w-28 bg-gray-300 rounded animate-pulse" />
-                        <div className="h-3 w-36 bg-gray-300 rounded animate-pulse" />
+                        <div className="h-3.5 w-28 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
+                        <div className="h-3 w-36 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       {[1, 2, 3].map(i => (
-                        <div key={i} className="h-8 w-16 bg-gray-300 rounded-full animate-pulse" />
+                        <div key={i} className="h-8 w-16 bg-gray-300 dark:bg-white/10 rounded-full animate-pulse" />
                       ))}
                     </div>
                   </div>
@@ -374,16 +374,16 @@ const PlayerDetail: React.FC = () => {
                   likeCount={likeCount}
                   onLike={handleLike}
                 />
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8 mb-4 md:mb-8">
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-8 mb-4 md:mb-8">
                 <span className="hidden md:inline-block px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded mb-4">
                   {slotLabel(episode.slot)} Episode
                 </span>
-                <h1 className="hidden md:block text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900 leading-tight mb-4">
+                <h1 className="hidden md:block text-3xl md:text-4xl font-black uppercase tracking-tight text-gray-900 dark:text-white leading-tight mb-4">
                   {episode.title}
                 </h1>
 
                 {episode.coverImage && (
-                  <div className="hidden md:block relative w-full h-64 md:h-80 mb-6 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                  <div className="hidden md:block relative w-full h-64 md:h-80 mb-6 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm">
                     <img
                       src={episode.coverImage}
                       alt={episode.title}
@@ -396,16 +396,16 @@ const PlayerDetail: React.FC = () => {
 
                 <audio controls src={episode.audioUrl} className="hidden md:block w-full mb-6" />
 
-                <p className="hidden md:block text-sm md:text-lg text-gray-700 leading-relaxed whitespace-pre-line mb-4 md:mb-6">{episode.description}</p>
+                <p className="hidden md:block text-sm md:text-lg text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-line mb-4 md:mb-6">{episode.description}</p>
 
-                <div className="hidden md:flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200">
+                <div className="hidden md:flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200 dark:border-white/10">
                   <div className="flex items-center gap-2.5 md:gap-3">
                     <div className="w-8 h-8 md:w-9 md:h-9 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
                       <span className="text-xs font-bold text-amber-800">A</span>
                     </div>
                     <div className="text-xs md:text-sm">
-                      <AutoText as="p" className="font-bold text-gray-900">Admin User</AutoText>
-                      <p className="text-gray-500">{formattedDate}</p>
+                      <AutoText as="p" className="font-bold text-gray-900 dark:text-white">Admin User</AutoText>
+                      <p className="text-gray-500 dark:text-gray-400">{formattedDate}</p>
                     </div>
                   </div>
 
@@ -413,17 +413,17 @@ const PlayerDetail: React.FC = () => {
                     <button
                       onClick={handleLike}
                       disabled={isLiking}
-                      className={`inline-flex items-center gap-1 md:gap-1.5 px-2.5 md:px-3 py-1 md:py-1.5 border rounded-full text-xs md:text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`inline-flex items-center gap-1 md:gap-1.5 px-2.5 md:px-3 py-1 md:py-1.5 border rounded-full text-xs md:text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 dark:text-gray-300 border-gray-200 dark:border-white/10 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
                       aria-label={isLiked ? 'Unlike episode' : 'Like episode'}
                     >
                       <Heart className={`h-3.5 w-3.5 md:h-4 md:w-4 ${isLiked ? 'fill-current' : ''}`} /> <AutoText as="span">Like</AutoText> &middot; {likeCount}
                     </button>
-                    <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
+                    <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 dark:border-white/10 rounded-full text-sm text-gray-600 dark:text-gray-300">
                       <MessageCircle className="w-4 h-4" /> <AutoText as="span">Comment</AutoText> &middot; {comments.length}
                     </span>
                     <button
                       onClick={handleShare}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 dark:border-white/10 rounded-full text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 transition-colors"
                       aria-label="Share episode"
                     >
                       <Share2 className="w-4 h-4" /> <AutoText as="span">Share</AutoText>
@@ -432,40 +432,40 @@ const PlayerDetail: React.FC = () => {
                 </div>
 
                 {/* Comments */}
-                <section className="mt-6 pt-6 md:mt-8 md:pt-8 border-t border-gray-200">
+                <section className="mt-6 pt-6 md:mt-8 md:pt-8 border-t border-gray-200 dark:border-white/10">
                   <div className="flex items-center gap-2 mb-4 md:mb-6">
                     <span className="w-1 h-4 bg-amber-700 rounded-sm" />
                     <h2 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">
-                      <AutoText as="span">Comments</AutoText> <span className="text-gray-400">&middot; {comments.length}</span>
+                      <AutoText as="span">Comments</AutoText> <span className="text-gray-400 dark:text-gray-500">&middot; {comments.length}</span>
                     </h2>
                   </div>
 
                   <div className="space-y-2.5 md:space-y-3 mb-6 md:mb-8">
                     {comments.map((c: any) => (
-                      <div key={c.id} className="border border-gray-200 rounded-lg p-3 md:p-4 bg-gray-50">
+                      <div key={c.id} className="border border-gray-200 dark:border-white/10 rounded-lg p-3 md:p-4 bg-gray-50 dark:bg-white/5">
                         <div className="flex items-start gap-2.5 md:gap-3">
                           <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-xs md:text-sm font-bold shrink-0">
                             {c.authorName?.charAt(0)?.toUpperCase() || 'U'}
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
-                              <span className="text-xs md:text-sm font-bold text-gray-900">{c.authorName || <AutoText as="span">Anonymous</AutoText>}</span>
-                              <span className="text-[10px] md:text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
+                              <span className="text-xs md:text-sm font-bold text-gray-900 dark:text-white">{c.authorName || <AutoText as="span">Anonymous</AutoText>}</span>
+                              <span className="text-[10px] md:text-[11px] text-gray-400 dark:text-gray-500 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
                             </div>
-                            <p className="mt-1 md:mt-1.5 text-xs md:text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
+                            <p className="mt-1 md:mt-1.5 text-xs md:text-sm text-gray-700 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">{c.content}</p>
                           </div>
                         </div>
                       </div>
                     ))}
                     {comments.length === 0 && (
-                      <AutoText as="div" className="border border-dashed border-gray-300 rounded-lg p-4 md:p-6 text-center text-gray-500 text-xs md:text-sm">No comments yet. Be the first to comment!</AutoText>
+                      <AutoText as="div" className="border border-dashed border-gray-300 dark:border-white/10 rounded-lg p-4 md:p-6 text-center text-gray-500 dark:text-gray-400 text-xs md:text-sm">No comments yet. Be the first to comment!</AutoText>
                     )}
                   </div>
 
                   <form onSubmit={submitComment} className="space-y-2.5 md:space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-4">
                       <div>
-                        <label htmlFor="commentName" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Name</AutoText></label>
+                        <label htmlFor="commentName" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5"><AutoText>Name</AutoText></label>
                         <input
                           id="commentName"
                           name="commentName"
@@ -474,11 +474,11 @@ const PlayerDetail: React.FC = () => {
                           autoComplete="name"
                           value={authorName}
                           onChange={(e) => setAuthorName(e.target.value)}
-                          className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                          className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                         />
                       </div>
                       <div>
-                        <label htmlFor="commentEmail" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Email</AutoText></label>
+                        <label htmlFor="commentEmail" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5"><AutoText>Email</AutoText></label>
                         <input
                           id="commentEmail"
                           name="commentEmail"
@@ -487,12 +487,12 @@ const PlayerDetail: React.FC = () => {
                           autoComplete="email"
                           value={authorEmail}
                           onChange={(e) => setAuthorEmail(e.target.value)}
-                          className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                          className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                         />
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="commentContent" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Comment</AutoText></label>
+                      <label htmlFor="commentContent" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1 md:mb-1.5"><AutoText>Comment</AutoText></label>
                       <textarea
                         id="commentContent"
                         name="commentContent"
@@ -501,7 +501,7 @@ const PlayerDetail: React.FC = () => {
                         autoComplete="off"
                         value={commentContent}
                         onChange={(e) => setCommentContent(e.target.value)}
-                        className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                        className="w-full px-2.5 md:px-3 py-1.5 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                       />
                     </div>
                     <button
@@ -521,14 +521,14 @@ const PlayerDetail: React.FC = () => {
           {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-4 md:space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             {/* Written By - desktop only, purely informational and redundant with the author row already shown above */}
-            <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-5">
+            <div className="hidden md:block bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-5">
               <AutoText as="h3" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</AutoText>
               {!episode ? (
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-gray-200 animate-pulse shrink-0" />
+                  <div className="w-11 h-11 rounded-full bg-gray-200 dark:bg-white/10 animate-pulse shrink-0" />
                   <div className="space-y-1.5">
-                    <div className="h-3.5 w-24 bg-gray-200 rounded animate-pulse" />
-                    <div className="h-2.5 w-32 bg-gray-200 rounded animate-pulse" />
+                    <div className="h-3.5 w-24 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
+                    <div className="h-2.5 w-32 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                   </div>
                 </div>
               ) : (
@@ -537,25 +537,25 @@ const PlayerDetail: React.FC = () => {
                     <span className="text-sm font-bold text-amber-800">A</span>
                   </div>
                   <div>
-                    <AutoText as="p" className="font-bold text-gray-900 text-sm">Admin User</AutoText>
-                    <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400">The Bible Lover Author</AutoText>
+                    <AutoText as="p" className="font-bold text-gray-900 dark:text-white text-sm">Admin User</AutoText>
+                    <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">The Bible Lover Author</AutoText>
                   </div>
                 </div>
               )}
             </div>
 
             {/* Episode Details */}
-            <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
               <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-4">Episode Details</AutoText>
               {!episode ? (
                 <dl className="space-y-1">
                   {[Tag, Calendar, Heart, MessageCircle].map((Icon, i) => (
-                    <div key={i} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 last:border-0">
-                      <dt className="flex items-center gap-2 text-gray-500">
+                    <div key={i} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 dark:border-white/5 last:border-0">
+                      <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                         <Icon className="w-3.5 h-3.5 text-gray-300" />
-                        <span className="h-3 w-16 bg-gray-200 rounded animate-pulse" />
+                        <span className="h-3 w-16 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                       </dt>
-                      <dd className="h-3 w-10 bg-gray-200 rounded animate-pulse" />
+                      <dd className="h-3 w-10 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
                     </div>
                   ))}
                 </dl>
@@ -567,12 +567,12 @@ const PlayerDetail: React.FC = () => {
                     [Heart, 'Likes', likeCount],
                     [MessageCircle, 'Comments', comments.length]
                   ].map(([Icon, label, value]: any) => (
-                    <div key={label} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 last:border-0">
-                      <dt className="flex items-center gap-2 text-gray-500 text-xs md:text-sm">
+                    <div key={label} className="flex items-center justify-between py-2 md:py-2.5 border-b border-gray-100 dark:border-white/5 last:border-0">
+                      <dt className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs md:text-sm">
                         <Icon className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-700" />
                         <AutoText as="span">{label}</AutoText>
                       </dt>
-                      <dd className="font-bold text-gray-900 text-xs md:text-sm">{value}</dd>
+                      <dd className="font-bold text-gray-900 dark:text-white text-xs md:text-sm">{value}</dd>
                     </div>
                   ))}
                 </dl>
@@ -581,19 +581,19 @@ const PlayerDetail: React.FC = () => {
 
             {/* Recent Episodes */}
             {recentLoading && recentEpisodes.length === 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
-                  <div className="h-3 w-24 bg-gray-300 rounded animate-pulse" />
-                  <div className="h-3 w-20 bg-gray-300 rounded animate-pulse" />
+                  <div className="h-3 w-24 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
+                  <div className="h-3 w-20 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
                 </div>
                 <div className="space-y-3 md:space-y-4">
                   {[1, 2, 3, 4, 5].map(i => (
                     <div key={i} className="flex items-start gap-2.5 md:gap-3">
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-300 animate-pulse shrink-0" />
+                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-md bg-gray-300 dark:bg-white/10 animate-pulse shrink-0" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-2.5 w-16 bg-gray-300 rounded animate-pulse" />
-                        <div className="h-3.5 bg-gray-300 rounded animate-pulse w-full" />
-                        <div className="h-3.5 bg-gray-300 rounded animate-pulse w-2/3" />
+                        <div className="h-2.5 w-16 bg-gray-300 dark:bg-white/10 rounded animate-pulse" />
+                        <div className="h-3.5 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-full" />
+                        <div className="h-3.5 bg-gray-300 dark:bg-white/10 rounded animate-pulse w-2/3" />
                       </div>
                     </div>
                   ))}
@@ -602,7 +602,7 @@ const PlayerDetail: React.FC = () => {
             )}
 
             {recentEpisodes.length > 0 && (
-              <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-5">
+              <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-4 md:p-5">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
                   <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Episodes</AutoText>
                   <Link to="/players" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
@@ -615,14 +615,14 @@ const PlayerDetail: React.FC = () => {
                     <Link
                       key={re.id}
                       to={`/players/${re.id}`}
-                      className="flex items-center gap-3 bg-white border border-gray-300 rounded-2xl p-2.5 shadow-sm hover:border-gray-400 hover:shadow-md transition-all"
+                      className="flex items-center gap-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-2xl p-2.5 shadow-sm hover:border-gray-400 hover:shadow-md transition-all"
                     >
                       {re.coverImage && (
                         <img src={re.coverImage} alt={re.title} className="w-14 h-14 rounded-xl object-cover shrink-0" loading="lazy" />
                       )}
                       <div className="min-w-0 flex-1">
-                        <p className="font-sans text-sm font-bold text-gray-900 leading-snug line-clamp-2">{re.title}</p>
-                        <p className="text-[11px] text-gray-400 mt-0.5">{formattedFull(re.episodeDate)} &middot; {slotLabel(re.slot)}</p>
+                        <p className="font-sans text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2">{re.title}</p>
+                        <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">{formattedFull(re.episodeDate)} &middot; {slotLabel(re.slot)}</p>
                       </div>
                       <span className="shrink-0 w-9 h-9 rounded-full border border-amber-200 bg-amber-50 flex items-center justify-center text-amber-700">
                         <Play className="w-4 h-4 ml-0.5" />
@@ -636,7 +636,7 @@ const PlayerDetail: React.FC = () => {
                   {recentEpisodes.map((re: any) => (
                     <Link key={re.id} to={`/players/${re.id}`} className="flex items-start gap-3 group">
                       {re.coverImage && (
-                        <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                        <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 dark:bg-white/10 shrink-0">
                           <img src={re.coverImage} alt={re.title} className="w-full h-full object-cover" loading="lazy" />
                         </div>
                       )}
@@ -644,14 +644,14 @@ const PlayerDetail: React.FC = () => {
                         <span className="block text-[10px] font-black uppercase tracking-widest text-amber-700 mb-0.5">
                           {slotLabel(re.slot)}
                         </span>
-                        <p className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
+                        <p className="text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2 group-hover:text-amber-700 transition-colors">
                           {re.title}
                         </p>
                         <div className="flex items-center justify-between mt-1.5">
-                          <span className="text-[11px] text-gray-400">
+                          <span className="text-[11px] text-gray-400 dark:text-gray-500">
                             {formattedFull(re.episodeDate)}
                           </span>
-                          <span className="text-[11px] text-gray-400">
+                          <span className="text-[11px] text-gray-400 dark:text-gray-500">
                             {re.likes || 0} &middot; {re.commentsCount ?? 0}
                           </span>
                         </div>

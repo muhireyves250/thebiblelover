@@ -48,10 +48,10 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="flex justify-between items-center p-6 border-b border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-900">Footer Customization</h2>
-                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-white/10">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Footer Customization</h2>
+                    <button onClick={onClose} className="text-gray-400 dark:text-gray-500 hover:text-gray-600">
                         <X className="h-6 w-6" />
                     </button>
                 </div>
@@ -59,7 +59,7 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Brand Description */}
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                             Brand Description
                         </label>
                         <textarea
@@ -68,7 +68,7 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                             rows={4}
                             value={settings.description}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                             placeholder="About your brand..."
                         />
                     </div>
@@ -76,7 +76,7 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Email */}
                         <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                 Contact Email
                             </label>
                             <input
@@ -85,13 +85,13 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                                 name="email"
                                 value={settings.email}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                             />
                         </div>
 
                         {/* Location */}
                         <div>
-                            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                 Location
                             </label>
                             <input
@@ -100,7 +100,7 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                                 name="location"
                                 value={settings.location}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                             />
                         </div>
                     </div>
@@ -108,7 +108,7 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Response Time */}
                         <div>
-                            <label htmlFor="responseTime" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="responseTime" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                 Response Time Text
                             </label>
                             <input
@@ -117,13 +117,13 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                                 name="responseTime"
                                 value={settings.responseTime}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                             />
                         </div>
 
                         {/* Copyright Text */}
                         <div>
-                            <label htmlFor="copyrightText" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="copyrightText" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                 Copyright Text
                             </label>
                             <input
@@ -132,14 +132,14 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                                 name="copyrightText"
                                 value={settings.copyrightText}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                             />
                         </div>
                     </div>
 
                     {/* Made With Text */}
-                    <div className="pb-6 border-b border-gray-200">
-                        <label htmlFor="madeWithText" className="block text-sm font-medium text-gray-700 mb-2">
+                    <div className="pb-6 border-b border-gray-200 dark:border-white/10">
+                        <label htmlFor="madeWithText" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                             "Made with" Text
                         </label>
                         <input
@@ -148,102 +148,102 @@ const FooterSettingsModal: React.FC<FooterSettingsModalProps> = ({
                             name="madeWithText"
                             value={settings.madeWithText}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                         />
                     </div>
 
                     {/* Social Media Links */}
                     <div className="space-y-4">
-                        <h3 className="text-sm font-semibold text-gray-900 border-b pb-2">Social Media Links</h3>
-                        <p className="text-xs text-gray-500">Enter full URLs (e.g., https://facebook.com/yourpage). Leave as # to use default or empty to hide.</p>
+                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white border-b pb-2">Social Media Links</h3>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Enter full URLs (e.g., https://facebook.com/yourpage). Leave as # to use default or empty to hide.</p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label htmlFor="facebook" className="block text-xs font-medium text-gray-700 mb-1">Facebook</label>
+                                <label htmlFor="facebook" className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Facebook</label>
                                 <input
                                     type="text"
                                     id="facebook"
                                     name="facebook"
                                     value={settings.facebook}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-white/10 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="twitter" className="block text-xs font-medium text-gray-700 mb-1">Twitter</label>
+                                <label htmlFor="twitter" className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Twitter</label>
                                 <input
                                     type="text"
                                     id="twitter"
                                     name="twitter"
                                     value={settings.twitter}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-white/10 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="instagram" className="block text-xs font-medium text-gray-700 mb-1">Instagram</label>
+                                <label htmlFor="instagram" className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Instagram</label>
                                 <input
                                     type="text"
                                     id="instagram"
                                     name="instagram"
                                     value={settings.instagram}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-white/10 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="linkedin" className="block text-xs font-medium text-gray-700 mb-1">LinkedIn</label>
+                                <label htmlFor="linkedin" className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">LinkedIn</label>
                                 <input
                                     type="text"
                                     id="linkedin"
                                     name="linkedin"
                                     value={settings.linkedin}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-white/10 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="youtube" className="block text-xs font-medium text-gray-700 mb-1">YouTube</label>
+                                <label htmlFor="youtube" className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">YouTube</label>
                                 <input
                                     type="text"
                                     id="youtube"
                                     name="youtube"
                                     value={settings.youtube}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-white/10 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="tiktok" className="block text-xs font-medium text-gray-700 mb-1">TikTok</label>
+                                <label htmlFor="tiktok" className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">TikTok</label>
                                 <input
                                     type="text"
                                     id="tiktok"
                                     name="tiktok"
                                     value={settings.tiktok}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-white/10 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="whatsapp" className="block text-xs font-medium text-gray-700 mb-1">WhatsApp (URL or phone link)</label>
+                                <label htmlFor="whatsapp" className="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">WhatsApp (URL or phone link)</label>
                                 <input
                                     type="text"
                                     id="whatsapp"
                                     name="whatsapp"
                                     value={settings.whatsapp}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                                    className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-white/10 rounded focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                                 />
                             </div>
                         </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                    <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-white/10">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                            className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-md hover:bg-gray-200 transition-colors"
                         >
                             Cancel
                         </button>

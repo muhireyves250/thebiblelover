@@ -119,11 +119,11 @@ const DashboardOverview = ({
                         <div className="flex flex-wrap gap-4 mt-6">
                             <div className="flex items-center space-x-2 px-4 py-2 bg-white/50 dark:bg-gray-800/50 rounded-full border border-white/20 shadow-sm">
                                 <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></div>
-                                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Live Services Active</span>
+                                <span className="text-sm font-semibold text-gray-700 dark:text-gray-200 dark:text-gray-300">Live Services Active</span>
                             </div>
                             <div className="flex items-center space-x-2 px-4 py-2 bg-white/50 dark:bg-gray-800/50 rounded-full border border-white/20 shadow-sm">
                                 <Users className="h-4 w-4 text-blue-500" />
-                                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                                <span className="text-sm font-semibold text-gray-700 dark:text-gray-200 dark:text-gray-300">
                                     {stats.soulsActive || 0} souls active
                                 </span>
                             </div>
@@ -162,7 +162,7 @@ const DashboardOverview = ({
                                 <h3 className="text-4xl font-serif text-white">{metric.value}</h3>
                             </div>
                             <div className="mt-8 pt-6 border-t border-black/5 dark:border-white/5 flex items-center justify-between">
-                                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">vs last month</span>
+                                <span className="text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest">vs last month</span>
                                 <ArrowUpRight className="h-4 w-4 text-gray-300 group-hover:text-amber-500 transition-colors" />
                             </div>
                         </motion.div>
@@ -188,7 +188,7 @@ const DashboardOverview = ({
                                 <p className="text-xs text-gray-300 font-bold uppercase tracking-widest mt-1">Platform Performance Analysis</p>
                             </div>
                             <div className="flex gap-4 p-1.5 bg-gray-100/50 dark:bg-white/5 rounded-2xl w-fit">
-                                <span className="flex items-center text-[10px] font-black px-4 py-2 bg-white dark:bg-gray-800 text-amber-600 rounded-xl shadow-sm border border-black/5 dark:border-white/5 tracking-widest uppercase">
+                                <span className="flex items-center text-[10px] font-black px-4 py-2 bg-white dark:bg-[#141417] dark:bg-gray-800 text-amber-600 rounded-xl shadow-sm border border-black/5 dark:border-white/5 tracking-widest uppercase">
                                     <div className="w-2 h-2 bg-amber-500 rounded-full mr-2 shadow-[0_0_8px_rgba(245,158,11,0.5)] animate-pulse"></div>
                                     Views
                                 </span>
@@ -344,7 +344,7 @@ const DashboardOverview = ({
                     </div>
                     <div className="space-y-4">
                         {comments.slice(0, 3).map((comment) => (
-                            <div key={comment.id} className="flex items-start space-x-4 p-4 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            <div key={comment.id} className="flex items-start space-x-4 p-4 rounded-2xl bg-gray-50 dark:bg-white/5 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                                 <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center flex-shrink-0">
                                     <MessageSquare className="h-5 w-5 text-blue-500" />
                                 </div>

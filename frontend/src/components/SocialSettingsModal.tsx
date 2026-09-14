@@ -115,12 +115,12 @@ const SocialSettingsModal: React.FC<SocialSettingsModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">Social Media Settings</h2>
+      <div className="bg-white dark:bg-[#141417] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-white/10">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Social Media Settings</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600"
           >
             <X className="h-6 w-6" />
           </button>
@@ -129,7 +129,7 @@ const SocialSettingsModal: React.FC<SocialSettingsModalProps> = ({
         <div className="p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="mb-6">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 Add your social media links below. These will be connected to the social media icons on your website.
                 Leave fields empty to hide the corresponding icons.
               </p>
@@ -144,7 +144,7 @@ const SocialSettingsModal: React.FC<SocialSettingsModalProps> = ({
                       <IconComponent className={`w-5 h-5 ${platform.color}`} />
                     </div>
                     <div className="flex-1">
-                      <label htmlFor={platform.name} className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor={platform.name} className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                         {platform.label}
                       </label>
                       <div className="relative">
@@ -154,7 +154,7 @@ const SocialSettingsModal: React.FC<SocialSettingsModalProps> = ({
                           name={platform.name}
                           value={settings[platform.name as keyof typeof settings]}
                           onChange={handleChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:ring-1 focus:ring-amber-500 focus:border-transparent"
                           placeholder={platform.placeholder}
                         />
                         {settings[platform.name as keyof typeof settings] && (
@@ -162,7 +162,7 @@ const SocialSettingsModal: React.FC<SocialSettingsModalProps> = ({
                             href={settings[platform.name as keyof typeof settings]}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600"
                           >
                             <ExternalLink className="h-4 w-4" />
                           </a>
@@ -175,8 +175,8 @@ const SocialSettingsModal: React.FC<SocialSettingsModalProps> = ({
             </div>
 
             {/* Preview Section */}
-            <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Preview</h3>
+            <div className="mt-8 p-4 bg-gray-50 dark:bg-white/5 rounded-lg">
+              <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-3">Preview</h3>
               <div className="flex items-center space-x-4">
                 {socialPlatforms.map((platform) => {
                   const IconComponent = platform.icon;
@@ -198,17 +198,17 @@ const SocialSettingsModal: React.FC<SocialSettingsModalProps> = ({
                   );
                 })}
                 {Object.values(settings).every(value => !value) && (
-                  <p className="text-sm text-gray-500">No social links added yet</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">No social links added yet</p>
                 )}
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex justify-between items-center pt-6 border-t border-gray-200">
+            <div className="flex justify-between items-center pt-6 border-t border-gray-200 dark:border-white/10">
               <button
                 type="button"
                 onClick={resetToDefault}
-                className="flex items-center space-x-2 px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-md hover:bg-gray-200 transition-colors"
               >
                 <RotateCcw className="h-4 w-4" />
                 <span>Reset to Default</span>
@@ -218,7 +218,7 @@ const SocialSettingsModal: React.FC<SocialSettingsModalProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                  className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-md hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>

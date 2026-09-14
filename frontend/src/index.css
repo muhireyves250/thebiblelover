@@ -32,6 +32,34 @@
     font-family: 'Inter', 'Segoe UI', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   }
 
+  /* Dark mode: faint square grid etched into the near-black canvas, like a
+     technical/editorial control-room backdrop. Sits behind everything as
+     part of the body background, so it only reads through where content
+     doesn't fully cover it (gutters, section gaps) rather than fighting
+     for attention under cards. */
+  .dark body {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Form fields across the site rely on the browser's default white
+     input background rather than an explicit bg- utility, so no amount
+     of sweeping Tailwind classes catches them. One rule here covers
+     every input/select/textarea instead of editing each form. */
+  .dark input:not([type="checkbox"]):not([type="radio"]),
+  .dark textarea,
+  .dark select {
+    background-color: #141417;
+    color: #f5f5f5;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: #6b7280;
+  }
+
   /* Porcelain Texture Overlay */
   body::before {
     content: "";

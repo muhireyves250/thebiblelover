@@ -216,7 +216,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 border-b border-blue-200 rounded-t-2xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -224,21 +224,21 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 <Edit className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Edit Post</h2>
-                <p className="text-sm text-gray-600 font-medium">Update your blog post content and settings</p>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Edit Post</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">Update your blog post content and settings</p>
                 {post && (
                   <div className="flex items-center space-x-6 mt-3">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-sm font-semibold text-gray-700">👁️ {post.views || 0} views</span>
+                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">👁️ {post.views || 0} views</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      <span className="text-sm font-semibold text-gray-700">❤️ {post.likes || 0} likes</span>
+                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">❤️ {post.likes || 0} likes</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                      <span className="text-sm font-semibold text-gray-700">💬 {post.comments || 0} comments</span>
+                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">💬 {post.comments || 0} comments</span>
                     </div>
                   </div>
                 )}
@@ -246,7 +246,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
             <button
               onClick={onClose}
-              className="p-3 text-gray-500 hover:text-gray-700 hover:bg-white rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 hover:border-gray-300"
+              className="p-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:bg-white rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300"
             >
               <X className="h-5 w-5" />
             </button>
@@ -256,7 +256,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
         <form onSubmit={handleSubmit} className="p-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="title" className="block text-sm font-bold text-gray-700 mb-3">
+              <label htmlFor="title" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Title *
               </label>
               <input
@@ -266,13 +266,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
                 placeholder="Enter post title"
               />
             </div>
 
             <div>
-              <label htmlFor="author" className="block text-sm font-bold text-gray-700 mb-3">
+              <label htmlFor="author" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Author *
               </label>
               <input
@@ -282,7 +282,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.author}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
                 placeholder="Author name"
               />
             </div>
@@ -290,10 +290,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           {/* Slug Preview */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-3">
+            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
               Generated Slug
             </label>
-            <div className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700">
+            <div className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border-2 border-gray-200 dark:border-white/10 rounded-xl text-sm font-semibold text-gray-700 dark:text-gray-200">
               {formData.title ? generateSlug(formData.title) : 'Enter title to generate slug'}
             </div>
             {post && formData.title && generateSlug(formData.title) !== post.slug && (
@@ -314,7 +314,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           </div>
 
           <div>
-            <label htmlFor="subtitle" className="block text-sm font-bold text-gray-700 mb-3">
+            <label htmlFor="subtitle" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
               Subtitle (Optional)
             </label>
             <input
@@ -323,13 +323,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               name="subtitle"
               value={formData.subtitle}
               onChange={handleChange}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
               placeholder="Optional subtitle for the post"
             />
           </div>
 
           <div>
-            <label htmlFor="excerpt" className="block text-sm font-bold text-gray-700 mb-3">
+            <label htmlFor="excerpt" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
               Excerpt *
             </label>
             <textarea
@@ -339,13 +339,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               required
               rows={3}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white resize-none"
+              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white resize-none"
               placeholder="Brief description of the post"
             />
           </div>
 
           <div>
-            <label htmlFor="content" className="block text-sm font-bold text-gray-700 mb-3">
+            <label htmlFor="content" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
               Content *
             </label>
             <textarea
@@ -355,14 +355,14 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               required
               rows={8}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white resize-none"
+              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white resize-none"
               placeholder="Write your post content here..."
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <label htmlFor="readTime" className="block text-sm font-bold text-gray-700 mb-3">
+              <label htmlFor="readTime" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Read Time
               </label>
               <input
@@ -371,13 +371,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="readTime"
                 value={formData.readTime}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
                 placeholder="e.g., 5 min read"
               />
             </div>
 
             <div>
-              <label htmlFor="date" className="block text-sm font-bold text-gray-700 mb-3">
+              <label htmlFor="date" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Publication Date
               </label>
               <input
@@ -386,13 +386,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
                 placeholder="e.g., Mar 22, 2023"
               />
             </div>
 
             <div>
-              <label htmlFor="image" className="block text-sm font-bold text-gray-700 mb-3">
+              <label htmlFor="image" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Image URL
               </label>
               <input
@@ -401,7 +401,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="image"
                 value={formData.image}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
                 placeholder="https://example.com/image.jpg"
               />
             </div>
@@ -409,7 +409,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="status" className="block text-sm font-bold text-gray-700 mb-3">
+              <label htmlFor="status" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Status
               </label>
               <select
@@ -417,7 +417,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
               >
                 <option value="DRAFT">Draft</option>
                 <option value="PUBLISHED">Published</option>
@@ -426,7 +426,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
 
             <div>
-              <label htmlFor="category" className="block text-sm font-bold text-gray-700 mb-3">
+              <label htmlFor="category" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Category
               </label>
               <select
@@ -434,7 +434,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
               >
                 <option value="FAITH">Faith</option>
                 <option value="BIBLE_STUDY">Bible Study</option>
@@ -448,7 +448,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-3">
+            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
               Tags (comma-separated)
             </label>
             <input
@@ -457,14 +457,14 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               value={formData.tags}
               onChange={handleChange}
               placeholder="faith, bible, prayer"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
             />
           </div>
 
           {/* SEO Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-3">
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 SEO Title
               </label>
               <input
@@ -473,22 +473,22 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.seoTitle}
                 onChange={handleChange}
                 placeholder="SEO optimized title"
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-3">
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Featured Post
               </label>
-              <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+              <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 dark:border-white/10">
                 <input
                   type="checkbox"
                   name="isFeatured"
                   checked={formData.isFeatured}
                   onChange={handleChange}
-                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-white/10 rounded"
                 />
-                <label className="text-sm font-semibold text-gray-700">
+                <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                   Mark as featured post
                 </label>
               </div>
@@ -497,7 +497,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           {/* SEO Description */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-3">
+            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
               SEO Description
             </label>
             <textarea
@@ -506,13 +506,13 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               placeholder="SEO meta description"
               rows={3}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 hover:bg-white focus:bg-white resize-none"
+              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white resize-none"
             />
           </div>
 
           {/* Image Upload Section */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-3">
+            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
               Or Upload Image
             </label>
             <div className="flex items-center space-x-4">
@@ -520,7 +520,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 type="button"
                 onClick={handleUploadClick}
                 disabled={isUploading}
-                className="flex items-center space-x-3 px-6 py-3 border-2 border-gray-200 rounded-xl hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 bg-white hover:shadow-md transition-all duration-200"
+                className="flex items-center space-x-3 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md transition-all duration-200"
               >
                 <Upload className="h-5 w-5" />
                 <span className="font-semibold">{isUploading ? 'Uploading...' : 'Upload Image'}</span>
@@ -544,7 +544,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               className="hidden"
             />
             {uploadedImageUrl && (
-              <div className="mt-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+              <div className="mt-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 dark:border-white/10">
                 <img
                   src={uploadedImageUrl}
                   alt="Uploaded preview"
@@ -557,10 +557,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           {/* Current Image Preview */}
           {formData.image && !uploadedImageUrl && (
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-3">
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                 Current Image
               </label>
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 dark:border-white/10">
                 <img
                   src={formData.image}
                   alt="Current post image"
@@ -570,20 +570,20 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
           )}
 
-          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mt-8 mb-8">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 mt-8 mb-8">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-sm font-bold text-gray-900">Schedule Post</h3>
-                <p className="text-sm text-gray-500">Publish this post at a future date and time</p>
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white">Schedule Post</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Publish this post at a future date and time</p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsScheduled(!isScheduled)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${isScheduled ? 'bg-blue-600' : 'bg-gray-200'
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${isScheduled ? 'bg-blue-600' : 'bg-gray-200 dark:bg-white/10'
                   }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${isScheduled ? 'translate-x-6' : 'translate-x-1'
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white dark:bg-[#141417] transition-transform ${isScheduled ? 'translate-x-6' : 'translate-x-1'
                     }`}
                 />
               </button>
@@ -591,8 +591,8 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
             {isScheduled && (
               <div className="space-y-4 animate-fadeIn">
-                <div className="pt-4 border-t border-gray-200">
-                  <label htmlFor="publishedAt" className="block text-sm font-bold text-gray-700 mb-3">
+                <div className="pt-4 border-t border-gray-200 dark:border-white/10">
+                  <label htmlFor="publishedAt" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
                     Publication Date & Time *
                   </label>
                   <input
@@ -602,7 +602,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                     value={formData.publishedAt}
                     onChange={handleChange}
                     required={isScheduled}
-                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300"
+                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-[#141417] hover:border-gray-300"
                   />
                 </div>
 
@@ -623,60 +623,60 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           </div>
 
           {/* Social Preview Section */}
-          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-8">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 mb-8">
             <div className="mb-6">
-              <h3 className="text-sm font-bold text-gray-900 flex items-center space-x-2">
+              <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center space-x-2">
                 <Share2 className="h-4 w-4 text-blue-600" />
                 <span>Live Social Preview</span>
               </h3>
-              <p className="text-sm text-gray-500">How your post will look when shared on WhatsApp & Facebook</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">How your post will look when shared on WhatsApp & Facebook</p>
             </div>
 
-            <div className="max-w-sm mx-auto bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
-              <div className="h-48 overflow-hidden bg-gray-100">
+            <div className="max-w-sm mx-auto bg-white dark:bg-[#141417] rounded-xl shadow-lg border border-gray-100 dark:border-white/5 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+              <div className="h-48 overflow-hidden bg-gray-100 dark:bg-white/10">
                 <img
                   src={formData.image || 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                   alt="SEO Preview"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-4 bg-gray-50 border-t border-gray-100">
-                <div className="text-[10px] uppercase tracking-wider font-bold text-gray-400 mb-1">thebiblelover.com</div>
-                <h4 className="text-base font-bold text-gray-900 line-clamp-1 mb-1">
+              <div className="p-4 bg-gray-50 dark:bg-white/5 border-t border-gray-100 dark:border-white/5">
+                <div className="text-[10px] uppercase tracking-wider font-bold text-gray-400 dark:text-gray-500 mb-1">thebiblelover.com</div>
+                <h4 className="text-base font-bold text-gray-900 dark:text-white line-clamp-1 mb-1">
                   {formData.title || "Your Post Title"}
                 </h4>
-                <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
                   {formData.excerpt || "A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible..."}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mt-8 mb-8">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 mt-8 mb-8">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-gray-900">Premium Content</h3>
-                <p className="text-sm text-gray-500">Only accessible to registered members</p>
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white">Premium Content</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Only accessible to registered members</p>
               </div>
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, isPremium: !prev.isPremium }))}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${formData.isPremium ? 'bg-blue-600' : 'bg-gray-200'
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${formData.isPremium ? 'bg-blue-600' : 'bg-gray-200 dark:bg-white/10'
                   }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.isPremium ? 'translate-x-6' : 'translate-x-1'
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white dark:bg-[#141417] transition-transform ${formData.isPremium ? 'translate-x-6' : 'translate-x-1'
                     }`}
                 />
               </button>
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200">
+          <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200 dark:border-white/10">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold hover:shadow-md border border-gray-200 hover:border-gray-300"
+              className="px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300"
             >
               Cancel
             </button>

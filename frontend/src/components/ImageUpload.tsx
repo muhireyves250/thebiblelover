@@ -102,7 +102,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <label className="block text-sm font-medium text-gray-700">
+      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
         Image Upload
       </label>
       
@@ -132,7 +132,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
             dragActive
               ? 'border-blue-400 bg-blue-50'
-              : 'border-gray-300 hover:border-gray-400'
+              : 'border-gray-300 dark:border-white/10 hover:border-gray-400'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -151,15 +151,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           {uploading ? (
             <div className="flex flex-col items-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-2"></div>
-              <p className="text-sm text-gray-600">Uploading...</p>
+              <p className="text-sm text-gray-600 dark:text-gray-300">Uploading...</p>
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <Upload className="w-8 h-8 text-gray-400 mb-2" />
-              <p className="text-sm text-gray-600">
+              <Upload className="w-8 h-8 text-gray-400 dark:text-gray-500 mb-2" />
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 <span className="text-blue-600 font-medium">Click to upload</span> or drag and drop
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 PNG, JPG, GIF up to 5MB
               </p>
             </div>

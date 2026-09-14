@@ -27,15 +27,15 @@ const PostsManager = ({
     return (
         <div className="space-y-4">
             {/* Posts Header - Ultra Compact */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-4">
+            <div className="bg-white dark:bg-[#141417] rounded-xl shadow-lg border border-gray-100 dark:border-white/5 p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                         <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center shadow-md">
                             <BookOpen className="h-4 w-4 text-white" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-gray-900">Blog Posts</h3>
-                            <p className="text-xs text-gray-600">Manage your blog content and articles</p>
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Blog Posts</h3>
+                            <p className="text-xs text-gray-600 dark:text-gray-300">Manage your blog content and articles</p>
                         </div>
                     </div>
                     <button
@@ -49,19 +49,19 @@ const PostsManager = ({
             </div>
 
             {/* Posts Table - Ultra Compact */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+            <div className="bg-white dark:bg-[#141417] rounded-xl shadow-lg border border-gray-100 dark:border-white/5 overflow-hidden">
                 <div className="overflow-hidden">
                     <table className="w-full divide-y divide-gray-200">
                         <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
                             <tr>
-                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Title</th>
-                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 uppercase tracking-wider hidden md:table-cell">Author</th>
-                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 uppercase tracking-wider hidden lg:table-cell">Stats</th>
-                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Status</th>
-                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Actions</th>
+                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Title</th>
+                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">Author</th>
+                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider hidden lg:table-cell">Stats</th>
+                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                                <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-100">
+                        <tbody className="bg-white dark:bg-[#141417] divide-y divide-gray-100">
                             {posts.map((post) => (
                                 <tr key={post.id} className="hover:bg-gray-50 transition-colors duration-200 group">
                                     <td className="px-3 py-2">
@@ -70,21 +70,21 @@ const PostsManager = ({
                                                 <BookOpen className="h-3 w-3 text-white" />
                                             </div>
                                             <div className="min-w-0 flex-1">
-                                                <div className="text-xs font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">{post.title}</div>
-                                                <div className="text-xs text-gray-500">{post.date}</div>
+                                                <div className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors truncate">{post.title}</div>
+                                                <div className="text-xs text-gray-500 dark:text-gray-400">{post.date}</div>
                                                 {/* Mobile stats */}
                                                 <div className="flex items-center space-x-3 mt-1 md:hidden">
                                                     <div className="flex items-center space-x-1">
                                                         <Eye className="h-2 w-2 text-green-500" />
-                                                        <span className="text-xs font-semibold text-gray-700">{post.views}</span>
+                                                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">{post.views}</span>
                                                     </div>
                                                     <div className="flex items-center space-x-1">
                                                         <Heart className="h-2 w-2 text-red-500" />
-                                                        <span className="text-xs font-semibold text-gray-700">{post.likes}</span>
+                                                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">{post.likes}</span>
                                                     </div>
                                                     <div className="flex items-center space-x-1">
                                                         <MessageSquare className="h-2 w-2 text-purple-500" />
-                                                        <span className="text-xs font-semibold text-gray-700">{post.comments}</span>
+                                                        <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">{post.comments}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -95,22 +95,22 @@ const PostsManager = ({
                                             <div className="w-5 h-5 bg-gradient-to-br from-gray-400 to-gray-500 rounded-full flex items-center justify-center">
                                                 <span className="text-white font-bold text-xs">{post.author?.charAt(0) || 'A'}</span>
                                             </div>
-                                            <span className="text-xs font-semibold text-gray-900 truncate">{post.author}</span>
+                                            <span className="text-xs font-semibold text-gray-900 dark:text-white truncate">{post.author}</span>
                                         </div>
                                     </td>
                                     <td className="px-3 py-2 hidden lg:table-cell">
                                         <div className="flex items-center space-x-3">
                                             <div className="flex items-center space-x-1">
                                                 <Eye className="h-3 w-3 text-green-500" />
-                                                <span className="text-xs font-bold text-gray-900">{post.views}</span>
+                                                <span className="text-xs font-bold text-gray-900 dark:text-white">{post.views}</span>
                                             </div>
                                             <div className="flex items-center space-x-1">
                                                 <Heart className="h-3 w-3 text-red-500" />
-                                                <span className="text-xs font-bold text-gray-900">{post.likes}</span>
+                                                <span className="text-xs font-bold text-gray-900 dark:text-white">{post.likes}</span>
                                             </div>
                                             <div className="flex items-center space-x-1">
                                                 <MessageSquare className="h-3 w-3 text-purple-500" />
-                                                <span className="text-xs font-bold text-gray-900">{post.comments}</span>
+                                                <span className="text-xs font-bold text-gray-900 dark:text-white">{post.comments}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -133,7 +133,7 @@ const PostsManager = ({
                                                     );
                                                 case 'DRAFT':
                                                     return (
-                                                        <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gray-100 text-gray-700 border border-gray-200 uppercase">
+                                                        <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 uppercase">
                                                             Draft
                                                         </span>
                                                     );
@@ -145,7 +145,7 @@ const PostsManager = ({
                                                     );
                                                 default:
                                                     return (
-                                                        <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gray-100 text-gray-700 border border-gray-200 uppercase">
+                                                        <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-white/10 uppercase">
                                                             {post.status}
                                                         </span>
                                                     );
@@ -187,21 +187,21 @@ const PostsManager = ({
                 </div>
 
                 {/* Table Footer - Ultra Compact */}
-                <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-3 py-2 border-t border-gray-200">
+                <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-3 py-2 border-t border-gray-200 dark:border-white/10">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                             <div className="flex items-center space-x-1">
                                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                                <span className="text-xs font-semibold text-gray-700">Total: {posts.length}</span>
+                                <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">Total: {posts.length}</span>
                             </div>
                             <div className="flex items-center space-x-1">
                                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                <span className="text-xs font-semibold text-gray-700">Active: {posts.length}</span>
+                                <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">Active: {posts.length}</span>
                             </div>
                         </div>
                         <div className="flex items-center space-x-1">
                             <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-                            <span className="text-xs font-semibold text-gray-700">Updated: {new Date().toLocaleDateString()}</span>
+                            <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">Updated: {new Date().toLocaleDateString()}</span>
                         </div>
                     </div>
                 </div>

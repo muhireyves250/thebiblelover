@@ -91,15 +91,15 @@ const LiveEngagementFeed: React.FC = () => {
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-0.5">
                 <p className="text-white font-bold text-sm truncate">{event.user}</p>
-                <span className="text-[10px] text-gray-500 font-medium">{event.time}</span>
+                <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">{event.time}</span>
               </div>
-              <p className="text-gray-400 text-xs line-clamp-1 group-hover:text-gray-300 transition-colors">{event.detail}</p>
+              <p className="text-gray-400 dark:text-gray-500 text-xs line-clamp-1 group-hover:text-gray-300 transition-colors">{event.detail}</p>
             </div>
           </motion.div>
         ))}
       </div>
 
-      <button className="w-full mt-6 py-3 rounded-2xl bg-white/[0.05] border border-white/[0.1] text-gray-400 text-xs font-bold hover:bg-white/[0.08] hover:text-white transition-all uppercase tracking-widest">
+      <button className="w-full mt-6 py-3 rounded-2xl bg-white/[0.05] border border-white/[0.1] text-gray-400 dark:text-gray-500 text-xs font-bold hover:bg-white/[0.08] hover:text-white transition-all uppercase tracking-widest">
         View Activity Logs
       </button>
     </div>

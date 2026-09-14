@@ -30,9 +30,9 @@ const ForgotPassword: React.FC = () => {
     };
 
     return (
-        <div className="min-h-[75vh] md:min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-[#141417] flex items-center justify-center p-4">
             <div className="max-w-md w-full">
-                <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-10">
+                <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-6 md:p-10">
                     <div className="text-center">
                         <div className="mb-5 md:mb-8">
                             <div className="w-14 h-14 md:w-16 md:h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto text-amber-700 mb-4 md:mb-6">
@@ -42,8 +42,8 @@ const ForgotPassword: React.FC = () => {
                                 <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
                                 <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Restoration</AutoText>
                             </div>
-                            <AutoText as="h1" className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 mb-1">Restoration</AutoText>
-                            <AutoText as="p" className="text-gray-500 text-xs md:text-sm">Return to the Word</AutoText>
+                            <AutoText as="h1" className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-1">Restoration</AutoText>
+                            <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-xs md:text-sm">Return to the Word</AutoText>
                         </div>
 
                         {isSuccess ? (
@@ -52,9 +52,9 @@ const ForgotPassword: React.FC = () => {
                                     <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8" />
                                 </div>
                                 <div className="space-y-1.5 md:space-y-2">
-                                    <AutoText as="h3" className="text-base md:text-xl font-bold text-gray-900">Check Your Sanctuary</AutoText>
-                                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
-                                        <AutoText as="span">If an account exists for</AutoText> <strong className="text-gray-900">{email}</strong>, <AutoText as="span">we've sent instructions to restore your access.</AutoText>
+                                    <AutoText as="h3" className="text-base md:text-xl font-bold text-gray-900 dark:text-white">Check Your Sanctuary</AutoText>
+                                    <p className="text-gray-500 dark:text-gray-400 text-xs md:text-sm leading-relaxed">
+                                        <AutoText as="span">If an account exists for</AutoText> <strong className="text-gray-900 dark:text-white">{email}</strong>, <AutoText as="span">we've sent instructions to restore your access.</AutoText>
                                     </p>
                                 </div>
                                 <Link
@@ -74,16 +74,16 @@ const ForgotPassword: React.FC = () => {
                                     )}
 
                                     <div className="text-left">
-                                        <label className="block text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 md:mb-1.5"><AutoText>Email Address</AutoText></label>
+                                        <label className="block text-[9px] md:text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1 md:mb-1.5"><AutoText>Email Address</AutoText></label>
                                         <div className="relative group">
-                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-amber-600 transition-colors" />
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 group-focus-within:text-amber-600 transition-colors" />
                                             <input
                                                 type="email"
                                                 placeholder="Enter your registered email"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 required
-                                                className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                                className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                             />
                                         </div>
                                     </div>
@@ -104,7 +104,7 @@ const ForgotPassword: React.FC = () => {
                                 <div className="mt-5 md:mt-8">
                                     <Link
                                         to="/login"
-                                        className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-700 font-bold text-[10px] md:text-xs uppercase tracking-widest transition-colors"
+                                        className="inline-flex items-center gap-2 text-gray-400 dark:text-gray-500 hover:text-amber-700 font-bold text-[10px] md:text-xs uppercase tracking-widest transition-colors"
                                     >
                                         <ArrowLeft className="h-4 w-4" /> <AutoText as="span">Go back to Login</AutoText>
                                     </Link>
@@ -114,7 +114,7 @@ const ForgotPassword: React.FC = () => {
                     </div>
                 </div>
 
-                <p className="mt-4 md:mt-6 text-center text-gray-400 text-[11px] md:text-xs">
+                <p className="mt-4 md:mt-6 text-center text-gray-400 dark:text-gray-500 text-[11px] md:text-xs">
                     <AutoText as="span">Trouble accessing?</AutoText> <Link to="/contact" className="text-amber-700 font-bold hover:text-amber-800 transition-colors"><AutoText>Support Help</AutoText></Link>
                 </p>
             </div>

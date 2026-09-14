@@ -25,11 +25,11 @@ const MessagesManager = ({
         <div className="space-y-6">
             {/* Contact Messages Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <div className="bg-white dark:bg-[#141417] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-white/10">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-600">Total Messages</p>
-                            <p className="text-2xl font-bold text-gray-900">{messages.length}</p>
+                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Messages</p>
+                            <p className="text-2xl font-bold text-gray-900 dark:text-white">{messages.length}</p>
                         </div>
                         <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                             <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,11 +39,11 @@ const MessagesManager = ({
                     </div>
                 </div>
 
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <div className="bg-white dark:bg-[#141417] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-white/10">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-600">This Month</p>
-                            <p className="text-2xl font-bold text-gray-900">
+                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">This Month</p>
+                            <p className="text-2xl font-bold text-gray-900 dark:text-white">
                                 {messages.filter(msg => {
                                     const msgDate = new Date(msg.timestamp);
                                     const now = new Date();
@@ -59,11 +59,11 @@ const MessagesManager = ({
                     </div>
                 </div>
 
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <div className="bg-white dark:bg-[#141417] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-white/10">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-600">Unread</p>
-                            <p className="text-2xl font-bold text-gray-900">
+                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Unread</p>
+                            <p className="text-2xl font-bold text-gray-900 dark:text-white">
                                 {messages.filter(msg => !msg.isRead).length}
                             </p>
                         </div>
@@ -75,11 +75,11 @@ const MessagesManager = ({
                     </div>
                 </div>
 
-                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <div className="bg-white dark:bg-[#141417] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-white/10">
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-600">Average Response</p>
-                            <p className="text-2xl font-bold text-gray-900">2.4h</p>
+                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Average Response</p>
+                            <p className="text-2xl font-bold text-gray-900 dark:text-white">2.4h</p>
                         </div>
                         <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                             <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,10 +91,10 @@ const MessagesManager = ({
             </div>
 
             {/* Contact Messages List */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                <div className="p-6 border-b border-gray-200">
+            <div className="bg-white dark:bg-[#141417] rounded-xl shadow-sm border border-gray-200 dark:border-white/10">
+                <div className="p-6 border-b border-gray-200 dark:border-white/10">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-gray-900">Contact Messages</h3>
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Contact Messages</h3>
                         <div className="flex items-center space-x-2">
                             <button
                                 onClick={() => setShowAllMessages(!showAllMessages)}
@@ -109,8 +109,8 @@ const MessagesManager = ({
                 <div className="divide-y divide-gray-200">
                     {isLoading ? (
                         <div className="p-8 text-center">
-                            <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-gray-500 bg-white transition ease-in-out duration-150">
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-[#141417] transition ease-in-out duration-150">
+                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
@@ -119,13 +119,13 @@ const MessagesManager = ({
                         </div>
                     ) : (showAllMessages ? messages : messages.slice(0, 5)).length === 0 ? (
                         <div className="p-8 text-center">
-                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="w-16 h-16 bg-gray-100 dark:bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                 </svg>
                             </div>
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">No messages yet</h3>
-                            <p className="text-gray-500">Contact messages from your website visitors will appear here.</p>
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No messages yet</h3>
+                            <p className="text-gray-500 dark:text-gray-400">Contact messages from your website visitors will appear here.</p>
                         </div>
                     ) : (
                         (showAllMessages ? messages : messages.slice(0, 5)).map((message) => (
@@ -144,31 +144,31 @@ const MessagesManager = ({
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between mb-2">
                                             <div className="flex items-center space-x-2">
-                                                <h4 className="text-sm font-semibold text-gray-900">{message.name}</h4>
+                                                <h4 className="text-sm font-semibold text-gray-900 dark:text-white">{message.name}</h4>
                                                 {!message.isRead && (
                                                     <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                                         New
                                                     </span>
                                                 )}
-                                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-100">
                                                     {message.status || 'Pending'}
                                                 </span>
                                             </div>
                                             <div className="flex items-center space-x-1">
-                                                <span className="text-xs text-gray-500">
+                                                <span className="text-xs text-gray-500 dark:text-gray-400">
                                                     {new Date(message.timestamp).toLocaleDateString()}
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div className="mb-3">
-                                            <p className="text-sm font-medium text-gray-900 mb-1">{message.subject}</p>
-                                            <p className="text-xs text-gray-500">{message.email}</p>
+                                            <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">{message.subject}</p>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">{message.email}</p>
                                         </div>
 
                                         <div className="mb-4">
-                                            <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                                <p className="text-sm text-gray-700 leading-relaxed">
+                                            <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-4 border border-gray-200 dark:border-white/10">
+                                                <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">
                                                     {expandedMessages.has(message.id) ? (
                                                         <>
                                                             {message.message}
@@ -207,7 +207,7 @@ const MessagesManager = ({
                                             <div className="flex items-center space-x-2">
                                                 <button
                                                     onClick={() => window.open(`mailto:${message.email}?subject=Re: ${message.subject}`, '_blank')}
-                                                    className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                                                    className="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-white/10 shadow-sm text-xs font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-[#141417] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
                                                 >
                                                     <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -216,7 +216,7 @@ const MessagesManager = ({
                                                 </button>
                                                 <button
                                                     onClick={() => markMessageAsRead(message.id)}
-                                                    className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200"
+                                                    className="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-white/10 shadow-sm text-xs font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-[#141417] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200"
                                                 >
                                                     <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -226,7 +226,7 @@ const MessagesManager = ({
                                             </div>
                                             <button
                                                 onClick={() => deleteMessage(message.id)}
-                                                className="inline-flex items-center px-3 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded-lg text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
+                                                className="inline-flex items-center px-3 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded-lg text-red-700 bg-white dark:bg-[#141417] hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
                                             >
                                                 <Trash2 className="w-3 h-3 mr-1" />
                                                 Delete
@@ -240,10 +240,10 @@ const MessagesManager = ({
                 </div>
 
                 {!showAllMessages && messages.length > 5 && (
-                    <div className="p-4 bg-gray-50 border-t border-gray-200">
+                    <div className="p-4 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10">
                         <button
                             onClick={() => setShowAllMessages(true)}
-                            className="w-full text-center text-sm text-gray-600 hover:text-gray-800 font-medium"
+                            className="w-full text-center text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 font-medium"
                         >
                             View all {messages.length} messages
                         </button>

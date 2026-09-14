@@ -175,8 +175,8 @@ const BibleVerseManager = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Bible Verses</h2>
-          <p className="text-gray-600">Manage daily Bible verses and inspirational content</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Bible Verses</h2>
+          <p className="text-gray-600 dark:text-gray-300">Manage daily Bible verses and inspirational content</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
@@ -188,51 +188,51 @@ const BibleVerseManager = () => {
       </div>
 
       {/* Verses List */}
-      <div className="bg-white rounded-lg shadow">
+      <div className="bg-white dark:bg-[#141417] rounded-lg shadow">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 dark:bg-white/5">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Verse
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Reference
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Image
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Status
                 </th>
-                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                    Created
                  </th>
-                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                    Actions
                  </th>
               </tr>
             </thead>
-             <tbody className="bg-white divide-y divide-gray-200">
+             <tbody className="bg-white dark:bg-[#141417] divide-y divide-gray-200">
                {verses.map((verse) => (
-                 <tr key={verse.id} className={`hover:bg-gray-50 ${!verse.isActive ? 'bg-gray-50 opacity-75' : ''}`}>
+                 <tr key={verse.id} className={`hover:bg-gray-50 ${!verse.isActive ? 'bg-gray-50 dark:bg-white/5 opacity-75' : ''}`}>
                    <td className="px-6 py-4">
                      <div className="max-w-xs">
-                       <p className={`text-sm line-clamp-2 ${!verse.isActive ? 'text-gray-500' : 'text-gray-900'}`}>
+                       <p className={`text-sm line-clamp-2 ${!verse.isActive ? 'text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
                          {verse.text}
                        </p>
                        {!verse.isActive && (
-                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-600 mt-1">
+                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium bg-gray-200 dark:bg-white/10 text-gray-600 dark:text-gray-300 mt-1">
                            Inactive
                          </span>
                        )}
                      </div>
                    </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">
                       {verse.book} {verse.chapter}:{verse.verse}
                     </span>
-                    <p className="text-xs text-gray-500">{verse.translation}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{verse.translation}</p>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {verse.image ? (
@@ -247,8 +247,8 @@ const BibleVerseManager = () => {
                         }}
                       />
                     ) : (
-                      <div className="w-12 h-12 bg-gray-200 rounded-md flex items-center justify-center">
-                        <ImageIcon className="w-4 h-4 text-gray-400" />
+                      <div className="w-12 h-12 bg-gray-200 dark:bg-white/10 rounded-md flex items-center justify-center">
+                        <ImageIcon className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                       </div>
                     )}
                   </td>
@@ -259,7 +259,7 @@ const BibleVerseManager = () => {
                         className={`flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                           verse.isActive
                             ? 'bg-green-100 text-green-800 hover:bg-green-200 border border-green-300'
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-300'
+                            : 'bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 hover:bg-gray-200 border border-gray-300 dark:border-white/10'
                         }`}
                       >
                         {verse.isActive ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
@@ -273,7 +273,7 @@ const BibleVerseManager = () => {
                       )}
                     </div>
                   </td>
-                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                      {new Date(verse.createdAt).toLocaleDateString()}
                    </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -286,7 +286,7 @@ const BibleVerseManager = () => {
                       </button>
                       <button
                         onClick={() => toggleFeatured(verse)}
-                        className={verse.isFeatured ? 'text-yellow-600 hover:text-yellow-900' : 'text-gray-400 hover:text-yellow-600'}
+                        className={verse.isFeatured ? 'text-yellow-600 hover:text-yellow-900' : 'text-gray-400 dark:text-gray-500 hover:text-yellow-600'}
                       >
                         {verse.isFeatured ? <Star className="w-4 h-4" /> : <StarOff className="w-4 h-4" />}
                       </button>
@@ -308,20 +308,20 @@ const BibleVerseManager = () => {
       {/* Add/Edit Modal */}
       {(showAddModal || editingVerse) && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-[#141417] rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <h3 className="text-lg font-semibold mb-4">
               {editingVerse ? 'Edit Bible Verse' : 'Add New Bible Verse'}
             </h3>
             
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                   Bible Verse Text *
                 </label>
                 <textarea
                   value={formData.text}
                   onChange={(e) => setFormData({ ...formData, text: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                   rows={4}
                   placeholder="Enter the Bible verse text..."
                   required
@@ -330,40 +330,40 @@ const BibleVerseManager = () => {
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Book *
                   </label>
                   <input
                     type="text"
                     value={formData.book}
                     onChange={(e) => setFormData({ ...formData, book: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="e.g., John"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Chapter *
                   </label>
                   <input
                     type="number"
                     value={formData.chapter}
                     onChange={(e) => setFormData({ ...formData, chapter: parseInt(e.target.value) || 1 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     min="1"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                     Verse *
                   </label>
                   <input
                     type="number"
                     value={formData.verse}
                     onChange={(e) => setFormData({ ...formData, verse: parseInt(e.target.value) || 1 })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     min="1"
                     required
                   />
@@ -371,13 +371,13 @@ const BibleVerseManager = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                   Translation
                 </label>
                 <select
                   value={formData.translation}
                   onChange={(e) => setFormData({ ...formData, translation: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                 >
                   <option value="NIV">NIV</option>
                   <option value="ESV">ESV</option>
@@ -404,7 +404,7 @@ const BibleVerseManager = () => {
                     onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                     className="mr-2"
                   />
-                  <span className="text-sm text-gray-700">Active</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-200">Active</span>
                 </label>
                 <label className="flex items-center">
                   <input
@@ -413,7 +413,7 @@ const BibleVerseManager = () => {
                     onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
                     className="mr-2"
                   />
-                  <span className="text-sm text-gray-700">Featured</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-200">Featured</span>
                 </label>
               </div>
               
@@ -454,7 +454,7 @@ const BibleVerseManager = () => {
                        isFeatured: false
                      });
                   }}
-                  className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+                  className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-white/10 rounded-md hover:bg-gray-300 transition-colors"
                 >
                   Cancel
                 </button>
@@ -473,15 +473,15 @@ const BibleVerseManager = () => {
       {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white dark:bg-[#141417] rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-4">Delete Bible Verse</h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               Are you sure you want to delete this Bible verse? This action cannot be undone.
             </p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setDeleteConfirm(null)}
-                className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+                className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-white/10 rounded-md hover:bg-gray-300 transition-colors"
               >
                 Cancel
               </button>
