@@ -4,6 +4,8 @@ import { Search as SearchIcon, FileText, Book, ArrowRight, Clock, History } from
 import api from '../services/api';
 import BlogCard from '../components/BlogCard';
 import type { ViewHistory } from '../services/api.d';
+import AutoText from '../components/AutoText';
+import { useTranslatedText } from '../hooks/useDynamicTranslation';
 
 interface SearchResults {
     posts: any[];
@@ -52,6 +54,7 @@ const Search = () => {
     }, [query]);
 
     const hasResults = results.posts.length > 0;
+    const searchPlaceholder = useTranslatedText('Search the entire community...');
 
     const TabButton = ({ id, label, count, icon: Icon }: { id: Tab; label: string; count?: number; icon: any }) => (
         <button
@@ -62,7 +65,7 @@ const Search = () => {
                 }`}
         >
             <Icon className="w-4 h-4" />
-            {label}
+            <AutoText as="span">{label}</AutoText>
             {count !== undefined && (
                 <span className={`ml-1 px-2 py-0.5 rounded-full text-[10px] ${activeTab === id ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-500'}`}>
                     {count}
@@ -85,10 +88,10 @@ const Search = () => {
                     /* History & Discovery Mode */
                     <div className="space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
                         <div className="text-center max-w-2xl mx-auto">
-                            <h1 className="text-4xl md:text-5xl font-serif text-gray-900 mb-6">What are you looking for today?</h1>
-                            <p className="text-lg text-gray-600 mb-10 leading-relaxed">
+                            <AutoText as="h1" className="text-4xl md:text-5xl font-serif text-gray-900 mb-6">What are you looking for today?</AutoText>
+                            <AutoText as="p" className="text-lg text-gray-600 mb-10 leading-relaxed">
                                 Search for bible verses or read our latest reflections.
-                            </p>
+                            </AutoText>
 
                             <form
                                 onSubmit={(e) => {
@@ -102,7 +105,7 @@ const Search = () => {
                                 <input
                                     name="search"
                                     type="text"
-                                    placeholder="Search the entire community..."
+                                    placeholder={searchPlaceholder}
                                     className="w-full pl-12 pr-6 py-2.5 rounded-xl bg-white border border-gray-100 shadow-lg shadow-amber-900/5 focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 transition-all outline-none text-sm"
                                 />
                             </form>
@@ -114,7 +117,7 @@ const Search = () => {
                                     <div className="p-2 bg-amber-100 rounded-lg text-amber-700">
                                         <History className="w-5 h-5" />
                                     </div>
-                                    <h2 className="text-2xl font-serif text-gray-900">Your Recent Activity</h2>
+                                    <AutoText as="h2" className="text-2xl font-serif text-gray-900">Your Recent Activity</AutoText>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {history.map((item) => (
@@ -149,7 +152,7 @@ const Search = () => {
 
                             {!loading && (
                                 <p className="text-sm text-gray-500 italic">
-                                    Showing results for "{query}"
+                                    <AutoText as="span">Showing results for</AutoText> "{query}"
                                 </p>
                             )}
                         </div>
@@ -169,15 +172,15 @@ const Search = () => {
                                 <div className="bg-amber-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <SearchIcon className="w-10 h-10 text-amber-600 opacity-50" />
                                 </div>
-                                <h3 className="text-2xl font-serif text-gray-900 mb-2">No matches found</h3>
-                                <p className="text-gray-500 max-w-sm mx-auto mb-8">
+                                <AutoText as="h3" className="text-2xl font-serif text-gray-900 mb-2">No matches found</AutoText>
+                                <AutoText as="p" className="text-gray-500 max-w-sm mx-auto mb-8">
                                     We couldn't find anything matching your search. Try using more general keywords.
-                                </p>
+                                </AutoText>
                                 <button
                                     onClick={() => navigate('/search')}
                                     className="text-amber-700 font-semibold hover:underline flex items-center gap-2 mx-auto"
                                 >
-                                    Reset Search <ArrowRight className="w-4 h-4" />
+                                    <AutoText as="span">Reset Search</AutoText> <ArrowRight className="w-4 h-4" />
                                 </button>
                             </div>
                         ) : (
@@ -190,7 +193,7 @@ const Search = () => {
                                                 <div className="p-2 bg-amber-50 rounded-lg text-amber-700">
                                                     <FileText className="w-5 h-5" />
                                                 </div>
-                                                <h2 className="text-2xl font-serif text-gray-900">Scriptural Reflections</h2>
+                                                <AutoText as="h2" className="text-2xl font-serif text-gray-900">Scriptural Reflections</AutoText>
                                             </div>
                                         </div>
                                         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
