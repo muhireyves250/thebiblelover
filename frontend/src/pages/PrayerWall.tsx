@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal } from 'lucide-react';
+import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal, User, Mail, Type, Tag } from 'lucide-react';
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
 
@@ -334,54 +334,66 @@ const PrayerWall = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Your Name</label>
-                                        <input
-                                            required
-                                            type="text"
-                                            autoComplete="name"
-                                            placeholder="Your name"
-                                            value={formData.guestName}
-                                            onChange={e => setFormData({ ...formData, guestName: e.target.value })}
-                                            className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
-                                        />
+                                        <div className="relative group">
+                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                            <input
+                                                required
+                                                type="text"
+                                                autoComplete="name"
+                                                placeholder="Your name"
+                                                value={formData.guestName}
+                                                onChange={e => setFormData({ ...formData, guestName: e.target.value })}
+                                                className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                            />
+                                        </div>
                                     </div>
                                     <div>
                                         <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Email</label>
-                                        <input
-                                            required
-                                            type="email"
-                                            autoComplete="email"
-                                            placeholder="your.email@example.com"
-                                            value={formData.guestEmail}
-                                            onChange={e => setFormData({ ...formData, guestEmail: e.target.value })}
-                                            className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
-                                        />
+                                        <div className="relative group">
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                            <input
+                                                required
+                                                type="email"
+                                                autoComplete="email"
+                                                placeholder="your.email@example.com"
+                                                value={formData.guestEmail}
+                                                onChange={e => setFormData({ ...formData, guestEmail: e.target.value })}
+                                                className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             )}
 
                             <div>
                                 <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Request Title</label>
-                                <input
-                                    required
-                                    type="text"
-                                    placeholder="e.g., Healing for my Mother"
-                                    value={formData.title}
-                                    onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
-                                />
+                                <div className="relative group">
+                                    <Type className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                                    <input
+                                        required
+                                        type="text"
+                                        placeholder="e.g., Healing for my Mother"
+                                        value={formData.title}
+                                        onChange={e => setFormData({ ...formData, title: e.target.value })}
+                                        className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    />
+                                </div>
                             </div>
 
                             <div>
                                 <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1.5">Category</label>
-                                <select
-                                    value={formData.category}
-                                    onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md text-sm focus:border-amber-600 focus:outline-none transition-colors"
-                                >
-                                    {CATEGORIES.filter(c => c.id !== 'ALL').map(cat => (
-                                        <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                    ))}
-                                </select>
+                                <div className="relative group">
+                                    <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600 pointer-events-none" />
+                                    <select
+                                        value={formData.category}
+                                        onChange={e => setFormData({ ...formData, category: e.target.value })}
+                                        className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors appearance-none"
+                                    >
+                                        {CATEGORIES.filter(c => c.id !== 'ALL').map(cat => (
+                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
 
                             <div>
