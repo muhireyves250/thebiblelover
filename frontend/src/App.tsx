@@ -124,7 +124,7 @@ function AppContent() {
   const pageHeaderDesktopOnly = PAGE_HEADER_DESKTOP_ONLY_PATHS.includes(location.pathname);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-transparent transition-colors duration-300">
       {/* Header, Hero (on the homepage) and Footer sit outside the animated/
           keyed route tree so they never unmount on navigation - only the
           routed content below swaps (and shows its own loading skeleton),

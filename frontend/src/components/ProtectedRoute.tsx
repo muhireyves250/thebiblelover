@@ -12,7 +12,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   // Wait for auth to initialize to avoid premature redirects
   if (!isInitialized) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-transparent dark:bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-transparent">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
       </div>
     );
