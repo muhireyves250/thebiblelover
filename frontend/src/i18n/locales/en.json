@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "blog": "Blog",
+    "devotionals": "Devotionals",
+    "watch": "Watch",
+    "verses": "Bible Verses",
+    "prayerWall": "Prayer Wall",
+    "events": "Events",
+    "donate": "Donate",
+    "contact": "Contact",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "dashboard": "Dashboard",
+    "search": "Search"
+  },
+  "language": {
+    "label": "Language",
+    "english": "English",
+    "kinyarwanda": "Kinyarwanda",
+    "french": "French"
+  },
+  "common": {
+    "loading": "Loading...",
+    "readMore": "Read More",
+    "share": "Share",
+    "like": "Like",
+    "comment": "Comment",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "backTo": "Back to"
+  },
+  "footer": {
+    "navigate": "Navigate",
+    "company": "Company",
+    "stayInspired": "Stay Inspired",
+    "newsletterBlurb": "Join our community and receive weekly spiritual insights, book reflections, and exclusive teachings.",
+    "emailPlaceholder": "Email",
+    "subscribe": "Subscribe",
+    "subscribing": "Subscribing..."
+  }
+}

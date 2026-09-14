@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './hooks/useAPI';
 import App from './App';
+import './i18n';
 import './index.css';
 
 console.log('Main.tsx is starting');

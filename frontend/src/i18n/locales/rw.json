@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "home": "Ahabanza",
+    "about": "Abo turi bo",
+    "blog": "Inkuru",
+    "devotionals": "Amasengesho",
+    "watch": "Reba",
+    "verses": "Imirongo ya Bibiliya",
+    "prayerWall": "Urukuta rw'Amasengesho",
+    "events": "Ibirori",
+    "donate": "Tanga Impano",
+    "contact": "Twandikire",
+    "terms": "Amabwiriza",
+    "privacy": "Ubwigenge",
+    "signIn": "Injira",
+    "signOut": "Sohoka",
+    "dashboard": "Ikibaho",
+    "search": "Shakisha"
+  },
+  "language": {
+    "label": "Ururimi",
+    "english": "Icyongereza",
+    "kinyarwanda": "Ikinyarwanda",
+    "french": "Igifaransa"
+  },
+  "common": {
+    "loading": "Turimo gutegura...",
+    "readMore": "Soma Byinshi",
+    "share": "Sangiza",
+    "like": "Kunda",
+    "comment": "Andika Igitekerezo",
+    "submit": "Ohereza",
+    "cancel": "Hagarika",
+    "close": "Funga",
+    "backTo": "Subira kuri"
+  },
+  "footer": {
+    "navigate": "Ibice",
+    "company": "Ikigo",
+    "stayInspired": "Guma Uhumurijwe",
+    "newsletterBlurb": "Injira mu muryango wacu maze uhabwe ubutumwa bw'umwuka buri cyumweru n'inyigisho zidasanzwe.",
+    "emailPlaceholder": "Imeyili",
+    "subscribe": "Iyandikishe",
+    "subscribing": "Turimo kwiyandikisha..."
+  }
+}

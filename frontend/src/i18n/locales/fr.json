@@ -1,0 +1,46 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "blog": "Blog",
+    "devotionals": "Dévotions",
+    "watch": "Regarder",
+    "verses": "Versets Bibliques",
+    "prayerWall": "Mur de Prière",
+    "events": "Événements",
+    "donate": "Faire un Don",
+    "contact": "Contact",
+    "terms": "Conditions",
+    "privacy": "Confidentialité",
+    "signIn": "Connexion",
+    "signOut": "Déconnexion",
+    "dashboard": "Tableau de Bord",
+    "search": "Rechercher"
+  },
+  "language": {
+    "label": "Langue",
+    "english": "Anglais",
+    "kinyarwanda": "Kinyarwanda",
+    "french": "Français"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "readMore": "Lire Plus",
+    "share": "Partager",
+    "like": "Aimer",
+    "comment": "Commenter",
+    "submit": "Envoyer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "backTo": "Retour à"
+  },
+  "footer": {
+    "navigate": "Naviguer",
+    "company": "Entreprise",
+    "stayInspired": "Restez Inspiré",
+    "newsletterBlurb": "Rejoignez notre communauté et recevez chaque semaine des réflexions spirituelles et des enseignements exclusifs.",
+    "emailPlaceholder": "E-mail",
+    "subscribe": "S'abonner",
+    "subscribing": "Abonnement..."
+  }
+}

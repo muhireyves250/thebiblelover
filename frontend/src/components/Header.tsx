@@ -1,15 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Search, Facebook, Twitter, Menu, X, User as UserIcon, Loader2, FileText, MessageSquare, History, Home } from 'lucide-react';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import IhemaLogo from './IhemaLogo';
 import { useSocialSettings } from '../hooks/useSocialSettings';
 import ThemeToggle from './ThemeToggle';
 import NotificationCenter from './NotificationCenter';
+import LanguageSwitcher from './LanguageSwitcher';
 import { useAuth } from '../hooks/useAPI';
 import { authAPI, searchAPI } from '../services/api';
 
 const Header = () => {
+  const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { logoSettings } = useLogoSettings();
@@ -219,12 +222,12 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="flex items-center space-x-4 lg:space-x-5">
             {[
-              { path: '/', label: 'Home' },
-              { path: '/about', label: 'About' },
-              { path: '/donate', label: 'Donate' },
-              { path: '/contact', label: 'Contact' },
-              { path: '/events', label: 'Events' },
-              { path: '/prayer-wall', label: 'Prayer Wall' }
+              { path: '/', label: t('nav.home') },
+              { path: '/about', label: t('nav.about') },
+              { path: '/donate', label: t('nav.donate') },
+              { path: '/contact', label: t('nav.contact') },
+              { path: '/events', label: t('nav.events') },
+              { path: '/prayer-wall', label: t('nav.prayerWall') }
             ].map((link) => {
               const isActive = link.path === '/' 
                 ? location.pathname === '/' 
@@ -263,12 +266,13 @@ const Header = () => {
                 to="/login"
                 className="text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
               >
-                Sign In
+                {t('nav.signIn')}
               </Link>
             )}
           </nav>
 
           <div className="flex items-center space-x-5">
+            <LanguageSwitcher />
             <div className="relative" ref={dropdownRef}>
               <form onSubmit={handleSearch} className="relative" role="search">
                 <Search className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
@@ -391,18 +395,18 @@ const Header = () => {
 
             <nav className="flex-1 overflow-y-auto px-6 py-2 flex flex-col">
               {[
-                { path: '/', label: 'Home' },
-                { path: '/about', label: 'About' },
-                { path: '/posts', label: 'Blog' },
-                { path: '/players', label: 'Devotionals' },
-                { path: '/watch', label: 'Watch' },
-                { path: '/verses', label: 'Bible Verses' },
-                { path: '/prayer-wall', label: 'Prayer Wall' },
-                { path: '/events', label: 'Events' },
-                { path: '/donate', label: 'Donate' },
-                { path: '/contact', label: 'Contact' },
-                { path: '/terms', label: 'Terms' },
-                { path: '/privacy', label: 'Privacy' },
+                { path: '/', label: t('nav.home') },
+                { path: '/about', label: t('nav.about') },
+                { path: '/posts', label: t('nav.blog') },
+                { path: '/players', label: t('nav.devotionals') },
+                { path: '/watch', label: t('nav.watch') },
+                { path: '/verses', label: t('nav.verses') },
+                { path: '/prayer-wall', label: t('nav.prayerWall') },
+                { path: '/events', label: t('nav.events') },
+                { path: '/donate', label: t('nav.donate') },
+                { path: '/contact', label: t('nav.contact') },
+                { path: '/terms', label: t('nav.terms') },
+                { path: '/privacy', label: t('nav.privacy') },
               ].map((link) => {
                 const isActive = link.path === '/' ? location.pathname === '/' : location.pathname.startsWith(link.path);
                 return (
@@ -421,6 +425,10 @@ const Header = () => {
 
               <div className="my-4 border-t border-gray-100" />
 
+              <LanguageSwitcher variant="drawer" />
+
+              <div className="my-4 border-t border-gray-100" />
+
               {isAuthenticated ? (
                 <Link
                   to={isAdmin ? '/dashboard' : '/member-dashboard'}
@@ -435,7 +443,7 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className="py-3 text-base text-gray-700 hover:text-amber-700 transition-colors"
                 >
-                  Log In
+                  {t('nav.signIn')}
                 </Link>
               )}
             </nav>

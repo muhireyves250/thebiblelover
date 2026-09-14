@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Facebook, Twitter, Instagram, CheckCircle2 } from 'lucide-react';
 import { useLogoSettings } from '../hooks/useLogoSettings';
 import { useContentSettings } from '../hooks/useContentSettings';
 import { newsletterAPI } from '../services/api';
 
 const Footer = () => {
+  const { t } = useTranslation();
   const { logoSettings } = useLogoSettings();
   const { settings: contentSettings } = useContentSettings();
   const { footerSettings } = contentSettings;
@@ -80,15 +82,20 @@ const Footer = () => {
 
           {/* Navigate */}
           <div className="lg:col-span-2">
-            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Navigate</h3>
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">{t('footer.navigate')}</h3>
             <ul className="space-y-3">
-              {['Home', 'About', 'Contact', 'Donate'].map((item) => (
-                <li key={item}>
+              {[
+                { path: '/', label: t('nav.home') },
+                { path: '/about', label: t('nav.about') },
+                { path: '/contact', label: t('nav.contact') },
+                { path: '/donate', label: t('nav.donate') },
+              ].map((item) => (
+                <li key={item.path}>
                   <Link
-                    to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                    to={item.path}
                     className="text-gray-600 hover:text-amber-700 transition-colors text-sm"
                   >
-                    {item}
+                    {item.label}
                   </Link>
                 </li>
               ))}
@@ -97,10 +104,10 @@ const Footer = () => {
 
           {/* Legal / Connect */}
           <div className="lg:col-span-2">
-            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">Company</h3>
+            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-5">{t('footer.company')}</h3>
             <ul className="space-y-3">
-              <li><Link to="/terms" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">Terms of Service</Link></li>
-              <li><Link to="/privacy" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">{t('nav.terms')}</Link></li>
+              <li><Link to="/privacy" className="text-gray-600 hover:text-amber-700 transition-colors text-sm">{t('nav.privacy')}</Link></li>
               <li><span className="text-gray-600 text-sm">{footerSettings.email}</span></li>
               <li><span className="text-gray-600 text-sm">{footerSettings.location}</span></li>
             </ul>
@@ -109,9 +116,9 @@ const Footer = () => {
           {/* Newsletter card */}
           <div className="lg:col-span-4">
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6">
-              <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 block mb-2">Stay Inspired</span>
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 block mb-2">{t('footer.stayInspired')}</span>
               <p className="text-sm text-gray-600 mb-4">
-                Join our community and receive weekly spiritual insights, book reflections, and exclusive teachings.
+                {t('footer.newsletterBlurb')}
               </p>
 
               {status === 'success' ? (
@@ -152,7 +159,7 @@ const Footer = () => {
                     disabled={status === 'loading'}
                     className="px-6 py-2.5 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
                   >
-                    {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                    {status === 'loading' ? t('footer.subscribing') : t('footer.subscribe')}
                   </button>
                 </form>
               )}

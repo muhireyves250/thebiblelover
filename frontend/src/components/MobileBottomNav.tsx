@@ -1,15 +1,17 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Home, FileText, HandHeart, BookOpenText } from 'lucide-react';
 
 const TABS = [
-  { path: '/', label: 'Home', icon: Home },
-  { path: '/posts', label: 'Blog', icon: FileText },
-  { path: '/prayer-wall', label: 'Prayer', icon: HandHeart },
-  { path: '/verses', label: 'Bible Verse', icon: BookOpenText },
+  { path: '/', labelKey: 'nav.home', icon: Home },
+  { path: '/posts', labelKey: 'nav.blog', icon: FileText },
+  { path: '/prayer-wall', labelKey: 'nav.prayerWall', icon: HandHeart },
+  { path: '/verses', labelKey: 'nav.verses', icon: BookOpenText },
 ];
 
 const MobileBottomNav = () => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   return (
     <nav
@@ -18,7 +20,8 @@ const MobileBottomNav = () => {
     >
       <div className="relative flex items-stretch justify-around gap-0.5 px-2 bg-white/95 backdrop-blur-xl rounded-t-[2.5rem] rounded-b-none border-2 border-b-0 border-gray-300 shadow-2xl overflow-hidden">
         <span className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
-        {TABS.map(({ path, label, icon: Icon }) => {
+        {TABS.map(({ path, labelKey, icon: Icon }) => {
+          const label = t(labelKey);
           const isActive = path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
           return (
             <Link

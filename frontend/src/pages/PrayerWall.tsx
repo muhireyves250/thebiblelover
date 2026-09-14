@@ -2,6 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Heart, Plus, MessageSquare, Shield, Clock, Users, ArrowRight, CheckCircle, AlertCircle, Sparkles, HeartPulse, Home, Compass, Flame, HandHeart, MoreHorizontal, User, Mail, Type, Tag } from 'lucide-react';
 import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
+import { useTranslatedText } from '../hooks/useDynamicTranslation';
+
+const PrayerRequestText = ({ title, content }: { title: string; content: string }) => {
+    const translatedTitle = useTranslatedText(title);
+    const translatedContent = useTranslatedText(content);
+    return (
+        <>
+            <h3 className="text-sm md:text-lg font-bold text-gray-900 mb-2 md:mb-3 group-hover:text-amber-700 transition-colors">
+                {translatedTitle}
+            </h3>
+            <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-4 md:mb-6 line-clamp-4">
+                {translatedContent}
+            </p>
+        </>
+    );
+};
 
 const CATEGORIES = [
     { id: 'ALL', name: 'All Requests', icon: Heart },
@@ -202,13 +218,7 @@ const PrayerWall = () => {
                                         </span>
                                     </div>
 
-                                    <h3 className="text-sm md:text-lg font-bold text-gray-900 mb-2 md:mb-3 group-hover:text-amber-700 transition-colors">
-                                        {request.title}
-                                    </h3>
-
-                                    <p className="text-gray-600 text-xs md:text-sm leading-relaxed mb-4 md:mb-6 line-clamp-4">
-                                        {request.content}
-                                    </p>
+                                    <PrayerRequestText title={request.title} content={request.content} />
 
                                     <div className="flex items-center gap-2.5 md:gap-3">
                                         <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-amber-100 flex items-center justify-center shrink-0 overflow-hidden">

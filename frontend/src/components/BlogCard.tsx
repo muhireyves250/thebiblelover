@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ShareModal from './ShareModal';
 import { blogAPI } from '../services/api';
+import { useTranslatedText } from '../hooks/useDynamicTranslation';
 
 interface BlogCardProps {
   id: string;
@@ -46,6 +47,8 @@ const BlogCard: React.FC<BlogCardProps> = ({
   const [likeCount, setLikeCount] = useState<number>(_likes);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isLiking, setIsLiking] = useState<boolean>(false);
+  const translatedTitle = useTranslatedText(title);
+  const translatedExcerpt = useTranslatedText(excerpt);
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -108,7 +111,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
         <div className="md:hidden absolute inset-0 bg-black/25"></div>
         <div className="md:hidden absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent px-2 pt-6 pb-1.5">
           <h2 className="font-sans font-bold uppercase text-white leading-snug line-clamp-2 text-xs">
-            {title}
+            {translatedTitle}
           </h2>
         </div>
       </Link>
@@ -142,13 +145,13 @@ const BlogCard: React.FC<BlogCardProps> = ({
 
         <Link to={`/blog/${slug}`} className="hidden md:block">
           <h2 className={`font-sans font-bold uppercase text-gray-900 mb-2 group-hover:text-amber-700 transition-colors duration-300 leading-snug ${isLarge ? 'text-2xl' : 'text-lg'}`}>
-            {title}
+            {translatedTitle}
           </h2>
         </Link>
 
         <Link to={`/blog/${slug}`} className="block">
           <p className="text-gray-600 text-[11px] md:text-sm leading-relaxed mb-1.5 md:mb-5 line-clamp-2">
-            {excerpt || 'No excerpt available'}
+            {translatedExcerpt || 'No excerpt available'}
           </p>
         </Link>
 
