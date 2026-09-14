@@ -101,7 +101,7 @@ const Header = () => {
         ? 'bg-white/70 dark:bg-[#0a0a0a]/70 backdrop-blur-xl shadow-2xl'
         : 'bg-white dark:bg-[#0a0a0a]'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Mobile bar: home / search pill / theme / profile / menu */}
         <div className="flex md:hidden items-center gap-2 h-12">
           {logoSettings.logoUrl ? (
