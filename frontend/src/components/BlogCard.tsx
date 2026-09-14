@@ -89,7 +89,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="group bg-white border border-gray-300 rounded-lg shadow-sm overflow-hidden hover:shadow-md hover:border-gray-400 transition-all duration-300"
     >
-      <Link to={`/blog/${slug}`} className="block w-full bg-gray-50 relative overflow-hidden aspect-[16/10]">
+      <Link to={`/blog/${slug}`} className="block w-full bg-gray-50 relative overflow-hidden aspect-[16/9] md:aspect-[16/10]">
         {isPremium && (
           <div className="absolute top-3 right-3 z-10">
             <span className="px-2.5 py-1 bg-amber-700 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm">
