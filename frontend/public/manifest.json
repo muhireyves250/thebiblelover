@@ -11,6 +11,12 @@
       "src": "favicon.ico",
       "sizes": "64x64 48x48 32x32 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "app-icon.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
