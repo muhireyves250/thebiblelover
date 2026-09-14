@@ -14,7 +14,7 @@ const IhemaLogo: React.FC<IhemaLogoProps> = ({ className = '' }) => (
     <img
       src="/images/logo-dark.png"
       alt="Ihema - The Bible Lover"
-      className={`h-14 md:h-[4.5rem] w-auto object-contain select-none hidden dark:block ${className}`}
+      className={`h-30 md:h-28 w-auto object-contain select-none hidden dark:block ${className}`}
     />
   </>
 );
