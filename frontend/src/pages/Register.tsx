@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
+import AutoText from '../components/AutoText';
 
 const Register: React.FC = () => {
     const [name, setName] = useState('');
@@ -53,8 +54,8 @@ const Register: React.FC = () => {
                         <CheckCircle2 className="w-8 h-8" />
                     </div>
                     <div className="space-y-2">
-                        <h2 className="text-2xl font-black uppercase tracking-tight text-gray-900">Welcome Home!</h2>
-                        <p className="text-gray-500 text-sm">Your spiritual journey with our community begins now.</p>
+                        <AutoText as="h2" className="text-2xl font-black uppercase tracking-tight text-gray-900">Welcome Home!</AutoText>
+                        <AutoText as="p" className="text-gray-500 text-sm">Your spiritual journey with our community begins now.</AutoText>
                     </div>
                     <div className="pt-2 flex justify-center">
                         <div className="w-6 h-6 border-2 border-amber-700 border-t-transparent animate-spin rounded-full"></div>
@@ -80,9 +81,9 @@ const Register: React.FC = () => {
                             <span className="w-1 h-4 bg-amber-500 rounded-sm" />
                             <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">The Bible Lover</span>
                         </div>
-                        <h2 className="text-2xl font-serif text-white leading-snug italic">
+                        <AutoText as="h2" className="text-2xl font-serif text-white leading-snug italic">
                             "Come to me, all you who are weary and burdened, and I will give you rest."
-                        </h2>
+                        </AutoText>
                         <p className="text-gray-300 text-sm font-medium mt-2">— Matthew 11:28</p>
                     </div>
                 </div>
@@ -92,14 +93,14 @@ const Register: React.FC = () => {
                     <div className="mb-4 sm:mb-8 text-center lg:text-left">
                         <div className="hidden lg:flex items-center gap-2 mb-2">
                             <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Register</span>
+                            <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Register</AutoText>
                         </div>
                         <div className="lg:hidden flex items-center justify-center gap-2 mb-1.5">
                             <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Register</span>
+                            <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Register</AutoText>
                         </div>
-                        <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-gray-900 mb-1">Join the Family</h1>
-                        <p className="text-gray-500 text-xs sm:text-sm">Create your disciple profile today.</p>
+                        <AutoText as="h1" className="text-xl sm:text-2xl font-black uppercase tracking-tight text-gray-900 mb-1">Join the Family</AutoText>
+                        <AutoText as="p" className="text-gray-500 text-xs sm:text-sm">Create your disciple profile today.</AutoText>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
@@ -164,9 +165,9 @@ const Register: React.FC = () => {
                             disabled={isLoading}
                             className="w-full bg-amber-700 hover:bg-amber-800 text-white rounded-md py-2.5 sm:py-3 px-6 font-bold text-xs sm:text-sm uppercase tracking-widest transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                         >
-                            {isLoading ? 'Creating Profile...' : (
+                            {isLoading ? <AutoText as="span">Creating Profile...</AutoText> : (
                                 <>
-                                    Begin Journey <ArrowRight className="h-4 w-4" />
+                                    <AutoText as="span">Begin Journey</AutoText> <ArrowRight className="h-4 w-4" />
                                 </>
                             )}
                         </button>
@@ -174,15 +175,15 @@ const Register: React.FC = () => {
 
                     <div className="mt-3.5 sm:mt-6 text-center bg-gray-50 border border-gray-100 rounded-md p-3">
                         <p className="text-xs sm:text-sm text-gray-500">
-                            Already part of the family?{' '}
-                            <Link to="/login" className="text-amber-700 font-bold hover:text-amber-800 transition-colors">Sign In</Link>
+                            <AutoText as="span">Already part of the family?</AutoText>{' '}
+                            <Link to="/login" className="text-amber-700 font-bold hover:text-amber-800 transition-colors"><AutoText>Sign In</AutoText></Link>
                         </p>
                     </div>
 
                     <div className="mt-3 sm:mt-4 flex justify-center items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                        <Link to="/terms" className="hover:text-amber-700 transition-colors">Terms</Link>
+                        <Link to="/terms" className="hover:text-amber-700 transition-colors"><AutoText>Terms</AutoText></Link>
                         <div className="w-1 h-1 bg-gray-200 rounded-full"></div>
-                        <Link to="/privacy" className="hover:text-amber-700 transition-colors">Privacy</Link>
+                        <Link to="/privacy" className="hover:text-amber-700 transition-colors"><AutoText>Privacy</AutoText></Link>
                     </div>
                 </div>
             </div>

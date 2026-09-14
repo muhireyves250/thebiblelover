@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 import { contactAPI } from '../services/api';
 import { useAPI } from '../hooks/useAPI';
 
@@ -52,24 +53,24 @@ const Contact = () => {
           <div className="mb-4 md:mb-10">
             <div className="flex items-center gap-2 mb-1.5 md:mb-2">
               <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Get In Touch</span>
+              <AutoText as="span" className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Get In Touch</AutoText>
             </div>
-            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900 mb-1.5 md:mb-3">
+            <AutoText as="h2" className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900 mb-1.5 md:mb-3">
               Let's Connect
-            </h2>
-            <p className="text-sm md:text-base text-gray-600 leading-relaxed max-w-2xl">
+            </AutoText>
+            <AutoText as="p" className="text-sm md:text-base text-gray-600 leading-relaxed max-w-2xl">
               Have a question about a book, want to collaborate, or just want to share your thoughts? I'd love to hear from you.
-            </p>
+            </AutoText>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-10">
             {/* Contact Form */}
             <div className="lg:col-span-2 bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-8">
-              <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4 md:mb-6">Send a Message</h3>
+              <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4 md:mb-6">Send a Message</AutoText>
 
               {isSubmitted && (
                 <div className="mb-4 md:mb-6 p-3 md:p-4 bg-green-50 border border-green-200 text-green-700 text-xs md:text-sm rounded-md">
-                  Thank you for your message! I'll get back to you soon.
+                  <AutoText>Thank you for your message! I'll get back to you soon.</AutoText>
                 </div>
               )}
 
@@ -83,7 +84,7 @@ const Contact = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                   <div>
                     <label htmlFor="name" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
-                      Name *
+                      <AutoText>Name *</AutoText>
                     </label>
                     <input
                       type="text"
@@ -99,7 +100,7 @@ const Contact = () => {
 
                   <div>
                     <label htmlFor="email" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
-                      Email *
+                      <AutoText>Email *</AutoText>
                     </label>
                     <input
                       type="email"
@@ -116,7 +117,7 @@ const Contact = () => {
 
                 <div>
                   <label htmlFor="subject" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
-                    Subject (Optional)
+                    <AutoText>Subject (Optional)</AutoText>
                   </label>
                   <input
                     type="text"
@@ -131,7 +132,7 @@ const Contact = () => {
 
                 <div>
                   <label htmlFor="message" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
-                    Message *
+                    <AutoText>Message *</AutoText>
                   </label>
                   <textarea
                     id="message"
@@ -153,12 +154,12 @@ const Contact = () => {
                   {loading ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      <span>Sending...</span>
+                      <AutoText as="span">Sending...</AutoText>
                     </>
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      <span>Send Message</span>
+                      <AutoText as="span">Send Message</AutoText>
                     </>
                   )}
                 </button>
@@ -168,14 +169,14 @@ const Contact = () => {
             {/* Contact Information */}
             <div className="lg:col-span-1 space-y-4 md:space-y-6">
               <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-6">
-                <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-5">Contact Information</h3>
+                <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-5">Contact Information</AutoText>
                 <div className="space-y-3 md:space-y-4">
                   <div className="flex items-start gap-2.5 md:gap-3 pb-3 md:pb-4 border-b border-gray-100">
                     <div className="w-8 h-8 md:w-9 md:h-9 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center shrink-0">
                       <Mail className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
                     </div>
                     <div>
-                      <h4 className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Email</h4>
+                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Email</AutoText>
                       <p className="text-gray-900 text-xs md:text-sm font-bold">hello@thebiblelover.com</p>
                     </div>
                   </div>
@@ -185,7 +186,7 @@ const Contact = () => {
                       <Phone className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
                     </div>
                     <div>
-                      <h4 className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Phone</h4>
+                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Phone</AutoText>
                       <p className="text-gray-900 text-xs md:text-sm font-bold">+1 (555) 123-4567</p>
                     </div>
                   </div>
@@ -195,7 +196,7 @@ const Contact = () => {
                       <MapPin className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
                     </div>
                     <div>
-                      <h4 className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Location</h4>
+                      <AutoText as="h4" className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-gray-400">Location</AutoText>
                       <p className="text-gray-900 text-xs md:text-sm font-bold">New York, NY</p>
                     </div>
                   </div>
@@ -203,11 +204,11 @@ const Contact = () => {
               </div>
 
               <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-6">
-                <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-2 md:mb-3">Response Time</h3>
-                <p className="text-gray-600 text-xs md:text-sm leading-relaxed">
+                <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-2 md:mb-3">Response Time</AutoText>
+                <AutoText as="p" className="text-gray-600 text-xs md:text-sm leading-relaxed">
                   I typically respond to messages within 24-48 hours. For urgent inquiries,
                   please mention it in your message subject line.
-                </p>
+                </AutoText>
               </div>
             </div>
           </div>

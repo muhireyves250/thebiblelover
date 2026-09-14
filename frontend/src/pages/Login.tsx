@@ -4,6 +4,7 @@ import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -64,9 +65,9 @@ const Login: React.FC = () => {
               <span className="w-1 h-4 bg-amber-500 rounded-sm" />
               <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">The Bible Lover</span>
             </div>
-            <h2 className="text-2xl font-serif text-white leading-snug">
+            <AutoText as="h2" className="text-2xl font-serif text-white leading-snug">
               A community built around God's Word
-            </h2>
+            </AutoText>
           </div>
         </div>
 
@@ -76,11 +77,11 @@ const Login: React.FC = () => {
         <div className="text-center mb-2 md:mb-4">
           <div className="flex items-center justify-center gap-2 mb-1.5 md:mb-1">
             <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Sign In</span>
+            <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Sign In</AutoText>
           </div>
-          <p className="text-xs md:text-sm text-gray-500">
+          <AutoText as="p" className="text-xs md:text-sm text-gray-500">
             Sign in to your Bible Lover account
-          </p>
+          </AutoText>
         </div>
 
         <div>
@@ -93,7 +94,7 @@ const Login: React.FC = () => {
 
             <div>
               <label htmlFor="email" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
-                Email address
+                <AutoText>Email address</AutoText>
               </label>
               <div className="relative group">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
@@ -113,7 +114,7 @@ const Login: React.FC = () => {
 
             <div>
               <label htmlFor="password" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
-                Password
+                <AutoText>Password</AutoText>
               </label>
               <div className="relative group">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
@@ -151,12 +152,12 @@ const Login: React.FC = () => {
                   className="h-4 w-4 accent-amber-700 rounded cursor-pointer"
                 />
                 <label htmlFor="remember-me" className="text-xs md:text-sm text-gray-600 cursor-pointer">
-                  Remember me
+                  <AutoText>Remember me</AutoText>
                 </label>
               </div>
 
               <Link to="/forgot-password" className="text-xs md:text-sm font-bold text-amber-700 hover:text-amber-800 transition-colors">
-                Forgot your password?
+                <AutoText>Forgot your password?</AutoText>
               </Link>
             </div>
 
@@ -168,16 +169,16 @@ const Login: React.FC = () => {
               {isLoading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  <span>Signing in...</span>
+                  <AutoText as="span">Signing in...</AutoText>
                 </>
               ) : (
-                'Sign In'
+                <AutoText as="span">Sign In</AutoText>
               )}
             </button>
           </form>
 
           <div className="mt-2 pt-2 md:mt-4 md:pt-4 border-t border-gray-100">
-            <p className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-2">Demo Credentials</p>
+            <AutoText as="p" className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-gray-400 text-center mb-2">Demo Credentials</AutoText>
             <div className="bg-gray-50 border border-gray-100 py-1 px-2 md:p-3 rounded-md">
               <p className="text-[10px] md:text-sm text-gray-600 text-center leading-snug">
                 <strong className="text-gray-900">admin@biblelover.com</strong> / <strong className="text-gray-900">admin123</strong>
@@ -188,17 +189,17 @@ const Login: React.FC = () => {
 
         <div className="mt-2.5 md:mt-4 text-center bg-gray-50 border border-gray-100 rounded-md p-3">
           <p className="text-[11px] md:text-sm text-gray-500">
-            Don't have an account?{' '}
+            <AutoText as="span">Don't have an account?</AutoText>{' '}
             <Link to="/register" className="font-bold text-amber-700 hover:text-amber-800 transition-colors">
-              Join the family
+              <AutoText>Join the family</AutoText>
             </Link>
           </p>
         </div>
 
         <div className="mt-3 flex justify-center items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-          <Link to="/terms" className="hover:text-amber-700 transition-colors">Terms</Link>
+          <Link to="/terms" className="hover:text-amber-700 transition-colors"><AutoText>Terms</AutoText></Link>
           <div className="w-1 h-1 bg-gray-200 rounded-full"></div>
-          <Link to="/privacy" className="hover:text-amber-700 transition-colors">Privacy</Link>
+          <Link to="/privacy" className="hover:text-amber-700 transition-colors"><AutoText>Privacy</AutoText></Link>
         </div>
       </div>
         </div>

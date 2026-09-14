@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Gift, CheckCircle, AlertCircle, ShieldCheck, Globe, Users, ArrowRight } from 'lucide-react';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 // @ts-ignore
 import { donationsAPI } from '../services/api';
 
@@ -254,10 +255,10 @@ const Donate = () => {
         <div className="md:hidden mb-4">
           <div className="flex items-center gap-2 mb-1.5">
             <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Donate</span>
+            <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Donate</AutoText>
           </div>
-          <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Support the Word</h1>
-          <p className="text-sm text-gray-500 mt-2">Fostering faith through your generosity</p>
+          <AutoText as="h1" className="text-2xl font-black uppercase tracking-tight text-gray-900">Support the Word</AutoText>
+          <AutoText as="p" className="text-sm text-gray-500 mt-2">Fostering faith through your generosity</AutoText>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-10 items-start">
@@ -270,8 +271,8 @@ const Donate = () => {
                   <Heart className="w-4 h-4 md:w-5 md:h-5 fill-current" />
                 </div>
                 <div>
-                  <h2 className="text-base md:text-xl font-bold text-gray-900">Partner With Us</h2>
-                  <p className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">Your gift impacts lives globally</p>
+                  <AutoText as="h2" className="text-base md:text-xl font-bold text-gray-900">Partner With Us</AutoText>
+                  <AutoText as="p" className="text-gray-500 text-[10px] md:text-xs font-bold uppercase tracking-widest">Your gift impacts lives globally</AutoText>
                 </div>
               </div>
 
@@ -283,15 +284,15 @@ const Donate = () => {
           <div className="lg:col-span-5 space-y-4 md:space-y-6">
             {/* Why Donate Section */}
             <section className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-6">
-              <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-6">The Impact of Your Gift</h3>
+              <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-3 md:mb-6">The Impact of Your Gift</AutoText>
               <div className="space-y-3 md:space-y-5">
                 <div className="flex gap-3 md:gap-4">
                   <div className="w-8 h-8 md:w-10 md:h-10 bg-amber-50 border border-amber-100 rounded-lg flex items-center justify-center text-amber-700 flex-shrink-0">
                     <Globe className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 text-xs md:text-sm mb-0.5 md:mb-1">Spread the Word</h4>
-                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed">Helping us share Bible insights and wisdom with thousands of readers around the globe every day.</p>
+                    <AutoText as="h4" className="font-bold text-gray-900 text-xs md:text-sm mb-0.5 md:mb-1">Spread the Word</AutoText>
+                    <AutoText as="p" className="text-gray-500 text-xs md:text-sm leading-relaxed">Helping us share Bible insights and wisdom with thousands of readers around the globe every day.</AutoText>
                   </div>
                 </div>
                 <div className="flex gap-3 md:gap-4">
@@ -299,8 +300,8 @@ const Donate = () => {
                     <Users className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 text-xs md:text-sm mb-0.5 md:mb-1">Build Community</h4>
-                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed">Supporting events, community prayer, and interactive content that brings believers together.</p>
+                    <AutoText as="h4" className="font-bold text-gray-900 text-xs md:text-sm mb-0.5 md:mb-1">Build Community</AutoText>
+                    <AutoText as="p" className="text-gray-500 text-xs md:text-sm leading-relaxed">Supporting events, community prayer, and interactive content that brings believers together.</AutoText>
                   </div>
                 </div>
                 <div className="flex gap-3 md:gap-4">
@@ -308,8 +309,8 @@ const Donate = () => {
                     <Gift className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 text-xs md:text-sm mb-0.5 md:mb-1">New Resources</h4>
-                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed">Funding the development of new tools, study guides, and mobile apps for the Bible Project.</p>
+                    <AutoText as="h4" className="font-bold text-gray-900 text-xs md:text-sm mb-0.5 md:mb-1">New Resources</AutoText>
+                    <AutoText as="p" className="text-gray-500 text-xs md:text-sm leading-relaxed">Funding the development of new tools, study guides, and mobile apps for the Bible Project.</AutoText>
                   </div>
                 </div>
               </div>
@@ -318,7 +319,7 @@ const Donate = () => {
             {/* Wall of Support */}
             <section className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-6">
               <div className="flex items-center justify-between mb-3 md:mb-6">
-                <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Wall of Support</h3>
+                <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Wall of Support</AutoText>
                 <div className="w-2 h-2 bg-amber-600 rounded-full animate-pulse"></div>
               </div>
 
@@ -330,7 +331,7 @@ const Donate = () => {
                 ) : recentDonations.length === 0 ? (
                   <div className="text-center py-6 md:py-8">
                     <Heart className="w-7 h-7 md:w-8 md:h-8 text-gray-200 mx-auto mb-2.5 md:mb-3" />
-                    <p className="text-xs md:text-sm text-gray-500 italic">No donations yet. Be the first!</p>
+                    <AutoText as="p" className="text-xs md:text-sm text-gray-500 italic">No donations yet. Be the first!</AutoText>
                   </div>
                 ) : (
                   recentDonations.map((donation: any) => (

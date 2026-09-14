@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, ArrowLeft, Send, CheckCircle2, BookOpen } from 'lucide-react';
 import { authAPI } from '../services/api';
+import AutoText from '../components/AutoText';
 
 const ForgotPassword: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -39,10 +40,10 @@ const ForgotPassword: React.FC = () => {
                             </div>
                             <div className="flex items-center justify-center gap-2 mb-1.5">
                                 <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Restoration</span>
+                                <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Restoration</AutoText>
                             </div>
-                            <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 mb-1">Restoration</h1>
-                            <p className="text-gray-500 text-xs md:text-sm">Return to the Word</p>
+                            <AutoText as="h1" className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 mb-1">Restoration</AutoText>
+                            <AutoText as="p" className="text-gray-500 text-xs md:text-sm">Return to the Word</AutoText>
                         </div>
 
                         {isSuccess ? (
@@ -51,16 +52,16 @@ const ForgotPassword: React.FC = () => {
                                     <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8" />
                                 </div>
                                 <div className="space-y-1.5 md:space-y-2">
-                                    <h3 className="text-base md:text-xl font-bold text-gray-900">Check Your Sanctuary</h3>
+                                    <AutoText as="h3" className="text-base md:text-xl font-bold text-gray-900">Check Your Sanctuary</AutoText>
                                     <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
-                                        If an account exists for <strong className="text-gray-900">{email}</strong>, we've sent instructions to restore your access.
+                                        <AutoText as="span">If an account exists for</AutoText> <strong className="text-gray-900">{email}</strong>, <AutoText as="span">we've sent instructions to restore your access.</AutoText>
                                     </p>
                                 </div>
                                 <Link
                                     to="/login"
                                     className="inline-flex items-center gap-2 text-amber-700 font-bold text-xs md:text-sm hover:text-amber-800 transition-colors"
                                 >
-                                    <ArrowLeft className="h-4 w-4" /> Back to Login
+                                    <ArrowLeft className="h-4 w-4" /> <AutoText as="span">Back to Login</AutoText>
                                 </Link>
                             </div>
                         ) : (
@@ -73,7 +74,7 @@ const ForgotPassword: React.FC = () => {
                                     )}
 
                                     <div className="text-left">
-                                        <label className="block text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 md:mb-1.5">Email Address</label>
+                                        <label className="block text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 md:mb-1.5"><AutoText>Email Address</AutoText></label>
                                         <div className="relative group">
                                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-amber-600 transition-colors" />
                                             <input
@@ -92,9 +93,9 @@ const ForgotPassword: React.FC = () => {
                                         disabled={isLoading}
                                         className="w-full bg-amber-700 hover:bg-amber-800 text-white rounded-md py-2.5 md:py-3 px-6 font-bold text-xs md:text-sm uppercase tracking-widest transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                                     >
-                                        {isLoading ? 'Searching...' : (
+                                        {isLoading ? <AutoText as="span">Searching...</AutoText> : (
                                             <>
-                                                Send Reset Link <Send className="h-4 w-4" />
+                                                <AutoText as="span">Send Reset Link</AutoText> <Send className="h-4 w-4" />
                                             </>
                                         )}
                                     </button>
@@ -105,7 +106,7 @@ const ForgotPassword: React.FC = () => {
                                         to="/login"
                                         className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-700 font-bold text-[10px] md:text-xs uppercase tracking-widest transition-colors"
                                     >
-                                        <ArrowLeft className="h-4 w-4" /> Go back to Login
+                                        <ArrowLeft className="h-4 w-4" /> <AutoText as="span">Go back to Login</AutoText>
                                     </Link>
                                 </div>
                             </>
@@ -114,7 +115,7 @@ const ForgotPassword: React.FC = () => {
                 </div>
 
                 <p className="mt-4 md:mt-6 text-center text-gray-400 text-[11px] md:text-xs">
-                    Trouble accessing? <Link to="/contact" className="text-amber-700 font-bold hover:text-amber-800 transition-colors">Support Help</Link>
+                    <AutoText as="span">Trouble accessing?</AutoText> <Link to="/contact" className="text-amber-700 font-bold hover:text-amber-800 transition-colors"><AutoText>Support Help</AutoText></Link>
                 </p>
             </div>
         </div>

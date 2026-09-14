@@ -1,6 +1,7 @@
 import { useContentSettings } from '../hooks/useContentSettings';
 import Announcements from '../components/Announcements';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 
 const SectionHeader = ({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) => (
   <>
@@ -8,12 +9,12 @@ const SectionHeader = ({ eyebrow, title, subtitle }: { eyebrow: string; title: s
     <div className="absolute inset-x-0 top-0 bg-gradient-to-b from-black/85 via-black/55 to-transparent px-4 md:px-5 pb-10 md:pb-16 pt-4 md:pt-5">
       <div className="flex items-center gap-2 mb-1.5 md:mb-2">
         <span className="w-4 h-[2px] bg-amber-500" />
-        <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] text-amber-400">{eyebrow}</span>
+        <AutoText as="span" className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] text-amber-400">{eyebrow}</AutoText>
       </div>
-      <h2 className="font-serif text-xl md:text-4xl font-semibold tracking-tight text-white drop-shadow-sm">
+      <AutoText as="h2" className="font-serif text-xl md:text-4xl font-semibold tracking-tight text-white drop-shadow-sm">
         {title}
-      </h2>
-      <p className="hidden md:block text-sm font-light text-gray-200 mt-2 tracking-wide">{subtitle}</p>
+      </AutoText>
+      <AutoText as="p" className="hidden md:block text-sm font-light text-gray-200 mt-2 tracking-wide">{subtitle}</AutoText>
     </div>
   </>
 );
@@ -48,9 +49,9 @@ const About = () => {
       <div className="md:hidden max-w-7xl mx-auto px-4 pt-3">
         <div className="flex items-center gap-2 mb-1.5">
           <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">About</span>
+          <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">About</AutoText>
         </div>
-        <h1 className="text-2xl font-black uppercase tracking-tight text-gray-900">Who We Are</h1>
+        <AutoText as="h1" className="text-2xl font-black uppercase tracking-tight text-gray-900">Who We Are</AutoText>
       </div>
 
       {/* Who We Are */}
@@ -71,25 +72,25 @@ const About = () => {
                 {aboutSection?.content ||
                   'Welcome to Bible Lovers, a place where God’s Word comes alive and transforms hearts.'}
               </p>
-              <p>
+              <AutoText as="p">
                 We started as a small group of believers who kept coming back to the same question: what
                 would it look like if Scripture wasn't something we visited once a week, but something we
                 lived inside of every day? That question became a habit of reading together, praying
                 together, and holding each other accountable to the truths we were discovering — and that
                 habit slowly became a community.
-              </p>
-              <p>
+              </AutoText>
+              <AutoText as="p">
                 Today, Bible Lovers is home to readers at every stage of their walk: people opening a Bible
                 for the first time, longtime believers looking to go deeper, and everyone in between. We
                 publish daily reflections, morning and evening audio devotionals, and a verse of the day,
                 because we believe consistency — not intensity — is what actually shapes a life.
-              </p>
-              <p>
+              </AutoText>
+              <AutoText as="p">
                 What ties it all together is a simple conviction: the Bible was never meant to be read
                 alone, and it was never meant to stay on the page. It's meant to be discussed, tested against
                 real life, and lived out loud. That's the community we're building, and there's a place in it
                 for you.
-              </p>
+              </AutoText>
             </div>
             <div className="clear-both" />
           </div>
@@ -114,25 +115,25 @@ const About = () => {
                 {storySection?.content ||
                   'Our story began with a passion for God’s Word and a desire to help others experience its life-changing power.'}
               </p>
-              <p>
+              <AutoText as="p">
                 It started without a website, a logo, or a plan — just a handful of people meeting to talk
                 through a chapter of Scripture and admitting, honestly, where it was hard to live out. Those
                 conversations were often messier than they were polished, and that turned out to be the
                 point: real faith grows in the honest middle, not just in the highlight reel.
-              </p>
-              <p>
+              </AutoText>
+              <AutoText as="p">
                 As more people asked to join, we started writing down what we were learning — short
                 reflections, then longer studies, then a verse each morning to anchor the day before it got
                 loud. What had been a private habit became something we could share, and sharing it made it
                 stronger, not weaker.
-              </p>
-              <p>
+              </AutoText>
+              <AutoText as="p">
                 Along the way we've walked with people through seasons of doubt, grief, celebration, and
                 quiet, ordinary faithfulness — the kind that rarely makes headlines but is exactly what the
                 Christian life is mostly made of. Every feature we've since built, from daily devotionals to
                 a place for prayer requests, grew out of an actual need someone in this community brought to
                 us. We're still building that way: one honest conversation at a time.
-              </p>
+              </AutoText>
             </div>
             <div className="clear-both" />
           </div>
@@ -173,12 +174,12 @@ const About = () => {
                 never page views. It's changed lives: patience where there used to be anger, generosity
                 where there used to be fear, hope where there used to be despair.
               </p>
-              <p>
+              <AutoText as="p">
                 We take seriously the words of James 1:22 — to be doers of the Word, and not hearers only.
                 Everything we build, from the verse of the day to the morning and evening devotionals, is
                 aimed at that one outcome: helping you not just know God's truth, but live it out, with
                 purpose and with victory.
-              </p>
+              </AutoText>
             </div>
             <div className="clear-both" />
           </div>
