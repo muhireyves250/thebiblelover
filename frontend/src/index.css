@@ -14,11 +14,11 @@
   }
 
   .dark {
-    --bg-primary: #0a0c14;
+    --bg-primary: #0a0a0a;
     --text-primary: #f9fafb;
     --accent-primary: #fbbf24;
     --premium-gold: #d4af37;
-    --glass-bg: rgba(10, 12, 20, 0.6);
+    --glass-bg: rgba(10, 10, 10, 0.6);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-shadow: rgba(0, 0, 0, 0.3);
   }
@@ -30,18 +30,6 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     position: relative;
     font-family: 'Inter', 'Segoe UI', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  }
-
-  /* Dark mode: faint square grid etched into the near-black canvas, like a
-     technical/editorial control-room backdrop. Sits behind everything as
-     part of the body background, so it only reads through where content
-     doesn't fully cover it (gutters, section gaps) rather than fighting
-     for attention under cards. */
-  .dark body {
-    background-image:
-      linear-gradient(rgba(148, 163, 184, 0.13) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(148, 163, 184, 0.13) 1px, transparent 1px);
-    background-size: 40px 40px;
   }
 
   /* Form fields across the site rely on the browser's default white
