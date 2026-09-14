@@ -14,11 +14,11 @@
   }
 
   .dark {
-    --bg-primary: #0a0a0c;
+    --bg-primary: #0a0c14;
     --text-primary: #f9fafb;
     --accent-primary: #fbbf24;
     --premium-gold: #d4af37;
-    --glass-bg: rgba(10, 10, 12, 0.6);
+    --glass-bg: rgba(10, 12, 20, 0.6);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-shadow: rgba(0, 0, 0, 0.3);
   }
@@ -39,9 +39,9 @@
      for attention under cards. */
   .dark body {
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 32px 32px;
+      linear-gradient(rgba(148, 163, 184, 0.13) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.13) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 
   /* Form fields across the site rely on the browser's default white
