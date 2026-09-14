@@ -42,7 +42,7 @@ const Hero = () => {
       />
 
       <div className="relative z-10 px-4 text-center">
-        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-800 px-12 md:px-20 py-12 shadow-2xl transition-all duration-500 hover:scale-[1.02] rounded-3xl group">
+        <div className="bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/20 dark:border-white/10 px-12 md:px-20 py-12 shadow-2xl transition-all duration-500 hover:scale-[1.02] rounded-3xl group">
           <h1 className="font-sans text-4xl md:text-6xl font-black uppercase tracking-tight mb-6 text-gray-900/80 dark:text-gray-100/80 transform transition-transform group-hover:translate-y-[-2px]">
             {settings?.heroSection?.title || 'THE BIBLE LOVER'}
           </h1>

@@ -96,10 +96,10 @@ const Header = () => {
 
   return (
     <>
-    <header className={`sticky top-0 z-50 transition-all duration-500 border-b-2 border-gray-200 dark:border-gray-800 py-2 md:py-3 ${
+    <header className={`sticky top-0 z-50 transition-all duration-500 border-b-2 border-gray-200 dark:border-white/10 py-2 md:py-3 ${
       scrolled
-        ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl shadow-2xl'
-        : 'bg-white dark:bg-gray-900'
+        ? 'bg-white/70 dark:bg-[#0a0a0a]/70 backdrop-blur-xl shadow-2xl'
+        : 'bg-white dark:bg-[#0a0a0a]'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
         {/* Mobile bar: home / search pill / theme / profile / menu */}
@@ -370,13 +370,13 @@ const Header = () => {
             className="absolute inset-0 h-full w-full bg-black/50 animate-in fade-in duration-200"
             onClick={() => setIsMenuOpen(false)}
           />
-          <div className="absolute top-0 right-0 h-full w-80 max-w-[88vw] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+          <div className="absolute top-0 right-0 h-full w-80 max-w-[88vw] bg-white dark:bg-[#0a0a0a] shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-white/10">
               <Link to="/" onClick={() => setIsMenuOpen(false)} className="flex items-center space-x-2">
                 {logoSettings.logoUrl && logoSettings.showText ? (
                   <>
                     <img src={logoSettings.logoUrl} alt="Logo" className="h-7 w-7 object-contain" />
-                    <span className="text-lg font-serif text-gray-900 tracking-wide">{logoSettings.logoText}</span>
+                    <span className="text-lg font-serif text-gray-900 dark:text-white tracking-wide">{logoSettings.logoText}</span>
                   </>
                 ) : logoSettings.logoUrl ? (
                   <img src={logoSettings.logoUrl} alt="Logo" className="h-8 object-contain" />
@@ -386,7 +386,7 @@ const Header = () => {
               </Link>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2 -mr-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+                className="p-2 -mr-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
                 aria-label="Close navigation menu"
               >
                 <X className="h-5 w-5" />
@@ -415,7 +415,7 @@ const Header = () => {
                     to={link.path}
                     onClick={() => setIsMenuOpen(false)}
                     className={`py-3 text-base transition-colors ${
-                      isActive ? 'text-amber-700 font-bold' : 'text-gray-700 hover:text-amber-700'
+                      isActive ? 'text-amber-700 font-bold' : 'text-gray-700 dark:text-gray-300 hover:text-amber-700'
                     }`}
                   >
                     {link.label}
@@ -423,11 +423,11 @@ const Header = () => {
                 );
               })}
 
-              <div className="my-4 border-t border-gray-100" />
+              <div className="my-4 border-t border-gray-100 dark:border-white/10" />
 
               <LanguageSwitcher variant="drawer" />
 
-              <div className="my-4 border-t border-gray-100" />
+              <div className="my-4 border-t border-gray-100 dark:border-white/10" />
 
               {isAuthenticated ? (
                 <Link
