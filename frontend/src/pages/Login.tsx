@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
 import SEO from '../components/SEO';
@@ -74,7 +74,7 @@ const Login: React.FC = () => {
         <div className="flex items-center justify-center p-3 md:p-10">
       <div className="max-w-md w-full">
         <div className="text-center mb-2 md:mb-4">
-          <div className="hidden md:flex items-center justify-center gap-2 mb-1">
+          <div className="flex items-center justify-center gap-2 mb-1.5 md:mb-1">
             <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Sign In</span>
           </div>
@@ -95,24 +95,28 @@ const Login: React.FC = () => {
               <label htmlFor="email" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
                 Email address
               </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 md:py-2.5 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
-                placeholder="Enter your email"
-              />
+              <div className="relative group">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-white border border-gray-300 rounded-md py-2 md:py-2.5 pl-9 pr-3 text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                  placeholder="Enter your email"
+                />
+              </div>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">
                 Password
               </label>
-              <div className="relative">
+              <div className="relative group">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 transition-colors group-focus-within:text-amber-600" />
                 <input
                   id="password"
                   name="password"
@@ -121,7 +125,7 @@ const Login: React.FC = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 md:py-2.5 pr-10 border border-gray-300 rounded-md text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                  className="w-full bg-white border border-gray-300 rounded-md py-2 md:py-2.5 pl-9 pr-10 text-xs md:text-sm focus:border-amber-600 focus:outline-none transition-colors"
                   placeholder="Enter your password"
                 />
                 <button
@@ -182,12 +186,20 @@ const Login: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-center text-[11px] md:text-sm text-gray-500 mt-2.5 md:mt-4">
-          Don't have an account?{' '}
-          <Link to="/register" className="font-bold text-amber-700 hover:text-amber-800 transition-colors">
-            Join the family
-          </Link>
-        </p>
+        <div className="mt-2.5 md:mt-4 text-center bg-gray-50 border border-gray-100 rounded-md p-3">
+          <p className="text-[11px] md:text-sm text-gray-500">
+            Don't have an account?{' '}
+            <Link to="/register" className="font-bold text-amber-700 hover:text-amber-800 transition-colors">
+              Join the family
+            </Link>
+          </p>
+        </div>
+
+        <div className="mt-3 flex justify-center items-center gap-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+          <Link to="/terms" className="hover:text-amber-700 transition-colors">Terms</Link>
+          <div className="w-1 h-1 bg-gray-200 rounded-full"></div>
+          <Link to="/privacy" className="hover:text-amber-700 transition-colors">Privacy</Link>
+        </div>
       </div>
         </div>
       </div>
