@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import ShareModal from '../components/ShareModal';
 import AudioReader from '../components/AudioReader';
 import BibleReference from '../components/BibleReference';
+import AutoText from '../components/AutoText';
 
 const categoryLabel = (category?: string) => (category || 'Reflection').replace(/_/g, ' ');
 
@@ -124,14 +125,14 @@ const BlogPost: React.FC = () => {
     return (
       <div className="min-h-screen bg-white">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
-          <h1 className="text-2xl font-serif text-gray-900 mb-3">
+          <AutoText as="h1" className="text-2xl font-serif text-gray-900 mb-3">
             {error ? 'Error loading post' : 'Post not found'}
-          </h1>
+          </AutoText>
           <p className="text-gray-600 mb-6">
-            {error || "We couldn't find the post you're looking for."}
+            {error || <AutoText as="span">We couldn't find the post you're looking for.</AutoText>}
           </p>
           {error && (
-            <button onClick={refetch} className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800">Try again</button>
+            <button onClick={refetch} className="px-4 py-2 bg-amber-700 text-white rounded-md hover:bg-amber-800"><AutoText>Try again</AutoText></button>
           )}
         </div>
       </div>
@@ -156,7 +157,7 @@ const BlogPost: React.FC = () => {
           to="/posts"
           className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-amber-700 transition-colors mb-3 md:mb-6"
         >
-          <ArrowLeft className="w-3.5 h-3.5" /> Back to Blog
+          <ArrowLeft className="w-3.5 h-3.5" /> <AutoText as="span">Back to Blog</AutoText>
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -241,22 +242,22 @@ const BlogPost: React.FC = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                           </svg>
                         </div>
-                        <h3 className="text-2xl font-serif text-gray-900 mb-3">Premium Content</h3>
-                        <p className="text-gray-700 mb-8 leading-relaxed">
+                        <AutoText as="h3" className="text-2xl font-serif text-gray-900 mb-3">Premium Content</AutoText>
+                        <AutoText as="p" className="text-gray-700 mb-8 leading-relaxed">
                           This deep dive is exclusive to our community members. Join us today to unlock full access to this and all other premium reflections.
-                        </p>
+                        </AutoText>
                         <div className="flex flex-col space-y-3">
                           <Link
                             to="/register"
                             className="w-full py-4 bg-amber-700 text-white rounded-xl font-bold hover:bg-amber-800 transition-all shadow-lg hover:shadow-amber-700/30"
                           >
-                            Create Free Account
+                            <AutoText as="span">Create Free Account</AutoText>
                           </Link>
                           <Link
                             to="/login"
                             className="w-full py-3 text-amber-700 font-semibold hover:text-amber-800 transition-colors"
                           >
-                            Already a member? Log In
+                            <AutoText as="span">Already a member? Log In</AutoText>
                           </Link>
                         </div>
                       </div>
@@ -297,7 +298,7 @@ const BlogPost: React.FC = () => {
                   )}
                 </div>
                 <div className="text-xs md:text-sm">
-                  <p className="font-bold text-gray-900">{post.author?.name || 'Unknown author'}</p>
+                  <p className="font-bold text-gray-900">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
                   <p className="text-gray-500">{formattedDate} &middot; {post.readTime} min read</p>
                 </div>
               </div>
@@ -312,17 +313,17 @@ const BlogPost: React.FC = () => {
                   className={`inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border rounded-full text-xs md:text-sm transition-colors ${isLiked ? 'text-red-600 border-red-200 bg-red-50' : 'text-gray-600 border-gray-200 hover:bg-gray-50'} ${isLiking ? 'opacity-50 cursor-not-allowed' : ''}`}
                   aria-label={isLiked ? 'Unlike post' : 'Like post'}
                 >
-                  <Heart className={`h-3.5 w-3.5 md:h-4 md:w-4 ${isLiked ? 'fill-current' : ''}`} /> Like &middot; {likeCount}
+                  <Heart className={`h-3.5 w-3.5 md:h-4 md:w-4 ${isLiked ? 'fill-current' : ''}`} /> <AutoText as="span">Like</AutoText> &middot; {likeCount}
                 </button>
                 <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 rounded-full text-sm text-gray-600">
-                  <MessageCircle className="w-4 h-4" /> Comment &middot; {post._count?.comments ?? comments.length}
+                  <MessageCircle className="w-4 h-4" /> <AutoText as="span">Comment</AutoText> &middot; {post._count?.comments ?? comments.length}
                 </span>
                 <button
                   onClick={() => setIsShareModalOpen(true)}
                   className="inline-flex items-center gap-1 md:gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 border border-gray-200 rounded-full text-xs md:text-sm text-gray-600 hover:bg-gray-50 transition-colors"
                   aria-label="Share post"
                 >
-                  <Share2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> Share
+                  <Share2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> <AutoText as="span">Share</AutoText>
                 </button>
               </div>
             </div>
@@ -332,7 +333,7 @@ const BlogPost: React.FC = () => {
               <div className="flex items-center gap-2 mb-3 md:mb-6">
                 <span className="w-1 h-3.5 md:h-4 bg-amber-700 rounded-sm" />
                 <h2 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">
-                  Comments <span className="text-gray-400">&middot; {comments.length}</span>
+                  <AutoText as="span">Comments</AutoText> <span className="text-gray-400">&middot; {comments.length}</span>
                 </h2>
               </div>
 
@@ -345,7 +346,7 @@ const BlogPost: React.FC = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[11px] md:text-sm font-bold text-gray-900">{c.authorName || 'Anonymous'}</span>
+                          <span className="text-[11px] md:text-sm font-bold text-gray-900">{c.authorName || <AutoText as="span">Anonymous</AutoText>}</span>
                           <span className="text-[9px] md:text-[11px] text-gray-400 shrink-0">{new Date(c.createdAt).toLocaleDateString()}</span>
                         </div>
                         <p className="mt-0.5 md:mt-1.5 text-[11px] md:text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{c.content}</p>
@@ -354,14 +355,14 @@ const BlogPost: React.FC = () => {
                   </div>
                 ))}
                 {comments.length === 0 && (
-                  <div className="border border-dashed border-gray-300 rounded-lg p-3 md:p-6 text-center text-gray-500 text-[11px] md:text-sm">No comments yet. Be the first to comment!</div>
+                  <AutoText as="div" className="border border-dashed border-gray-300 rounded-lg p-3 md:p-6 text-center text-gray-500 text-[11px] md:text-sm">No comments yet. Be the first to comment!</AutoText>
                 )}
               </div>
 
               <form onSubmit={submitComment} className="space-y-2.5 md:space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 md:gap-4">
                   <div>
-                    <label htmlFor="commentName" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Name</label>
+                    <label htmlFor="commentName" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Name</AutoText></label>
                     <input
                       id="commentName"
                       name="commentName"
@@ -374,7 +375,7 @@ const BlogPost: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="commentEmail" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Email</label>
+                    <label htmlFor="commentEmail" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Email</AutoText></label>
                     <input
                       id="commentEmail"
                       name="commentEmail"
@@ -388,7 +389,7 @@ const BlogPost: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="commentContent" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5">Comment</label>
+                  <label htmlFor="commentContent" className="block text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-1 md:mb-1.5"><AutoText>Comment</AutoText></label>
                   <textarea
                     id="commentContent"
                     name="commentContent"
@@ -405,7 +406,7 @@ const BlogPost: React.FC = () => {
                   disabled={isSubmittingComment}
                   className="w-full sm:w-auto px-5 md:px-6 py-2 md:py-2.5 bg-amber-700 text-white text-[10px] md:text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
                 >
-                  {isSubmittingComment ? 'Posting…' : 'Post Comment'}
+                  {isSubmittingComment ? <AutoText as="span">Posting…</AutoText> : <AutoText as="span">Post Comment</AutoText>}
                 </button>
               </form>
             </section>
@@ -417,7 +418,7 @@ const BlogPost: React.FC = () => {
           <aside className="lg:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             {/* Written By - desktop only */}
             <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</h3>
+              <AutoText as="h3" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Written By</AutoText>
               {!post ? (
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 rounded-full bg-gray-200 animate-pulse shrink-0" />
@@ -436,8 +437,8 @@ const BlogPost: React.FC = () => {
                     )}
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900 text-sm">{post.author?.name || 'Unknown author'}</p>
-                    <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">The Bible Lover Author</p>
+                    <p className="font-bold text-gray-900 text-sm">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
+                    <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400">The Bible Lover Author</AutoText>
                   </div>
                 </div>
               )}
@@ -445,7 +446,7 @@ const BlogPost: React.FC = () => {
 
             {/* Story Details - desktop only */}
             <div className="hidden md:block bg-white border border-gray-300 rounded-lg shadow-sm p-5">
-              <h3 className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Story Details</h3>
+              <AutoText as="h3" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700 mb-4">Story Details</AutoText>
               {!post ? (
                 <dl className="space-y-1">
                   {[Tag, Calendar, Clock, Eye, Heart, MessageCircle].map((Icon, i) => (
@@ -471,7 +472,7 @@ const BlogPost: React.FC = () => {
                   <div key={label} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
                     <dt className="flex items-center gap-2 text-gray-500 text-sm">
                       <Icon className="w-3.5 h-3.5 text-amber-700" />
-                      {label}
+                      <AutoText as="span">{label}</AutoText>
                     </dt>
                     <dd className="font-bold text-gray-900 text-sm">{value}</dd>
                   </div>
@@ -505,9 +506,9 @@ const BlogPost: React.FC = () => {
             {recentPosts.length > 0 && (
               <div className="bg-white md:border md:border-gray-300 md:rounded-lg md:shadow-sm p-0 md:p-5">
                 <div className="flex items-center justify-between mb-3 md:mb-4">
-                  <h3 className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Stories</h3>
+                  <AutoText as="h3" className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Recent Stories</AutoText>
                   <Link to="/posts" className="text-[9px] md:text-[10px] font-bold text-amber-700 uppercase tracking-widest hover:text-amber-800 transition-colors">
-                    Read Latest News &rarr;
+                    <AutoText as="span">Read Latest News</AutoText> &rarr;
                   </Link>
                 </div>
 
