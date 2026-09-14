@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useContentSettings } from '../hooks/useContentSettings';
+import AutoText from './AutoText';
 
 const AUTO_ROTATE_MS = 7000;
 
@@ -50,9 +51,9 @@ const AboutDesk: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-1.5 md:mb-2">
               <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">About Us</span>
+              <AutoText as="span" className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">About Us</AutoText>
             </div>
-            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Our Story &amp; Mission</h2>
+            <AutoText as="h2" className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Our Story &amp; Mission</AutoText>
             <p className="hidden md:block text-sm text-gray-500 mt-2">Who we are, where we started, and what we&apos;re building together</p>
           </div>
           <div className="hidden md:flex items-center gap-1.5 md:gap-2 shrink-0">

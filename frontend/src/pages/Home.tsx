@@ -6,6 +6,7 @@ import Announcements from '../components/Announcements';
 import AboutDesk from '../components/AboutDesk';
 import NewsletterSubscribe from '../components/NewsletterSubscribe';
 import SEO from '../components/SEO';
+import AutoText from '../components/AutoText';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
 
 const Home = () => {
@@ -23,9 +24,9 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/60 to-gray-950/90" />
 
           <div className="relative flex items-center justify-between px-4 pt-4">
-            <span className="px-3 py-1 bg-emerald-500 rounded-full text-[10px] font-black uppercase tracking-widest text-white">
+            <AutoText as="span" className="px-3 py-1 bg-emerald-500 rounded-full text-[10px] font-black uppercase tracking-widest text-white">
               Welcome
-            </span>
+            </AutoText>
             <span className="w-7 h-7 rounded-full bg-black/40 backdrop-blur flex items-center justify-center">
               <Bell className="w-3.5 h-3.5 text-white" />
             </span>
@@ -33,11 +34,11 @@ const Home = () => {
 
           <div className="relative mt-auto px-4 pb-4">
             <h2 className="font-sans text-lg font-black uppercase tracking-tight leading-snug text-white">
-              Welcome back, <span className="text-amber-700">friend</span>
+              <AutoText as="span">Welcome back,</AutoText> <span className="text-amber-700"><AutoText as="span">friend</AutoText></span>
             </h2>
             <div className="flex items-center gap-3 mt-1">
               <span className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.3em] text-amber-700">
-                <Star className="w-2.5 h-2.5 fill-amber-700 text-amber-700" /> Daily Inspiration
+                <Star className="w-2.5 h-2.5 fill-amber-700 text-amber-700" /> <AutoText as="span">Daily Inspiration</AutoText>
               </span>
             </div>
           </div>

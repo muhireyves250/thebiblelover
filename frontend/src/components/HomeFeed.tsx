@@ -7,6 +7,7 @@ import { useContentSettings } from '../hooks/useContentSettings';
 import { homeFeedAPI } from '../services/api';
 import type { HomeFeedVideo } from '../services/api.d';
 import ShareModal from './ShareModal';
+import AutoText from './AutoText';
 
 const shareUrlFor = (item: HomeFeedItem) => {
   const href = item.type === 'POST' ? `/blog/${item.slug}` : item.url;
@@ -94,7 +95,7 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
                   </span>
-                  <span className="text-white text-[11px] font-black uppercase tracking-widest">Live</span>
+                  <AutoText as="span" className="text-white text-[11px] font-black uppercase tracking-widest">Live</AutoText>
                 </div>
                 <div className="w-7 h-7 flex items-center justify-center bg-red-600 rounded-md shadow-lg">
                   <AlertTriangle className="w-4 h-4 text-white" fill="currentColor" />
@@ -230,14 +231,14 @@ const HeroVideoCard: React.FC<{ videoUrl: string }> = ({ videoUrl }) => {
       <div className="p-6">
         <div className="flex items-start gap-3 mb-3">
           <span className="mt-2 w-2 h-2 rounded-full bg-red-600 shrink-0" />
-          <h3 className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug">
+          <AutoText as="h3" className="text-lg md:text-xl font-bold text-gray-900 uppercase leading-snug">
             A Word While You Wait
-          </h3>
+          </AutoText>
         </div>
-        <p className="text-sm text-gray-500 leading-relaxed">
+        <AutoText as="p" className="text-sm text-gray-500 leading-relaxed">
           We're not live right now, but take a moment with this reflection from The Bible Lover.
           Check back soon for our next broadcast, or explore our channel for more teachings.
-        </p>
+        </AutoText>
       </div>
     </div>
   );
@@ -292,8 +293,8 @@ const FeaturedCardSkeleton: React.FC = () => (
 
 const NoReflectionsYet: React.FC = () => (
   <div className="h-full min-h-[240px] flex flex-col items-center justify-center text-center bg-white rounded-xl border border-dashed border-gray-300 px-8">
-    <p className="text-sm font-bold text-gray-700 mb-1">No reflections yet</p>
-    <p className="text-xs text-gray-400">Check back soon — new posts will show up here.</p>
+    <AutoText as="p" className="text-sm font-bold text-gray-700 mb-1">No reflections yet</AutoText>
+    <AutoText as="p" className="text-xs text-gray-400">Check back soon — new posts will show up here.</AutoText>
   </div>
 );
 
@@ -437,7 +438,7 @@ const HomeFeed: React.FC = () => {
             onMouseLeave={() => setIsHovering(false)}
           >
             <div className="flex items-center justify-between mb-2 md:mb-4 gap-4">
-              <h2 className="text-xs font-black uppercase tracking-widest text-amber-700 whitespace-nowrap">Latest Reflections</h2>
+              <AutoText as="h2" className="text-xs font-black uppercase tracking-widest text-amber-700 whitespace-nowrap">Latest Reflections</AutoText>
               <Link to="/posts" className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
                 View All <ArrowRight className="w-3.5 h-3.5" />
               </Link>

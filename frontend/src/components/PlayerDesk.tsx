@@ -4,6 +4,7 @@ import { ChevronRight, Play, Pause, Heart, MoreVertical } from 'lucide-react';
 import { useAudioEpisodes } from '../hooks/useAudioEpisodes';
 import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
+import AutoText from './AutoText';
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -131,7 +132,7 @@ const DeskColumn: React.FC<{ label: string; slot: 'MORNING' | 'EVENING'; episode
   return (
     <div>
       <div className="flex items-center justify-between mb-2.5 md:mb-3">
-        <h3 className="text-xs md:text-sm font-black uppercase tracking-wide text-gray-900">{label}</h3>
+        <AutoText as="h3" className="text-xs md:text-sm font-black uppercase tracking-wide text-gray-900">{label}</AutoText>
         <Link to={`/players?slot=${slot.toLowerCase()}`} className="px-2 py-0.5 md:px-2.5 md:py-1 bg-gray-100 rounded-md text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-200 transition-colors">
           Desk <ChevronRight className="inline w-3 h-3" />
         </Link>
@@ -175,9 +176,9 @@ const PlayerDesk: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-1.5 md:mb-2">
               <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Player Desk</span>
+              <AutoText as="span" className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Player Desk</AutoText>
             </div>
-            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Morning &amp; Evening</h2>
+            <AutoText as="h2" className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Morning &amp; Evening</AutoText>
             <p className="hidden md:block text-sm text-gray-500 mt-2">Short audio devotionals to start and close your day</p>
           </div>
           <Link

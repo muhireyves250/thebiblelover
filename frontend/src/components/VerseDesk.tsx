@@ -4,6 +4,7 @@ import { ChevronRight, Share2 } from 'lucide-react';
 import { useVerseArchive, type VerseArchiveItem } from '../hooks/useVerseArchive';
 import { useBibleVerse } from '../hooks/useBibleVerse';
 import ShareModal from './ShareModal';
+import AutoText from './AutoText';
 
 const DAY_TABS: { label: string; day: number | null }[] = [
   { label: 'All', day: null },
@@ -181,9 +182,9 @@ const VerseDesk: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-1.5 md:mb-2">
               <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Verse Desk</span>
+              <AutoText as="span" className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Verse Desk</AutoText>
             </div>
-            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Verse of the Day</h2>
+            <AutoText as="h2" className="text-xl md:text-4xl font-black uppercase tracking-tight text-gray-900">Verse of the Day</AutoText>
             <p className="hidden md:block text-sm text-gray-500 mt-2">Daily encouragement · Scripture · Faith &amp; reflection</p>
           </div>
           <Link
