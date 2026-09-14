@@ -14,11 +14,11 @@
   }
 
   .dark {
-    --bg-primary: #000000;
+    --bg-primary: #0a0a0a;
     --text-primary: #f9fafb;
     --accent-primary: #fbbf24;
     --premium-gold: #d4af37;
-    --glass-bg: rgba(0, 0, 0, 0.6);
+    --glass-bg: rgba(10, 10, 10, 0.6);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-shadow: rgba(0, 0, 0, 0.3);
   }
