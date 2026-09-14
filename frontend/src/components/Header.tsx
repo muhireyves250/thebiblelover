@@ -272,6 +272,7 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-5">
+            <ThemeToggle />
             <LanguageSwitcher />
             <div className="relative" ref={dropdownRef}>
               <form onSubmit={handleSearch} className="relative" role="search">

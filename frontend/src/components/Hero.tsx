@@ -28,10 +28,17 @@ const Hero = () => {
   return (
     <section className="relative h-[88vh] flex items-center justify-center bg-cover bg-center overflow-hidden isolate">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-fixed"
+        className="absolute inset-0 bg-cover bg-center bg-fixed dark:hidden"
         style={getParallaxStyle()}
         // @ts-ignore
         fetchpriority="high"
+      >
+      </div>
+      {/* Dark mode uses a fixed local photo instead of the admin-configured
+          one above, since that one is tuned for a light overlay/card. */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-fixed hidden dark:block"
+        style={{ backgroundImage: 'url(/images/hero.png)', backgroundPosition: `center calc(50% + ${offset}px)` }}
       >
       </div>
 

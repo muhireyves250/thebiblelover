@@ -170,7 +170,7 @@ const PlayerDesk: React.FC = () => {
   if (hasLoaded && episodes.length === 0) return null;
 
   return (
-    <section className="py-4 md:py-20 bg-white dark:bg-transparent isolate border-t border-gray-200 dark:border-white/10">
+    <section className="py-4 md:py-20 bg-white dark:bg-transparent isolate md:border-t md:border-gray-200 md:dark:border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8">
         <div className="flex items-start justify-between gap-4 md:gap-6 mb-4 md:mb-8 flex-wrap">
           <div>
