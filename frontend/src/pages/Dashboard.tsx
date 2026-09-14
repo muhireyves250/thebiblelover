@@ -733,10 +733,23 @@ const Dashboard = () => {
   // Show loading screen while authentication is being checked
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-700 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
+      <div className="h-screen bg-[#0a0a0c] flex overflow-hidden animate-pulse">
+        <div className="hidden lg:flex w-24 bg-black/40 border-r border-white/5 flex-shrink-0 flex-col p-6 space-y-6">
+          <div className="w-12 h-12 bg-white/10 rounded-2xl" />
+          <div className="space-y-3 pt-6">
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="w-12 h-12 bg-white/5 rounded-xl" />
+            ))}
+          </div>
+        </div>
+        <div className="flex-1 p-6 md:p-10 space-y-6 overflow-hidden">
+          <div className="h-8 w-48 bg-white/10 rounded-md" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-24 bg-white/5 rounded-2xl border border-white/5" />
+            ))}
+          </div>
+          <div className="h-64 bg-white/5 rounded-2xl border border-white/5" />
         </div>
       </div>
     );

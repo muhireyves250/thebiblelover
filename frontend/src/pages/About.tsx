@@ -24,8 +24,16 @@ const About = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700"></div>
+      <div className="min-h-screen bg-white animate-pulse">
+        <div className="md:hidden max-w-7xl mx-auto px-4 pt-3">
+          <div className="h-3 w-16 bg-gray-100 rounded-sm mb-2" />
+          <div className="h-7 w-40 bg-gray-100 rounded-md" />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 md:pt-10 space-y-3 md:space-y-6">
+          <div className="h-48 md:h-72 bg-gray-100 rounded-lg" />
+          <div className="h-48 md:h-72 bg-gray-100 rounded-lg" />
+          <div className="h-48 md:h-72 bg-gray-100 rounded-lg" />
+        </div>
       </div>
     );
   }

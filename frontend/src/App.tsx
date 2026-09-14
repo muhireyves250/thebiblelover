@@ -151,7 +151,7 @@ function AppContent() {
         <AnimatePresence mode="wait">
           <Routes location={location} key={routeKey}>
             <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-            <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+            <Route path="/about" element={<Suspense fallback={null}><PageTransition><About /></PageTransition></Suspense>} />
             <Route path="/blog/:slug" element={<Suspense fallback={null}><PageTransition><BlogPost /></PageTransition></Suspense>} />
             <Route path="/donate" element={<Suspense fallback={null}><PageTransition><Donate /></PageTransition></Suspense>} />
             <Route path="/posts" element={<Suspense fallback={<BlogGridSkeleton />}><PageTransition><Posts /></PageTransition></Suspense>} />
@@ -159,29 +159,29 @@ function AppContent() {
             <Route path="/players/:id" element={<Suspense fallback={null}><PageTransition><PlayerDetail /></PageTransition></Suspense>} />
             <Route path="/verses" element={<Suspense fallback={null}><PageTransition><Verses /></PageTransition></Suspense>} />
             <Route path="/verses/:id" element={<Suspense fallback={null}><PageTransition><VerseDetail /></PageTransition></Suspense>} />
-            <Route path="/search" element={<PageTransition><Search /></PageTransition>} />
+            <Route path="/search" element={<Suspense fallback={null}><PageTransition><Search /></PageTransition></Suspense>} />
             <Route path="/contact" element={<Suspense fallback={null}><PageTransition><Contact /></PageTransition></Suspense>} />
             <Route path="/prayer-wall" element={<Suspense fallback={null}><PageTransition><PrayerWall /></PageTransition></Suspense>} />
             <Route path="/events" element={<Suspense fallback={null}><PageTransition><Events /></PageTransition></Suspense>} />
             <Route path="/events/:id" element={<Suspense fallback={null}><PageTransition><EventDetail /></PageTransition></Suspense>} />
             <Route path="/watch" element={<Suspense fallback={null}><PageTransition><Videos /></PageTransition></Suspense>} />
-            <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
-            <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
-            <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
-            <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
+            <Route path="/login" element={<Suspense fallback={null}><PageTransition><Login /></PageTransition></Suspense>} />
+            <Route path="/register" element={<Suspense fallback={null}><PageTransition><Register /></PageTransition></Suspense>} />
+            <Route path="/forgot-password" element={<Suspense fallback={null}><PageTransition><ForgotPassword /></PageTransition></Suspense>} />
+            <Route path="/reset-password" element={<Suspense fallback={null}><PageTransition><ResetPassword /></PageTransition></Suspense>} />
             <Route path="/terms" element={<Suspense fallback={null}><PageTransition><Terms /></PageTransition></Suspense>} />
             <Route path="/privacy" element={<Suspense fallback={null}><PageTransition><Privacy /></PageTransition></Suspense>} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
-                <PageTransition><Dashboard /></PageTransition>
+                <Suspense fallback={null}><PageTransition><Dashboard /></PageTransition></Suspense>
               </ProtectedRoute>
             } />
             <Route path="/member-dashboard" element={
               <ProtectedRoute>
-                <PageTransition><MemberDashboard /></PageTransition>
+                <Suspense fallback={null}><PageTransition><MemberDashboard /></PageTransition></Suspense>
               </ProtectedRoute>
             } />
-            <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+            <Route path="*" element={<Suspense fallback={null}><PageTransition><NotFound /></PageTransition></Suspense>} />
           </Routes>
         </AnimatePresence>
       </Suspense>
