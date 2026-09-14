@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Copy, Check, Facebook, Twitter, Linkedin, Mail, Share2 } from 'lucide-react';
+import AutoText from './AutoText';
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -74,7 +75,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, title, url, ex
 
         <div className="flex justify-between items-start gap-3 px-5 pt-2 pb-4 sm:p-6 sm:pb-4">
           <div className="min-w-0">
-            <h3 className="font-sans text-lg sm:text-xl font-black uppercase tracking-tight text-gray-900 leading-snug">{heading}</h3>
+            <AutoText as="h3" className="font-sans text-lg sm:text-xl font-black uppercase tracking-tight text-gray-900 leading-snug">{heading}</AutoText>
             <p className="font-sans text-xs sm:text-sm text-gray-500 truncate mt-0.5">{title}</p>
           </div>
           <button
@@ -109,7 +110,7 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, title, url, ex
 
         <div className="px-5 py-5 sm:px-6">
           <div className="flex items-center justify-between mb-3">
-            <span className="font-sans text-sm font-bold uppercase tracking-wide text-gray-500">Link</span>
+            <AutoText as="span" className="font-sans text-sm font-bold uppercase tracking-wide text-gray-500">Link</AutoText>
             <span className="font-sans text-sm font-black text-amber-700 truncate max-w-[220px]">{postUrl}</span>
           </div>
           <button
@@ -120,11 +121,11 @@ const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, title, url, ex
           >
             {copied ? (
               <>
-                <Check className="h-5 w-5" /> Link Copied
+                <Check className="h-5 w-5" /> <AutoText as="span">Link Copied</AutoText>
               </>
             ) : (
               <>
-                <Copy className="h-5 w-5" /> Copy Link
+                <Copy className="h-5 w-5" /> <AutoText as="span">Copy Link</AutoText>
               </>
             )}
           </button>

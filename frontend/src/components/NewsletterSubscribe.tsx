@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Mail, CheckCircle2 } from 'lucide-react';
 import { newsletterAPI } from '../services/api';
 
 const NewsletterSubscribe = () => {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState('');
@@ -33,10 +35,10 @@ const NewsletterSubscribe = () => {
             <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-4 md:p-6">
                 <div className="flex items-center gap-2 mb-1.5">
                     <span className="w-1 h-3.5 md:h-4 bg-amber-700 rounded-sm" />
-                    <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">Stay Inspired</span>
+                    <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">{t('footer.stayInspired')}</span>
                 </div>
                 <p className="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">
-                    Join our community and receive weekly spiritual insights, straight to your inbox.
+                    {t('footer.newsletterBlurb')}
                 </p>
 
                 {status === 'success' ? (
@@ -53,7 +55,7 @@ const NewsletterSubscribe = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                placeholder="Your email address"
+                                placeholder={t('footer.emailPlaceholder')}
                                 className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm placeholder-gray-400 focus:border-amber-600 focus:outline-none transition-colors"
                             />
                         </div>
@@ -62,7 +64,7 @@ const NewsletterSubscribe = () => {
                             disabled={status === 'loading'}
                             className="shrink-0 px-6 py-2.5 bg-amber-700 text-white text-xs font-bold uppercase tracking-widest rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50"
                         >
-                            {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                            {status === 'loading' ? t('footer.subscribing') : t('footer.subscribe')}
                         </button>
                     </form>
                 )}
