@@ -47,7 +47,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-[#141417] flex items-center justify-center p-3 sm:p-4">
+    <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-transparent flex items-center justify-center p-3 sm:p-4">
       <SEO title="Sign In" description="Sign in to your Bible Lover account." />
 
       <div className="max-w-4xl w-full">

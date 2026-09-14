@@ -125,7 +125,7 @@ const Videos = () => {
     const visibleItems = activeFilter === 'ALL' ? items : items.filter(item => item.type === activeFilter);
 
     return (
-        <div className="min-h-screen bg-white dark:bg-[#141417]">
+        <div className="min-h-screen bg-white dark:bg-transparent">
             <SEO
                 title="Watch"
                 description="Every live stream and video The Bible Lover has published on YouTube, in one place."

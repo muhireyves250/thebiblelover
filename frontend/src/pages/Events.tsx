@@ -36,7 +36,7 @@ const Events = () => {
     const pastEvents = filteredEvents.filter(e => new Date(e.date) < new Date());
 
     return (
-        <div className="min-h-screen bg-white dark:bg-[#141417]">
+        <div className="min-h-screen bg-white dark:bg-transparent">
             <SEO
                 title="Events Calendar"
                 description="Join our upcoming Bible studies, worship sessions, and community gatherings. Find out what's happening at The Bible Lover."

@@ -119,7 +119,7 @@ const EventDetail = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-white dark:bg-[#141417]">
+            <div className="min-h-screen bg-white dark:bg-transparent">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-10">
                     <nav className="mb-3 md:mb-6">
                         <span className="inline-block h-3 w-48 bg-gray-200 dark:bg-white/10 rounded animate-pulse" />
@@ -194,7 +194,7 @@ const EventDetail = () => {
 
     if (!event) {
         return (
-            <div className="min-h-screen bg-white dark:bg-[#141417] flex flex-col items-center justify-center p-4">
+            <div className="min-h-screen bg-white dark:bg-transparent flex flex-col items-center justify-center p-4">
                 <AutoText as="h2" className="text-2xl font-serif text-gray-900 dark:text-white mb-4">Event not found</AutoText>
                 <Link to="/events" className="text-amber-700 font-bold flex items-center gap-2 hover:text-amber-800 transition-colors">
                     <ArrowLeft className="h-4 w-4" /> <AutoText as="span">Back to Calendar</AutoText>
@@ -207,7 +207,7 @@ const EventDetail = () => {
     const isToday = new Date(event.date).toLocaleDateString() === new Date().toLocaleDateString();
 
     return (
-        <div className="min-h-screen bg-white dark:bg-[#141417]">
+        <div className="min-h-screen bg-white dark:bg-transparent">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-10">
                 <Link
                     to="/events"

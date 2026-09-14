@@ -213,7 +213,7 @@ const BibleVerseManager = () => {
                  </th>
               </tr>
             </thead>
-             <tbody className="bg-white dark:bg-[#141417] divide-y divide-gray-200">
+             <tbody className="bg-white dark:bg-transparent divide-y divide-gray-200">
                {verses.map((verse) => (
                  <tr key={verse.id} className={`hover:bg-gray-50 ${!verse.isActive ? 'bg-gray-50 dark:bg-white/5 opacity-75' : ''}`}>
                    <td className="px-6 py-4">

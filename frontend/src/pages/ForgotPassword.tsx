@@ -30,7 +30,7 @@ const ForgotPassword: React.FC = () => {
     };
 
     return (
-        <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-[#141417] flex items-center justify-center p-4">
+        <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-transparent flex items-center justify-center p-4">
             <div className="max-w-md w-full">
                 <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 p-6 md:p-10">
                     <div className="text-center">

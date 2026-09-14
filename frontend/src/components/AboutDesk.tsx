@@ -45,7 +45,7 @@ const AboutDesk: React.FC = () => {
   };
 
   return (
-    <section className="py-6 md:py-20 bg-white dark:bg-[#141417] isolate">
+    <section className="py-6 md:py-20 bg-white dark:bg-transparent isolate">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-start justify-between gap-4 md:gap-6 mb-4 md:mb-8 flex-wrap">
           <div>

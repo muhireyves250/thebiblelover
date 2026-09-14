@@ -245,7 +245,7 @@ const Donate = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-[#141417] min-h-screen">
+    <div className="bg-white dark:bg-transparent min-h-screen">
       <SEO
         title="Support the Mission"
         description="Your generosity helps us spread the word of God. Partner with The Bible Lover to build community and provide spiritual resources globally."

@@ -274,7 +274,7 @@ const PlayerDetail: React.FC = () => {
 
   if (!episode && !loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#141417]">
+      <div className="min-h-screen bg-white dark:bg-transparent">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
           <AutoText as="h1" className="text-2xl font-serif text-gray-900 dark:text-white mb-3">
             {error ? 'Error loading episode' : 'Episode not found'}
@@ -293,7 +293,7 @@ const PlayerDetail: React.FC = () => {
   const showSkeleton = loading || !episode;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#141417]">
+    <div className="min-h-screen bg-white dark:bg-transparent">
       {episode && (
         <SEO title={episode.title} description={episode.description} image={episode.coverImage} type="article" />
       )}

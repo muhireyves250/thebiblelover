@@ -41,14 +41,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#141417]">
+    <div className="bg-white dark:bg-transparent">
       <SEO 
         title="Contact Us" 
         description="Have a question or want to share your thoughts? Get in touch with The Bible Lover. We'd love to hear from you."
       />
 
       {/* Contact Content */}
-      <section className="py-3 md:py-16 bg-white dark:bg-[#141417]">
+      <section className="py-3 md:py-16 bg-white dark:bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-4 md:mb-10">
             <div className="flex items-center gap-2 mb-1.5 md:mb-2">

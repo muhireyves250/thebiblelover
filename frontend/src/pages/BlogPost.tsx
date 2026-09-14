@@ -123,7 +123,7 @@ const BlogPost: React.FC = () => {
   */}
   if (!post && !loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#141417]">
+      <div className="min-h-screen bg-white dark:bg-transparent">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
           <AutoText as="h1" className="text-2xl font-serif text-gray-900 dark:text-white mb-3">
             {error ? 'Error loading post' : 'Post not found'}
@@ -142,7 +142,7 @@ const BlogPost: React.FC = () => {
   const showSkeleton = loading || !post;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#141417]">
+    <div className="min-h-screen bg-white dark:bg-transparent">
       {post && (
         <SEO
           title={post.title}

@@ -12,7 +12,7 @@ const SectionEyebrow = ({ label }: { label: string }) => (
 
 const Privacy: React.FC = () => {
     return (
-        <div className="bg-white dark:bg-[#141417] min-h-screen">
+        <div className="bg-white dark:bg-transparent min-h-screen">
             <SEO title="Privacy Policy" description="How we protect your data at The Bible Lover." />
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">

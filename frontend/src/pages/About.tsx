@@ -25,7 +25,7 @@ const About = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#141417] animate-pulse">
+      <div className="min-h-screen bg-white dark:bg-transparent animate-pulse">
         <div className="md:hidden max-w-7xl mx-auto px-4 pt-3">
           <div className="h-3 w-16 bg-gray-100 dark:bg-white/10 rounded-sm mb-2" />
           <div className="h-7 w-40 bg-gray-100 dark:bg-white/10 rounded-md" />
@@ -40,7 +40,7 @@ const About = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#141417]">
+    <div className="min-h-screen bg-white dark:bg-transparent">
       <SEO
         title="About Us"
         description="Discover the story and mission of The Bible Lover. Our goal is to provide a spiritual home for everyone seeking wisdom through the Holy Scriptures."
@@ -55,7 +55,7 @@ const About = () => {
       </div>
 
       {/* Who We Are */}
-      <section className="py-3 md:py-20 bg-white dark:bg-[#141417]">
+      <section className="py-3 md:py-20 bg-white dark:bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden p-4 md:p-10">
             <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
@@ -98,7 +98,7 @@ const About = () => {
       </section>
 
       {/* Our Story */}
-      <section className="py-3 md:py-20 bg-white dark:bg-[#141417]">
+      <section className="py-3 md:py-20 bg-white dark:bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden p-4 md:p-10">
             <div className="group relative float-none sm:float-right w-full sm:w-1/2 h-48 sm:h-64 md:h-80 ml-0 sm:ml-6 md:ml-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">
@@ -141,7 +141,7 @@ const About = () => {
       </section>
 
       {/* Our Mission */}
-      <section className="py-3 md:py-20 bg-white dark:bg-[#141417]">
+      <section className="py-3 md:py-20 bg-white dark:bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden p-4 md:p-10">
             <div className="group relative float-none sm:float-left w-full sm:w-1/2 h-48 sm:h-64 md:h-80 mr-0 sm:mr-6 md:mr-8 mb-3 sm:mb-4 rounded-lg overflow-hidden border border-gray-200 dark:border-white/10 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300">

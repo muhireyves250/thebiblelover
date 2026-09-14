@@ -134,7 +134,7 @@ const PrayerWall = () => {
     };
 
     return (
-        <div className="min-h-screen bg-white dark:bg-[#141417]">
+        <div className="min-h-screen bg-white dark:bg-transparent">
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
                 <AutoText as="h1" className="md:hidden text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-3">
                     A sacred space to share burdens and lift each other up in prayer.

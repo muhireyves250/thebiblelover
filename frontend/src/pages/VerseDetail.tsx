@@ -56,7 +56,7 @@ const VerseDetail: React.FC = () => {
 
   if (!verse && !loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-[#141417]">
+      <div className="min-h-screen bg-white dark:bg-transparent">
         <div className="max-w-3xl mx-auto px-4 py-12 text-center">
           <AutoText as="h1" className="text-2xl font-serif text-gray-900 dark:text-white mb-3">
             {error ? 'Error loading verse' : 'Verse not found'}
@@ -75,7 +75,7 @@ const VerseDetail: React.FC = () => {
   const showSkeleton = loading || !verse;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#141417]">
+    <div className="min-h-screen bg-white dark:bg-transparent">
       {verse && (
         <SEO title={reference(verse)} description={verse.text} image={verse.image} type="article" />
       )}

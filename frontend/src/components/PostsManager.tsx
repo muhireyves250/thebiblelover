@@ -61,7 +61,7 @@ const PostsManager = ({
                                 <th className="px-3 py-2 text-left text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white dark:bg-[#141417] divide-y divide-gray-100">
+                        <tbody className="bg-white dark:bg-transparent divide-y divide-gray-100">
                             {posts.map((post) => (
                                 <tr key={post.id} className="hover:bg-gray-50 transition-colors duration-200 group">
                                     <td className="px-3 py-2">
