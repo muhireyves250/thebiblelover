@@ -123,7 +123,6 @@ const Header = () => {
               aria-label="Home"
             >
               <img src="/images/logo.png" alt="Logo" className="h-9 w-auto object-contain dark:hidden" />
-              <img src="/images/logo-dark.png" alt="Logo" className="h-16 w-auto object-contain hidden dark:block" />
             </Link>
           )}
 
