@@ -153,14 +153,14 @@ function AppContent() {
             <Route path="/" element={<PageTransition><Home /></PageTransition>} />
             <Route path="/about" element={<PageTransition><About /></PageTransition>} />
             <Route path="/blog/:slug" element={<Suspense fallback={null}><PageTransition><BlogPost /></PageTransition></Suspense>} />
-            <Route path="/donate" element={<PageTransition><Donate /></PageTransition>} />
+            <Route path="/donate" element={<Suspense fallback={null}><PageTransition><Donate /></PageTransition></Suspense>} />
             <Route path="/posts" element={<Suspense fallback={<BlogGridSkeleton />}><PageTransition><Posts /></PageTransition></Suspense>} />
             <Route path="/players" element={<Suspense fallback={null}><PageTransition><Players /></PageTransition></Suspense>} />
             <Route path="/players/:id" element={<Suspense fallback={null}><PageTransition><PlayerDetail /></PageTransition></Suspense>} />
             <Route path="/verses" element={<Suspense fallback={null}><PageTransition><Verses /></PageTransition></Suspense>} />
             <Route path="/verses/:id" element={<Suspense fallback={null}><PageTransition><VerseDetail /></PageTransition></Suspense>} />
             <Route path="/search" element={<PageTransition><Search /></PageTransition>} />
-            <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+            <Route path="/contact" element={<Suspense fallback={null}><PageTransition><Contact /></PageTransition></Suspense>} />
             <Route path="/prayer-wall" element={<Suspense fallback={null}><PageTransition><PrayerWall /></PageTransition></Suspense>} />
             <Route path="/events" element={<Suspense fallback={null}><PageTransition><Events /></PageTransition></Suspense>} />
             <Route path="/events/:id" element={<Suspense fallback={null}><PageTransition><EventDetail /></PageTransition></Suspense>} />
@@ -169,8 +169,8 @@ function AppContent() {
             <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
             <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
             <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
-            <Route path="/terms" element={<PageTransition><Terms /></PageTransition>} />
-            <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />
+            <Route path="/terms" element={<Suspense fallback={null}><PageTransition><Terms /></PageTransition></Suspense>} />
+            <Route path="/privacy" element={<Suspense fallback={null}><PageTransition><Privacy /></PageTransition></Suspense>} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <PageTransition><Dashboard /></PageTransition>
