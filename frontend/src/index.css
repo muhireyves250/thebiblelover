@@ -63,7 +63,7 @@
   }
 
   .dark body::before {
-    opacity: 0.05;
+    display: none;
   }
 
   /* Scrolling stays fully functional everywhere - the scrollbar itself is
