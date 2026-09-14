@@ -29,80 +29,81 @@ const ForgotPassword: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-stone-50 flex items-center justify-center p-4">
+        <div className="min-h-[75vh] md:min-h-screen bg-white flex items-center justify-center p-4">
             <div className="max-w-md w-full">
-                <div className="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-solid border-gray-100 relative overflow-hidden">
-                    {/* Decorative Background */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-amber-50 rounded-bl-[5rem] -mr-8 -mt-8 opacity-50 z-0"></div>
-                    
-                    <div className="relative z-10 text-center">
-                        <div className="mb-8">
-                            <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mx-auto text-amber-600 mb-6 shadow-lg shadow-amber-900/10">
-                                <BookOpen className="w-8 h-8 rotate-3" />
+                <div className="bg-white border border-gray-300 rounded-lg shadow-sm p-6 md:p-10">
+                    <div className="text-center">
+                        <div className="mb-5 md:mb-8">
+                            <div className="w-14 h-14 md:w-16 md:h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto text-amber-700 mb-4 md:mb-6">
+                                <BookOpen className="w-6 h-6 md:w-8 md:h-8" />
                             </div>
-                            <h1 className="text-3xl font-serif text-gray-900 mb-2">Restoration</h1>
-                            <p className="text-gray-500 text-sm">Return to the Word</p>
+                            <div className="flex items-center justify-center gap-2 mb-1.5">
+                                <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
+                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Restoration</span>
+                            </div>
+                            <h1 className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 mb-1">Restoration</h1>
+                            <p className="text-gray-500 text-xs md:text-sm">Return to the Word</p>
                         </div>
 
                         {isSuccess ? (
-                            <div className="space-y-6 animate-in fade-in zoom-in duration-500">
-                                <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto text-emerald-600">
-                                    <CheckCircle2 className="w-8 h-8" />
+                            <div className="space-y-4 md:space-y-6 animate-in fade-in zoom-in duration-500">
+                                <div className="w-14 h-14 md:w-16 md:h-16 bg-amber-50 border border-amber-100 rounded-full flex items-center justify-center mx-auto text-amber-700">
+                                    <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8" />
                                 </div>
-                                <div className="space-y-2">
-                                    <h3 className="text-xl font-bold text-gray-900">Check Your Sanctuary</h3>
-                                    <p className="text-gray-500 text-sm leading-relaxed">
-                                        If an account exists for <strong>{email}</strong>, we've sent instructions to restore your access.
+                                <div className="space-y-1.5 md:space-y-2">
+                                    <h3 className="text-base md:text-xl font-bold text-gray-900">Check Your Sanctuary</h3>
+                                    <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
+                                        If an account exists for <strong className="text-gray-900">{email}</strong>, we've sent instructions to restore your access.
                                     </p>
                                 </div>
-                                <Link 
+                                <Link
                                     to="/login"
-                                    className="inline-flex items-center gap-2 text-amber-600 font-bold text-sm hover:underline"
+                                    className="inline-flex items-center gap-2 text-amber-700 font-bold text-xs md:text-sm hover:text-amber-800 transition-colors"
                                 >
                                     <ArrowLeft className="h-4 w-4" /> Back to Login
                                 </Link>
                             </div>
                         ) : (
                             <>
-                                <form onSubmit={handleSubmit} className="space-y-6">
+                                <form onSubmit={handleSubmit} className="space-y-3.5 md:space-y-5">
                                     {error && (
-                                        <div className="p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-600 text-xs font-bold animate-shake">
+                                        <div className="p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-xs md:text-sm animate-shake">
                                             {error}
                                         </div>
                                     )}
 
                                     <div className="text-left">
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Email Address</label>
+                                        <label className="block text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 md:mb-1.5">Email Address</label>
                                         <div className="relative group">
-                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-amber-600 transition-colors" />
-                                            <input 
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-amber-600 transition-colors" />
+                                            <input
                                                 type="email"
                                                 placeholder="Enter your registered email"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 required
-                                                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-12 pr-6 text-sm focus:bg-white focus:ring-4 focus:ring-amber-50 transition-all outline-none"
+                                                className="w-full bg-white border border-gray-300 rounded-md py-2.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                             />
                                         </div>
                                     </div>
 
-                                    <button 
+                                    <button
                                         type="submit"
                                         disabled={isLoading}
-                                        className="w-full bg-amber-600 hover:bg-amber-700 text-white rounded-2xl py-4 px-6 font-bold text-sm shadow-xl shadow-amber-900/20 transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                                        className="w-full bg-amber-700 hover:bg-amber-800 text-white rounded-md py-2.5 md:py-3 px-6 font-bold text-xs md:text-sm uppercase tracking-widest transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                                     >
                                         {isLoading ? 'Searching...' : (
                                             <>
-                                                Send Reset Link <Send className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                                Send Reset Link <Send className="h-4 w-4" />
                                             </>
                                         )}
                                     </button>
                                 </form>
 
-                                <div className="mt-10">
-                                    <Link 
+                                <div className="mt-5 md:mt-8">
+                                    <Link
                                         to="/login"
-                                        className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-600 font-bold text-xs uppercase tracking-widest transition-colors"
+                                        className="inline-flex items-center gap-2 text-gray-400 hover:text-amber-700 font-bold text-[10px] md:text-xs uppercase tracking-widest transition-colors"
                                     >
                                         <ArrowLeft className="h-4 w-4" /> Go back to Login
                                     </Link>
@@ -112,8 +113,8 @@ const ForgotPassword: React.FC = () => {
                     </div>
                 </div>
 
-                <p className="mt-8 text-center text-gray-400 text-xs">
-                    Trouble accessing? <Link to="/contact" className="text-amber-600 font-bold hover:underline">Support Help</Link>
+                <p className="mt-4 md:mt-6 text-center text-gray-400 text-[11px] md:text-xs">
+                    Trouble accessing? <Link to="/contact" className="text-amber-700 font-bold hover:text-amber-800 transition-colors">Support Help</Link>
                 </p>
             </div>
         </div>
