@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   BarChart3,
@@ -27,7 +28,10 @@ import {
   Layout,
   MessageCircle,
   Sparkles,
-  Mic
+  Mic,
+  Menu,
+  X,
+  Home
 } from 'lucide-react';
 import AddPostModal from '../components/AddPostModal';
 import EditPostModal from '../components/EditPostModal';
@@ -120,13 +124,31 @@ interface ContactMessage {
   status?: string;
 }
 
+const NAV_ITEMS = [
+  { id: 'overview', label: 'Overview', icon: BarChart3 },
+  { id: 'posts', label: 'Posts', icon: BookOpen },
+  { id: 'comments', label: 'Comments', icon: MessageSquare },
+  { id: 'donations', label: 'Donations', icon: DollarSign },
+  { id: 'messages', label: 'Messages', icon: Mail },
+  { id: 'bible-verses', label: 'Bible Verses', icon: Sparkles },
+  { id: 'audio-episodes', label: 'Devotionals', icon: Mic },
+  { id: 'prayers', label: 'Prayer Wall', icon: Heart },
+  { id: 'events', label: 'Events', icon: Users },
+  { id: 'users', label: 'Users', icon: Users },
+];
+
+const NAV_LABELS: Record<string, string> = {
+  ...Object.fromEntries(NAV_ITEMS.map(({ id, label }) => [id, label])),
+  storage: 'Storage',
+};
+
 const Dashboard = () => {
   console.log('Dashboard component function is executing');
   const { isAuthenticated, user, logout } = useAuth();
   console.log('Dashboard auth state:', { isAuthenticated, user: user?.email });
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [settingsDropdownOpen, setSettingsDropdownOpen] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
@@ -733,265 +755,216 @@ const Dashboard = () => {
   // Show loading screen while authentication is being checked
   if (isLoading) {
     return (
-      <div className="h-screen bg-[#0a0a0c] flex overflow-hidden animate-pulse">
-        <div className="hidden lg:flex w-24 bg-black/40 border-r border-white/5 flex-shrink-0 flex-col p-6 space-y-6">
-          <div className="w-12 h-12 bg-white/10 rounded-2xl" />
+      <div className="h-screen bg-white dark:bg-[#0a0a0a] flex overflow-hidden animate-pulse">
+        <div className="hidden lg:flex w-64 bg-white dark:bg-[#0a0a0a] border-r border-gray-200 dark:border-white/10 flex-shrink-0 flex-col p-6 space-y-6">
+          <div className="h-10 w-32 bg-gray-100 dark:bg-white/10 rounded-md" />
           <div className="space-y-3 pt-6">
             {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="w-12 h-12 bg-white/5 rounded-xl" />
+              <div key={i} className="h-10 bg-gray-100 dark:bg-white/10 rounded-md" />
             ))}
           </div>
         </div>
         <div className="flex-1 p-6 md:p-10 space-y-6 overflow-hidden">
-          <div className="h-8 w-48 bg-white/10 rounded-md" />
+          <div className="h-8 w-48 bg-gray-100 dark:bg-white/10 rounded-md" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="h-24 bg-white/5 rounded-2xl border border-white/5" />
+              <div key={i} className="h-24 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/10" />
             ))}
           </div>
-          <div className="h-64 bg-white/5 rounded-2xl border border-white/5" />
+          <div className="h-64 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/10" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-[#0a0a0c] flex overflow-hidden selection:bg-amber-200 dark:selection:bg-amber-900/40">
+    <div className="h-screen bg-white dark:bg-[#0a0a0a] flex overflow-hidden">
 
-      {/* Mobile Backdrop */}
+      {/* Mobile drawer backdrop */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
-      <div className={`${sidebarOpen ? 'w-80' : 'w-24'} bg-black/40 backdrop-blur-2xl border-r border-white/5 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex-shrink-0 flex flex-col relative z-30`}>
+      {/* Sidebar (desktop: persistent; mobile: slide-out drawer) */}
+      <div className={`fixed lg:static inset-y-0 left-0 z-50 w-72 bg-white dark:bg-[#0a0a0a] border-r border-gray-200 dark:border-white/10 flex-shrink-0 flex flex-col transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         {/* Sidebar Header */}
-        <div className="p-10 border-b border-white/5 flex-shrink-0 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-500/10 to-transparent"></div>
-          <div className="flex items-center justify-between relative z-10">
-            {sidebarOpen && (
-              <div className="flex items-center space-x-5">
-                <div className="relative">
-                  <div className="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-[1.25rem] flex items-center justify-center shadow-2xl shadow-amber-500/20 ring-4 ring-white/10 group-hover:rotate-12 transition-transform duration-500">
-                    <span className="text-white font-black text-2xl font-serif">T</span>
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-4 border-[#0a0a0c] shadow-[0_0_15px_rgba(34,197,94,0.5)]"></div>
-                </div>
-                <div className="leading-tight">
-                  <span className="text-xl font-serif font-black text-white tracking-tight">{logoSettings.logoText}</span>
-                  <p className="text-[10px] text-amber-500/70 font-black uppercase tracking-[0.2em] mt-0.5">Sanctuary Alpha</p>
-                </div>
-              </div>
-            )}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-3 text-white/50 hover:text-amber-500 hover:bg-white/5 rounded-2xl transition-all border border-white/5 hover:border-amber-500/30 group"
-              title={sidebarOpen ? 'Collapse' : 'Expand'}
-            >
-              <Layout className={`h-6 w-6 transition-transform duration-500 ${sidebarOpen ? '' : 'rotate-180'}`} />
-            </button>
-          </div>
+        <div className="h-16 px-5 border-b border-gray-200 dark:border-white/10 flex-shrink-0 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5">
+            <img src="/app-icon.png" alt="Ihema" className="w-8 h-8 rounded-lg object-cover" />
+            <div className="leading-tight">
+              <span className="block text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Ihema</span>
+              <span className="block text-[9px] font-bold uppercase tracking-widest text-amber-700">Admin</span>
+            </div>
+          </Link>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
-        {/* Navigation Menu */}
-        <div className="flex-1 relative overflow-hidden py-8">
-          <nav className="px-6 space-y-2 h-full overflow-y-auto no-scrollbar">
-            <div className="mb-10">
-              {sidebarOpen && (
-                <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-6 px-6">
-                  Core Operations
-                </h3>
-              )}
-              <div className="space-y-2">
-                {[
-                  { id: 'overview', label: 'Monitor', icon: BarChart3, color: 'text-amber-500' },
-                  { id: 'posts', label: 'Editorial', icon: BookOpen, color: 'text-emerald-500' },
-                  { id: 'comments', label: 'Echoes', icon: MessageSquare, color: 'text-purple-500' },
-                  { id: 'donations', label: 'Seeds', icon: DollarSign, color: 'text-blue-500' },
-                  { id: 'messages', label: 'Scrolls', icon: Mail, color: 'text-indigo-500' },
-                  { id: 'bible-verses', label: 'Wisdom', icon: Sparkles, color: 'text-amber-500' },
-                  { id: 'audio-episodes', label: 'Morning/Evening', icon: Mic, color: 'text-amber-500' },
-                  { id: 'prayers', label: 'Intercessions', icon: Heart, color: 'text-red-500' },
-                  { id: 'events', label: 'Gatherings', icon: Users, color: 'text-emerald-500' },
-                  { id: 'users', label: 'Disciples', icon: Users, color: 'text-amber-600' }
-                ].map(({ id, label, icon: Icon, color }) => (
-                  <motion.button
-                    key={id}
-                    whileHover={{ x: 5 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setActiveTab(id)}
-                    className={`w-full flex items-center ${sidebarOpen ? 'space-x-4 px-6' : 'justify-center px-2'} py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all duration-300 group ${activeTab === id
-                      ? 'bg-amber-600 text-white shadow-2xl shadow-amber-600/30'
-                      : 'text-white/50 hover:text-white hover:bg-white/5'
-                      }`}
-                  >
-                    <Icon className={`h-5 w-5 ${activeTab === id ? 'text-white' : color} transition-colors group-hover:scale-110 duration-300`} />
-                    {sidebarOpen && <span>{label}</span>}
-                  </motion.button>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-12">
-              {sidebarOpen && (
-                <h3 className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-6 px-6">
-                  Sanctuary
-                </h3>
-              )}
-              <div className="space-y-2">
-                <motion.button 
-                  whileHover={{ x: 5 }}
-                  onClick={() => setIsBackgroundModalOpen(true)}
-                  className={`w-full flex items-center ${sidebarOpen ? 'space-x-4 px-6' : 'justify-center px-2'} py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/5 transition-all`}
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto px-3 py-5 space-y-6">
+          <div>
+            <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Content</p>
+            <div className="space-y-1">
+              {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${activeTab === id
+                    ? 'bg-amber-700 text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                    }`}
                 >
-                  <Palette className="w-5 h-5 text-amber-500" />
-                  {sidebarOpen && <span>Ambience</span>}
-                </motion.button>
-                <div className="relative">
-                  <motion.button 
-                    whileHover={{ x: 5 }}
-                    onClick={() => setSettingsDropdownOpen(!settingsDropdownOpen)}
-                    className={`w-full flex items-center ${sidebarOpen ? 'space-x-4 px-6' : 'justify-center px-2'} py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest text-white/50 hover:text-white hover:bg-white/5 transition-all ${settingsDropdownOpen ? 'bg-white/10 text-white' : ''}`}
-                  >
-                    <Settings className="w-5 h-5 text-blue-500" />
-                    {sidebarOpen && (
-                      <div className="flex-1 flex items-center justify-between">
-                        <span>Systems</span>
-                        <ChevronDown className={`h-4 w-4 transition-transform ${settingsDropdownOpen ? 'rotate-180' : ''}`} />
-                      </div>
-                    )}
-                  </motion.button>
-                  
-                  {settingsDropdownOpen && sidebarOpen && (
-                    <div className="mt-2 ml-10 space-y-1 border-l border-white/10 pl-4 py-2">
-                      {[
-                        { label: 'Storage', icon: HardDrive, onClick: () => setActiveTab('storage') },
-                        { label: 'Logo', icon: Image, onClick: () => setIsLogoModalOpen(true) },
-                        { label: 'WhatsApp', icon: MessageCircle, onClick: () => setIsWhatsAppModalOpen(true) },
-                        { label: 'Footer', icon: Share2, onClick: () => setIsFooterModalOpen(true) }
-                      ].map((item, idx) => (
-                        <button
-                          key={idx}
-                          onClick={item.onClick}
-                          className="w-full text-left px-4 py-3 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-amber-500 transition-colors flex items-center gap-3"
-                        >
-                          <item.icon className="w-3.5 h-3.5 opacity-50" />
-                          {item.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+                  <Icon className="h-4 w-4 shrink-0" />
+                  {label}
+                </button>
+              ))}
             </div>
-          </nav>
-        </div>
-
-        {/* Logout Action */}
-        {sidebarOpen && (
-          <div className="p-10 border-t border-white/5 flex-shrink-0">
-            <button
-              onClick={handleLogout}
-              className="w-full flex items-center space-x-4 px-10 py-5 text-red-500 hover:text-red-400 hover:bg-red-500/10 rounded-[2rem] transition-all border border-transparent hover:border-red-500/20 group"
-            >
-              <LogOut className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
-              <span className="font-black text-[10px] uppercase tracking-[0.2em]">Exit Sanctuary</span>
-            </button>
           </div>
-        )}
+
+          <div>
+            <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Settings</p>
+            <div className="space-y-1">
+              <button
+                onClick={() => setIsBackgroundModalOpen(true)}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+              >
+                <Palette className="h-4 w-4 shrink-0" />
+                Background
+              </button>
+              <button
+                onClick={() => { setActiveTab('storage'); setSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${activeTab === 'storage'
+                  ? 'bg-amber-700 text-white'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                  }`}
+              >
+                <HardDrive className="h-4 w-4 shrink-0" />
+                Storage
+              </button>
+              <button
+                onClick={() => setIsLogoModalOpen(true)}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+              >
+                <Image className="h-4 w-4 shrink-0" />
+                Logo
+              </button>
+              <button
+                onClick={() => setIsSocialModalOpen(true)}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+              >
+                <Share2 className="h-4 w-4 shrink-0" />
+                Social Links
+              </button>
+              <button
+                onClick={() => setIsWhatsAppModalOpen(true)}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+              >
+                <MessageCircle className="h-4 w-4 shrink-0" />
+                WhatsApp
+              </button>
+              <button
+                onClick={() => setIsFooterModalOpen(true)}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+              >
+                <Layout className="h-4 w-4 shrink-0" />
+                Footer
+              </button>
+              <button
+                onClick={() => setIsContentModalOpen(true)}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+              >
+                <Settings className="h-4 w-4 shrink-0" />
+                Page Content
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        {/* Footer actions */}
+        <div className="p-3 border-t border-gray-200 dark:border-white/10 flex-shrink-0 space-y-1">
+          <Link
+            to="/"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+          >
+            <Home className="h-4 w-4 shrink-0" />
+            Back to Site
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+          >
+            <LogOut className="h-4 w-4 shrink-0" />
+            Sign Out
+          </button>
+        </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
-        <div className="bg-black/20 backdrop-blur-xl border-b border-white/5 px-10 py-8 flex-shrink-0 relative">
-          <div className="flex items-center justify-between relative z-10">
-            {/* Left Section - Mobile Menu */}
-            <div className="flex items-center space-x-8">
+        <div className="bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-white/10 px-4 md:px-8 py-3 md:py-4 flex-shrink-0">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
               <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="lg:hidden p-3 text-white/50 hover:text-amber-500 hover:bg-white/5 rounded-2xl transition-all border border-white/5"
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors shrink-0"
+                aria-label="Open menu"
               >
-                <Layout className="h-6 w-6" />
+                <Menu className="h-5 w-5" />
               </button>
-              <div>
-                <h1 className="text-4xl font-serif text-white tracking-tight">Elysium</h1>
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
-                  <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">Vitals Synchronized</p>
-                </div>
-              </div>
+              <h1 className="text-base md:text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
+                {NAV_LABELS[activeTab] || 'Dashboard'}
+              </h1>
             </div>
 
-            {/* Center Section - Search */}
-            <div className="flex-1 max-w-xl mx-20 hidden xl:block">
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-white/20 group-focus-within:text-amber-500 transition-colors" />
-                </div>
+            <div className="flex-1 max-w-md hidden md:block">
+              <div className="relative">
+                <Search className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Query records..."
+                  placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="block w-full pl-16 pr-8 py-5 bg-white/5 border border-white/5 rounded-[2rem] text-sm text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white/10 transition-all duration-500 backdrop-blur-md"
+                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 />
               </div>
             </div>
 
-            {/* Right Section - Notifications and User Profile */}
-            <div className="flex items-center space-x-8">
-              {/* Notifications */}
+            <div className="flex items-center gap-2 md:gap-4 shrink-0">
               <NotificationCenter />
-
-              {/* Admin User Profile */}
               <div className="relative user-dropdown">
                 <button
                   onClick={toggleUserDropdown}
-                  className="w-14 h-14 premium-gradient rounded-2xl flex items-center justify-center shadow-2xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all group relative"
+                  className="w-9 h-9 md:w-10 md:h-10 bg-amber-700 rounded-full flex items-center justify-center text-white font-bold text-sm hover:bg-amber-800 transition-colors"
                 >
-                  <span className="text-white font-black text-xl font-serif">A</span>
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-4 border-[#0a0a0c]"></div>
+                  {(user?.name || 'A').charAt(0).toUpperCase()}
                 </button>
 
-                {/* User Dropdown */}
                 {showUserDropdown && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute right-0 top-[4.5rem] w-80 glass-card p-4 z-50 border border-white/10"
+                    className="absolute right-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-lg py-2 z-50"
                   >
-                    <div className="p-6 bg-white/5 rounded-3xl border border-white/5 mb-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-14 h-14 premium-gradient rounded-2xl flex items-center justify-center text-white font-black text-xl">
-                          A
-                        </div>
-                        <div>
-                          <p className="text-lg font-serif text-white">{user?.name || 'Administrator'}</p>
-                          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">{user?.email || 'root@elysium.com'}</p>
-                        </div>
-                      </div>
+                    <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10">
+                      <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name || 'Administrator'}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
                     </div>
-                    <div className="space-y-1">
-                      {[
-                        { label: 'Neural Profile', icon: Users },
-                        { label: 'Security Protocols', icon: Settings },
-                        { label: 'Support uplink', icon: Mail }
-                      ].map((item, idx) => (
-                        <button key={idx} className="w-full flex items-center gap-4 px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/50 hover:text-amber-500 hover:bg-white/5 rounded-2xl transition-all">
-                          <item.icon className="w-4 h-4" />
-                          {item.label}
-                        </button>
-                      ))}
-                      <div className="h-px bg-white/5 my-2"></div>
-                      <button onClick={handleLogout} className="w-full flex items-center gap-4 px-6 py-4 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-500/10 rounded-2xl transition-all">
-                        <LogOut className="w-4 h-4" />
-                        Sever Connection
-                      </button>
-                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Sign Out
+                    </button>
                   </motion.div>
                 )}
               </div>
@@ -1000,7 +973,7 @@ const Dashboard = () => {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 p-4 overflow-auto">
+        <div className="flex-1 p-4 md:p-8 overflow-auto">
 
           {/* Overview Tab */}
           {activeTab === 'overview' && (
@@ -1142,8 +1115,18 @@ const Dashboard = () => {
               }}
             />
           )}
-        </div >
-      </div >
+
+          {/* Bible Verses Tab */}
+          {activeTab === 'bible-verses' && (
+            <BibleVerseManager />
+          )}
+
+          {/* Audio Episodes Tab */}
+          {activeTab === 'audio-episodes' && (
+            <AudioEpisodeManager />
+          )}
+        </div>
+      </div>
 
       {/* Add Post Modal */}
       < AddPostModal
@@ -1523,20 +1506,6 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        )
-      }
-
-      {/* Bible Verses Tab */}
-      {
-        activeTab === 'bible-verses' && (
-          <BibleVerseManager />
-        )
-      }
-
-      {/* Audio Episodes Tab */}
-      {
-        activeTab === 'audio-episodes' && (
-          <AudioEpisodeManager />
         )
       }
 
