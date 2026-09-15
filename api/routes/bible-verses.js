@@ -438,14 +438,6 @@ router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
 
     const { text, book, chapter, verse, translation, image, isActive, isFeatured, displayDate } = req.body;
 
-    // If setting as active, deactivate all other verses first
-    if (isActive) {
-      await prisma.bibleVerse.updateMany({
-        where: { isActive: true },
-        data: { isActive: false }
-      });
-    }
-
     const newVerse = await prisma.bibleVerse.create({
       data: {
         text,
@@ -498,17 +490,6 @@ router.patch('/:id', verifyToken, validateBibleVerseUpdate, async (req, res, nex
       return res.status(404).json({
         success: false,
         message: 'Bible verse not found'
-      });
-    }
-
-    // If setting as active, deactivate all other verses first
-    if (updateData.isActive === true) {
-      await prisma.bibleVerse.updateMany({
-        where: {
-          isActive: true,
-          id: { not: id } // Don't deactivate the current verse
-        },
-        data: { isActive: false }
       });
     }
 

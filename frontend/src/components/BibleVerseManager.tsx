@@ -126,22 +126,12 @@ const BibleVerseManager = () => {
 
   const toggleActive = async (verse: BibleVerse) => {
     try {
-      // If we're activating this verse, we need to deactivate all others first
-      const newActiveState = !verse.isActive;
-
       const response = await bibleVersesAPI.updateVerse(verse.id, {
-        isActive: newActiveState
+        isActive: !verse.isActive
       });
 
       if (response.success) {
         await loadVerses();
-
-        // Show user feedback
-        if (newActiveState) {
-          alert(`"${verse.book} ${verse.chapter}:${verse.verse}" is now the active verse. All other verses have been deactivated.`);
-        } else {
-          alert(`"${verse.book} ${verse.chapter}:${verse.verse}" has been deactivated.`);
-        }
       }
     } catch (error) {
       console.error('Failed to toggle active status:', error);
@@ -423,26 +413,6 @@ const BibleVerseManager = () => {
                   <span className="text-sm text-gray-700 dark:text-gray-200">Featured</span>
                 </label>
               </div>
-
-              {formData.isActive && (
-                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/40 rounded-lg p-3">
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <svg className="h-5 w-5 text-blue-400 dark:text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <div className="ml-3">
-                      <h3 className="text-sm font-bold text-blue-800 dark:text-blue-300">
-                        Single Active Verse
-                      </h3>
-                      <div className="mt-1 text-sm text-blue-700 dark:text-blue-400">
-                        <p>Only one Bible verse can be active at a time. Setting this verse as active will automatically deactivate all other verses.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               <div className="flex justify-end gap-3 pt-4">
                 <button
