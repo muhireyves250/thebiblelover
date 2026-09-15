@@ -1,5 +1,4 @@
 import {
-    Heart,
     TrendingUp,
     BookOpen,
     Mail,
@@ -7,10 +6,7 @@ import {
     Plus,
     Palette,
     MessageSquare,
-    DollarSign,
-    Sparkles,
-    Mic,
-    Calendar
+    DollarSign
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
@@ -136,31 +132,27 @@ const DashboardOverview = ({
                 <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5 px-1">Content on the Platform</h3>
                 <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3">
                     {[
-                        { label: 'Posts', value: stats.totalPosts, icon: BookOpen, tab: 'posts' },
-                        { label: 'Bible Verses', value: versesCount, icon: Sparkles, tab: 'bible-verses' },
-                        { label: 'Devotionals', value: episodesCount, icon: Mic, tab: 'audio-episodes' },
-                        { label: 'Events', value: eventsCount, icon: Calendar, tab: 'events' },
-                        { label: 'Prayer Requests', value: prayersCount, icon: Heart, tab: 'prayers' },
-                        { label: 'Comments', value: stats.totalComments, icon: MessageSquare, tab: 'comments' },
-                        { label: 'Messages', value: messagesCount, icon: Mail, tab: 'messages' },
-                        { label: 'Donations', value: donationsCount, icon: DollarSign, tab: 'donations' },
-                        { label: 'Users', value: usersCount, icon: Users, tab: 'users' },
-                        { label: 'Subscribers', value: subscribersCount, icon: Mail, tab: 'newsletter' },
-                        { label: 'Scheduled Posts', value: stats.totalScheduled, icon: TrendingUp, tab: 'posts' },
+                        { label: 'Posts', value: stats.totalPosts, tab: 'posts' },
+                        { label: 'Bible Verses', value: versesCount, tab: 'bible-verses' },
+                        { label: 'Devotionals', value: episodesCount, tab: 'audio-episodes' },
+                        { label: 'Events', value: eventsCount, tab: 'events' },
+                        { label: 'Prayer Requests', value: prayersCount, tab: 'prayers' },
+                        { label: 'Comments', value: stats.totalComments, tab: 'comments' },
+                        { label: 'Messages', value: messagesCount, tab: 'messages' },
+                        { label: 'Donations', value: donationsCount, tab: 'donations' },
+                        { label: 'Users', value: usersCount, tab: 'users' },
+                        { label: 'Subscribers', value: subscribersCount, tab: 'newsletter' },
+                        { label: 'Scheduled Posts', value: stats.totalScheduled, tab: 'posts' },
                     ].map((metric, idx) => {
-                        const Icon = metric.icon;
                         return (
                             <motion.button
                                 key={idx}
                                 variants={itemVariants}
                                 onClick={() => setActiveTab(metric.tab)}
-                                className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-2.5 md:p-3 text-left hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors"
+                                className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-2.5 md:p-3 text-center flex flex-col items-center hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors"
                             >
-                                <div className="w-7 h-7 md:w-8 md:h-8 bg-amber-50 dark:bg-amber-900/20 rounded-md flex items-center justify-center mb-1.5 md:mb-2">
-                                    <Icon className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
-                                </div>
                                 <p className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-0.5 truncate">{metric.label}</p>
-                                <h3 className="text-lg md:text-xl font-black text-gray-900 dark:text-white">{metric.value}</h3>
+                                <h3 className="text-2xl md:text-3xl font-black text-gray-900 dark:text-white">{metric.value}</h3>
                             </motion.button>
                         );
                     })}
