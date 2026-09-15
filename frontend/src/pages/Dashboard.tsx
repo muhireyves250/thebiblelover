@@ -814,7 +814,7 @@ const Dashboard = () => {
       )}
 
       {/* Sidebar (desktop: persistent; mobile: slide-out drawer) */}
-      <div className={`fixed lg:static inset-y-0 right-0 lg:right-auto lg:left-0 z-50 w-72 bg-white dark:bg-[#0a0a0a] border-l lg:border-l-0 lg:border-r border-gray-200 dark:border-white/10 flex-shrink-0 flex flex-col transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}`}>
+      <div className={`fixed lg:static inset-y-0 right-0 lg:right-auto lg:left-0 z-50 w-72 bg-white dark:bg-[#0a0a0a] border-l lg:border-l-0 border-gray-200 dark:border-white/10 flex-shrink-0 flex flex-col transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}`}>
         {/* Sidebar Header */}
         <div className="h-16 px-5 border-b border-gray-200 dark:border-white/10 flex-shrink-0 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
