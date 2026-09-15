@@ -954,8 +954,13 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
         <div className="h-20 bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-300 dark:border-white/15 px-4 md:px-8 flex-shrink-0 flex items-center">
-          {/* Mobile bar: profile / title / notifications / menu */}
+          {/* Mobile bar: logo / profile / title / notifications / menu */}
           <div className="lg:hidden flex items-center gap-2 w-full">
+            <Link to="/" className="shrink-0">
+              <img src="/images/logo.png" alt="Ihema" className="h-8 w-auto object-contain dark:hidden" />
+              <img src="/images/logo-dark.png" alt="Ihema" className="h-8 w-auto object-contain hidden dark:block" />
+            </Link>
+
             <div className="relative user-dropdown shrink-0">
               <button
                 onClick={toggleUserDropdown}
