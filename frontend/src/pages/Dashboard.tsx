@@ -998,7 +998,7 @@ const Dashboard = () => {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 p-4 md:p-8 overflow-auto">
+        <div className="flex-1 p-4 md:p-8 pb-24 lg:pb-8 overflow-auto">
 
           {/* Overview Tab */}
           {activeTab === 'overview' && (
@@ -1159,6 +1159,35 @@ const Dashboard = () => {
           )}
         </div>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-[#0a0a0a] border-t border-gray-200 dark:border-white/10" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+        <div className="grid grid-cols-5">
+          {[
+            { id: 'overview', label: 'Overview', icon: BarChart3 },
+            { id: 'posts', label: 'Posts', icon: BookOpen },
+            { id: 'comments', label: 'Comments', icon: MessageSquare },
+            { id: 'prayers', label: 'Prayers', icon: Heart },
+          ].map(({ id, label, icon: Icon }) => (
+            <button
+              key={id}
+              onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
+              className={`flex flex-col items-center justify-center gap-1 py-2.5 text-[10px] font-bold transition-colors ${activeTab === id ? 'text-amber-700' : 'text-gray-400 dark:text-gray-500'
+                }`}
+            >
+              <Icon className="h-5 w-5" />
+              {label}
+            </button>
+          ))}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="flex flex-col items-center justify-center gap-1 py-2.5 text-[10px] font-bold text-gray-400 dark:text-gray-500"
+          >
+            <Menu className="h-5 w-5" />
+            More
+          </button>
+        </div>
+      </nav>
 
       {/* Add Post Modal */}
       < AddPostModal
