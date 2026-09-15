@@ -954,41 +954,12 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
         <div className="h-20 bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-300 dark:border-white/15 px-4 md:px-8 flex-shrink-0 flex items-center">
-          {/* Mobile bar: logo / profile / title / notifications / menu */}
+          {/* Mobile bar: logo / title / notifications / menu / profile */}
           <div className="lg:hidden flex items-center gap-2 w-full">
             <Link to="/" className="shrink-0">
               <img src="/images/logo.png" alt="Ihema" className="h-8 w-auto object-contain dark:hidden" />
               <img src="/images/logo-dark.png" alt="Ihema" className="h-8 w-auto object-contain hidden dark:block" />
             </Link>
-
-            <div className="relative user-dropdown shrink-0">
-              <button
-                onClick={toggleUserDropdown}
-                className="w-9 h-9 bg-amber-700 rounded-full flex items-center justify-center text-white font-bold text-sm hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
-              >
-                {(user?.name || 'A').charAt(0).toUpperCase()}
-              </button>
-
-              {showUserDropdown && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute left-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-lg py-2 z-50"
-                >
-                  <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10">
-                    <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name || 'Administrator'}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
-                  </div>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Sign Out
-                  </button>
-                </motion.div>
-              )}
-            </div>
 
             <div className="flex-1 min-w-0 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm px-3 py-2">
               <h1 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
@@ -1007,6 +978,35 @@ const Dashboard = () => {
             >
               <Menu className="h-5 w-5" />
             </button>
+
+            <div className="relative user-dropdown shrink-0">
+              <button
+                onClick={toggleUserDropdown}
+                className="w-9 h-9 bg-amber-700 rounded-full flex items-center justify-center text-white font-bold text-sm hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+              >
+                {(user?.name || 'A').charAt(0).toUpperCase()}
+              </button>
+
+              {showUserDropdown && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute right-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-lg py-2 z-50"
+                >
+                  <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10">
+                    <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name || 'Administrator'}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </motion.div>
+              )}
+            </div>
           </div>
 
           {/* Desktop bar */}
