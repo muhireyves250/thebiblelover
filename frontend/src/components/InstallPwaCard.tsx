@@ -37,11 +37,11 @@ const InstallPwaCard: React.FC = () => {
         </button>
         <img
           src="/app-icon.png"
-          alt="The Bible Lover app icon"
+          alt="IHEMA app icon"
           className="w-12 h-12 rounded-xl shrink-0 object-cover"
         />
         <div className="min-w-0 flex-1 pr-6">
-          <p className="text-sm font-bold text-gray-900 dark:text-white">Install The Bible Lover</p>
+          <p className="text-sm font-bold text-gray-900 dark:text-white">Install IHEMA</p>
           <p className="text-xs text-gray-500 dark:text-gray-400">Add it to your home screen for quick, full-screen access.</p>
         </div>
         <button
