@@ -13,6 +13,12 @@ const Announcements: React.FC = () => {
 
   if (items.length === 0) return null;
 
+  // Scale scroll duration with how much text there is, so longer
+  // announcement lists don't fly by too fast to read. ~12 chars/sec
+  // is a comfortable marquee reading speed.
+  const totalChars = items.join(' ').length;
+  const duration = Math.max(12, Math.round(totalChars / 12));
+
   const Track = ({ hidden = false }: { hidden?: boolean }) => (
     <span className="pr-6 md:pr-10" aria-hidden={hidden || undefined}>
       {items.map((item, i) => (
@@ -34,7 +40,7 @@ const Announcements: React.FC = () => {
           </span>
           <span className="hidden sm:block w-px h-6 bg-gray-800 shrink-0" />
           <div className="relative flex-1 overflow-hidden">
-            <div className="flex whitespace-nowrap animate-marquee">
+            <div className="flex whitespace-nowrap animate-marquee" style={{ animationDuration: `${duration}s` }}>
               <Track />
               <Track hidden />
             </div>
