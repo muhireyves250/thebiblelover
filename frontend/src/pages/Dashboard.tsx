@@ -818,11 +818,7 @@ const Dashboard = () => {
         {/* Sidebar Header */}
         <div className="h-16 px-5 border-b border-gray-200 dark:border-white/10 flex-shrink-0 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <img src="/app-icon.png" alt="Ihema" className="w-8 h-8 rounded-lg object-cover" />
-            <div className="leading-tight">
-              <span className="block text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Ihema</span>
-              <span className="block text-[9px] font-bold uppercase tracking-widest text-amber-700">Admin</span>
-            </div>
+            <img src="/app-icon.png" alt="Ihema" className="w-11 h-11 rounded-lg object-cover" />
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
@@ -833,6 +829,7 @@ const Dashboard = () => {
           </button>
         </div>
 
+        <div className="flex-1 flex flex-col overflow-hidden lg:border-r border-gray-200 dark:border-white/10">
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-3 py-5 space-y-6">
           <div>
@@ -949,6 +946,7 @@ const Dashboard = () => {
             <LogOut className="h-4 w-4 shrink-0" />
             Sign Out
           </button>
+        </div>
         </div>
       </div>
 
