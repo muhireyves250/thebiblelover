@@ -1286,23 +1286,23 @@ const Dashboard = () => {
       {
         deleteConfirmPost && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Trash2 className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Delete Post</h3>
-                <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-xl p-4 mb-6 border border-red-200">
-                  <p className="text-sm font-semibold text-red-800 mb-2">Post Title:</p>
-                  <p className="text-base text-gray-900 font-medium">"{deleteConfirmPost.title}"</p>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Delete Post</h3>
+                <div className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/10 dark:to-orange-900/10 rounded-xl p-4 mb-6 border border-red-200 dark:border-red-900/30">
+                  <p className="text-sm font-semibold text-red-800 dark:text-red-400 mb-2">Post Title:</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium">"{deleteConfirmPost.title}"</p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   Are you sure you want to delete this post? This action cannot be undone and will permanently remove the post from your blog.
                 </p>
                 <div className="flex space-x-4">
                   <button
                     onClick={() => setDeleteConfirmPost(null)}
-                    className="flex-1 px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
                   >
                     Cancel
                   </button>
@@ -1323,23 +1323,23 @@ const Dashboard = () => {
       {
         showAddPostConfirm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Plus className="h-8 w-8 text-green-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Create New Post</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6 border border-green-200">
-                  <p className="text-sm font-semibold text-green-800 mb-2">Ready to create?</p>
-                  <p className="text-base text-gray-900 font-medium">You're about to create a new blog post for your website</p>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Create New Post</h3>
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
+                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Ready to create?</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium">You're about to create a new blog post for your website</p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   This will open the post editor where you can add your title, content, images, and other post details.
                 </p>
                 <div className="flex space-x-4">
                   <button
                     onClick={cancelAddPost}
-                    className="flex-1 px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
                   >
                     Cancel
                   </button>
@@ -1360,23 +1360,23 @@ const Dashboard = () => {
       {
         showEditPostConfirm && selectedPost && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Edit className="h-8 w-8 text-blue-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Edit Post</h3>
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 border border-blue-200">
-                  <p className="text-sm font-semibold text-blue-800 mb-2">Post Title:</p>
-                  <p className="text-base text-gray-900 font-medium">"{selectedPost.title}"</p>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Edit Post</h3>
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-xl p-4 mb-6 border border-blue-200 dark:border-blue-900/30">
+                  <p className="text-sm font-semibold text-blue-800 dark:text-blue-400 mb-2">Post Title:</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium">"{selectedPost.title}"</p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   You're about to edit this blog post. Any changes you make will be saved and published to your website.
                 </p>
                 <div className="flex space-x-4">
                   <button
                     onClick={cancelEditPost}
-                    className="flex-1 px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
                   >
                     Cancel
                   </button>
@@ -1405,24 +1405,24 @@ const Dashboard = () => {
       {
         showEditSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Post Updated Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6 border border-green-200">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Post Updated Successfully!</h3>
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800">Changes Saved</p>
+                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Changes Saved</p>
                   </div>
-                  <p className="text-base text-gray-900 font-medium">Your blog post has been updated and is now live on your website</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium">Your blog post has been updated and is now live on your website</p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   The post has been successfully updated with all your changes. You can continue editing other posts or manage your blog content.
                 </p>
                 <div className="flex space-x-4">
@@ -1443,24 +1443,24 @@ const Dashboard = () => {
       {
         showAddPostSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Post Created Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6 border border-green-200">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Post Created Successfully!</h3>
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800">Post Published</p>
+                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Post Published</p>
                   </div>
-                  <p className="text-base text-gray-900 font-medium">Your new blog post has been created and is now live on your website</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium">Your new blog post has been created and is now live on your website</p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   The post has been successfully saved to the database and published. You can continue creating more posts or manage your existing content.
                 </p>
                 <div className="flex space-x-4">
@@ -1481,25 +1481,25 @@ const Dashboard = () => {
       {
         showDeleteSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Post Deleted Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6 border border-green-200">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Post Deleted Successfully!</h3>
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800">Post Removed</p>
+                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Post Removed</p>
                   </div>
-                  <p className="text-sm font-semibold text-green-800 mb-2">Deleted Post:</p>
-                  <p className="text-base text-gray-900 font-medium">"{deletedPostTitle}"</p>
+                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Deleted Post:</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium">"{deletedPostTitle}"</p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   The post has been permanently removed from your blog. The content is no longer accessible to your website visitors.
                 </p>
                 <div className="flex space-x-4">
@@ -1520,30 +1520,30 @@ const Dashboard = () => {
       {
         showDeleteDonationSuccess && deletedDonationDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Donation Deleted Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6 border border-green-200">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Donation Deleted Successfully!</h3>
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800">Donation Removed</p>
+                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Donation Removed</p>
                   </div>
-                  <p className="text-sm font-semibold text-green-800 mb-2">Deleted Donation:</p>
-                  <p className="text-base text-gray-900 font-medium mb-1">
+                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Deleted Donation:</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium mb-1">
                     {deletedDonationDetails.donorName}
                   </p>
-                  <p className="text-lg font-bold text-emerald-600">
+                  <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
                     ${deletedDonationDetails.amount}
                   </p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   The donation has been permanently removed from your records. This action cannot be undone and the donation data is no longer accessible.
                 </p>
                 <div className="flex space-x-4">
@@ -1564,30 +1564,30 @@ const Dashboard = () => {
       {
         showDeleteCommentSuccess && deletedCommentDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Comment Deleted Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6 border border-green-200">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Comment Deleted Successfully!</h3>
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800">Comment Removed</p>
+                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Comment Removed</p>
                   </div>
-                  <p className="text-sm font-semibold text-green-800 mb-2">Deleted Comment:</p>
-                  <p className="text-base text-gray-900 font-medium mb-2">
+                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Deleted Comment:</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium mb-2">
                     by <span className="font-semibold">{deletedCommentDetails.authorName}</span>
                   </p>
-                  <p className="text-sm text-gray-700 italic bg-white rounded-lg p-3 border border-gray-200">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 italic bg-white dark:bg-white/5 rounded-lg p-3 border border-gray-200 dark:border-white/10">
                     "{deletedCommentDetails.content}"
                   </p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   The comment has been permanently removed from your blog. The content is no longer visible to your website visitors.
                 </p>
                 <div className="flex space-x-4">
@@ -1608,30 +1608,30 @@ const Dashboard = () => {
       {
         showDeleteMessageSuccess && deletedMessageDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Message Deleted Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6 border border-green-200">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Message Deleted Successfully!</h3>
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800">Message Removed</p>
+                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Message Removed</p>
                   </div>
-                  <p className="text-sm font-semibold text-green-800 mb-2">Deleted Message:</p>
-                  <p className="text-base text-gray-900 font-medium mb-1">
+                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Deleted Message:</p>
+                  <p className="text-base text-gray-900 dark:text-white font-medium mb-1">
                     from <span className="font-semibold">{deletedMessageDetails.senderName}</span>
                   </p>
                   <p className="text-sm text-gray-700 italic">
                     "{deletedMessageDetails.subject}"
                   </p>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   The contact message has been permanently removed from your records. The content is no longer accessible and cannot be recovered.
                 </p>
                 <div className="flex space-x-4">
@@ -1675,19 +1675,19 @@ const Dashboard = () => {
       {
         showLogoutConfirm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-100">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <LogOut className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Sign Out</h3>
-                <p className="text-gray-600 mb-8 leading-relaxed">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Sign Out</h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   Are you sure you want to sign out of your account? You'll need to log in again to access the dashboard.
                 </p>
                 <div className="flex space-x-4">
                   <button
                     onClick={cancelLogout}
-                    className="flex-1 px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
                   >
                     Cancel
                   </button>
@@ -1709,7 +1709,7 @@ const Dashboard = () => {
         showDeleteDonationModal && donationToDelete && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
-              <div className="flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mx-auto mb-4">
+              <div className="flex items-center justify-center w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-full mx-auto mb-4">
                 <Trash2 className="h-6 w-6 text-red-600" />
               </div>
 
@@ -1755,7 +1755,7 @@ const Dashboard = () => {
               <div className="flex space-x-3">
                 <button
                   onClick={cancelDeleteDonation}
-                  className="flex-1 px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                  className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
                 >
                   Cancel
                 </button>
