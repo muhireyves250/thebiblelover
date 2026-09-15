@@ -1,4 +1,4 @@
-import { MessageSquare, BookOpen, Trash2 } from 'lucide-react';
+import { MessageSquare, BookOpen, Trash2, Check } from 'lucide-react';
 
 interface CommentsManagerProps {
     comments: any[];
@@ -19,237 +19,161 @@ const CommentsManager = ({
     approveComment,
     deleteComment
 }: CommentsManagerProps) => {
+    const approvedCount = comments.filter(c => c.isApproved).length;
+    const pendingCount = comments.filter(c => !c.isApproved).length;
+
     return (
-        <div className="space-y-3">
-            {/* Comments Header - Professional Ultra Compact */}
-            <div className="bg-gradient-to-r from-white to-gray-50 rounded-lg shadow-md border border-gray-200 dark:border-white/10 p-3">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-lg">
-                            <MessageSquare className="h-4 w-4 text-white" />
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Comments Management</h3>
-                        </div>
+        <div className="space-y-4">
+            {/* Header */}
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+                <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center">
+                        <MessageSquare className="h-4 w-4 text-amber-700" />
                     </div>
-                    <div className="flex items-center space-x-4">
-                        <div className="flex items-center space-x-2 px-3 py-1.5 bg-green-50 rounded-full border border-green-200">
-                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                            <span className="text-xs font-bold text-green-700">{comments.filter(c => c.isApproved).length} Approved</span>
-                        </div>
-                        <div className="flex items-center space-x-2 px-3 py-1.5 bg-yellow-50 rounded-full border border-yellow-200">
-                            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                            <span className="text-xs font-bold text-yellow-700">{comments.filter(c => !c.isApproved).length} Pending</span>
-                        </div>
-                    </div>
+                    <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white">Comments Management</h3>
                 </div>
             </div>
 
-            {/* Comments Stats - Professional Ultra Compact */}
-            <div className="grid grid-cols-3 gap-2">
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg shadow-md border border-blue-200 p-2 hover:shadow-lg transition-all duration-300">
-                    <div className="text-center">
-                        <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <MessageSquare className="h-3 w-3 text-white" />
-                        </div>
-                        <p className="text-lg font-bold text-blue-900">{comments.length}</p>
-                        <p className="text-xs font-semibold text-blue-700">Total</p>
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-3">
+                {[
+                    { label: 'Total', value: comments.length },
+                    { label: 'Approved', value: approvedCount },
+                    { label: 'Pending', value: pendingCount },
+                ].map((stat) => (
+                    <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3 text-center">
+                        <p className="text-xl font-black text-gray-900 dark:text-white">{stat.value}</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-0.5">{stat.label}</p>
                     </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg shadow-md border border-green-200 p-2 hover:shadow-lg transition-all duration-300">
-                    <div className="text-center">
-                        <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                        <p className="text-lg font-bold text-green-900">{comments.filter(c => c.isApproved).length}</p>
-                        <p className="text-xs font-semibold text-green-700">Approved</p>
-                    </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-lg shadow-md border border-yellow-200 p-2 hover:shadow-lg transition-all duration-300">
-                    <div className="text-center">
-                        <div className="w-6 h-6 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-2">
-                            <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <p className="text-lg font-bold text-yellow-900">{comments.filter(c => !c.isApproved).length}</p>
-                        <p className="text-xs font-semibold text-yellow-700">Pending</p>
-                    </div>
-                </div>
+                ))}
             </div>
 
-            {/* Comments List - Professional Ultra Compact */}
-            <div className="bg-white dark:bg-[#141417] rounded-lg shadow-md border border-gray-200 dark:border-white/10 overflow-hidden">
-                <div className="bg-gradient-to-r from-purple-50 to-indigo-50 px-3 py-2 border-b border-purple-200">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                            <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-md">
-                                <MessageSquare className="h-3 w-3 text-white" />
-                            </div>
-                            <div>
-                                <h4 className="text-sm font-bold text-gray-900 dark:text-white">Recent Comments</h4>
-                            </div>
-                        </div>
-                        <div className="flex items-center space-x-3">
-                            <div className="flex items-center space-x-1 px-2 py-1 bg-green-50 rounded-full border border-green-200">
-                                <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                                <span className="text-xs font-bold text-green-700">{comments.filter(c => c.isApproved).length}</span>
-                            </div>
-                            <div className="flex items-center space-x-1 px-2 py-1 bg-yellow-50 rounded-full border border-yellow-200">
-                                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></div>
-                                <span className="text-xs font-bold text-yellow-700">{comments.filter(c => !c.isApproved).length}</span>
-                            </div>
-                        </div>
-                    </div>
+            {/* Comments List */}
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-200 dark:border-white/10">
+                    <h4 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Recent Comments</h4>
                 </div>
 
-                <div className="relative">
-                    {/* Scroll Fade Indicators */}
-                    <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none"></div>
-                    <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none"></div>
+                <div className={`${showAllComments ? 'max-h-64' : 'max-h-48'} overflow-y-auto`}>
+                    {comments.slice(0, showAllComments ? comments.length : 2).map((comment) => (
+                        <div key={comment.id} className="p-3 border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                            <div className="flex items-start gap-3">
+                                <div className="w-8 h-8 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
+                                    <span className="text-amber-700 font-bold text-xs">
+                                        {comment.authorName?.charAt(0).toUpperCase() || 'A'}
+                                    </span>
+                                </div>
 
-                    <div className={`${showAllComments ? 'max-h-64 overflow-y-auto scroll-smooth' : 'max-h-48 overflow-y-auto scroll-smooth'}`}
-                        style={{
-                            scrollbarWidth: 'thin',
-                            scrollbarColor: '#d1d5db #f3f4f6'
-                        }}>
-                        {comments.slice(0, showAllComments ? comments.length : 2).map((comment) => (
-                            <div key={comment.id} className="p-2 border-b border-gray-100 dark:border-white/5 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-300 group">
-                                <div className="flex items-start space-x-3">
-                                    {/* Author Avatar */}
-                                    <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center shadow-md flex-shrink-0 group-hover:shadow-lg transition-all duration-300">
-                                        <span className="text-white font-bold text-xs">
-                                            {comment.authorName?.charAt(0).toUpperCase() || 'A'}
-                                        </span>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <h5 className="text-xs font-bold text-gray-900 dark:text-white truncate">{comment.authorName}</h5>
+                                        {comment.isApproved ? (
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40 uppercase">
+                                                Approved
+                                            </span>
+                                        ) : (
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900/40 uppercase">
+                                                Pending
+                                            </span>
+                                        )}
                                     </div>
 
-                                    {/* Comment Content */}
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center space-x-2 mb-1">
-                                            <h5 className="text-xs font-bold text-gray-900 dark:text-white truncate group-hover:text-purple-600 transition-colors duration-200">{comment.authorName}</h5>
-                                            {comment.isApproved ? (
-                                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300">
-                                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></div>
-                                                    ✓ Approved
-                                                </span>
-                                            ) : (
-                                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 border border-yellow-300">
-                                                    <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full mr-1"></div>
-                                                    ⏳ Pending
-                                                </span>
-                                            )}
-                                        </div>
-
-                                        <div className="mb-2">
-                                            <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-3 border border-gray-200 dark:border-white/10">
-                                                <p className="text-xs text-gray-700 dark:text-gray-200 leading-relaxed">
-                                                    {expandedComments.has(comment.id) ? (
-                                                        <>
-                                                            {comment.content}
-                                                            {comment.content.length > 100 && (
+                                    <div className="mb-2">
+                                        <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-3 border border-gray-200 dark:border-white/10">
+                                            <p className="text-xs text-gray-700 dark:text-gray-200 leading-relaxed">
+                                                {expandedComments.has(comment.id) ? (
+                                                    <>
+                                                        {comment.content}
+                                                        {comment.content.length > 100 && (
+                                                            <button
+                                                                onClick={() => toggleCommentExpansion(comment.id)}
+                                                                className="text-amber-700 hover:text-amber-800 ml-2 font-semibold"
+                                                            >
+                                                                Show less
+                                                            </button>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        {comment.content.length > 100 ? (
+                                                            <>
+                                                                {comment.content.substring(0, 100)}...
                                                                 <button
                                                                     onClick={() => toggleCommentExpansion(comment.id)}
-                                                                    className="text-blue-600 hover:text-blue-700 ml-2 font-medium transition-colors duration-200"
+                                                                    className="text-amber-700 hover:text-amber-800 ml-1 font-semibold"
                                                                 >
-                                                                    Show less
+                                                                    Read more
                                                                 </button>
-                                                            )}
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            {comment.content.length > 100 ? (
-                                                                <>
-                                                                    {comment.content.substring(0, 100)}...
-                                                                    <button
-                                                                        onClick={() => toggleCommentExpansion(comment.id)}
-                                                                        className="text-blue-600 hover:text-blue-700 ml-1 font-medium transition-colors duration-200"
-                                                                    >
-                                                                        Read more
-                                                                    </button>
-                                                                </>
-                                                            ) : (
-                                                                comment.content
-                                                            )}
-                                                        </>
-                                                    )}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
-                                            <div className="flex items-center space-x-2">
-                                                <div className="flex items-center space-x-1 px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded-full">
-                                                    <BookOpen className="h-2 w-2" />
-                                                    <span className="font-medium">{comment.postSlug}</span>
-                                                </div>
-                                                <span>•</span>
-                                                <span className="text-gray-400 dark:text-gray-500">{new Date(comment.timestamp).toLocaleDateString()}</span>
-                                            </div>
-
-                                            {/* Actions */}
-                                            <div className="flex items-center space-x-1">
-                                                {!comment.isApproved && (
-                                                    <button
-                                                        onClick={() => approveComment(comment.id)}
-                                                        className="p-1.5 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-lg transition-all duration-200 hover:shadow-md"
-                                                        title="Approve comment"
-                                                    >
-                                                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                        </svg>
-                                                    </button>
+                                                            </>
+                                                        ) : (
+                                                            comment.content
+                                                        )}
+                                                    </>
                                                 )}
-                                                <button
-                                                    onClick={() => deleteComment(comment.id)}
-                                                    className="p-1.5 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200 hover:shadow-md"
-                                                    title="Delete comment"
-                                                >
-                                                    <Trash2 className="h-3 w-3" />
-                                                </button>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex items-center gap-1 px-2 py-0.5 bg-gray-100 dark:bg-white/10 rounded-full">
+                                                <BookOpen className="h-2.5 w-2.5" />
+                                                <span className="font-medium">{comment.postSlug}</span>
                                             </div>
+                                            <span>{new Date(comment.timestamp).toLocaleDateString()}</span>
+                                        </div>
+
+                                        <div className="flex items-center gap-1">
+                                            {!comment.isApproved && (
+                                                <button
+                                                    onClick={() => approveComment(comment.id)}
+                                                    className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-lg transition-colors"
+                                                    title="Approve comment"
+                                                >
+                                                    <Check className="h-3.5 w-3.5" />
+                                                </button>
+                                            )}
+                                            <button
+                                                onClick={() => deleteComment(comment.id)}
+                                                className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                                                title="Delete comment"
+                                            >
+                                                <Trash2 className="h-3.5 w-3.5" />
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+                    ))}
 
-                        {comments.length === 0 && (
-                            <div className="text-center py-8">
-                                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md">
-                                    <MessageSquare className="h-6 w-6 text-purple-400" />
-                                </div>
-                                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">No Comments Yet</h3>
-                                <p className="text-xs text-gray-500 dark:text-gray-400">Comments from your blog posts will appear here</p>
+                    {comments.length === 0 && (
+                        <div className="text-center py-10">
+                            <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <MessageSquare className="h-6 w-6 text-amber-700" />
                             </div>
-                        )}
-
-                        {comments.length > 2 && (
-                            <div className="p-2 bg-gradient-to-r from-purple-50 to-indigo-50 border-t border-purple-200">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-2">
-                                        <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                                        <p className="text-xs font-semibold text-gray-700 dark:text-gray-200">
-                                            {showAllComments
-                                                ? `Showing all ${comments.length} comments`
-                                                : `Showing 2 of ${comments.length} comments`
-                                            }
-                                        </p>
-                                    </div>
-                                    <button
-                                        onClick={toggleAllComments}
-                                        className="px-3 py-1.5 text-xs text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 font-semibold rounded-lg transition-all duration-200 hover:shadow-md"
-                                    >
-                                        {showAllComments ? 'Show Less' : 'View All Comments'}
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                            <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">No Comments Yet</h3>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Comments from your blog posts will appear here</p>
+                        </div>
+                    )}
                 </div>
+
+                {comments.length > 2 && (
+                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10 flex items-center justify-between">
+                        <p className="text-xs font-semibold text-gray-600 dark:text-gray-300">
+                            {showAllComments
+                                ? `Showing all ${comments.length} comments`
+                                : `Showing 2 of ${comments.length} comments`
+                            }
+                        </p>
+                        <button
+                            onClick={toggleAllComments}
+                            className="px-3 py-1.5 text-xs text-white bg-amber-700 hover:bg-amber-800 font-bold rounded-lg transition-colors"
+                        >
+                            {showAllComments ? 'Show Less' : 'View All Comments'}
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

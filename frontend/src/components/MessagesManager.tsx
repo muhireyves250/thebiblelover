@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react';
+import { Mail, Calendar, Inbox, CheckCircle2, Trash2, Send, Check } from 'lucide-react';
 
 interface MessagesManagerProps {
     messages: any[];
@@ -21,161 +21,108 @@ const MessagesManager = ({
     markMessageAsRead,
     deleteMessage
 }: MessagesManagerProps) => {
+    const thisMonthCount = messages.filter(msg => {
+        const msgDate = new Date(msg.timestamp);
+        const now = new Date();
+        return msgDate.getMonth() === now.getMonth() && msgDate.getFullYear() === now.getFullYear();
+    }).length;
+    const unreadCount = messages.filter(msg => !msg.isRead).length;
+    const readCount = messages.length - unreadCount;
+
     return (
-        <div className="space-y-6">
-            {/* Contact Messages Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="bg-white dark:bg-[#141417] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-white/10">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Messages</p>
-                            <p className="text-2xl font-bold text-gray-900 dark:text-white">{messages.length}</p>
+        <div className="space-y-4">
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {[
+                    { label: 'Total Messages', value: messages.length, icon: Mail },
+                    { label: 'This Month', value: thisMonthCount, icon: Calendar },
+                    { label: 'Unread', value: unreadCount, icon: Inbox },
+                    { label: 'Read', value: readCount, icon: CheckCircle2 },
+                ].map((stat) => {
+                    const Icon = stat.icon;
+                    return (
+                        <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3">
+                            <div className="w-8 h-8 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center mb-2">
+                                <Icon className="h-4 w-4 text-amber-700" />
+                            </div>
+                            <p className="text-lg font-black text-gray-900 dark:text-white">{stat.value}</p>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">{stat.label}</p>
                         </div>
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white dark:bg-[#141417] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-white/10">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">This Month</p>
-                            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                                {messages.filter(msg => {
-                                    const msgDate = new Date(msg.timestamp);
-                                    const now = new Date();
-                                    return msgDate.getMonth() === now.getMonth() && msgDate.getFullYear() === now.getFullYear();
-                                }).length}
-                            </p>
-                        </div>
-                        <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                            <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white dark:bg-[#141417] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-white/10">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Unread</p>
-                            <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                                {messages.filter(msg => !msg.isRead).length}
-                            </p>
-                        </div>
-                        <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                            <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM4 19h6v-6H4v6zM4 5v6h6V5H4z" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white dark:bg-[#141417] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-white/10">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Average Response</p>
-                            <p className="text-2xl font-bold text-gray-900 dark:text-white">2.4h</p>
-                        </div>
-                        <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                            <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
+                    );
+                })}
             </div>
 
-            {/* Contact Messages List */}
-            <div className="bg-white dark:bg-[#141417] rounded-xl shadow-sm border border-gray-200 dark:border-white/10">
-                <div className="p-6 border-b border-gray-200 dark:border-white/10">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Contact Messages</h3>
-                        <div className="flex items-center space-x-2">
-                            <button
-                                onClick={() => setShowAllMessages(!showAllMessages)}
-                                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                            >
-                                {showAllMessages ? 'Show Recent Only' : 'View All Messages'}
-                            </button>
-                        </div>
-                    </div>
+            {/* Messages List */}
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-200 dark:border-white/10 flex items-center justify-between">
+                    <h3 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Contact Messages</h3>
+                    <button
+                        onClick={() => setShowAllMessages(!showAllMessages)}
+                        className="text-xs font-bold text-amber-700 hover:text-amber-800"
+                    >
+                        {showAllMessages ? 'Show Recent Only' : 'View All Messages'}
+                    </button>
                 </div>
 
-                <div className="divide-y divide-gray-200">
+                <div className="divide-y divide-gray-100 dark:divide-white/5">
                     {isLoading ? (
                         <div className="p-8 text-center">
-                            <div className="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-[#141417] transition ease-in-out duration-150">
-                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
+                            <div className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-700"></div>
                                 Loading messages...
                             </div>
                         </div>
                     ) : (showAllMessages ? messages : messages.slice(0, 5)).length === 0 ? (
-                        <div className="p-8 text-center">
-                            <div className="w-16 h-16 bg-gray-100 dark:bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                </svg>
+                        <div className="text-center py-10">
+                            <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                <Mail className="h-6 w-6 text-amber-700" />
                             </div>
-                            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No messages yet</h3>
-                            <p className="text-gray-500 dark:text-gray-400">Contact messages from your website visitors will appear here.</p>
+                            <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1">No messages yet</h3>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Contact messages from your website visitors will appear here.</p>
                         </div>
                     ) : (
                         (showAllMessages ? messages : messages.slice(0, 5)).map((message) => (
-                            <div key={message.id} className="p-6 hover:bg-gray-50 transition-colors duration-200">
-                                <div className="flex items-start space-x-4">
-                                    {/* Avatar */}
-                                    <div className="flex-shrink-0">
-                                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                                            <span className="text-white font-semibold text-sm">
-                                                {message.name.charAt(0).toUpperCase()}
-                                            </span>
-                                        </div>
+                            <div key={message.id} className="p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                                <div className="flex items-start gap-3">
+                                    <div className="w-9 h-9 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
+                                        <span className="text-amber-700 font-bold text-xs">
+                                            {message.name.charAt(0).toUpperCase()}
+                                        </span>
                                     </div>
 
-                                    {/* Message Content */}
                                     <div className="flex-1 min-w-0">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <div className="flex items-center space-x-2">
-                                                <h4 className="text-sm font-semibold text-gray-900 dark:text-white">{message.name}</h4>
+                                        <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
+                                            <div className="flex items-center gap-2">
+                                                <h4 className="text-xs font-bold text-gray-900 dark:text-white">{message.name}</h4>
                                                 {!message.isRead && (
-                                                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 uppercase">
                                                         New
                                                     </span>
                                                 )}
-                                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-100">
+                                                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 uppercase">
                                                     {message.status || 'Pending'}
                                                 </span>
                                             </div>
-                                            <div className="flex items-center space-x-1">
-                                                <span className="text-xs text-gray-500 dark:text-gray-400">
-                                                    {new Date(message.timestamp).toLocaleDateString()}
-                                                </span>
-                                            </div>
+                                            <span className="text-xs text-gray-400 dark:text-gray-500">
+                                                {new Date(message.timestamp).toLocaleDateString()}
+                                            </span>
+                                        </div>
+
+                                        <div className="mb-2">
+                                            <p className="text-sm font-semibold text-gray-900 dark:text-white mb-0.5">{message.subject}</p>
+                                            <p className="text-xs text-gray-400 dark:text-gray-500">{message.email}</p>
                                         </div>
 
                                         <div className="mb-3">
-                                            <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">{message.subject}</p>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400">{message.email}</p>
-                                        </div>
-
-                                        <div className="mb-4">
-                                            <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-4 border border-gray-200 dark:border-white/10">
-                                                <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">
+                                            <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-3 border border-gray-200 dark:border-white/10">
+                                                <p className="text-xs text-gray-700 dark:text-gray-200 leading-relaxed">
                                                     {expandedMessages.has(message.id) ? (
                                                         <>
                                                             {message.message}
                                                             {message.message.length > 150 && (
                                                                 <button
                                                                     onClick={() => toggleMessageExpansion(message.id)}
-                                                                    className="text-blue-600 hover:text-blue-700 ml-2 font-medium transition-colors duration-200"
+                                                                    className="text-amber-700 hover:text-amber-800 ml-2 font-semibold"
                                                                 >
                                                                     Show less
                                                                 </button>
@@ -188,7 +135,7 @@ const MessagesManager = ({
                                                                     {message.message.substring(0, 150)}...
                                                                     <button
                                                                         onClick={() => toggleMessageExpansion(message.id)}
-                                                                        className="text-blue-600 hover:text-blue-700 ml-1 font-medium transition-colors duration-200"
+                                                                        className="text-amber-700 hover:text-amber-800 ml-1 font-semibold"
                                                                     >
                                                                         Read more
                                                                     </button>
@@ -202,33 +149,28 @@ const MessagesManager = ({
                                             </div>
                                         </div>
 
-                                        {/* Action Buttons */}
                                         <div className="flex items-center justify-between">
-                                            <div className="flex items-center space-x-2">
+                                            <div className="flex items-center gap-2">
                                                 <button
                                                     onClick={() => window.open(`mailto:${message.email}?subject=Re: ${message.subject}`, '_blank')}
-                                                    className="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-white/10 shadow-sm text-xs font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-[#141417] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 dark:border-white/10 text-xs font-bold rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                                                 >
-                                                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                                    </svg>
+                                                    <Send className="w-3 h-3" />
                                                     Reply
                                                 </button>
                                                 <button
                                                     onClick={() => markMessageAsRead(message.id)}
-                                                    className="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-white/10 shadow-sm text-xs font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-[#141417] hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200"
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 dark:border-white/10 text-xs font-bold rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                                                 >
-                                                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                    </svg>
+                                                    <Check className="w-3 h-3" />
                                                     Mark Read
                                                 </button>
                                             </div>
                                             <button
                                                 onClick={() => deleteMessage(message.id)}
-                                                className="inline-flex items-center px-3 py-1.5 border border-red-300 shadow-sm text-xs font-medium rounded-lg text-red-700 bg-white dark:bg-[#141417] hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
+                                                className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-red-200 dark:border-red-900/40 text-xs font-bold rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                                             >
-                                                <Trash2 className="w-3 h-3 mr-1" />
+                                                <Trash2 className="w-3 h-3" />
                                                 Delete
                                             </button>
                                         </div>
@@ -240,10 +182,10 @@ const MessagesManager = ({
                 </div>
 
                 {!showAllMessages && messages.length > 5 && (
-                    <div className="p-4 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10">
+                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10">
                         <button
                             onClick={() => setShowAllMessages(true)}
-                            className="w-full text-center text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 font-medium"
+                            className="w-full text-center text-xs font-bold text-amber-700 hover:text-amber-800"
                         >
                             View all {messages.length} messages
                         </button>
