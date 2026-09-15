@@ -832,7 +832,7 @@ const Dashboard = () => {
 
         <div className="flex-1 flex flex-col overflow-hidden">
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-3 py-5 space-y-6">
+        <nav className="flex-1 overflow-y-auto px-3 pt-4 md:pt-8 pb-5 space-y-6">
           <div>
             <div className="space-y-1">
               {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
