@@ -327,7 +327,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                   type="button"
                   onClick={handleUploadClick}
                   disabled={isUploading}
-                  className="px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl hover:bg-gray-50 transition-all duration-200 flex items-center space-x-2 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md"
+                  className="px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 transition-all duration-200 flex items-center space-x-2 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md"
                 >
                   {isUploading ? (
                     <>
