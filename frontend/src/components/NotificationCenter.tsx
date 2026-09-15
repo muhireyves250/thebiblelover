@@ -74,11 +74,12 @@ const NotificationCenter = () => {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="relative p-2 text-gray-400 dark:text-gray-500 hover:text-amber-600 transition-colors focus:outline-none"
+                className="relative shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+                aria-label="Notifications"
             >
-                <Bell className="h-6 w-6" />
+                <Bell className="h-5 w-5" />
                 {unreadCount > 0 && (
-                    <span className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-[#0a0a0a]">
+                    <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-[#0a0a0a]">
                         {unreadCount > 9 ? '9+' : unreadCount}
                     </span>
                 )}
