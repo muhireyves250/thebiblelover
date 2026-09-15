@@ -54,7 +54,7 @@ const AudioCommentsManager: React.FC = () => {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-purple-500" /> Episode Comments
+          <MessageSquare className="w-5 h-5 text-amber-700" /> Episode Comments
         </h2>
         <div className="flex gap-2">
           {(['pending', 'approved', 'all'] as const).map(tab => (
@@ -74,7 +74,7 @@ const AudioCommentsManager: React.FC = () => {
       {loading ? (
         <p className="text-sm text-gray-500 dark:text-gray-400">Loading comments...</p>
       ) : loadError ? (
-        <p className="text-sm text-red-600">Failed to load comments. Please try again later.</p>
+        <p className="text-sm text-red-600 dark:text-red-400">Failed to load comments. Please try again later.</p>
       ) : comments.length === 0 ? (
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {filter === 'pending' ? 'No comments awaiting approval.' : 'No comments found.'}
@@ -93,7 +93,7 @@ const AudioCommentsManager: React.FC = () => {
                     )}
                     <span
                       className={`text-xs px-2 py-0.5 rounded font-bold ${
-                        comment.isApproved ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                        comment.isApproved ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400' : 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400'
                       }`}
                     >
                       {comment.isApproved ? 'Approved' : 'Pending'}
@@ -106,7 +106,7 @@ const AudioCommentsManager: React.FC = () => {
                   {!comment.isApproved && (
                     <button
                       onClick={() => handleApprove(comment.id)}
-                      className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg"
+                      className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 rounded-lg transition-colors"
                       title="Approve comment"
                     >
                       <Check className="w-4 h-4" />
@@ -114,7 +114,7 @@ const AudioCommentsManager: React.FC = () => {
                   )}
                   <button
                     onClick={() => handleDelete(comment.id)}
-                    className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg"
+                    className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                     title="Delete comment"
                   >
                     <Trash2 className="w-4 h-4" />
