@@ -116,7 +116,7 @@ const DashboardOverview = ({
             {/* Welcome Section */}
             <motion.div
                 variants={itemVariants}
-                className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-8"
+                className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-5 md:p-8"
             >
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 md:w-14 md:h-14 bg-amber-700 rounded-lg flex items-center justify-center shrink-0">
@@ -154,7 +154,7 @@ const DashboardOverview = ({
                                 key={idx}
                                 variants={itemVariants}
                                 onClick={() => setActiveTab(metric.tab)}
-                                className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-2.5 md:p-3 text-left hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors"
+                                className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-2.5 md:p-3 text-left hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors"
                             >
                                 <div className="w-7 h-7 md:w-8 md:h-8 bg-amber-50 dark:bg-amber-900/20 rounded-md flex items-center justify-center mb-1.5 md:mb-2">
                                     <Icon className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
@@ -172,7 +172,7 @@ const DashboardOverview = ({
                 {/* Content Performance - all-time totals, direct from the database */}
                 <motion.div
                     variants={itemVariants}
-                    className="lg:col-span-2 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-8"
+                    className="lg:col-span-2 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-5 md:p-8"
                 >
                     <div className="flex items-center gap-2 mb-1.5">
                         <span className="w-1 h-4 bg-amber-700 rounded-sm" />
@@ -235,7 +235,7 @@ const DashboardOverview = ({
                 {/* Quick Actions */}
                 <motion.div
                     variants={itemVariants}
-                    className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-6 flex flex-col"
+                    className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-5 md:p-6 flex flex-col"
                 >
                     <h3 className="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white mb-4 md:mb-6">Quick Actions</h3>
                     <div className="space-y-3 flex-1">
@@ -255,14 +255,14 @@ const DashboardOverview = ({
                         <div className="grid grid-cols-2 gap-3">
                             <button
                                 onClick={() => setActiveTab('bible-verses')}
-                                className="p-4 border border-gray-200 dark:border-white/10 rounded-md flex flex-col items-center justify-center text-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                                className="p-4 border border-gray-300 dark:border-white/15 rounded-md flex flex-col items-center justify-center text-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                             >
                                 <BookOpen className="h-5 w-5 text-amber-700" />
                                 <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest">Verses</span>
                             </button>
                             <button
                                 onClick={() => setIsBackgroundModalOpen(true)}
-                                className="p-4 border border-gray-200 dark:border-white/10 rounded-md flex flex-col items-center justify-center text-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                                className="p-4 border border-gray-300 dark:border-white/15 rounded-md flex flex-col items-center justify-center text-center gap-2 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                             >
                                 <Palette className="h-5 w-5 text-amber-700" />
                                 <span className="text-[10px] font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest">Theme</span>
@@ -271,7 +271,7 @@ const DashboardOverview = ({
 
                         <button
                             onClick={() => setActiveTab('messages')}
-                            className="w-full p-4 border border-gray-200 dark:border-white/10 rounded-md flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                            className="w-full p-4 border border-gray-300 dark:border-white/15 rounded-md flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                         >
                             <div className="flex items-center gap-3">
                                 <Mail className="h-4 w-4 text-amber-700" />
@@ -290,7 +290,7 @@ const DashboardOverview = ({
             {/* Bottom Row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
                 {/* Recent Activity */}
-                <motion.div variants={itemVariants} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-6">
+                <motion.div variants={itemVariants} className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-5 md:p-6">
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white">Recent Comments</h3>
                         <button onClick={() => setActiveTab('comments')} className="text-amber-700 text-xs font-bold hover:text-amber-800 transition-colors">View All</button>
@@ -318,7 +318,7 @@ const DashboardOverview = ({
                 </motion.div>
 
                 {/* Community Snapshot */}
-                <motion.div variants={itemVariants} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-6">
+                <motion.div variants={itemVariants} className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-5 md:p-6">
                     <h3 className="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white mb-4">Community Snapshot</h3>
                     <div className="grid grid-cols-2 gap-3">
                         <div className="p-4 bg-gray-50 dark:bg-white/5 rounded-md">

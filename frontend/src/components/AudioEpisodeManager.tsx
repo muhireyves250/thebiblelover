@@ -46,7 +46,7 @@ const AudioEpisodeManager: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div>
             <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white">Morning/Evening Episodes</h3>
@@ -63,11 +63,11 @@ const AudioEpisodeManager: React.FC = () => {
       </div>
 
       {/* Episodes List */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3">
+      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
         {loading ? (
           <div className="space-y-3 animate-pulse">
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 flex items-center gap-3">
+              <div key={i} className="p-3.5 rounded-lg border border-gray-300 dark:border-white/15 flex items-center gap-3">
                 <div className="w-12 h-12 bg-gray-100 dark:bg-white/10 rounded-md shrink-0" />
                 <div className="flex-1 space-y-2">
                   <div className="h-3 w-1/3 bg-gray-100 dark:bg-white/10 rounded" />
@@ -91,14 +91,14 @@ const AudioEpisodeManager: React.FC = () => {
             {episodes.map((episode) => (
               <div
                 key={episode.id}
-                className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors"
+                className="p-3.5 rounded-lg border border-gray-300 dark:border-white/15 hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   {episode.coverImage ? (
                     <img
                       src={episode.coverImage}
                       alt=""
-                      className="w-12 h-12 rounded-md object-cover border border-gray-200 dark:border-white/10 shrink-0"
+                      className="w-12 h-12 rounded-md object-cover border border-gray-300 dark:border-white/15 shrink-0"
                       onError={(e) => { e.currentTarget.style.display = 'none'; }}
                     />
                   ) : (
@@ -110,7 +110,7 @@ const AudioEpisodeManager: React.FC = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
                       <span className="text-xs font-bold text-gray-900 dark:text-white truncate">{episode.title}</span>
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 ${episode.isPublished ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-white/10'}`}>
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 ${episode.isPublished ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-white/15'}`}>
                         {episode.isPublished ? 'Published' : 'Draft'}
                       </span>
                     </div>
@@ -143,7 +143,7 @@ const AudioEpisodeManager: React.FC = () => {
         )}
       </div>
 
-      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
         <AudioCommentsManager />
       </div>
 
@@ -166,7 +166,7 @@ const AudioEpisodeManager: React.FC = () => {
 
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg max-w-sm w-full p-6">
+          <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg max-w-sm w-full p-6">
             <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white mb-2">Delete this episode?</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">This cannot be undone.</p>
             <div className="flex justify-end gap-3">

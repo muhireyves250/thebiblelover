@@ -41,7 +41,7 @@ const MessagesManager = ({
                 ].map((stat) => {
                     const Icon = stat.icon;
                     return (
-                        <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3">
+                        <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
                             <div className="w-8 h-8 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center mb-2">
                                 <Icon className="h-4 w-4 text-amber-700" />
                             </div>
@@ -53,8 +53,8 @@ const MessagesManager = ({
             </div>
 
             {/* Messages List */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 py-3 border-b border-gray-200 dark:border-white/10 flex items-center justify-between">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-300 dark:border-white/15 flex items-center justify-between">
                     <h3 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Contact Messages</h3>
                     <button
                         onClick={() => setShowAllMessages(!showAllMessages)}
@@ -64,7 +64,7 @@ const MessagesManager = ({
                     </button>
                 </div>
 
-                <div className="divide-y divide-gray-100 dark:divide-white/5">
+                <div className="divide-y divide-gray-300 dark:divide-white/15">
                     {isLoading ? (
                         <div className="p-4 space-y-4 animate-pulse">
                             {[1, 2, 3].map(i => (
@@ -120,7 +120,7 @@ const MessagesManager = ({
                                         </div>
 
                                         <div className="mb-3">
-                                            <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-3 border border-gray-200 dark:border-white/10">
+                                            <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-3 border border-gray-300 dark:border-white/15">
                                                 <p className="text-xs text-gray-700 dark:text-gray-200 leading-relaxed">
                                                     {expandedMessages.has(message.id) ? (
                                                         <>
@@ -159,14 +159,14 @@ const MessagesManager = ({
                                             <div className="flex items-center gap-2">
                                                 <button
                                                     onClick={() => window.open(`mailto:${message.email}?subject=Re: ${message.subject}`, '_blank')}
-                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 dark:border-white/10 text-xs font-bold rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-400 dark:border-white/20 text-xs font-bold rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                                                 >
                                                     <Send className="w-3 h-3" />
                                                     Reply
                                                 </button>
                                                 <button
                                                     onClick={() => markMessageAsRead(message.id)}
-                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 dark:border-white/10 text-xs font-bold rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-400 dark:border-white/20 text-xs font-bold rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                                                 >
                                                     <Check className="w-3 h-3" />
                                                     Mark Read
@@ -188,7 +188,7 @@ const MessagesManager = ({
                 </div>
 
                 {!showAllMessages && messages.length > 5 && (
-                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10">
+                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-300 dark:border-white/15">
                         <button
                             onClick={() => setShowAllMessages(true)}
                             className="w-full text-center text-xs font-bold text-amber-700 hover:text-amber-800"

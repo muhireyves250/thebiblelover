@@ -25,7 +25,7 @@ const CommentsManager = ({
     return (
         <div className="space-y-4">
             {/* Header */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
                 <div className="flex items-center gap-3">
                     <div className="w-9 h-9 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center">
                         <MessageSquare className="h-4 w-4 text-amber-700" />
@@ -41,7 +41,7 @@ const CommentsManager = ({
                     { label: 'Approved', value: approvedCount },
                     { label: 'Pending', value: pendingCount },
                 ].map((stat) => (
-                    <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3 text-center">
+                    <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 text-center">
                         <p className="text-xl font-black text-gray-900 dark:text-white">{stat.value}</p>
                         <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-0.5">{stat.label}</p>
                     </div>
@@ -49,8 +49,8 @@ const CommentsManager = ({
             </div>
 
             {/* Comments List */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 py-3 border-b border-gray-200 dark:border-white/10">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-300 dark:border-white/15">
                     <h4 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Recent Comments</h4>
                 </div>
 
@@ -79,7 +79,7 @@ const CommentsManager = ({
                                     </div>
 
                                     <div className="mb-2">
-                                        <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-3 border border-gray-200 dark:border-white/10">
+                                        <div className="bg-gray-50 dark:bg-white/5 rounded-lg p-3 border border-gray-300 dark:border-white/15">
                                             <p className="text-xs text-gray-700 dark:text-gray-200 leading-relaxed">
                                                 {expandedComments.has(comment.id) ? (
                                                     <>
@@ -159,7 +159,7 @@ const CommentsManager = ({
                 </div>
 
                 {comments.length > 2 && (
-                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10 flex items-center justify-between">
+                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-300 dark:border-white/15 flex items-center justify-between">
                         <p className="text-xs font-semibold text-gray-600 dark:text-gray-300">
                             {showAllComments
                                 ? `Showing all ${comments.length} comments`

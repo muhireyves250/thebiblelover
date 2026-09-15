@@ -49,7 +49,7 @@ const EventManager: React.FC<EventManagerProps> = ({ events, onAdd, onEdit, onDe
                         <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Upcoming</h3>
                     </div>
 
-                    <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3 space-y-3">
+                    <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3">
                         {upcomingEvents.map(event => (
                             <EventItem key={event.id} event={event} onEdit={() => onEdit(event)} onDelete={() => onDelete(event.id)} />
                         ))}
@@ -66,7 +66,7 @@ const EventManager: React.FC<EventManagerProps> = ({ events, onAdd, onEdit, onDe
                         <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Past Events</h3>
                     </div>
 
-                    <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3 space-y-3 opacity-75">
+                    <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3 opacity-75">
                         {pastEvents.map(event => (
                             <EventItem key={event.id} event={event} onEdit={() => onEdit(event)} onDelete={() => onDelete(event.id)} isPast />
                         ))}
@@ -83,9 +83,9 @@ const EventManager: React.FC<EventManagerProps> = ({ events, onAdd, onEdit, onDe
 const EventItem = ({ event, onEdit, onDelete }: { event: Event, onEdit: () => void, onDelete: () => void, isPast?: boolean }) => {
     const date = new Date(event.date);
     return (
-        <div className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 group hover:border-amber-300 dark:hover:border-amber-700/40 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+        <div className="p-3.5 rounded-lg border border-gray-300 dark:border-white/15 group hover:border-amber-300 dark:hover:border-amber-700/40 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
             <div className="flex items-center gap-3.5">
-                <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 dark:bg-white/10 flex-shrink-0 border border-gray-200 dark:border-white/10">
+                <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 dark:bg-white/10 flex-shrink-0 border border-gray-300 dark:border-white/15">
                     {event.thumbnail ? (
                         <img src={event.thumbnail} alt="" className="w-full h-full object-cover" />
                     ) : (
@@ -119,7 +119,7 @@ const EventItem = ({ event, onEdit, onDelete }: { event: Event, onEdit: () => vo
                 <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                     <button
                         onClick={onEdit}
-                        className="p-2 border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-300 hover:text-amber-700 hover:border-amber-200 rounded-md transition-colors"
+                        className="p-2 border border-gray-300 dark:border-white/15 text-gray-500 dark:text-gray-300 hover:text-amber-700 hover:border-amber-200 rounded-md transition-colors"
                         title="Edit"
                     >
                         <Edit className="w-4 h-4" />

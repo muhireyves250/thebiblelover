@@ -781,7 +781,7 @@ const Dashboard = () => {
   if (isLoading) {
     return (
       <div className="h-screen bg-white dark:bg-[#0a0a0a] flex overflow-hidden animate-pulse">
-        <div className="hidden lg:flex w-64 bg-white dark:bg-[#0a0a0a] border-r border-gray-200 dark:border-white/10 flex-shrink-0 flex-col p-6 space-y-6">
+        <div className="hidden lg:flex w-64 bg-white dark:bg-[#0a0a0a] border-r border-gray-300 dark:border-white/15 flex-shrink-0 flex-col p-6 space-y-6">
           <div className="h-10 w-32 bg-gray-100 dark:bg-white/10 rounded-md" />
           <div className="space-y-3 pt-6">
             {[1, 2, 3, 4, 5].map(i => (
@@ -793,10 +793,10 @@ const Dashboard = () => {
           <div className="h-8 w-48 bg-gray-100 dark:bg-white/10 rounded-md" />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="h-24 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/10" />
+              <div key={i} className="h-24 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
             ))}
           </div>
-          <div className="h-64 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/10" />
+          <div className="h-64 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
         </div>
       </div>
     );
@@ -814,11 +814,11 @@ const Dashboard = () => {
       )}
 
       {/* Sidebar (desktop: persistent; mobile: slide-out drawer) */}
-      <div className={`fixed lg:static inset-y-0 right-0 lg:right-auto lg:left-0 z-50 w-72 bg-white dark:bg-[#0a0a0a] border-l lg:border-l-0 lg:border-r border-gray-200 dark:border-white/10 flex-shrink-0 flex flex-col transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}`}>
+      <div className={`fixed lg:static inset-y-0 right-0 lg:right-auto lg:left-0 z-50 w-72 bg-white dark:bg-[#0a0a0a] border-l lg:border-l-0 lg:border-r border-gray-300 dark:border-white/15 flex-shrink-0 flex flex-col transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}`}>
         {/* Sidebar Header */}
         <div className="h-16 px-5 flex-shrink-0 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <img src="/app-icon.png" alt="Ihema" className="w-14 h-14 rounded-lg object-cover" />
+            <img src="/app-icon.png" alt="Ihema" className="w-16 h-16 rounded-lg object-cover" />
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
@@ -931,7 +931,7 @@ const Dashboard = () => {
         </nav>
 
         {/* Footer actions */}
-        <div className="p-3 border-t border-gray-200 dark:border-white/10 flex-shrink-0 space-y-1">
+        <div className="p-3 border-t border-gray-300 dark:border-white/15 flex-shrink-0 space-y-1">
           <Link
             to="/"
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
@@ -953,7 +953,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
-        <div className="h-16 bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-200 dark:border-white/10 px-4 md:px-8 flex-shrink-0 flex items-center">
+        <div className="h-16 bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-300 dark:border-white/15 px-4 md:px-8 flex-shrink-0 flex items-center">
           {/* Mobile bar: profile / title / notifications / menu */}
           <div className="lg:hidden flex items-center gap-2 w-full">
             <div className="relative user-dropdown shrink-0">
@@ -968,7 +968,7 @@ const Dashboard = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute left-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-lg py-2 z-50"
+                  className="absolute left-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-lg py-2 z-50"
                 >
                   <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10">
                     <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name || 'Administrator'}</p>
@@ -985,7 +985,7 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div className="flex-1 min-w-0 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm px-3 py-2">
+            <div className="flex-1 min-w-0 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm px-3 py-2">
               <h1 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
                 {NAV_LABELS[activeTab] || 'Dashboard'}
               </h1>
@@ -1006,7 +1006,7 @@ const Dashboard = () => {
 
           {/* Desktop bar */}
           <div className="hidden lg:flex items-center justify-between gap-3 w-full">
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm px-4 py-2">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm px-4 py-2">
               <h1 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
                 {NAV_LABELS[activeTab] || 'Dashboard'}
               </h1>
@@ -1020,7 +1020,7 @@ const Dashboard = () => {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
+                  className="w-full pl-9 pr-3 py-2 text-sm border border-gray-400 dark:border-white/20 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 />
               </div>
             </div>
@@ -1040,7 +1040,7 @@ const Dashboard = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute right-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-lg py-2 z-50"
+                    className="absolute right-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-lg py-2 z-50"
                   >
                     <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10">
                       <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name || 'Administrator'}</p>
@@ -1231,7 +1231,7 @@ const Dashboard = () => {
 
       {/* Mobile Bottom Navigation */}
       <nav className="lg:hidden fixed inset-x-3 bottom-0 z-40 pb-[env(safe-area-inset-bottom)]" aria-label="Dashboard">
-        <div className="relative flex items-stretch justify-around gap-0.5 px-2 bg-white/95 dark:bg-[#0e0e10]/95 backdrop-blur-xl rounded-t-[2.5rem] rounded-b-none border-2 border-b-0 border-gray-300 dark:border-white/10 shadow-2xl overflow-hidden">
+        <div className="relative flex items-stretch justify-around gap-0.5 px-2 bg-white/95 dark:bg-[#0e0e10]/95 backdrop-blur-xl rounded-t-[2.5rem] rounded-b-none border-2 border-b-0 border-gray-400 dark:border-white/20 shadow-2xl overflow-hidden">
           <span className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
           {[
             { id: 'overview', label: 'Overview', icon: BarChart3 },

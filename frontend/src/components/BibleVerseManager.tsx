@@ -153,7 +153,7 @@ const BibleVerseManager = () => {
   if (loading) {
     return (
       <div className="space-y-4 animate-pulse">
-        <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+        <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
           <div className="flex items-center justify-between gap-3">
             <div className="space-y-2">
               <div className="h-4 w-32 bg-gray-100 dark:bg-white/10 rounded" />
@@ -162,9 +162,9 @@ const BibleVerseManager = () => {
             <div className="h-9 w-28 bg-gray-100 dark:bg-white/10 rounded-lg" />
           </div>
         </div>
-        <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3 space-y-3">
+        <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 flex items-start gap-3">
+            <div key={i} className="p-3.5 rounded-lg border border-gray-300 dark:border-white/15 flex items-start gap-3">
               <div className="w-14 h-14 bg-gray-100 dark:bg-white/10 rounded-md shrink-0" />
               <div className="flex-1 space-y-2">
                 <div className="h-3 w-24 bg-gray-100 dark:bg-white/10 rounded" />
@@ -181,7 +181,7 @@ const BibleVerseManager = () => {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div>
             <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white">Bible Verses</h3>
@@ -198,7 +198,7 @@ const BibleVerseManager = () => {
       </div>
 
       {/* Verses List */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3">
+      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
         {verses.length === 0 ? (
           <div className="text-center py-10">
             <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center mx-auto mb-3">
@@ -214,8 +214,8 @@ const BibleVerseManager = () => {
                 key={verse.id}
                 className={`p-3.5 rounded-lg border transition-colors ${
                   !verse.isActive
-                    ? 'border-gray-200 dark:border-white/10 bg-gray-50/60 dark:bg-white/[0.02]'
-                    : 'border-gray-200 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-700/40'
+                    ? 'border-gray-300 dark:border-white/15 bg-gray-50/60 dark:bg-white/[0.02]'
+                    : 'border-gray-300 dark:border-white/15 hover:border-amber-300 dark:hover:border-amber-700/40'
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -223,14 +223,14 @@ const BibleVerseManager = () => {
                     <img
                       src={verse.image}
                       alt="Verse"
-                      className="w-14 h-14 object-cover rounded-md border border-gray-200 dark:border-white/10 shrink-0"
+                      className="w-14 h-14 object-cover rounded-md border border-gray-300 dark:border-white/15 shrink-0"
                       crossOrigin="anonymous"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                       }}
                     />
                   ) : (
-                    <div className="w-14 h-14 bg-gray-100 dark:bg-white/5 rounded-md flex items-center justify-center border border-gray-200 dark:border-white/10 shrink-0">
+                    <div className="w-14 h-14 bg-gray-100 dark:bg-white/5 rounded-md flex items-center justify-center border border-gray-300 dark:border-white/15 shrink-0">
                       <ImageIcon className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                     </div>
                   )}
@@ -254,7 +254,7 @@ const BibleVerseManager = () => {
                           className={`flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest transition-colors ${
                             verse.isActive
                               ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40'
-                              : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-white/10'
+                              : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-white/15'
                           }`}
                         >
                           {verse.isActive ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
@@ -303,7 +303,7 @@ const BibleVerseManager = () => {
       {/* Add/Edit Modal */}
       {(showAddModal || editingVerse) && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">
               {editingVerse ? 'Edit Bible Verse' : 'Add New Bible Verse'}
             </h3>
@@ -316,7 +316,7 @@ const BibleVerseManager = () => {
                 <textarea
                   value={formData.text}
                   onChange={(e) => setFormData({ ...formData, text: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                   rows={4}
                   placeholder="Enter the Bible verse text..."
                   required
@@ -332,7 +332,7 @@ const BibleVerseManager = () => {
                     type="text"
                     value={formData.book}
                     onChange={(e) => setFormData({ ...formData, book: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     placeholder="e.g., John"
                     required
                   />
@@ -345,7 +345,7 @@ const BibleVerseManager = () => {
                     type="number"
                     value={formData.chapter}
                     onChange={(e) => setFormData({ ...formData, chapter: parseInt(e.target.value) || 1 })}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     min="1"
                     required
                   />
@@ -358,7 +358,7 @@ const BibleVerseManager = () => {
                     type="number"
                     value={formData.verse}
                     onChange={(e) => setFormData({ ...formData, verse: parseInt(e.target.value) || 1 })}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                     min="1"
                     required
                   />
@@ -372,7 +372,7 @@ const BibleVerseManager = () => {
                 <select
                   value={formData.translation}
                   onChange={(e) => setFormData({ ...formData, translation: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-white/10 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
                 >
                   <option value="NIV">NIV</option>
                   <option value="ESV">ESV</option>
@@ -448,7 +448,7 @@ const BibleVerseManager = () => {
       {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg p-6 max-w-md w-full">
+          <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg p-6 max-w-md w-full">
             <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white mb-3">Delete Bible Verse</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
               Are you sure you want to delete this Bible verse? This action cannot be undone.

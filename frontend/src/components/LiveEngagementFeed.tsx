@@ -57,7 +57,7 @@ const LiveEngagementFeed: React.FC = () => {
 
   if (loading && events.length === 0) {
     return (
-      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-6 h-full animate-pulse">
+      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-5 md:p-6 h-full animate-pulse">
         <div className="h-4 w-32 bg-gray-100 dark:bg-white/10 rounded mb-4" />
         <div className="space-y-2.5">
           {[1, 2, 3].map(i => (
@@ -75,7 +75,7 @@ const LiveEngagementFeed: React.FC = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-6 h-full">
+    <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-5 md:p-6 h-full">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white flex items-center gap-2">
           <Zap className="h-4 w-4 text-amber-700" />

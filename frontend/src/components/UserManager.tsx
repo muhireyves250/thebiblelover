@@ -29,7 +29,7 @@ const UserManager: React.FC<UserManagerProps> = ({ users, onUpdateRole, onDelete
                     <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Users</h2>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-widest font-bold">Manage registered accounts</p>
                 </div>
-                <div className="px-5 py-2.5 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm flex items-center gap-3">
+                <div className="px-5 py-2.5 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm flex items-center gap-3">
                     <Users className="h-4 w-4 text-amber-700" />
                     <span className="text-lg font-black text-gray-900 dark:text-white">{users.length}</span>
                     <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Total</span>
@@ -37,7 +37,7 @@ const UserManager: React.FC<UserManagerProps> = ({ users, onUpdateRole, onDelete
             </div>
 
             {users.length === 0 ? (
-                <div className="bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/10 rounded-lg p-12 text-center">
+                <div className="bg-white dark:bg-[#141417] border border-dashed border-gray-400 dark:border-white/20 rounded-lg p-12 text-center">
                     <Users className="h-8 w-8 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
                     <p className="text-sm font-bold text-gray-700 dark:text-gray-200">No users yet</p>
                 </div>
@@ -49,7 +49,7 @@ const UserManager: React.FC<UserManagerProps> = ({ users, onUpdateRole, onDelete
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: idx * 0.05 }}
-                            className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm hover:border-gray-400 dark:hover:border-white/20 transition-all p-5 relative"
+                            className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm hover:border-gray-400 dark:hover:border-white/20 transition-all p-5 relative"
                         >
                             <div className="absolute top-4 right-4">
                                 {user.role === 'ADMIN' ? (

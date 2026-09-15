@@ -31,7 +31,7 @@ const DonationsManager = ({
                 ].map((stat) => {
                     const Icon = stat.icon;
                     return (
-                        <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3">
+                        <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
                             <div className="w-8 h-8 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center mb-2">
                                 <Icon className="h-4 w-4 text-amber-700" />
                             </div>
@@ -43,8 +43,8 @@ const DonationsManager = ({
             </div>
 
             {/* Donations List */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 py-3 border-b border-gray-200 dark:border-white/10 flex items-center justify-between">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-300 dark:border-white/15 flex items-center justify-between">
                     <h4 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Recent Donations</h4>
                     {refreshDonations && (
                         <button
@@ -140,7 +140,7 @@ const DonationsManager = ({
                 </div>
 
                 {donations.length > 5 && (
-                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10 flex items-center justify-between">
+                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-300 dark:border-white/15 flex items-center justify-between">
                         <p className="text-xs font-semibold text-gray-600 dark:text-gray-300">
                             {showAllDonations
                                 ? `Showing all ${donations.length} donations`

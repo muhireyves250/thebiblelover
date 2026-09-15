@@ -30,7 +30,7 @@ const PostsManager = ({
     return (
         <div className="space-y-4">
             {/* Header */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="flex items-center gap-3">
                         <div className="w-9 h-9 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center">
@@ -58,7 +58,7 @@ const PostsManager = ({
                     { label: 'Published', value: publishedCount },
                     { label: 'Drafts', value: draftCount },
                 ].map((stat) => (
-                    <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3 text-center">
+                    <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 text-center">
                         <p className="text-xl font-black text-gray-900 dark:text-white">{stat.value}</p>
                         <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-0.5">{stat.label}</p>
                     </div>
@@ -66,9 +66,9 @@ const PostsManager = ({
             </div>
 
             {/* Posts Table */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="w-full divide-y divide-gray-200 dark:divide-white/10">
+                    <table className="w-full divide-y divide-gray-300 dark:divide-white/15">
                         <thead className="bg-gray-50 dark:bg-white/5">
                             <tr>
                                 <th className="px-3 py-2 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Title</th>
@@ -78,7 +78,7 @@ const PostsManager = ({
                                 <th className="px-3 py-2 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+                        <tbody className="divide-y divide-gray-300 dark:divide-white/15">
                             {posts.map((post) => (
                                 <tr key={post.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
                                     <td className="px-3 py-2">
@@ -150,7 +150,7 @@ const PostsManager = ({
                                                     );
                                                 case 'DRAFT':
                                                     return (
-                                                        <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-white/10 uppercase">
+                                                        <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-white/15 uppercase">
                                                             Draft
                                                         </span>
                                                     );
@@ -162,7 +162,7 @@ const PostsManager = ({
                                                     );
                                                 default:
                                                     return (
-                                                        <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-white/10 uppercase">
+                                                        <span className="px-2 py-1 text-[10px] font-bold rounded-full bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-white/15 uppercase">
                                                             {post.status}
                                                         </span>
                                                     );

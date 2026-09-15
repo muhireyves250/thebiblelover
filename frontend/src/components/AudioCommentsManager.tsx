@@ -62,7 +62,7 @@ const AudioCommentsManager: React.FC = () => {
               key={tab}
               onClick={() => setFilter(tab)}
               className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wide border ${
-                filter === tab ? 'bg-amber-700 text-white border-amber-700' : 'bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 border-gray-300 dark:border-white/10'
+                filter === tab ? 'bg-amber-700 text-white border-amber-700' : 'bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 border-gray-400 dark:border-white/20'
               }`}
             >
               {tab}
@@ -82,7 +82,7 @@ const AudioCommentsManager: React.FC = () => {
       ) : (
         <div className="space-y-3">
           {comments.map(comment => (
-            <div key={comment.id} className="bg-white dark:bg-[#141417] border border-gray-200 dark:border-white/10 rounded-lg p-4">
+            <div key={comment.id} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/15 rounded-lg p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">

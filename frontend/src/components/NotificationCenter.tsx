@@ -85,8 +85,8 @@ const NotificationCenter = () => {
             </button>
 
             {isOpen && (
-                <div className="fixed sm:absolute inset-x-3 sm:inset-x-auto top-16 sm:top-auto sm:right-0 sm:mt-3 sm:w-[400px] max-h-[70vh] sm:max-h-[500px] overflow-hidden bg-white dark:bg-[#141417] rounded-lg shadow-2xl border border-gray-300 dark:border-white/10 z-50 animate-in fade-in slide-in-from-top-2">
-                    <div className="px-5 py-4 border-b border-gray-200 dark:border-white/10 flex items-center justify-between bg-gray-50 dark:bg-white/5">
+                <div className="fixed sm:absolute inset-x-3 sm:inset-x-auto top-16 sm:top-auto sm:right-0 sm:mt-3 sm:w-[400px] max-h-[70vh] sm:max-h-[500px] overflow-hidden bg-white dark:bg-[#141417] rounded-lg shadow-2xl border border-gray-400 dark:border-white/20 z-50 animate-in fade-in slide-in-from-top-2">
+                    <div className="px-5 py-4 border-b border-gray-300 dark:border-white/15 flex items-center justify-between bg-gray-50 dark:bg-white/5">
                         <h3 className="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white">Notifications</h3>
                         {unreadCount > 0 && (
                             <button
@@ -107,7 +107,7 @@ const NotificationCenter = () => {
                                 <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">No notifications yet</p>
                             </div>
                         ) : (
-                            <div className="divide-y divide-gray-100 dark:divide-white/5">
+                            <div className="divide-y divide-gray-300 dark:divide-white/15">
                                 {notifications.map((notif) => {
                                     const getBgColor = (type: string) => {
                                         if (notif.isRead) return 'hover:bg-gray-50 dark:hover:bg-white/5';
@@ -123,7 +123,7 @@ const NotificationCenter = () => {
                                             key={notif.id}
                                             className={`p-4 transition-colors flex gap-3 ${getBgColor(notif.type)} ${notif.isRead ? 'opacity-60' : ''}`}
                                         >
-                                            <div className={`h-9 w-9 rounded-lg flex items-center justify-center shrink-0 border ${notif.isRead ? 'bg-gray-100 dark:bg-white/10 border-gray-200 dark:border-white/10' : 'bg-white dark:bg-[#141417] border-gray-200 dark:border-white/10 shadow-sm'
+                                            <div className={`h-9 w-9 rounded-lg flex items-center justify-center shrink-0 border ${notif.isRead ? 'bg-gray-100 dark:bg-white/10 border-gray-300 dark:border-white/15' : 'bg-white dark:bg-[#141417] border-gray-300 dark:border-white/15 shadow-sm'
                                                 }`}>
                                                 {getIcon(notif.type)}
                                             </div>

@@ -51,7 +51,7 @@ const NewsletterManager = () => {
     return (
         <div className="space-y-4">
             {/* Header */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
                 <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white">Newsletter</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400">People who have subscribed for updates from your site</p>
             </div>
@@ -63,7 +63,7 @@ const NewsletterManager = () => {
                     { label: 'Active', value: activeCount },
                     { label: 'Unsubscribed', value: inactiveCount },
                 ].map((stat) => (
-                    <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3 text-center">
+                    <div key={stat.label} className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 text-center">
                         <p className="text-xl font-black text-gray-900 dark:text-white">{stat.value}</p>
                         <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-0.5">{stat.label}</p>
                     </div>
@@ -71,11 +71,11 @@ const NewsletterManager = () => {
             </div>
 
             {/* Subscribers List */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
                 {loading ? (
                     <div className="space-y-3 animate-pulse">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 flex items-center gap-3">
+                            <div key={i} className="p-3.5 rounded-lg border border-gray-300 dark:border-white/15 flex items-center gap-3">
                                 <div className="w-9 h-9 bg-gray-100 dark:bg-white/10 rounded-lg shrink-0" />
                                 <div className="flex-1 space-y-2">
                                     <div className="h-3 w-1/3 bg-gray-100 dark:bg-white/10 rounded" />
@@ -97,7 +97,7 @@ const NewsletterManager = () => {
                         {subscribers.map((sub) => (
                             <div
                                 key={sub.id}
-                                className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors flex items-center gap-3"
+                                className="p-3.5 rounded-lg border border-gray-300 dark:border-white/15 hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors flex items-center gap-3"
                             >
                                 <div className="w-9 h-9 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
                                     <Mail className="h-4 w-4 text-amber-700" />
@@ -111,7 +111,7 @@ const NewsletterManager = () => {
                                                 <CheckCircle2 className="w-2.5 h-2.5" /> Active
                                             </span>
                                         ) : (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-white/10 uppercase">
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-white/15 uppercase">
                                                 <XCircle className="w-2.5 h-2.5" /> Unsubscribed
                                             </span>
                                         )}
@@ -137,7 +137,7 @@ const NewsletterManager = () => {
             {/* Delete Confirmation */}
             {deleteConfirm && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg p-6 max-w-md w-full">
+                    <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg p-6 max-w-md w-full">
                         <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white mb-3">Remove Subscriber</h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
                             Are you sure you want to remove this subscriber? This action cannot be undone.

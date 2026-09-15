@@ -45,7 +45,7 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
         <div className="space-y-4">
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4">
+                <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
                             <Heart className="w-5 h-5 text-amber-700" />
@@ -56,7 +56,7 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                         </div>
                     </div>
                 </div>
-                <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4">
+                <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center shrink-0">
                             <Clock className="w-5 h-5 text-emerald-600" />
@@ -67,7 +67,7 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                         </div>
                     </div>
                 </div>
-                <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4">
+                <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center shrink-0">
                             <CheckCircle className="w-5 h-5 text-blue-600" />
@@ -81,8 +81,8 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
             </div>
 
             {/* List Container */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-5 py-3.5 border-b border-gray-200 dark:border-white/10 flex items-center gap-3">
+            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="px-5 py-3.5 border-b border-gray-300 dark:border-white/15 flex items-center gap-3">
                     <div className="w-8 h-8 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
                         <Sparkles className="w-4 h-4 text-amber-700" />
                     </div>
@@ -97,7 +97,7 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="p-4 rounded-lg border border-gray-200 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors group"
+                                className="p-4 rounded-lg border border-gray-300 dark:border-white/15 hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors group"
                             >
                                 <div className="flex items-start justify-between gap-3">
                                     <div className="flex items-start gap-3 min-w-0">
@@ -141,7 +141,7 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                                         <button
                                             onClick={() => togglePraise(request.id)}
                                             className={`p-2 rounded-md border transition-colors ${request.status === 'ANSWERED'
-                                                ? 'border-gray-200 dark:border-white/10 text-gray-400 dark:text-gray-500'
+                                                ? 'border-gray-300 dark:border-white/15 text-gray-400 dark:text-gray-500'
                                                 : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
                                                 }`}
                                             title={request.status === 'ANSWERED' ? 'Mark as Active' : 'Mark as Answered'}
@@ -170,10 +170,10 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                 </div>
 
                 {requests.length > 5 && (
-                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10">
+                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-300 dark:border-white/15">
                         <button
                             onClick={toggleAll}
-                            className="w-full py-2 rounded-md border border-gray-300 dark:border-white/10 text-[10px] font-black uppercase tracking-widest text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10 hover:text-amber-700 transition-colors"
+                            className="w-full py-2 rounded-md border border-gray-400 dark:border-white/20 text-[10px] font-black uppercase tracking-widest text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10 hover:text-amber-700 transition-colors"
                         >
                             {showAll ? 'Show Less' : `View All ${requests.length} Requests`}
                         </button>
