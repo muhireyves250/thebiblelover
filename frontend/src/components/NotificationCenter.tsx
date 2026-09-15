@@ -78,61 +78,63 @@ const NotificationCenter = () => {
             >
                 <Bell className="h-6 w-6" />
                 {unreadCount > 0 && (
-                    <span className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white">
+                    <span className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white dark:ring-[#0a0a0a]">
                         {unreadCount > 9 ? '9+' : unreadCount}
                     </span>
                 )}
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-4 w-[400px] max-h-[500px] overflow-hidden bg-white dark:bg-[#141417] rounded-3xl shadow-2xl border border-gray-100 dark:border-white/5 z-50 animate-in fade-in slide-in-from-top-2">
-                    <div className="p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
+                <div className="fixed sm:absolute inset-x-3 sm:inset-x-auto top-16 sm:top-auto sm:right-0 sm:mt-3 sm:w-[400px] max-h-[70vh] sm:max-h-[500px] overflow-hidden bg-white dark:bg-[#141417] rounded-lg shadow-2xl border border-gray-300 dark:border-white/10 z-50 animate-in fade-in slide-in-from-top-2">
+                    <div className="px-5 py-4 border-b border-gray-200 dark:border-white/10 flex items-center justify-between bg-gray-50 dark:bg-white/5">
                         <h3 className="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white">Notifications</h3>
                         {unreadCount > 0 && (
                             <button
                                 onClick={handleMarkAllAsRead}
-                                className="text-[10px] font-bold text-amber-600 hover:text-amber-700 uppercase tracking-widest"
+                                className="text-[10px] font-bold text-amber-700 hover:text-amber-800 uppercase tracking-widest"
                             >
                                 Mark all as read
                             </button>
                         )}
                     </div>
 
-                    <div className="overflow-y-auto max-h-[380px]">
+                    <div className="overflow-y-auto max-h-[calc(70vh-56px)] sm:max-h-[420px]">
                         {notifications.length === 0 ? (
                             <div className="py-12 text-center">
-                                <BellOff className="h-10 w-10 text-gray-200 mx-auto mb-4" />
+                                <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                    <BellOff className="h-6 w-6 text-amber-700" />
+                                </div>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">No notifications yet</p>
                             </div>
                         ) : (
-                            <div className="divide-y divide-gray-50">
+                            <div className="divide-y divide-gray-100 dark:divide-white/5">
                                 {notifications.map((notif) => {
                                     const getBgColor = (type: string) => {
-                                        if (notif.isRead) return 'hover:bg-gray-50';
+                                        if (notif.isRead) return 'hover:bg-gray-50 dark:hover:bg-white/5';
                                         switch (type) {
-                                            case 'PRAYER_SUPPORT': return 'bg-rose-50/30 hover:bg-rose-50/50';
-                                            case 'EVENT_UPDATE': return 'bg-emerald-50/30 hover:bg-emerald-50/50';
-                                            default: return 'bg-amber-50/20 hover:bg-amber-50/40';
+                                            case 'PRAYER_SUPPORT': return 'bg-rose-50/40 dark:bg-rose-900/10 hover:bg-rose-50 dark:hover:bg-rose-900/20';
+                                            case 'EVENT_UPDATE': return 'bg-emerald-50/40 dark:bg-emerald-900/10 hover:bg-emerald-50 dark:hover:bg-emerald-900/20';
+                                            default: return 'bg-amber-50/30 dark:bg-amber-900/10 hover:bg-amber-50 dark:hover:bg-amber-900/20';
                                         }
                                     };
 
                                     return (
                                         <div
                                             key={notif.id}
-                                            className={`p-6 transition-all duration-300 flex gap-4 ${getBgColor(notif.type)} ${notif.isRead ? 'opacity-60' : ''}`}
+                                            className={`p-4 transition-colors flex gap-3 ${getBgColor(notif.type)} ${notif.isRead ? 'opacity-60' : ''}`}
                                         >
-                                            <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 border transition-transform duration-500 group-hover:scale-110 ${notif.isRead ? 'bg-gray-100 dark:bg-white/10 border-gray-200 dark:border-white/10' : 'bg-white dark:bg-[#141417] border-white shadow-sm'
+                                            <div className={`h-9 w-9 rounded-lg flex items-center justify-center shrink-0 border ${notif.isRead ? 'bg-gray-100 dark:bg-white/10 border-gray-200 dark:border-white/10' : 'bg-white dark:bg-[#141417] border-gray-200 dark:border-white/10 shadow-sm'
                                                 }`}>
                                                 {getIcon(notif.type)}
                                             </div>
                                         <div className="flex-1 min-w-0">
-                                            <div className="flex items-center justify-between mb-1">
+                                            <div className="flex items-center justify-between gap-2 mb-1">
                                                 <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate">{notif.title}</h4>
-                                                <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium">
+                                                <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium shrink-0">
                                                     {new Date(notif.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2 mb-3">
+                                            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2 mb-2">
                                                 {notif.message}
                                             </p>
                                             <div className="flex items-center gap-4">
@@ -143,7 +145,7 @@ const NotificationCenter = () => {
                                                             handleMarkAsRead(notif.id);
                                                             setIsOpen(false);
                                                         }}
-                                                        className="text-[10px] font-black uppercase tracking-widest text-amber-600 hover:text-amber-700 flex items-center gap-1"
+                                                        className="text-[10px] font-black uppercase tracking-widest text-amber-700 hover:text-amber-800 flex items-center gap-1"
                                                     >
                                                         View <ExternalLink className="h-3 w-3" />
                                                     </Link>
@@ -151,7 +153,7 @@ const NotificationCenter = () => {
                                                 {!notif.isRead && (
                                                     <button
                                                         onClick={() => handleMarkAsRead(notif.id)}
-                                                        className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 hover:text-gray-600 flex items-center gap-1"
+                                                        className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 flex items-center gap-1"
                                                     >
                                                         Mark read
                                                     </button>
