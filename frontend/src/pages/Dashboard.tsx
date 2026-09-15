@@ -816,9 +816,10 @@ const Dashboard = () => {
       {/* Sidebar (desktop: persistent; mobile: slide-out drawer) */}
       <div className={`fixed lg:static inset-y-0 right-0 lg:right-auto lg:left-0 z-50 w-72 bg-white dark:bg-[#0a0a0a] border-l lg:border-l-0 lg:border-r border-gray-300 dark:border-white/15 flex-shrink-0 flex flex-col transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}`}>
         {/* Sidebar Header */}
-        <div className="h-16 px-5 flex-shrink-0 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src="/app-icon.png" alt="Ihema" className="w-16 h-16 rounded-lg object-cover" />
+        <div className="h-20 px-5 flex-shrink-0 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5 min-w-0">
+            <img src="/images/logo.png" alt="Ihema" className="h-14 w-auto max-w-full object-contain dark:hidden" />
+            <img src="/images/logo-dark.png" alt="Ihema" className="h-14 w-auto max-w-full object-contain hidden dark:block" />
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
@@ -953,7 +954,7 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
-        <div className="h-16 bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-300 dark:border-white/15 px-4 md:px-8 flex-shrink-0 flex items-center">
+        <div className="h-20 bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-300 dark:border-white/15 px-4 md:px-8 flex-shrink-0 flex items-center">
           {/* Mobile bar: profile / title / notifications / menu */}
           <div className="lg:hidden flex items-center gap-2 w-full">
             <div className="relative user-dropdown shrink-0">
