@@ -59,7 +59,7 @@ import { useLogoSettings } from '../hooks/useLogoSettings';
 import { useSocialSettings } from '../hooks/useSocialSettings';
 import { getStorageInfo, clearAllBlogData } from '../utils/storageManager';
 // @ts-ignore
-import { blogAPI, contactAPI, donationsAPI, prayerAPI, eventAPI, userAPI, statsAPI } from '../services/api';
+import { blogAPI, contactAPI, donationsAPI, prayerAPI, eventAPI, userAPI, statsAPI, bibleVersesAPI, audioEpisodesAPI } from '../services/api';
 // @ts-ignore
 import { useAuth } from '../hooks/useAPI';
 import { useContentSettings } from '../hooks/useContentSettings';
@@ -211,6 +211,8 @@ const Dashboard = () => {
   const [events, setEvents] = useState<any[]>([]);
 
   const [showAllPrayers, setShowAllPrayers] = useState(false);
+  const [versesCount, setVersesCount] = useState(0);
+  const [episodesCount, setEpisodesCount] = useState(0);
 
   useEffect(() => {
     console.log('Dashboard useEffect - isAuthenticated:', isAuthenticated, 'user:', user);
@@ -549,6 +551,18 @@ const Dashboard = () => {
         const res = await eventAPI.getEvents();
         eventsData = res.data || [];
       } catch (err) { console.warn('Events API failed'); }
+
+      // Load Bible Verses count
+      try {
+        const res = await bibleVersesAPI.getVerses({ includeInactive: true } as any);
+        setVersesCount(res.data?.verses?.length ?? 0);
+      } catch (err) { console.warn('Bible verses API failed'); }
+
+      // Load Audio Episodes count
+      try {
+        const res = await audioEpisodesAPI.getAllEpisodes();
+        setEpisodesCount(res.data?.episodes?.length ?? 0);
+      } catch (err) { console.warn('Audio episodes API failed'); }
 
       setPosts(transformedPosts);
       setComments(transformedComments);
@@ -981,6 +995,13 @@ const Dashboard = () => {
               user={user}
               stats={stats}
               comments={comments}
+              donationsCount={donations.length}
+              messagesCount={messages.length}
+              prayersCount={prayers.length}
+              eventsCount={events.length}
+              usersCount={allUsers.length}
+              versesCount={versesCount}
+              episodesCount={episodesCount}
               setActiveTab={setActiveTab}
               setShowAddPostConfirm={setShowAddPostConfirm}
               setIsBackgroundModalOpen={setIsBackgroundModalOpen}

@@ -1,5 +1,4 @@
 import {
-    Eye,
     Heart,
     TrendingUp,
     BookOpen,
@@ -8,7 +7,10 @@ import {
     Plus,
     Palette,
     MessageSquare,
-    DollarSign
+    DollarSign,
+    Sparkles,
+    Mic,
+    Calendar
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
@@ -35,6 +37,13 @@ interface StatsOverviewProps {
         chartData?: any[];
     };
     comments: any[];
+    donationsCount: number;
+    messagesCount: number;
+    prayersCount: number;
+    eventsCount: number;
+    usersCount: number;
+    versesCount: number;
+    episodesCount: number;
     setActiveTab: (tab: string) => void;
     setShowAddPostConfirm: (show: boolean) => void;
     setIsBackgroundModalOpen: (show: boolean) => void;
@@ -91,6 +100,13 @@ const DashboardOverview = ({
     user,
     stats,
     comments,
+    donationsCount,
+    messagesCount,
+    prayersCount,
+    eventsCount,
+    usersCount,
+    versesCount,
+    episodesCount,
     setActiveTab,
     setShowAddPostConfirm,
     setIsBackgroundModalOpen
@@ -122,29 +138,39 @@ const DashboardOverview = ({
                 </div>
             </motion.div>
 
-            {/* Key Metrics Grid */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                {[
-                    { label: 'Total Posts', value: stats.totalPosts, icon: BookOpen },
-                    { label: 'Total Views', value: stats.totalViews.toLocaleString(), icon: Eye },
-                    { label: 'Engagement', value: stats.totalLikes + stats.totalComments, icon: Heart },
-                    { label: 'Scheduled', value: stats.totalScheduled, icon: TrendingUp }
-                ].map((metric, idx) => {
-                    const Icon = metric.icon;
-                    return (
-                        <motion.div
-                            key={idx}
-                            variants={itemVariants}
-                            className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5"
-                        >
-                            <div className="w-9 h-9 md:w-10 md:h-10 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center mb-3 md:mb-4">
-                                <Icon className="h-4 w-4 md:h-5 md:w-5 text-amber-700" />
-                            </div>
-                            <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">{metric.label}</p>
-                            <h3 className="text-xl md:text-3xl font-black text-gray-900 dark:text-white">{metric.value}</h3>
-                        </motion.div>
-                    );
-                })}
+            {/* Content Inventory - count of each category on the platform */}
+            <div>
+                <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2.5 px-1">Content on the Platform</h3>
+                <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-3">
+                    {[
+                        { label: 'Posts', value: stats.totalPosts, icon: BookOpen, tab: 'posts' },
+                        { label: 'Bible Verses', value: versesCount, icon: Sparkles, tab: 'bible-verses' },
+                        { label: 'Devotionals', value: episodesCount, icon: Mic, tab: 'audio-episodes' },
+                        { label: 'Events', value: eventsCount, icon: Calendar, tab: 'events' },
+                        { label: 'Prayer Requests', value: prayersCount, icon: Heart, tab: 'prayers' },
+                        { label: 'Comments', value: stats.totalComments, icon: MessageSquare, tab: 'comments' },
+                        { label: 'Messages', value: messagesCount, icon: Mail, tab: 'messages' },
+                        { label: 'Donations', value: donationsCount, icon: DollarSign, tab: 'donations' },
+                        { label: 'Users', value: usersCount, icon: Users, tab: 'users' },
+                        { label: 'Scheduled Posts', value: stats.totalScheduled, icon: TrendingUp, tab: 'posts' },
+                    ].map((metric, idx) => {
+                        const Icon = metric.icon;
+                        return (
+                            <motion.button
+                                key={idx}
+                                variants={itemVariants}
+                                onClick={() => setActiveTab(metric.tab)}
+                                className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-2.5 md:p-3 text-left hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors"
+                            >
+                                <div className="w-7 h-7 md:w-8 md:h-8 bg-amber-50 dark:bg-amber-900/20 rounded-md flex items-center justify-center mb-1.5 md:mb-2">
+                                    <Icon className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-700" />
+                                </div>
+                                <p className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-0.5 truncate">{metric.label}</p>
+                                <h3 className="text-lg md:text-xl font-black text-gray-900 dark:text-white">{metric.value}</h3>
+                            </motion.button>
+                        );
+                    })}
+                </div>
             </div>
 
             {/* Analytics & Quick Actions */}
