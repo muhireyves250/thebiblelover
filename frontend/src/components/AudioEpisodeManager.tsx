@@ -63,7 +63,7 @@ const AudioEpisodeManager: React.FC = () => {
       </div>
 
       {/* Episodes List */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3">
         {loading ? (
           <div className="flex items-center justify-center py-10">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700"></div>
@@ -79,74 +79,58 @@ const AudioEpisodeManager: React.FC = () => {
             <p className="text-xs text-gray-500 dark:text-gray-400">Add your first devotional episode to get started</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-white/5">
-                <tr>
-                  <th className="px-4 py-2.5 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Episode</th>
-                  <th className="px-4 py-2.5 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Slot</th>
-                  <th className="px-4 py-2.5 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest hidden md:table-cell">Date</th>
-                  <th className="px-4 py-2.5 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest hidden lg:table-cell">Likes</th>
-                  <th className="px-4 py-2.5 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest hidden lg:table-cell">Comments</th>
-                  <th className="px-4 py-2.5 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Status</th>
-                  <th className="px-4 py-2.5 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100 dark:divide-white/5">
-                {episodes.map((episode) => (
-                  <tr key={episode.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2 min-w-0">
-                        {episode.coverImage ? (
-                          <img
-                            src={episode.coverImage}
-                            alt=""
-                            className="w-9 h-9 rounded-md object-cover border border-gray-200 dark:border-white/10 shrink-0"
-                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                          />
-                        ) : (
-                          <div className="w-9 h-9 rounded-md bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center shrink-0">
-                            <Mic className="w-4 h-4 text-amber-700" />
-                          </div>
-                        )}
-                        <span className="text-xs font-bold text-gray-900 dark:text-white truncate">{episode.title}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-300">
-                      {episode.slot === 'MORNING' ? 'Morning' : 'Evening'}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-gray-400 dark:text-gray-500 hidden md:table-cell">
-                      {new Date(episode.episodeDate).toLocaleDateString()}
-                    </td>
-                    <td className="px-4 py-3 hidden lg:table-cell">
-                      <span className="inline-flex items-center gap-1 text-xs font-bold text-gray-700 dark:text-gray-200">
-                        <Heart className="w-3 h-3 text-gray-400 dark:text-gray-500" /> {episode.likes}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 hidden lg:table-cell">
-                      <span className="inline-flex items-center gap-1 text-xs font-bold text-gray-700 dark:text-gray-200">
-                        <MessageSquare className="w-3 h-3 text-gray-400 dark:text-gray-500" /> {episode.commentsCount ?? 0}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${episode.isPublished ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-white/10'}`}>
+          <div className="space-y-3">
+            {episodes.map((episode) => (
+              <div
+                key={episode.id}
+                className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  {episode.coverImage ? (
+                    <img
+                      src={episode.coverImage}
+                      alt=""
+                      className="w-12 h-12 rounded-md object-cover border border-gray-200 dark:border-white/10 shrink-0"
+                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-md bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center shrink-0">
+                      <Mic className="w-5 h-5 text-amber-700" />
+                    </div>
+                  )}
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
+                      <span className="text-xs font-bold text-gray-900 dark:text-white truncate">{episode.title}</span>
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest shrink-0 ${episode.isPublished ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/40' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-white/10'}`}>
                         {episode.isPublished ? 'Published' : 'Draft'}
                       </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex gap-1">
-                        <button onClick={() => setEditingEpisode(episode)} className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors" title="Edit episode">
-                          <Edit className="w-3.5 h-3.5" />
-                        </button>
-                        <button onClick={() => setDeleteConfirm(episode.id)} className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Delete episode">
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                    <div className="flex items-center gap-2.5 flex-wrap text-[10px] text-gray-400 dark:text-gray-500 font-medium">
+                      <span className="font-semibold text-gray-600 dark:text-gray-300">{episode.slot === 'MORNING' ? 'Morning' : 'Evening'}</span>
+                      <span>&middot;</span>
+                      <span>{new Date(episode.episodeDate).toLocaleDateString()}</span>
+                      <span>&middot;</span>
+                      <span className="inline-flex items-center gap-1">
+                        <Heart className="w-3 h-3" /> {episode.likes}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <MessageSquare className="w-3 h-3" /> {episode.commentsCount ?? 0}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-1 shrink-0">
+                    <button onClick={() => setEditingEpisode(episode)} className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors" title="Edit episode">
+                      <Edit className="w-3.5 h-3.5" />
+                    </button>
+                    <button onClick={() => setDeleteConfirm(episode.id)} className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Delete episode">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

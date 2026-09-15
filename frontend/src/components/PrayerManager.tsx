@@ -89,7 +89,7 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                     <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-widest">Community Prayers</h3>
                 </div>
 
-                <div className="divide-y divide-gray-100 dark:divide-white/5">
+                <div className="p-3 space-y-3">
                     <AnimatePresence initial={false}>
                         {requests.slice(0, showAll ? requests.length : 5).map((request) => (
                             <motion.div
@@ -97,7 +97,7 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group"
+                                className="p-4 rounded-lg border border-gray-200 dark:border-white/10 hover:border-amber-300 dark:hover:border-amber-700/40 transition-colors group"
                             >
                                 <div className="flex items-start justify-between gap-3">
                                     <div className="flex items-start gap-3 min-w-0">
