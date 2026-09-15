@@ -967,9 +967,11 @@ const Dashboard = () => {
               )}
             </div>
 
-            <h1 className="flex-1 min-w-0 text-base font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
-              {NAV_LABELS[activeTab] || 'Dashboard'}
-            </h1>
+            <div className="flex-1 min-w-0 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm px-3 py-2">
+              <h1 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
+                {NAV_LABELS[activeTab] || 'Dashboard'}
+              </h1>
+            </div>
 
             <NotificationCenter />
 
@@ -984,9 +986,11 @@ const Dashboard = () => {
 
           {/* Desktop bar */}
           <div className="hidden lg:flex items-center justify-between gap-3">
-            <h1 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
-              {NAV_LABELS[activeTab] || 'Dashboard'}
-            </h1>
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm px-4 py-2">
+              <h1 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
+                {NAV_LABELS[activeTab] || 'Dashboard'}
+              </h1>
+            </div>
 
             <div className="flex-1 max-w-md">
               <div className="relative">
