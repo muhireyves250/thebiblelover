@@ -32,8 +32,7 @@ import {
   Menu,
   X,
   Home,
-  Calendar,
-  MoreHorizontal
+  Calendar
 } from 'lucide-react';
 import AddPostModal from '../components/AddPostModal';
 import EditPostModal from '../components/EditPostModal';
@@ -1229,15 +1228,6 @@ const Dashboard = () => {
               </button>
             );
           })}
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="flex flex-1 items-center justify-center py-1.5 min-w-0"
-          >
-            <span className="flex w-full flex-col items-center justify-center gap-1 px-2 py-2 rounded-full border-2 border-transparent bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300">
-              <MoreHorizontal className="h-5 w-5" strokeWidth={2.25} />
-              <span className="text-[10px] tracking-wide truncate font-semibold text-gray-600 dark:text-gray-300">More</span>
-            </span>
-          </button>
         </div>
       </nav>
 
