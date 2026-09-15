@@ -45,10 +45,10 @@ const Announcements: React.FC = () => {
             <AnimatePresence mode="wait">
               <motion.p
                 key={index}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
                 className="absolute inset-0 flex items-center font-sans text-sm md:text-xl font-black uppercase tracking-wider text-white truncate"
               >
                 {items[index]}
