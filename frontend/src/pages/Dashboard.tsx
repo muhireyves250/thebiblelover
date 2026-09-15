@@ -31,7 +31,8 @@ import {
   Mic,
   Menu,
   X,
-  Home
+  Home,
+  Calendar
 } from 'lucide-react';
 import AddPostModal from '../components/AddPostModal';
 import EditPostModal from '../components/EditPostModal';
@@ -133,13 +134,13 @@ const NAV_ITEMS = [
   { id: 'bible-verses', label: 'Bible Verses', icon: Sparkles },
   { id: 'audio-episodes', label: 'Devotionals', icon: Mic },
   { id: 'prayers', label: 'Prayer Wall', icon: Heart },
-  { id: 'events', label: 'Events', icon: Users },
-  { id: 'users', label: 'Users', icon: Users },
+  { id: 'events', label: 'Events', icon: Calendar },
 ];
 
 const NAV_LABELS: Record<string, string> = {
   ...Object.fromEntries(NAV_ITEMS.map(({ id, label }) => [id, label])),
   storage: 'Storage',
+  users: 'Users',
 };
 
 const Dashboard = () => {
@@ -846,6 +847,16 @@ const Dashboard = () => {
           <div>
             <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Settings</p>
             <div className="space-y-1">
+              <button
+                onClick={() => { setActiveTab('users'); setSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${activeTab === 'users'
+                  ? 'bg-amber-700 text-white'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                  }`}
+              >
+                <Users className="h-4 w-4 shrink-0" />
+                Users
+              </button>
               <button
                 onClick={() => setIsBackgroundModalOpen(true)}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
