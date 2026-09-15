@@ -164,8 +164,28 @@ const BibleVerseManager = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700"></div>
+      <div className="space-y-4 animate-pulse">
+        <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4 md:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div className="space-y-2">
+              <div className="h-4 w-32 bg-gray-100 dark:bg-white/10 rounded" />
+              <div className="h-3 w-56 bg-gray-100 dark:bg-white/10 rounded" />
+            </div>
+            <div className="h-9 w-28 bg-gray-100 dark:bg-white/10 rounded-lg" />
+          </div>
+        </div>
+        <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3 space-y-3">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 flex items-start gap-3">
+              <div className="w-14 h-14 bg-gray-100 dark:bg-white/10 rounded-md shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="h-3 w-24 bg-gray-100 dark:bg-white/10 rounded" />
+                <div className="h-3 w-full bg-gray-100 dark:bg-white/10 rounded" />
+                <div className="h-3 w-2/3 bg-gray-100 dark:bg-white/10 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

@@ -12,8 +12,16 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   // Wait for auth to initialize to avoid premature redirects
   if (!isInitialized) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-transparent">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600"></div>
+      <div className="min-h-screen bg-white dark:bg-[#0a0a0a] animate-pulse">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-8 space-y-6">
+          <div className="h-8 w-48 bg-gray-100 dark:bg-white/10 rounded-md" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-24 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/10" />
+            ))}
+          </div>
+          <div className="h-64 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-200 dark:border-white/10" />
+        </div>
       </div>
     );
   }

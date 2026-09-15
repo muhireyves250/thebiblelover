@@ -57,8 +57,19 @@ const LiveEngagementFeed: React.FC = () => {
 
   if (loading && events.length === 0) {
     return (
-      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-6 h-full flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700"></div>
+      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-6 h-full animate-pulse">
+        <div className="h-4 w-32 bg-gray-100 dark:bg-white/10 rounded mb-4" />
+        <div className="space-y-2.5">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="flex gap-3 p-3 rounded-md">
+              <div className="w-9 h-9 rounded-md bg-gray-100 dark:bg-white/10 shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="h-3 w-1/2 bg-gray-100 dark:bg-white/10 rounded" />
+                <div className="h-2.5 w-3/4 bg-gray-100 dark:bg-white/10 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

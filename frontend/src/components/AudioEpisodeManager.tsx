@@ -65,8 +65,16 @@ const AudioEpisodeManager: React.FC = () => {
       {/* Episodes List */}
       <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-3">
         {loading ? (
-          <div className="flex items-center justify-center py-10">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700"></div>
+          <div className="space-y-3 animate-pulse">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="p-3.5 rounded-lg border border-gray-200 dark:border-white/10 flex items-center gap-3">
+                <div className="w-12 h-12 bg-gray-100 dark:bg-white/10 rounded-md shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-3 w-1/3 bg-gray-100 dark:bg-white/10 rounded" />
+                  <div className="h-2.5 w-1/2 bg-gray-100 dark:bg-white/10 rounded" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : loadError ? (
           <p className="text-sm text-red-600 dark:text-red-400 text-center py-10">Failed to load episodes. Please try again later.</p>

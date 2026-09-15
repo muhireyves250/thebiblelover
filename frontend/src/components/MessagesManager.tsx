@@ -66,11 +66,17 @@ const MessagesManager = ({
 
                 <div className="divide-y divide-gray-100 dark:divide-white/5">
                     {isLoading ? (
-                        <div className="p-8 text-center">
-                            <div className="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-400">
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-700"></div>
-                                Loading messages...
-                            </div>
+                        <div className="p-4 space-y-4 animate-pulse">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className="flex items-start gap-3">
+                                    <div className="w-9 h-9 rounded-lg bg-gray-100 dark:bg-white/10 shrink-0" />
+                                    <div className="flex-1 space-y-2">
+                                        <div className="h-3 w-1/3 bg-gray-100 dark:bg-white/10 rounded" />
+                                        <div className="h-2.5 w-1/2 bg-gray-100 dark:bg-white/10 rounded" />
+                                        <div className="h-12 w-full bg-gray-100 dark:bg-white/10 rounded-lg" />
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     ) : (showAllMessages ? messages : messages.slice(0, 5)).length === 0 ? (
                         <div className="text-center py-10">
