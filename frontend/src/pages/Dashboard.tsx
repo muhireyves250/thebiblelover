@@ -936,14 +936,8 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
         <div className="bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-200 dark:border-white/10 px-4 md:px-8 py-2 md:py-4 flex-shrink-0">
-          {/* Mobile bar: title / notifications / profile / menu */}
+          {/* Mobile bar: profile / title / notifications / menu */}
           <div className="lg:hidden flex items-center gap-2 h-12">
-            <h1 className="flex-1 min-w-0 text-base font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
-              {NAV_LABELS[activeTab] || 'Dashboard'}
-            </h1>
-
-            <NotificationCenter />
-
             <div className="relative user-dropdown shrink-0">
               <button
                 onClick={toggleUserDropdown}
@@ -956,7 +950,7 @@ const Dashboard = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute right-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-lg py-2 z-50"
+                  className="absolute left-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-lg py-2 z-50"
                 >
                   <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10">
                     <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name || 'Administrator'}</p>
@@ -972,6 +966,12 @@ const Dashboard = () => {
                 </motion.div>
               )}
             </div>
+
+            <h1 className="flex-1 min-w-0 text-base font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
+              {NAV_LABELS[activeTab] || 'Dashboard'}
+            </h1>
+
+            <NotificationCenter />
 
             <button
               onClick={() => setSidebarOpen(true)}
