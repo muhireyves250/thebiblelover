@@ -127,7 +127,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
       const slug = generateSlug(formData.title);
 
       // Prepare post data for API
-      const postData = {
+      const postData: Record<string, any> = {
         title: formData.title,
         slug: slug,
         excerpt: formData.excerpt.trim(),
