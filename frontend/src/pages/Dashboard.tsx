@@ -936,16 +936,8 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
         <div className="bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-200 dark:border-white/10 px-4 md:px-8 py-2 md:py-4 flex-shrink-0">
-          {/* Mobile bar: menu / title / notifications / profile */}
+          {/* Mobile bar: title / notifications / profile / menu */}
           <div className="lg:hidden flex items-center gap-2 h-12">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-
             <h1 className="flex-1 min-w-0 text-base font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
               {NAV_LABELS[activeTab] || 'Dashboard'}
             </h1>
@@ -980,6 +972,14 @@ const Dashboard = () => {
                 </motion.div>
               )}
             </div>
+
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           </div>
 
           {/* Desktop bar */}
