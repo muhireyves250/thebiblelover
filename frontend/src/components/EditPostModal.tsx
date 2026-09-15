@@ -217,10 +217,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 border-b border-blue-200 rounded-t-2xl">
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 p-8 border-b border-amber-200 dark:border-amber-900/30 rounded-t-2xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
                 <Edit className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -246,7 +246,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
             <button
               onClick={onClose}
-              className="p-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:bg-white rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300"
+              className="p-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-white dark:hover:bg-white/10 rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20"
             >
               <X className="h-5 w-5" />
             </button>
@@ -266,7 +266,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 placeholder="Enter post title"
               />
             </div>
@@ -282,7 +282,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.author}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 placeholder="Author name"
               />
             </div>
@@ -323,7 +323,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               name="subtitle"
               value={formData.subtitle}
               onChange={handleChange}
-              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+              className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
               placeholder="Optional subtitle for the post"
             />
           </div>
@@ -339,7 +339,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               required
               rows={3}
-              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white resize-none"
+              className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors resize-none"
               placeholder="Brief description of the post"
             />
           </div>
@@ -355,7 +355,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               required
               rows={8}
-              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white resize-none"
+              className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors resize-none"
               placeholder="Write your post content here..."
             />
           </div>
@@ -371,7 +371,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="readTime"
                 value={formData.readTime}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 placeholder="e.g., 5 min read"
               />
             </div>
@@ -386,7 +386,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 placeholder="e.g., Mar 22, 2023"
               />
             </div>
@@ -401,7 +401,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="image"
                 value={formData.image}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 placeholder="https://example.com/image.jpg"
               />
             </div>
@@ -417,7 +417,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
               >
                 <option value="DRAFT">Draft</option>
                 <option value="PUBLISHED">Published</option>
@@ -434,7 +434,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
               >
                 <option value="FAITH">Faith</option>
                 <option value="BIBLE_STUDY">Bible Study</option>
@@ -457,7 +457,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               value={formData.tags}
               onChange={handleChange}
               placeholder="faith, bible, prayer"
-              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+              className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
             />
           </div>
 
@@ -473,7 +473,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.seoTitle}
                 onChange={handleChange}
                 placeholder="SEO optimized title"
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
               />
             </div>
             <div>
@@ -486,7 +486,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                   name="isFeatured"
                   checked={formData.isFeatured}
                   onChange={handleChange}
-                  className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-white/10 rounded"
+                  className="h-5 w-5 text-amber-700 focus:ring-amber-500 border-gray-300 dark:border-white/10 rounded"
                 />
                 <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                   Mark as featured post
@@ -506,7 +506,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               placeholder="SEO meta description"
               rows={3}
-              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white resize-none"
+              className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors resize-none"
             />
           </div>
 
@@ -520,7 +520,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 type="button"
                 onClick={handleUploadClick}
                 disabled={isUploading}
-                className="flex items-center space-x-3 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md transition-all duration-200"
+                className="flex items-center space-x-3 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md transition-all duration-200"
               >
                 <Upload className="h-5 w-5" />
                 <span className="font-semibold">{isUploading ? 'Uploading...' : 'Upload Image'}</span>
@@ -579,7 +579,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               <button
                 type="button"
                 onClick={() => setIsScheduled(!isScheduled)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${isScheduled ? 'bg-blue-600' : 'bg-gray-200 dark:bg-white/10'
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${isScheduled ? 'bg-amber-700' : 'bg-gray-200 dark:bg-white/10'
                   }`}
               >
                 <span
@@ -602,18 +602,18 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                     value={formData.publishedAt}
                     onChange={handleChange}
                     required={isScheduled}
-                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white dark:bg-[#141417] hover:border-gray-300"
+                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-white dark:bg-[#141417] hover:border-gray-300"
                   />
                 </div>
 
                 {formData.publishedAt && (
-                  <div className="p-3 bg-blue-50 border border-blue-100 rounded-lg flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                    <p className="text-xs font-semibold text-blue-800">
+                  <div className="p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-lg flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-amber-600 rounded-full animate-pulse"></div>
+                    <p className="text-xs font-semibold text-amber-800 dark:text-amber-400">
                       {new Date(formData.publishedAt) > new Date() ? (
                         <>Will publish in {Math.ceil((new Date(formData.publishedAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} days</>
                       ) : (
-                        <span className="text-red-600">Selected date is in the past!</span>
+                        <span className="text-red-600 dark:text-red-400">Selected date is in the past!</span>
                       )}
                     </p>
                   </div>
@@ -626,7 +626,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 mb-8">
             <div className="mb-6">
               <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center space-x-2">
-                <Share2 className="h-4 w-4 text-blue-600" />
+                <Share2 className="h-4 w-4 text-amber-700" />
                 <span>Live Social Preview</span>
               </h3>
               <p className="text-sm text-gray-500 dark:text-gray-400">How your post will look when shared on WhatsApp & Facebook</p>
@@ -661,7 +661,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, isPremium: !prev.isPremium }))}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${formData.isPremium ? 'bg-blue-600' : 'bg-gray-200 dark:bg-white/10'
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${formData.isPremium ? 'bg-amber-700' : 'bg-gray-200 dark:bg-white/10'
                   }`}
               >
                 <span
@@ -683,7 +683,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 rounded-xl transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-700 text-white hover:from-amber-700 hover:to-amber-800 rounded-xl transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               {isSubmitting ? (
                 <>

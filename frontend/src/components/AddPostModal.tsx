@@ -216,7 +216,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-8 border-b border-amber-200 rounded-t-2xl">
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 p-8 border-b border-amber-200 dark:border-amber-900/30 rounded-t-2xl">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
@@ -229,7 +229,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             </div>
             <button
               onClick={onClose}
-              className="p-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:bg-white rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300"
+              className="p-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-white dark:hover:bg-white/10 rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20"
             >
               <X className="h-5 w-5" />
             </button>
@@ -250,7 +250,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                 onChange={handleChange}
                 required
                 autoComplete="off"
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 placeholder="Enter post title"
               />
             </div>
@@ -266,7 +266,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                 value={formData.author}
                 onChange={handleChange}
                 autoComplete="name"
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 placeholder="Author name"
               />
             </div>
@@ -283,7 +283,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               value={formData.subtitle}
               onChange={handleChange}
               autoComplete="off"
-              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+              className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
               placeholder="Optional subtitle for the post"
             />
           </div>
@@ -300,7 +300,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               required
               rows={3}
               autoComplete="off"
-              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white resize-none"
+              className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors resize-none"
               placeholder="Brief description of the post..."
             />
           </div>
@@ -320,7 +320,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                   value={formData.image}
                   onChange={handleChange}
                   autoComplete="url"
-                  className="flex-1 px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                  className="flex-1 px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                   placeholder="https://example.com/image.jpg"
                 />
                 <button
@@ -420,7 +420,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               required
               rows={12}
               autoComplete="off"
-              className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white resize-none"
+              className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors resize-none"
               placeholder="Write your post content here..."
             />
             <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 font-medium">
@@ -440,7 +440,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                 value={formData.readTime}
                 onChange={handleChange}
                 autoComplete="off"
-                className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-gray-50 dark:bg-white/5 hover:bg-white focus:bg-white"
+                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 placeholder="e.g., 5 min read"
               />
             </div>
