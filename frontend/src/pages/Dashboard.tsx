@@ -52,6 +52,7 @@ import PrayerManager from '../components/PrayerManager';
 import EventManager from '../components/EventManager';
 import UserManager from '../components/UserManager';
 import NotificationCenter from '../components/NotificationCenter';
+import ThemeToggle from '../components/ThemeToggle';
 import FooterSettingsModal from '../components/FooterSettingsModal';
 import AddEventModal from '../components/AddEventModal';
 import WhatsAppSettingsModal from '../components/WhatsAppSettingsModal';
@@ -973,6 +974,8 @@ const Dashboard = () => {
               </h1>
             </div>
 
+            <ThemeToggle />
+
             <NotificationCenter />
 
             <button
@@ -1006,6 +1009,7 @@ const Dashboard = () => {
             </div>
 
             <div className="flex items-center gap-4 shrink-0">
+              <ThemeToggle />
               <NotificationCenter />
               <div className="relative user-dropdown">
                 <button
