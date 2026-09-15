@@ -5,6 +5,7 @@ import VerseDesk from '../components/VerseDesk';
 import Announcements from '../components/Announcements';
 import AboutDesk from '../components/AboutDesk';
 import NewsletterSubscribe from '../components/NewsletterSubscribe';
+import InstallPwaCard from '../components/InstallPwaCard';
 import SEO from '../components/SEO';
 import AutoText from '../components/AutoText';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
@@ -44,6 +45,11 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <div className="mt-3 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8">
+        <InstallPwaCard />
+      </div>
+
       <HomeFeed />
       <PlayerDesk />
       <VerseDesk />
