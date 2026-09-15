@@ -262,6 +262,7 @@ export interface NewsletterAPI {
   subscribe: (email: string) => Promise<ApiResponse<{ subscriber: any }>>;
   unsubscribe: (email: string) => Promise<ApiResponse<{ subscriber: any }>>;
   getSubscribers: (params?: any) => Promise<ApiResponse<{ subscribers: any[] }>>;
+  deleteSubscriber: (id: string) => Promise<ApiResponse<void>>;
 }
 
 export interface UserAPI {

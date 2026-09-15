@@ -269,6 +269,7 @@ export const newsletterAPI: NewsletterAPI = {
     const query = new URLSearchParams(params as any).toString();
     return apiRequest(`/newsletter/subscribers?${query}`);
   },
+  deleteSubscriber: (id) => apiRequest(`/newsletter/subscribers/${id}`, { method: 'DELETE' }),
 };
 
 export const userAPI: UserAPI = {

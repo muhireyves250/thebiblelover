@@ -135,4 +135,33 @@ router.get('/subscribers', verifyToken, async (req, res, next) => {
     }
 });
 
+// Delete a subscriber (Admin only)
+router.delete('/subscribers/:id', verifyToken, async (req, res, next) => {
+    try {
+        if (req.user.role !== 'ADMIN') {
+            return res.status(403).json({
+                success: false,
+                message: 'Access denied. Admin privileges required.'
+            });
+        }
+
+        const { id } = req.params;
+
+        await prisma.newsletterSubscriber.delete({ where: { id } });
+
+        res.json({
+            success: true,
+            message: 'Subscriber removed successfully'
+        });
+    } catch (err) {
+        if (err.code === 'P2025') {
+            return res.status(404).json({
+                success: false,
+                message: 'Subscriber not found'
+            });
+        }
+        next(err);
+    }
+});
+
 export default router;

@@ -51,6 +51,7 @@ import StorageManager from '../components/StorageManager';
 import PrayerManager from '../components/PrayerManager';
 import EventManager from '../components/EventManager';
 import UserManager from '../components/UserManager';
+import NewsletterManager from '../components/NewsletterManager';
 import NotificationCenter from '../components/NotificationCenter';
 import ThemeToggle from '../components/ThemeToggle';
 import FooterSettingsModal from '../components/FooterSettingsModal';
@@ -61,7 +62,7 @@ import { useLogoSettings } from '../hooks/useLogoSettings';
 import { useSocialSettings } from '../hooks/useSocialSettings';
 import { getStorageInfo, clearAllBlogData } from '../utils/storageManager';
 // @ts-ignore
-import { blogAPI, contactAPI, donationsAPI, prayerAPI, eventAPI, userAPI, statsAPI, bibleVersesAPI, audioEpisodesAPI } from '../services/api';
+import { blogAPI, contactAPI, donationsAPI, prayerAPI, eventAPI, userAPI, statsAPI, bibleVersesAPI, audioEpisodesAPI, newsletterAPI } from '../services/api';
 // @ts-ignore
 import { useAuth } from '../hooks/useAPI';
 import { useContentSettings } from '../hooks/useContentSettings';
@@ -142,6 +143,7 @@ const NAV_LABELS: Record<string, string> = {
   ...Object.fromEntries(NAV_ITEMS.map(({ id, label }) => [id, label])),
   storage: 'Storage',
   users: 'Users',
+  newsletter: 'Newsletter',
 };
 
 const Dashboard = () => {
@@ -215,6 +217,7 @@ const Dashboard = () => {
   const [showAllPrayers, setShowAllPrayers] = useState(false);
   const [versesCount, setVersesCount] = useState(0);
   const [episodesCount, setEpisodesCount] = useState(0);
+  const [subscribersCount, setSubscribersCount] = useState(0);
 
   useEffect(() => {
     console.log('Dashboard useEffect - isAuthenticated:', isAuthenticated, 'user:', user);
@@ -566,6 +569,12 @@ const Dashboard = () => {
         setEpisodesCount(res.data?.episodes?.length ?? 0);
       } catch (err) { console.warn('Audio episodes API failed'); }
 
+      // Load Newsletter subscribers count
+      try {
+        const res = await newsletterAPI.getSubscribers();
+        setSubscribersCount(res.data?.subscribers?.length ?? 0);
+      } catch (err) { console.warn('Newsletter subscribers API failed'); }
+
       setPosts(transformedPosts);
       setComments(transformedComments);
       setDonations(transformedDonations);
@@ -859,6 +868,16 @@ const Dashboard = () => {
                 Users
               </button>
               <button
+                onClick={() => { setActiveTab('newsletter'); setSidebarOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${activeTab === 'newsletter'
+                  ? 'bg-amber-700 text-white'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                  }`}
+              >
+                <Mail className="h-4 w-4 shrink-0" />
+                Newsletter
+              </button>
+              <button
                 onClick={() => setIsBackgroundModalOpen(true)}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
               >
@@ -1059,6 +1078,7 @@ const Dashboard = () => {
               usersCount={allUsers.length}
               versesCount={versesCount}
               episodesCount={episodesCount}
+              subscribersCount={subscribersCount}
               setActiveTab={setActiveTab}
               setShowAddPostConfirm={setShowAddPostConfirm}
               setIsBackgroundModalOpen={setIsBackgroundModalOpen}
@@ -1192,6 +1212,11 @@ const Dashboard = () => {
                 }
               }}
             />
+          )}
+
+          {/* Newsletter Tab */}
+          {activeTab === 'newsletter' && (
+            <NewsletterManager />
           )}
 
           {/* Bible Verses Tab */}

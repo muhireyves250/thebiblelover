@@ -44,6 +44,7 @@ interface StatsOverviewProps {
     usersCount: number;
     versesCount: number;
     episodesCount: number;
+    subscribersCount: number;
     setActiveTab: (tab: string) => void;
     setShowAddPostConfirm: (show: boolean) => void;
     setIsBackgroundModalOpen: (show: boolean) => void;
@@ -107,6 +108,7 @@ const DashboardOverview = ({
     usersCount,
     versesCount,
     episodesCount,
+    subscribersCount,
     setActiveTab,
     setShowAddPostConfirm,
     setIsBackgroundModalOpen
@@ -152,6 +154,7 @@ const DashboardOverview = ({
                         { label: 'Messages', value: messagesCount, icon: Mail, tab: 'messages' },
                         { label: 'Donations', value: donationsCount, icon: DollarSign, tab: 'donations' },
                         { label: 'Users', value: usersCount, icon: Users, tab: 'users' },
+                        { label: 'Subscribers', value: subscribersCount, icon: Mail, tab: 'newsletter' },
                         { label: 'Scheduled Posts', value: stats.totalScheduled, icon: TrendingUp, tab: 'posts' },
                     ].map((metric, idx) => {
                         const Icon = metric.icon;
