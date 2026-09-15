@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Sparkles, Trash2, CheckCircle, Clock, Filter, User } from 'lucide-react';
+import { Heart, Sparkles, Trash2, CheckCircle, Clock, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface PrayerRequest {
@@ -34,7 +34,6 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
     toggleAll,
     togglePraise,
     deleteRequest,
-    refresh
 }) => {
     const stats = {
         total: requests.length,
@@ -46,58 +45,51 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
         <div className="space-y-4">
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-gradient-to-br from-amber-500/10 to-transparent backdrop-blur-md rounded-2xl border border-white/10 p-4">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-amber-500/20 rounded-xl flex items-center justify-center">
-                            <Heart className="w-5 h-5 text-amber-500" />
+                <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
+                            <Heart className="w-5 h-5 text-amber-700" />
                         </div>
                         <div>
-                            <p className="text-2xl font-bold text-white">{stats.total}</p>
-                            <p className="text-[10px] uppercase tracking-widest text-white/50">Total Requests</p>
+                            <p className="text-xl font-black text-gray-900 dark:text-white">{stats.total}</p>
+                            <p className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-500 font-bold">Total Requests</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-gradient-to-br from-emerald-500/10 to-transparent backdrop-blur-md rounded-2xl border border-white/10 p-4">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center">
-                            <Clock className="w-5 h-5 text-emerald-500" />
+                <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center shrink-0">
+                            <Clock className="w-5 h-5 text-emerald-600" />
                         </div>
                         <div>
-                            <p className="text-2xl font-bold text-white">{stats.active}</p>
-                            <p className="text-[10px] uppercase tracking-widest text-white/50">Active Intercession</p>
+                            <p className="text-xl font-black text-gray-900 dark:text-white">{stats.active}</p>
+                            <p className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-500 font-bold">Active</p>
                         </div>
                     </div>
                 </div>
-                <div className="bg-gradient-to-br from-blue-500/10 to-transparent backdrop-blur-md rounded-2xl border border-white/10 p-4">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                            <CheckCircle className="w-5 h-5 text-blue-500" />
+                <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center shrink-0">
+                            <CheckCircle className="w-5 h-5 text-blue-600" />
                         </div>
                         <div>
-                            <p className="text-2xl font-bold text-white">{stats.answered}</p>
-                            <p className="text-[10px] uppercase tracking-widest text-white/50">Praise Reports</p>
+                            <p className="text-xl font-black text-gray-900 dark:text-white">{stats.answered}</p>
+                            <p className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-500 font-bold">Praise Reports</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* List Container */}
-            <div className="bg-white/5 backdrop-blur-2xl rounded-3xl border border-white/10 overflow-hidden">
-                <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center">
-                            <Sparkles className="w-4 h-4 text-amber-500" />
-                        </div>
-                        <h3 className="text-sm font-bold text-white uppercase tracking-widest">Community Prayers</h3>
+            <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm overflow-hidden">
+                <div className="px-5 py-3.5 border-b border-gray-200 dark:border-white/10 flex items-center gap-3">
+                    <div className="w-8 h-8 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
+                        <Sparkles className="w-4 h-4 text-amber-700" />
                     </div>
-                    {refresh && (
-                        <button onClick={refresh} className="p-2 text-white/40 hover:text-white transition-colors">
-                            <Filter className="w-4 h-4" />
-                        </button>
-                    )}
+                    <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-widest">Community Prayers</h3>
                 </div>
 
-                <div className="divide-y divide-white/5">
+                <div className="divide-y divide-gray-100 dark:divide-white/5">
                     <AnimatePresence initial={false}>
                         {requests.slice(0, showAll ? requests.length : 5).map((request) => (
                             <motion.div
@@ -105,40 +97,39 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="p-4 hover:bg-white/5 transition-colors group"
+                                className="p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group"
                             >
-                                <div className="flex items-start justify-between">
-                                    <div className="flex items-start space-x-4">
-                                        <div className="w-10 h-10 rounded-full overflow-hidden bg-white/10 flex-shrink-0 border border-white/20">
+                                <div className="flex items-start justify-between gap-3">
+                                    <div className="flex items-start gap-3 min-w-0">
+                                        <div className="w-10 h-10 rounded-full overflow-hidden bg-amber-50 dark:bg-white/10 flex-shrink-0 border border-amber-100 dark:border-white/10">
                                             {request.user?.profileImage ? (
                                                 <img src={request.user.profileImage} alt="" className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center">
-                                                    <User className="w-5 h-5 text-white/30" />
+                                                    <User className="w-5 h-5 text-amber-700" />
                                                 </div>
                                             )}
                                         </div>
-                                        <div>
-                                            <div className="flex items-center space-x-2 mb-1">
-                                                <span className="text-sm font-bold text-white">{request.title}</span>
-                                                <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-tighter ${
-                                                    request.status === 'ANSWERED' ? 'bg-emerald-500/20 text-emerald-500' : 'bg-amber-500/20 text-amber-500'
-                                                }`}>
+                                        <div className="min-w-0">
+                                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                                <span className="text-sm font-bold text-gray-900 dark:text-white">{request.title}</span>
+                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest ${request.status === 'ANSWERED' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                                                    }`}>
                                                     {request.status}
                                                 </span>
                                             </div>
-                                            <p className="text-xs text-white/60 line-clamp-2 mb-2 leading-relaxed">
+                                            <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 mb-2 leading-relaxed">
                                                 {request.content}
                                             </p>
-                                            <div className="flex items-center space-x-4 text-[10px] text-white/40 font-medium">
-                                                <span className="flex items-center space-x-1">
+                                            <div className="flex items-center gap-2.5 flex-wrap text-[10px] text-gray-400 dark:text-gray-500 font-medium">
+                                                <span className="flex items-center gap-1">
                                                     <User className="w-3 h-3" />
                                                     <span>{request.isAnonymous ? 'Anonymous' : request.user?.name}</span>
                                                 </span>
-                                                <span>•</span>
+                                                <span>&middot;</span>
                                                 <span>{new Date(request.createdAt).toLocaleDateString()}</span>
-                                                <span>•</span>
-                                                <span className="flex items-center space-x-1 text-emerald-400">
+                                                <span>&middot;</span>
+                                                <span className="flex items-center gap-1 text-emerald-600">
                                                     <Heart className="w-3 h-3 fill-current" />
                                                     <span>{request._count?.supports || 0} supported</span>
                                                 </span>
@@ -146,19 +137,20 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div className="flex items-center gap-1.5 shrink-0">
                                         <button
                                             onClick={() => togglePraise(request.id)}
-                                            className={`p-2 rounded-xl transition-all ${
-                                                request.status === 'ANSWERED' ? 'bg-white/10 text-white/40' : 'bg-emerald-500/20 text-emerald-500 hover:bg-emerald-500/30'
-                                            }`}
+                                            className={`p-2 rounded-md border transition-colors ${request.status === 'ANSWERED'
+                                                ? 'border-gray-200 dark:border-white/10 text-gray-400 dark:text-gray-500'
+                                                : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                                                }`}
                                             title={request.status === 'ANSWERED' ? 'Mark as Active' : 'Mark as Answered'}
                                         >
                                             <CheckCircle className="w-4 h-4" />
                                         </button>
                                         <button
                                             onClick={() => deleteRequest(request.id)}
-                                            className="p-2 bg-red-500/20 text-red-500 hover:bg-red-500/30 rounded-xl transition-all"
+                                            className="p-2 rounded-md border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
                                             title="Delete"
                                         >
                                             <Trash2 className="w-4 h-4" />
@@ -171,17 +163,17 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
 
                     {requests.length === 0 && (
                         <div className="p-12 text-center">
-                            <Heart className="w-12 h-12 text-white/10 mx-auto mb-4" />
-                            <p className="text-white/40 text-sm font-medium">No prayer requests at the moment.</p>
+                            <Heart className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                            <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">No prayer requests at the moment.</p>
                         </div>
                     )}
                 </div>
 
                 {requests.length > 5 && (
-                    <div className="p-4 bg-white/5 border-t border-white/10">
+                    <div className="p-3 bg-gray-50 dark:bg-white/5 border-t border-gray-200 dark:border-white/10">
                         <button
                             onClick={toggleAll}
-                            className="w-full py-2 rounded-xl border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/50 hover:bg-white/5 hover:text-white transition-all"
+                            className="w-full py-2 rounded-md border border-gray-300 dark:border-white/10 text-[10px] font-black uppercase tracking-widest text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-white/10 hover:text-amber-700 transition-colors"
                         >
                             {showAll ? 'Show Less' : `View All ${requests.length} Requests`}
                         </button>
