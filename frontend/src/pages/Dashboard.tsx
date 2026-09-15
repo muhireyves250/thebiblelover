@@ -840,8 +840,8 @@ const Dashboard = () => {
                   key={id}
                   onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${activeTab === id
-                    ? 'bg-amber-700 text-white'
-                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                    ? 'bg-amber-700 text-white border border-amber-700'
+                    : 'border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
                     }`}
                 >
                   <Icon className="h-4 w-4 shrink-0" />
@@ -857,8 +857,8 @@ const Dashboard = () => {
               <button
                 onClick={() => { setActiveTab('users'); setSidebarOpen(false); }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${activeTab === 'users'
-                  ? 'bg-amber-700 text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                  ? 'bg-amber-700 text-white border border-amber-700'
+                  : 'border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
                   }`}
               >
                 <Users className="h-4 w-4 shrink-0" />
@@ -867,8 +867,8 @@ const Dashboard = () => {
               <button
                 onClick={() => { setActiveTab('newsletter'); setSidebarOpen(false); }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${activeTab === 'newsletter'
-                  ? 'bg-amber-700 text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                  ? 'bg-amber-700 text-white border border-amber-700'
+                  : 'border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
                   }`}
               >
                 <Mail className="h-4 w-4 shrink-0" />
@@ -876,7 +876,7 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={() => setIsBackgroundModalOpen(true)}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
               >
                 <Palette className="h-4 w-4 shrink-0" />
                 Background
@@ -884,8 +884,8 @@ const Dashboard = () => {
               <button
                 onClick={() => { setActiveTab('storage'); setSidebarOpen(false); }}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${activeTab === 'storage'
-                  ? 'bg-amber-700 text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
+                  ? 'bg-amber-700 text-white border border-amber-700'
+                  : 'border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10'
                   }`}
               >
                 <HardDrive className="h-4 w-4 shrink-0" />
@@ -893,35 +893,35 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={() => setIsLogoModalOpen(true)}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
               >
                 <Image className="h-4 w-4 shrink-0" />
                 Logo
               </button>
               <button
                 onClick={() => setIsSocialModalOpen(true)}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
               >
                 <Share2 className="h-4 w-4 shrink-0" />
                 Social Links
               </button>
               <button
                 onClick={() => setIsWhatsAppModalOpen(true)}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
               >
                 <MessageCircle className="h-4 w-4 shrink-0" />
                 WhatsApp
               </button>
               <button
                 onClick={() => setIsFooterModalOpen(true)}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
               >
                 <Layout className="h-4 w-4 shrink-0" />
                 Footer
               </button>
               <button
                 onClick={() => setIsContentModalOpen(true)}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
               >
                 <Settings className="h-4 w-4 shrink-0" />
                 Page Content
@@ -934,7 +934,7 @@ const Dashboard = () => {
         <div className="p-3 border-t border-gray-300 dark:border-white/15 flex-shrink-0 space-y-1">
           <Link
             to="/"
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
           >
             <Home className="h-4 w-4 shrink-0" />
             Back to Site
