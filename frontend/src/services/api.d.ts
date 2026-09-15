@@ -202,7 +202,7 @@ export interface BibleVerseParams {
   page?: number;
   limit?: number;
   featured?: string;
-  includeInactive?: string;
+  includeInactive?: string | boolean;
   search?: string;
   book?: string;
   chapter?: string | number;

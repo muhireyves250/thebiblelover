@@ -1,26 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   BarChart3,
   Users,
   MessageSquare,
   Heart,
   DollarSign,
-  Eye,
   Plus,
   Edit,
   Trash2,
   Mail,
   BookOpen,
-  TrendingUp,
   Settings,
   Palette,
-  ExternalLink,
   Search,
-  Bell,
-  ChevronDown,
-  CreditCard,
   HardDrive,
   Image,
   Share2,
@@ -76,7 +70,6 @@ interface DashboardStats {
   recentMessages: number;
   totalScheduled: number;
   totalUsers?: number;
-  soulsActive?: number;
   chartData?: any[];
 }
 
@@ -559,7 +552,7 @@ const Dashboard = () => {
 
       // Load Bible Verses count
       try {
-        const res = await bibleVersesAPI.getVerses({ includeInactive: true } as any);
+        const res = await bibleVersesAPI.getVerses({ includeInactive: true });
         setVersesCount(res.data?.verses?.length ?? 0);
       } catch (err) { console.warn('Bible verses API failed'); }
 
@@ -615,6 +608,14 @@ const Dashboard = () => {
         console.warn('Platform stats API failed');
       }
 
+      let contactStats: any = {};
+      try {
+        const statsRes = await contactAPI.getStats();
+        if (statsRes.success) contactStats = statsRes.data;
+      } catch (err) {
+        console.warn('Contact stats API failed');
+      }
+
       setStats({
         totalPosts: blogStats.totalPosts || transformedPosts.length,
         totalViews: blogStats.totalViews || transformedPosts.reduce((sum: number, post: any) => sum + post.views, 0),
@@ -624,7 +625,6 @@ const Dashboard = () => {
         recentMessages: contactStats.newMessages || transformedMessages.filter(m => !m.isRead).length,
         totalScheduled: blogStats.scheduledPosts || transformedPosts.filter(p => p.status === 'PUBLISHED' && p.publishedAt && new Date(p.publishedAt) > new Date()).length,
         totalUsers: platformStats.totalUsers || usersData.length,
-        soulsActive: platformStats.soulsActive || (transformedPosts.length * 3 + transformedMessages.length),
         chartData: blogStats.chartData || []
       });
     } catch (error) {

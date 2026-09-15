@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Eye, EyeOff, Star, StarOff, Image as ImageIcon } from 'lucide-react';
-import { useAPI } from '../hooks/useAPI';
 // @ts-ignore
 import { bibleVersesAPI } from '../services/api';
 import ImageUpload from './ImageUpload';
@@ -25,7 +24,6 @@ const BibleVerseManager = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingVerse, setEditingVerse] = useState<BibleVerse | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
-  const { del } = useAPI();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -114,7 +112,7 @@ const BibleVerseManager = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await del(`/bible-verses/${id}`);
+      const response = await bibleVersesAPI.deleteVerse(id);
       if (response.success) {
         await loadVerses();
         setDeleteConfirm(null);
