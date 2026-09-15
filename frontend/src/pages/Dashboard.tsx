@@ -1286,14 +1286,14 @@ const Dashboard = () => {
       {
         deleteConfirmPost && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Trash2 className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Delete Post</h3>
-                <div className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/10 dark:to-orange-900/10 rounded-xl p-4 mb-6 border border-red-200 dark:border-red-900/30">
-                  <p className="text-sm font-semibold text-red-800 dark:text-red-400 mb-2">Post Title:</p>
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Delete Post</h3>
+                <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 mb-6 border border-red-200 dark:border-red-900/30">
+                  <p className="text-sm font-bold text-red-700 dark:text-red-400 mb-2">Post Title:</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium">"{deleteConfirmPost.title}"</p>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
@@ -1308,7 +1308,7 @@ const Dashboard = () => {
                   </button>
                   <button
                     onClick={confirmDeletePost}
-                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Delete Post
                   </button>
@@ -1323,14 +1323,14 @@ const Dashboard = () => {
       {
         showAddPostConfirm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Plus className="h-8 w-8 text-green-600" />
+                <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Plus className="h-8 w-8 text-amber-700" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Create New Post</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
-                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Ready to create?</p>
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Create New Post</h3>
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
+                  <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-2">Ready to create?</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium">You're about to create a new blog post for your website</p>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
@@ -1345,7 +1345,7 @@ const Dashboard = () => {
                   </button>
                   <button
                     onClick={confirmAddPost}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Create Post
                   </button>
@@ -1360,14 +1360,14 @@ const Dashboard = () => {
       {
         showEditPostConfirm && selectedPost && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Edit className="h-8 w-8 text-blue-600" />
+                <div className="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Edit className="h-8 w-8 text-amber-700" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Edit Post</h3>
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-xl p-4 mb-6 border border-blue-200 dark:border-blue-900/30">
-                  <p className="text-sm font-semibold text-blue-800 dark:text-blue-400 mb-2">Post Title:</p>
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Edit Post</h3>
+                <div className="bg-amber-50 dark:bg-amber-900/10 rounded-xl p-4 mb-6 border border-amber-200 dark:border-amber-900/30">
+                  <p className="text-sm font-bold text-amber-700 dark:text-amber-400 mb-2">Post Title:</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium">"{selectedPost.title}"</p>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
@@ -1383,7 +1383,7 @@ const Dashboard = () => {
                   <button
                     onClick={confirmEditPost}
                     disabled={isLoadingEditPost}
-                    className="flex-1 px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
                     {isLoadingEditPost ? (
                       <>
@@ -1405,20 +1405,20 @@ const Dashboard = () => {
       {
         showEditSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Post Updated Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Post Updated Successfully!</h3>
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Changes Saved</p>
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Changes Saved</p>
                   </div>
                   <p className="text-base text-gray-900 dark:text-white font-medium">Your blog post has been updated and is now live on your website</p>
                 </div>
@@ -1428,7 +1428,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeEditSuccessModal}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Continue
                   </button>
@@ -1443,20 +1443,20 @@ const Dashboard = () => {
       {
         showAddPostSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Post Created Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Post Created Successfully!</h3>
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Post Published</p>
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Post Published</p>
                   </div>
                   <p className="text-base text-gray-900 dark:text-white font-medium">Your new blog post has been created and is now live on your website</p>
                 </div>
@@ -1466,7 +1466,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeAddPostSuccessModal}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Continue
                   </button>
@@ -1481,22 +1481,22 @@ const Dashboard = () => {
       {
         showDeleteSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Post Deleted Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Post Deleted Successfully!</h3>
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Post Removed</p>
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Post Removed</p>
                   </div>
-                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Deleted Post:</p>
+                  <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-2">Deleted Post:</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium">"{deletedPostTitle}"</p>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
@@ -1505,7 +1505,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeDeleteSuccessModal}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Continue
                   </button>
@@ -1520,22 +1520,22 @@ const Dashboard = () => {
       {
         showDeleteDonationSuccess && deletedDonationDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Donation Deleted Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Donation Deleted Successfully!</h3>
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Donation Removed</p>
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Donation Removed</p>
                   </div>
-                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Deleted Donation:</p>
+                  <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-2">Deleted Donation:</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium mb-1">
                     {deletedDonationDetails.donorName}
                   </p>
@@ -1549,7 +1549,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeDeleteDonationSuccessModal}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Continue
                   </button>
@@ -1564,22 +1564,22 @@ const Dashboard = () => {
       {
         showDeleteCommentSuccess && deletedCommentDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Comment Deleted Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Comment Deleted Successfully!</h3>
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Comment Removed</p>
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Comment Removed</p>
                   </div>
-                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Deleted Comment:</p>
+                  <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-2">Deleted Comment:</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium mb-2">
                     by <span className="font-semibold">{deletedCommentDetails.authorName}</span>
                   </p>
@@ -1593,7 +1593,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeDeleteCommentSuccessModal}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Continue
                   </button>
@@ -1608,22 +1608,22 @@ const Dashboard = () => {
       {
         showDeleteMessageSuccess && deletedMessageDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Message Deleted Successfully!</h3>
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-emerald-900/10 dark:to-emerald-900/10 rounded-xl p-4 mb-6 border border-green-200 dark:border-emerald-900/30">
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Message Deleted Successfully!</h3>
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <p className="text-sm font-semibold text-green-800 dark:text-emerald-400">Message Removed</p>
+                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Message Removed</p>
                   </div>
-                  <p className="text-sm font-semibold text-green-800 dark:text-emerald-400 mb-2">Deleted Message:</p>
+                  <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-2">Deleted Message:</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium mb-1">
                     from <span className="font-semibold">{deletedMessageDetails.senderName}</span>
                   </p>
@@ -1637,7 +1637,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeDeleteMessageSuccessModal}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white hover:bg-green-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Continue
                   </button>
@@ -1675,12 +1675,12 @@ const Dashboard = () => {
       {
         showLogoutConfirm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-300 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <LogOut className="h-8 w-8 text-red-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Sign Out</h3>
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Sign Out</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
                   Are you sure you want to sign out of your account? You'll need to log in again to access the dashboard.
                 </p>
@@ -1693,7 +1693,7 @@ const Dashboard = () => {
                   </button>
                   <button
                     onClick={confirmLogout}
-                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
                   >
                     Sign Out
                   </button>
@@ -1707,64 +1707,63 @@ const Dashboard = () => {
       {/* Delete Donation Confirmation Modal */}
       {
         showDeleteDonationModal && donationToDelete && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 p-6">
-              <div className="flex items-center justify-center w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-full mx-auto mb-4">
-                <Trash2 className="h-6 w-6 text-red-600" />
-              </div>
-
-              <div className="text-center mb-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl border border-gray-400 dark:border-white/20 max-w-md w-full p-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Trash2 className="h-8 w-8 text-red-600" />
+                </div>
+                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">
                   Delete Donation
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  Are you sure you want to delete this donation? This action cannot be undone.
-                </p>
 
-                {/* Donation Details */}
-                <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 mb-6 border border-red-200 dark:border-red-900/30 text-left">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Donor:</span>
-                    <span className="text-sm text-gray-900">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Donor</span>
+                    <span className="text-sm font-bold text-gray-900 dark:text-white">
                       {donationToDelete.donorName || 'Anonymous'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Amount:</span>
-                    <span className="text-sm font-bold text-emerald-600">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Amount</span>
+                    <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
                       ${donationToDelete.amount}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-700">Date:</span>
-                    <span className="text-sm text-gray-900">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Date</span>
+                    <span className="text-sm font-bold text-gray-900 dark:text-white">
                       {new Date(donationToDelete.timestamp).toLocaleDateString()}
                     </span>
                   </div>
                   {donationToDelete.message && (
-                    <div className="mt-3 pt-3 border-t border-gray-200">
-                      <span className="text-sm font-medium text-gray-700">Message:</span>
-                      <p className="text-sm text-gray-600 mt-1 italic">
+                    <div className="mt-3 pt-3 border-t border-red-200 dark:border-red-900/30">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Message</span>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1 italic">
                         "{donationToDelete.message}"
                       </p>
                     </div>
                   )}
                 </div>
-              </div>
 
-              <div className="flex space-x-3">
-                <button
-                  onClick={cancelDeleteDonation}
-                  className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={confirmDeleteDonation}
-                  className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
-                >
-                  Delete Donation
-                </button>
+                <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                  Are you sure you want to delete this donation? This action cannot be undone.
+                </p>
+
+                <div className="flex space-x-4">
+                  <button
+                    onClick={cancelDeleteDonation}
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmDeleteDonation}
+                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                  >
+                    Delete Donation
+                  </button>
+                </div>
               </div>
             </div>
           </div>
