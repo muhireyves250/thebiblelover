@@ -32,7 +32,8 @@ import {
   Menu,
   X,
   Home,
-  Calendar
+  Calendar,
+  MoreHorizontal
 } from 'lucide-react';
 import AddPostModal from '../components/AddPostModal';
 import EditPostModal from '../components/EditPostModal';
@@ -935,22 +936,60 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
-        <div className="bg-white dark:bg-[#0a0a0a] border-b border-gray-200 dark:border-white/10 px-4 md:px-8 py-3 md:py-4 flex-shrink-0">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 min-w-0">
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="lg:hidden p-2 rounded-md text-gray-500 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors shrink-0"
-                aria-label="Open menu"
-              >
-                <Menu className="h-5 w-5" />
-              </button>
-              <h1 className="text-base md:text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
-                {NAV_LABELS[activeTab] || 'Dashboard'}
-              </h1>
-            </div>
+        <div className="bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-200 dark:border-white/10 px-4 md:px-8 py-2 md:py-4 flex-shrink-0">
+          {/* Mobile bar: menu / title / notifications / profile */}
+          <div className="lg:hidden flex items-center gap-2 h-12">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
 
-            <div className="flex-1 max-w-md hidden md:block">
+            <h1 className="flex-1 min-w-0 text-base font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
+              {NAV_LABELS[activeTab] || 'Dashboard'}
+            </h1>
+
+            <NotificationCenter />
+
+            <div className="relative user-dropdown shrink-0">
+              <button
+                onClick={toggleUserDropdown}
+                className="w-9 h-9 bg-amber-700 rounded-full flex items-center justify-center text-white font-bold text-sm hover:bg-amber-800 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+              >
+                {(user?.name || 'A').charAt(0).toUpperCase()}
+              </button>
+
+              {showUserDropdown && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute right-0 top-12 w-64 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-lg py-2 z-50"
+                >
+                  <div className="px-4 py-3 border-b border-gray-100 dark:border-white/10">
+                    <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name || 'Administrator'}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </motion.div>
+              )}
+            </div>
+          </div>
+
+          {/* Desktop bar */}
+          <div className="hidden lg:flex items-center justify-between gap-3">
+            <h1 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
+              {NAV_LABELS[activeTab] || 'Dashboard'}
+            </h1>
+
+            <div className="flex-1 max-w-md">
               <div className="relative">
                 <Search className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
@@ -963,12 +1002,12 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2 md:gap-4 shrink-0">
+            <div className="flex items-center gap-4 shrink-0">
               <NotificationCenter />
               <div className="relative user-dropdown">
                 <button
                   onClick={toggleUserDropdown}
-                  className="w-9 h-9 md:w-10 md:h-10 bg-amber-700 rounded-full flex items-center justify-center text-white font-bold text-sm hover:bg-amber-800 transition-colors"
+                  className="w-10 h-10 bg-amber-700 rounded-full flex items-center justify-center text-white font-bold text-sm hover:bg-amber-800 transition-colors"
                 >
                   {(user?.name || 'A').charAt(0).toUpperCase()}
                 </button>
@@ -998,7 +1037,7 @@ const Dashboard = () => {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 p-4 md:p-8 pb-24 lg:pb-8 overflow-auto">
+        <div className="flex-1 p-4 md:p-8 pb-20 lg:pb-8 overflow-auto">
 
           {/* Overview Tab */}
           {activeTab === 'overview' && (
@@ -1161,30 +1200,43 @@ const Dashboard = () => {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white dark:bg-[#0a0a0a] border-t border-gray-200 dark:border-white/10" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-        <div className="grid grid-cols-5">
+      <nav className="lg:hidden fixed inset-x-3 bottom-0 z-40 pb-[env(safe-area-inset-bottom)]" aria-label="Dashboard">
+        <div className="relative flex items-stretch justify-around gap-0.5 px-2 bg-white/95 dark:bg-[#0e0e10]/95 backdrop-blur-xl rounded-t-[2.5rem] rounded-b-none border-2 border-b-0 border-gray-300 dark:border-white/10 shadow-2xl overflow-hidden">
+          <span className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
           {[
             { id: 'overview', label: 'Overview', icon: BarChart3 },
             { id: 'posts', label: 'Posts', icon: BookOpen },
             { id: 'comments', label: 'Comments', icon: MessageSquare },
             { id: 'prayers', label: 'Prayers', icon: Heart },
-          ].map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
-              className={`flex flex-col items-center justify-center gap-1 py-2.5 text-[10px] font-bold transition-colors ${activeTab === id ? 'text-amber-700' : 'text-gray-400 dark:text-gray-500'
-                }`}
-            >
-              <Icon className="h-5 w-5" />
-              {label}
-            </button>
-          ))}
+          ].map(({ id, label, icon: Icon }) => {
+            const isActive = activeTab === id;
+            return (
+              <button
+                key={id}
+                onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
+                className="flex flex-1 items-center justify-center py-1.5 min-w-0"
+              >
+                <span
+                  className={`flex w-full flex-col items-center justify-center gap-1 px-2 py-2 rounded-full border-2 bg-white dark:bg-[#141417] transition-colors ${isActive ? 'border-amber-700 text-amber-700' : 'border-transparent text-gray-600 dark:text-gray-300'
+                    }`}
+                >
+                  <Icon className={`h-5 w-5 transition-colors ${isActive ? 'text-amber-700' : ''}`} strokeWidth={isActive ? 2.75 : 2.25} />
+                  <span className={`text-[10px] tracking-wide truncate transition-colors ${isActive ? 'text-amber-700 font-bold' : 'text-gray-600 dark:text-gray-300 font-semibold'
+                    }`}>
+                    {label}
+                  </span>
+                </span>
+              </button>
+            );
+          })}
           <button
             onClick={() => setSidebarOpen(true)}
-            className="flex flex-col items-center justify-center gap-1 py-2.5 text-[10px] font-bold text-gray-400 dark:text-gray-500"
+            className="flex flex-1 items-center justify-center py-1.5 min-w-0"
           >
-            <Menu className="h-5 w-5" />
-            More
+            <span className="flex w-full flex-col items-center justify-center gap-1 px-2 py-2 rounded-full border-2 border-transparent bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300">
+              <MoreHorizontal className="h-5 w-5" strokeWidth={2.25} />
+              <span className="text-[10px] tracking-wide truncate font-semibold text-gray-600 dark:text-gray-300">More</span>
+            </span>
           </button>
         </div>
       </nav>
