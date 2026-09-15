@@ -955,9 +955,9 @@ const Dashboard = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
-        <div className="bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-200 dark:border-white/10 px-4 md:px-8 py-2 md:py-4 flex-shrink-0">
+        <div className="h-16 bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-200 dark:border-white/10 px-4 md:px-8 flex-shrink-0 flex items-center">
           {/* Mobile bar: profile / title / notifications / menu */}
-          <div className="lg:hidden flex items-center gap-2 h-12">
+          <div className="lg:hidden flex items-center gap-2 w-full">
             <div className="relative user-dropdown shrink-0">
               <button
                 onClick={toggleUserDropdown}
@@ -1007,7 +1007,7 @@ const Dashboard = () => {
           </div>
 
           {/* Desktop bar */}
-          <div className="hidden lg:flex items-center justify-between gap-3">
+          <div className="hidden lg:flex items-center justify-between gap-3 w-full">
             <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm px-4 py-2">
               <h1 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white truncate">
                 {NAV_LABELS[activeTab] || 'Dashboard'}
