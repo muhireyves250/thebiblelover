@@ -68,7 +68,7 @@ const EditAudioEpisodeModal: React.FC<EditAudioEpisodeModalProps> = ({ isOpen, e
       <div className="bg-white dark:bg-[#141417] rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">Edit Episode</h2>
-          <button onClick={onClose} className="text-gray-400 dark:text-gray-500 hover:text-gray-600">
+          <button onClick={onClose} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -138,7 +138,7 @@ const EditAudioEpisodeModal: React.FC<EditAudioEpisodeModalProps> = ({ isOpen, e
             </button>
           </div>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-lg text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/10">
