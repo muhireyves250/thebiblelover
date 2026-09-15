@@ -954,7 +954,7 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top Header */}
         <div className="h-20 bg-white dark:bg-[#0a0a0a] border-b-2 border-gray-300 dark:border-white/15 px-4 md:px-8 flex-shrink-0 flex items-center">
-          {/* Mobile bar: logo / title / notifications / menu / profile */}
+          {/* Mobile bar: logo / title / notifications / profile / menu */}
           <div className="lg:hidden flex items-center gap-2 w-full">
             <Link to="/" className="shrink-0">
               <img src="/images/logo.png" alt="Ihema" className="h-8 w-auto object-contain dark:hidden" />
@@ -970,14 +970,6 @@ const Dashboard = () => {
             <ThemeToggle />
 
             <NotificationCenter />
-
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
 
             <div className="relative user-dropdown shrink-0">
               <button
@@ -1007,6 +999,14 @@ const Dashboard = () => {
                 </motion.div>
               )}
             </div>
+
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="shrink-0 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
           </div>
 
           {/* Desktop bar */}
