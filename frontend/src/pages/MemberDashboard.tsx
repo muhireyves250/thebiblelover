@@ -18,14 +18,17 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 };
 
-const growthData = [
-    { day: 'Mon', progress: 30 },
-    { day: 'Tue', progress: 45 },
-    { day: 'Wed', progress: 38 },
-    { day: 'Thu', progress: 65 },
-    { day: 'Fri', progress: 55 },
-    { day: 'Sat', progress: 80 },
-    { day: 'Sun', progress: 70 },
+// Placeholder shape only, shown while data?.weeklyActivity is still
+// loading - all zeros so it never implies real activity that hasn't
+// happened.
+const growthDataPlaceholder = [
+    { day: 'Sun', progress: 0 },
+    { day: 'Mon', progress: 0 },
+    { day: 'Tue', progress: 0 },
+    { day: 'Wed', progress: 0 },
+    { day: 'Thu', progress: 0 },
+    { day: 'Fri', progress: 0 },
+    { day: 'Sat', progress: 0 },
 ];
 
 const MemberDashboard: React.FC = () => {
@@ -292,7 +295,7 @@ const MemberDashboard: React.FC = () => {
                                 <div className="md:col-span-2">
                                     <div className="h-64 w-full">
                                         <ResponsiveContainer width="100%" height="100%">
-                                            <AreaChart data={data?.weeklyActivity || growthData}>
+                                            <AreaChart data={data?.weeklyActivity || growthDataPlaceholder}>
                                                 <defs>
                                                     <linearGradient id="growthGradient" x1="0" y1="0" x2="0" y2="1">
                                                         <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />

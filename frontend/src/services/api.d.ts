@@ -271,6 +271,8 @@ export interface UserAPI {
     savedVerses: BibleVerse[];
     newsletterSubscription: boolean;
     joinedEvents: Event[];
+    weeklyActivity: { day: string; progress: number }[];
+    donations: any[];
     stats: {
       posts: number;
       prayers: number;
