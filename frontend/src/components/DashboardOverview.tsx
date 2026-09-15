@@ -14,14 +14,13 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
-    BarChart,
-    Bar,
+    AreaChart,
+    Area,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer,
-    Cell
+    ResponsiveContainer
 } from 'recharts';
 import LiveEngagementFeed from './LiveEngagementFeed';
 
@@ -102,9 +101,9 @@ const DashboardOverview = ({
     setIsBackgroundModalOpen
 }: StatsOverviewProps) => {
     const performanceData = [
-        { name: 'Views', value: stats.totalViews, fill: '#b45309' },
-        { name: 'Likes', value: stats.totalLikes, fill: '#d97706' },
-        { name: 'Comments', value: stats.totalComments, fill: '#f59e0b' },
+        { name: 'Views', value: stats.totalViews },
+        { name: 'Likes', value: stats.totalLikes },
+        { name: 'Comments', value: stats.totalComments },
     ];
 
     return (
@@ -183,10 +182,16 @@ const DashboardOverview = ({
 
                     <div className="h-64 md:h-80 w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
+                            <AreaChart
                                 data={performanceData}
                                 margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
                             >
+                                <defs>
+                                    <linearGradient id="colorPerformance" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#b45309" stopOpacity={0.35} />
+                                        <stop offset="95%" stopColor="#b45309" stopOpacity={0} />
+                                    </linearGradient>
+                                </defs>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148,163,184,0.15)" />
                                 <XAxis
                                     dataKey="name"
@@ -202,7 +207,6 @@ const DashboardOverview = ({
                                     allowDecimals={false}
                                 />
                                 <Tooltip
-                                    cursor={{ fill: 'rgba(180,83,9,0.06)' }}
                                     contentStyle={{
                                         backgroundColor: 'rgba(255, 255, 255, 0.97)',
                                         borderRadius: '8px',
@@ -213,12 +217,17 @@ const DashboardOverview = ({
                                     itemStyle={{ fontWeight: 'bold', fontSize: '12px' }}
                                     formatter={(value: any) => [Number(value).toLocaleString(), 'Total']}
                                 />
-                                <Bar dataKey="value" radius={[6, 6, 0, 0]} animationDuration={800}>
-                                    {performanceData.map((entry) => (
-                                        <Cell key={entry.name} fill={entry.fill} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
+                                <Area
+                                    type="monotone"
+                                    dataKey="value"
+                                    name="Total"
+                                    stroke="#b45309"
+                                    strokeWidth={3}
+                                    fillOpacity={1}
+                                    fill="url(#colorPerformance)"
+                                    animationDuration={1200}
+                                />
+                            </AreaChart>
                         </ResponsiveContainer>
                     </div>
                 </motion.div>
