@@ -14,10 +14,10 @@ const Announcements: React.FC = () => {
   if (items.length === 0) return null;
 
   // Scale scroll duration with how much text there is, so longer
-  // announcement lists don't fly by too fast to read. ~12 chars/sec
-  // is a comfortable marquee reading speed.
+  // announcement lists still read comfortably instead of flying by,
+  // but without dragging into "boring" territory at ~20 chars/sec.
   const totalChars = items.join(' ').length;
-  const duration = Math.max(12, Math.round(totalChars / 12));
+  const duration = Math.max(8, Math.round(totalChars / 20));
 
   const Track = ({ hidden = false }: { hidden?: boolean }) => (
     <span className="pr-6 md:pr-10" aria-hidden={hidden || undefined}>
