@@ -303,21 +303,6 @@ router.get('/admin/stats', verifyToken, requireAdmin, async (req, res) => {
     const totalComments = await prisma.comment.count();
     const pendingComments = await prisma.comment.count({ where: { isApproved: false } });
 
-    // For chart data - last 7 days distribution
-    const last7Days = [...Array(7)].map((_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      return d.toISOString().split('T')[0];
-    }).reverse();
-
-    // Since we don't have a views-per-day table, we'll return some variation of active data
-    // In a real app, this would query an analytics table
-    const dailyStats = last7Days.map(date => ({
-      name: date.split('-').slice(1).join('/'),
-      views: Math.floor(Math.random() * 50) + 10, // Mocked for time-series as requested "premium" feel
-      interactions: Math.floor(Math.random() * 20) + 5
-    }));
-
     res.json({
       success: true,
       data: {
@@ -328,8 +313,7 @@ router.get('/admin/stats', verifyToken, requireAdmin, async (req, res) => {
         totalViews: aggregates._sum.views || 0,
         totalLikes: aggregates._sum.likes || 0,
         totalComments,
-        pendingComments,
-        chartData: dailyStats
+        pendingComments
       }
     });
   } catch (error) {

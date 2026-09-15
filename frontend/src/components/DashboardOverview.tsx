@@ -13,15 +13,6 @@ import {
     Calendar
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import {
-    AreaChart,
-    Area,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer
-} from 'recharts';
 import LiveEngagementFeed from './LiveEngagementFeed';
 
 interface StatsOverviewProps {
@@ -34,7 +25,6 @@ interface StatsOverviewProps {
         totalDonations: number;
         recentMessages: number;
         totalScheduled: number;
-        chartData?: any[];
     };
     comments: any[];
     donationsCount: number;
@@ -49,18 +39,6 @@ interface StatsOverviewProps {
     setShowAddPostConfirm: (show: boolean) => void;
     setIsBackgroundModalOpen: (show: boolean) => void;
 }
-
-// Placeholder shape only - replaced by stats.chartData as soon as the API
-// returns real numbers, so the chart never sits empty on first load.
-const fallbackChartData = [
-    { name: 'Mon', views: 0, interactions: 0 },
-    { name: 'Tue', views: 0, interactions: 0 },
-    { name: 'Wed', views: 0, interactions: 0 },
-    { name: 'Thu', views: 0, interactions: 0 },
-    { name: 'Fri', views: 0, interactions: 0 },
-    { name: 'Sat', views: 0, interactions: 0 },
-    { name: 'Sun', views: 0, interactions: 0 },
-];
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -113,8 +91,6 @@ const DashboardOverview = ({
     setShowAddPostConfirm,
     setIsBackgroundModalOpen
 }: StatsOverviewProps) => {
-    const chartData = stats.chartData && stats.chartData.length > 0 ? stats.chartData : fallbackChartData;
-
     return (
         <motion.div
             variants={containerVariants}
@@ -178,76 +154,42 @@ const DashboardOverview = ({
 
             {/* Analytics & Quick Actions */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-                {/* Traffic Analytics */}
+                {/* Content Performance - all-time totals, direct from the database */}
                 <motion.div
                     variants={itemVariants}
                     className="lg:col-span-2 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm p-5 md:p-8"
                 >
                     <div className="flex items-center gap-2 mb-1.5">
                         <span className="w-1 h-4 bg-amber-700 rounded-sm" />
-                        <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">This Week</span>
+                        <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-amber-700">All Time</span>
                     </div>
-                    <h3 className="text-lg md:text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-6 md:mb-8">Views &amp; Engagement</h3>
+                    <h3 className="text-lg md:text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-6 md:mb-8">Content Performance</h3>
 
-                    <div className="h-64 md:h-80 w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={chartData}>
-                                <defs>
-                                    <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#b45309" stopOpacity={0.35} />
-                                        <stop offset="95%" stopColor="#b45309" stopOpacity={0} />
-                                    </linearGradient>
-                                    <linearGradient id="colorInter" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#9ca3af" stopOpacity={0.3} />
-                                        <stop offset="95%" stopColor="#9ca3af" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(148,163,184,0.15)" />
-                                <XAxis
-                                    dataKey="name"
-                                    axisLine={false}
-                                    tickLine={false}
-                                    tick={{ fill: '#9CA3AF', fontSize: 10, fontWeight: 'bold' }}
-                                    dy={10}
-                                />
-                                <YAxis
-                                    axisLine={false}
-                                    tickLine={false}
-                                    tick={{ fill: '#9CA3AF', fontSize: 10, fontWeight: 'bold' }}
-                                />
-                                <Tooltip
-                                    contentStyle={{
-                                        backgroundColor: 'rgba(255, 255, 255, 0.97)',
-                                        borderRadius: '8px',
-                                        border: '1px solid #e5e7eb',
-                                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                                        padding: '12px'
-                                    }}
-                                    itemStyle={{ fontWeight: 'bold', fontSize: '12px' }}
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="views"
-                                    name="Views"
-                                    stroke="#b45309"
-                                    strokeWidth={3}
-                                    fillOpacity={1}
-                                    fill="url(#colorViews)"
-                                    animationDuration={1200}
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="interactions"
-                                    name="Engagement"
-                                    stroke="#9ca3af"
-                                    strokeWidth={3}
-                                    fillOpacity={1}
-                                    fill="url(#colorInter)"
-                                    animationDuration={1200}
-                                    animationBegin={150}
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
+                    <div className="space-y-5">
+                        {[
+                            { label: 'Views', value: stats.totalViews },
+                            { label: 'Likes', value: stats.totalLikes },
+                            { label: 'Comments', value: stats.totalComments },
+                        ].map((metric) => {
+                            const max = Math.max(stats.totalViews, stats.totalLikes, stats.totalComments, 1);
+                            const pct = Math.max((metric.value / max) * 100, metric.value > 0 ? 2 : 0);
+                            return (
+                                <div key={metric.label}>
+                                    <div className="flex items-center justify-between mb-1.5">
+                                        <span className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">{metric.label}</span>
+                                        <span className="text-sm font-black text-gray-900 dark:text-white">{metric.value.toLocaleString()}</span>
+                                    </div>
+                                    <div className="h-2.5 w-full bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${pct}%` }}
+                                            transition={{ duration: 0.8, ease: 'easeOut' }}
+                                            className="h-full bg-amber-700 rounded-full"
+                                        />
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </motion.div>
 
