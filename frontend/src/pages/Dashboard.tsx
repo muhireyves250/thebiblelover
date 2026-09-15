@@ -834,7 +834,6 @@ const Dashboard = () => {
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-3 py-5 space-y-6">
           <div>
-            <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Content</p>
             <div className="space-y-1">
               {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
                 <button
