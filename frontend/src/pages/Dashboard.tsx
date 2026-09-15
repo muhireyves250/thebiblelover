@@ -832,7 +832,7 @@ const Dashboard = () => {
 
         <div className="flex-1 flex flex-col overflow-hidden">
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-3 pt-4 md:pt-8 pb-5 space-y-6">
+        <nav className="flex-1 overflow-y-auto px-3 pt-3 md:pt-4 pb-5 space-y-6">
           <div>
             <div className="space-y-1">
               {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
@@ -1061,7 +1061,7 @@ const Dashboard = () => {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 p-4 md:p-8 pb-20 lg:pb-8 overflow-auto">
+        <div className="flex-1 px-4 md:px-8 pt-3 md:pt-4 pb-20 lg:pb-8 overflow-auto">
 
           {/* Overview Tab */}
           {activeTab === 'overview' && (
