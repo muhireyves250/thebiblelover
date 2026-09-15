@@ -818,7 +818,7 @@ const Dashboard = () => {
         {/* Sidebar Header */}
         <div className="h-16 px-5 flex-shrink-0 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5">
-            <img src="/app-icon.png" alt="Ihema" className="w-11 h-11 rounded-lg object-cover" />
+            <img src="/app-icon.png" alt="Ihema" className="w-14 h-14 rounded-lg object-cover" />
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}
