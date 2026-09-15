@@ -213,7 +213,7 @@ export const settingsAPI: SettingsAPI = {
   getSettings: () => apiRequest('/settings'),
   getSettingCategory: (category) => apiRequest(`/settings/${category}`),
   updateSettings: (category, settings) => apiRequest(`/settings/${category}`, {
-    method: 'PATCH',
+    method: 'PUT',
     body: JSON.stringify(settings)
   }),
   resetSettings: () => apiRequest('/settings/reset', { method: 'POST' }),
