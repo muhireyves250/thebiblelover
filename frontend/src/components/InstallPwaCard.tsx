@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Download, X } from 'lucide-react';
+import { Download, X, Share } from 'lucide-react';
 import { usePwaInstall } from '../hooks/usePwaInstall';
 
 const DISMISSED_KEY = 'pwa-install-dismissed';
 
 const InstallPwaCard: React.FC = () => {
-  const { canInstall, promptInstall } = usePwaInstall();
+  const { canInstall, canInstallIOS, promptInstall } = usePwaInstall();
   const [dismissed, setDismissed] = useState(() => {
     try {
       return localStorage.getItem(DISMISSED_KEY) === '1';
@@ -14,7 +14,7 @@ const InstallPwaCard: React.FC = () => {
     }
   });
 
-  if (!canInstall || dismissed) return null;
+  if ((!canInstall && !canInstallIOS) || dismissed) return null;
 
   const dismiss = () => {
     setDismissed(true);
@@ -40,17 +40,28 @@ const InstallPwaCard: React.FC = () => {
           alt="Ihema app icon"
           className="w-12 h-12 rounded-xl shrink-0 object-cover"
         />
-        <div className="min-w-0 flex-1 pr-6">
-          <p className="text-sm font-bold text-gray-900 dark:text-white">Install Ihema</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">Add it to your home screen for quick, full-screen access.</p>
-        </div>
-        <button
-          onClick={promptInstall}
-          className="shrink-0 flex items-center gap-1.5 bg-amber-700 text-white px-3.5 py-2 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors"
-        >
-          <Download className="h-3.5 w-3.5" />
-          Install
-        </button>
+        {canInstall ? (
+          <>
+            <div className="min-w-0 flex-1 pr-6">
+              <p className="text-sm font-bold text-gray-900 dark:text-white">Install Ihema</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Add it to your home screen for quick, full-screen access.</p>
+            </div>
+            <button
+              onClick={promptInstall}
+              className="shrink-0 flex items-center gap-1.5 bg-amber-700 text-white px-3.5 py-2 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-amber-800 transition-colors"
+            >
+              <Download className="h-3.5 w-3.5" />
+              Install
+            </button>
+          </>
+        ) : (
+          <div className="min-w-0 flex-1 pr-6">
+            <p className="text-sm font-bold text-gray-900 dark:text-white">Install Ihema</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1 flex-wrap">
+              Tap <Share className="h-3 w-3 inline shrink-0" /> Share, then "Add to Home Screen"
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
