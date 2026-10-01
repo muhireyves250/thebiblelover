@@ -8,10 +8,16 @@ import NewsletterSubscribe from '../components/NewsletterSubscribe';
 import InstallAppButton from '../components/InstallAppButton';
 import SEO from '../components/SEO';
 import AutoText from '../components/AutoText';
+import SlideUpSection from '../components/SlideUpSection';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
+import { useKeyboardSectionNav } from '../hooks/useKeyboardSectionNav';
 
 const Home = () => {
   const { getBackgroundStyle } = useBackgroundSettings();
+
+  // ArrowUp/ArrowDown move one section at a time; see the hook for why
+  // this is key-press-only rather than reacting to scroll/wheel.
+  useKeyboardSectionNav(true);
 
   return (
     <>
@@ -19,7 +25,7 @@ const Home = () => {
         title="Home"
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
-      <div className="md:hidden px-4 pt-4">
+      <div className="md:hidden px-4 pt-4 snap-section">
         <div className="relative isolate overflow-hidden rounded-3xl border border-gray-300 dark:border-white/10 shadow-sm min-h-[200px] flex flex-col">
           <div className="absolute inset-0 bg-cover bg-center" style={getBackgroundStyle()} />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/60 to-gray-950/90" />
@@ -46,20 +52,20 @@ const Home = () => {
         </div>
       </div>
 
-      <HomeFeed />
-      <PlayerDesk />
-      <VerseDesk />
-      <AboutDesk />
+      <SlideUpSection className="snap-section"><HomeFeed /></SlideUpSection>
+      <SlideUpSection className="snap-section"><PlayerDesk /></SlideUpSection>
+      <SlideUpSection className="snap-section"><VerseDesk /></SlideUpSection>
+      <SlideUpSection className="snap-section"><AboutDesk /></SlideUpSection>
 
-      <div className="md:hidden mt-6">
+      <SlideUpSection className="md:hidden mt-6 snap-section">
         <NewsletterSubscribe />
-      </div>
+      </SlideUpSection>
 
-      <div className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8">
+      <SlideUpSection className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8 snap-section">
         <InstallAppButton />
-      </div>
+      </SlideUpSection>
 
-      <div className="hidden md:block"><Announcements /></div>
+      <SlideUpSection className="hidden md:block snap-section"><Announcements /></SlideUpSection>
     </>
   );
 };
