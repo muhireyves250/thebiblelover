@@ -148,14 +148,15 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
   );
 };
 
-const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
+const ReportCard: React.FC<{ item: HomeFeedItem; index?: number }> = ({ item, index = 0 }) => {
   const video = isVideoLike(item);
   const card = (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 36, scale: 0.96, filter: 'blur(6px)' }}
+      whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
       viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      transition={{ duration: 0.6, delay: (index % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -4 }}
       className="bg-white dark:bg-[#141417] rounded-lg overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-all group">
       <div className="relative h-24 md:h-36 bg-gray-100 dark:bg-white/10 overflow-hidden">
         <img
@@ -462,9 +463,9 @@ const HomeFeed: React.FC = () => {
               ) : items.length === 0 ? (
                 <div className="w-full"><NoReflectionsYet /></div>
               ) : (
-                items.map(item => (
+                items.map((item, idx) => (
                   <div key={`${item.type}-${item.id}`} className="w-[47%] shrink-0 snap-start">
-                    <ReportCard item={item} />
+                    <ReportCard item={item} index={idx} />
                   </div>
                 ))
               )}
@@ -490,8 +491,8 @@ const HomeFeed: React.FC = () => {
                     transition={{ duration: 0.35, ease: 'easeOut' }}
                     className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                   >
-                    {visibleItems.map(item => (
-                      <ReportCard key={`${item.type}-${item.id}`} item={item} />
+                    {visibleItems.map((item, idx) => (
+                      <ReportCard key={`${item.type}-${item.id}`} item={item} index={idx} />
                     ))}
                   </motion.div>
                 </AnimatePresence>
