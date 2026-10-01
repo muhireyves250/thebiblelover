@@ -23,7 +23,14 @@ export function useKeyboardSectionNav(enabled: boolean) {
       if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
       if (isTypingTarget(e.target)) return;
 
-      const sections = Array.from(document.querySelectorAll<HTMLElement>('.snap-section'));
+      // offsetParent is null for display:none elements (among other cases
+      // that don't apply here) - the mobile welcome banner and the
+      // desktop Hero wrapper both carry .snap-section but only one of
+      // them is ever actually rendered at a given breakpoint, and a
+      // hidden element's getBoundingClientRect() is all zeros, which
+      // was corrupting the position math below.
+      const sections = Array.from(document.querySelectorAll<HTMLElement>('.snap-section'))
+        .filter(el => el.offsetParent !== null);
       if (sections.length === 0) return;
 
       const offset = headerOffset();
