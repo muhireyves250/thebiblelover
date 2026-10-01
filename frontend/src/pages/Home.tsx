@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Bell, Star } from 'lucide-react';
 import HomeFeed from '../components/HomeFeed';
 import PlayerDesk from '../components/PlayerDesk';
@@ -8,11 +9,18 @@ import NewsletterSubscribe from '../components/NewsletterSubscribe';
 import InstallAppButton from '../components/InstallAppButton';
 import SEO from '../components/SEO';
 import AutoText from '../components/AutoText';
-import ScrollReveal from '../components/ScrollReveal';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
 
 const Home = () => {
   const { getBackgroundStyle } = useBackgroundSettings();
+
+  // Scroll-snap is scoped to the Home page only via this class, so
+  // scrolling between sections settles each one smoothly into place
+  // without affecting Dashboard or any other page's own scrolling.
+  useEffect(() => {
+    document.documentElement.classList.add('snap-sections');
+    return () => document.documentElement.classList.remove('snap-sections');
+  }, []);
 
   return (
     <>
@@ -47,20 +55,20 @@ const Home = () => {
         </div>
       </div>
 
-      <ScrollReveal><HomeFeed /></ScrollReveal>
-      <ScrollReveal><PlayerDesk /></ScrollReveal>
-      <ScrollReveal><VerseDesk /></ScrollReveal>
-      <ScrollReveal><AboutDesk /></ScrollReveal>
+      <div className="snap-section"><HomeFeed /></div>
+      <div className="snap-section"><PlayerDesk /></div>
+      <div className="snap-section"><VerseDesk /></div>
+      <div className="snap-section"><AboutDesk /></div>
 
-      <div className="md:hidden mt-6">
-        <ScrollReveal><NewsletterSubscribe /></ScrollReveal>
+      <div className="md:hidden mt-6 snap-section">
+        <NewsletterSubscribe />
       </div>
 
-      <ScrollReveal className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8">
+      <div className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8 snap-section">
         <InstallAppButton />
-      </ScrollReveal>
+      </div>
 
-      <div className="hidden md:block"><ScrollReveal><Announcements /></ScrollReveal></div>
+      <div className="hidden md:block snap-section"><Announcements /></div>
     </>
   );
 };

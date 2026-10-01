@@ -238,6 +238,27 @@
   scroll-behavior: smooth;
 }
 
+/* Section scroll-snap, scoped to the Home page only (toggled via a class
+   on <html> so it never affects Dashboard or other pages' own scrolling).
+   "proximity" rather than "mandatory" so it settles sections into place
+   when a scroll comes to rest near a boundary, without trapping the user
+   mid-scroll through a long section. */
+html.snap-sections {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+html.snap-sections .snap-section {
+  scroll-snap-align: start;
+  scroll-margin-top: 4rem;
+}
+
+@media (min-width: 768px) {
+  html.snap-sections .snap-section {
+    scroll-margin-top: 6.5rem;
+  }
+}
+
 /* Professional hover effects */
 .hover-lift {
   transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
