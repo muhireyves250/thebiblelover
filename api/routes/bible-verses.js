@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import fs from 'fs';
 import { prisma } from '../lib/prisma.js';
-import { verifyToken } from '../middleware/auth.js';
+import { verifyToken, optionalAuth } from '../middleware/auth.js';
 import { validateBibleVerse, validateBibleVerseUpdate } from '../middleware/validation.js';
 
 const router = express.Router();
@@ -231,8 +231,10 @@ router.get('/:id/shares', verifyToken, async (req, res, next) => {
   }
 });
 
-// Get all Bible verses (public)
-router.get('/', async (req, res, next) => {
+// Get all Bible verses (public; includeInactive=true is the admin/pastor
+// management view, used by the Dashboard, so scope it to the pastor's own
+// verses the same way the admin-list endpoints do for posts/episodes)
+router.get('/', optionalAuth, async (req, res, next) => {
   try {
     const { page = 1, limit = 10, featured, includeInactive, search } = req.query;
     const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -242,6 +244,8 @@ router.get('/', async (req, res, next) => {
     // If includeInactive is not true, only show active verses (default behavior)
     if (includeInactive !== 'true') {
       where.isActive = true;
+    } else if (req.user?.role === 'PASTOR') {
+      where.authorId = req.user.id;
     }
 
     if (featured === 'true') {
@@ -451,7 +455,8 @@ router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
         // Posting a verse with no explicit date makes it "today's verse" —
         // otherwise it would stay null forever and never surface as
         // featured or match any day filter.
-        displayDate: displayDate ? new Date(displayDate) : new Date()
+        displayDate: displayDate ? new Date(displayDate) : new Date(),
+        authorId: req.user.id
       }
     });
 
@@ -493,6 +498,13 @@ router.patch('/:id', verifyToken, validateBibleVerseUpdate, async (req, res, nex
       });
     }
 
+    if (req.user.role === 'PASTOR' && existingVerse.authorId !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: 'You can only edit your own Bible verses.'
+      });
+    }
+
     const updatedVerse = await prisma.bibleVerse.update({
       where: { id },
       data: updateData
@@ -529,6 +541,13 @@ router.delete('/:id', verifyToken, async (req, res, next) => {
       return res.status(404).json({
         success: false,
         message: 'Bible verse not found'
+      });
+    }
+
+    if (req.user.role === 'PASTOR' && existingVerse.authorId !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: 'You can only delete your own Bible verses.'
       });
     }
 

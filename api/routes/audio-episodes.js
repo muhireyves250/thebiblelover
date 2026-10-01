@@ -11,6 +11,7 @@ router.get('/admin/all', verifyToken, requireContentEditor, async (req, res) => 
     const { slot } = req.query;
     const where = {};
     if (slot === 'MORNING' || slot === 'EVENING') where.slot = slot;
+    if (req.user.role === 'PASTOR') where.authorId = req.user.id;
 
     const episodes = await prisma.audioEpisode.findMany({
       where,
@@ -59,10 +60,21 @@ router.post('/', verifyToken, requireContentEditor, validateAudioEpisode, async 
   }
 });
 
-// Admin or pastor: update episode
+// Admin, or pastor on their own episode: update episode
 router.put('/:id', verifyToken, requireContentEditor, validateAudioEpisodeUpdate, async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (req.user.role === 'PASTOR') {
+      const existing = await prisma.audioEpisode.findUnique({ where: { id }, select: { authorId: true } });
+      if (!existing) {
+        return res.status(404).json({ success: false, message: 'Audio episode not found' });
+      }
+      if (existing.authorId !== req.user.id) {
+        return res.status(403).json({ success: false, message: 'You can only edit your own episodes.' });
+      }
+    }
+
     const updateData = { ...req.body };
     if (updateData.episodeDate) {
       updateData.episodeDate = new Date(updateData.episodeDate);
@@ -80,10 +92,21 @@ router.put('/:id', verifyToken, requireContentEditor, validateAudioEpisodeUpdate
   }
 });
 
-// Admin or pastor: delete episode
+// Admin, or pastor on their own episode: delete episode
 router.delete('/:id', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (req.user.role === 'PASTOR') {
+      const existing = await prisma.audioEpisode.findUnique({ where: { id }, select: { authorId: true } });
+      if (!existing) {
+        return res.status(404).json({ success: false, message: 'Audio episode not found' });
+      }
+      if (existing.authorId !== req.user.id) {
+        return res.status(403).json({ success: false, message: 'You can only delete your own episodes.' });
+      }
+    }
+
     await prisma.audioEpisode.delete({ where: { id } });
     res.json({ success: true, message: 'Audio episode deleted successfully' });
   } catch (error) {

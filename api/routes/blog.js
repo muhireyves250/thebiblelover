@@ -223,10 +223,21 @@ router.post('/', verifyToken, requireContentEditor, validateBlogPost, async (req
   }
 });
 
-// Update blog post (admin or pastor)
+// Update blog post (admin, or pastor on their own post)
 router.put('/:id', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (req.user.role === 'PASTOR') {
+      const existing = await prisma.blogPost.findUnique({ where: { id }, select: { authorId: true } });
+      if (!existing) {
+        return res.status(404).json({ success: false, message: 'Blog post not found' });
+      }
+      if (existing.authorId !== req.user.id) {
+        return res.status(403).json({ success: false, message: 'You can only edit your own posts.' });
+      }
+    }
+
     const updateData = { ...req.body };
 
     // If publishing, set publishedAt when moving to PUBLISHED
@@ -264,10 +275,21 @@ router.put('/:id', verifyToken, requireContentEditor, async (req, res) => {
   }
 });
 
-// Delete blog post (admin or pastor)
+// Delete blog post (admin, or pastor on their own post)
 router.delete('/:id', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (req.user.role === 'PASTOR') {
+      const existing = await prisma.blogPost.findUnique({ where: { id }, select: { authorId: true } });
+      if (!existing) {
+        return res.status(404).json({ success: false, message: 'Blog post not found' });
+      }
+      if (existing.authorId !== req.user.id) {
+        return res.status(403).json({ success: false, message: 'You can only delete your own posts.' });
+      }
+    }
+
     await prisma.blogPost.delete({ where: { id } });
     res.json({ success: true, message: 'Blog post deleted successfully' });
   } catch (error) {
@@ -337,6 +359,7 @@ router.get('/admin/all', verifyToken, requireContentEditor, async (req, res) => 
     const where = {};
     if (status) where.status = status.toUpperCase();
     if (category) where.category = category.toUpperCase();
+    if (req.user.role === 'PASTOR') where.authorId = req.user.id;
 
     const skip = (page - 1) * limit;
 
@@ -427,6 +450,10 @@ router.get('/admin/:id', verifyToken, requireContentEditor, async (req, res) => 
 
     if (!post) {
       return res.status(404).json({ success: false, message: 'Blog post not found' });
+    }
+
+    if (req.user.role === 'PASTOR' && post.authorId !== req.user.id) {
+      return res.status(403).json({ success: false, message: 'You can only view your own posts.' });
     }
 
     res.json({ success: true, data: { post } });
