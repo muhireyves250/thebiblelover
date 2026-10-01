@@ -1,6 +1,6 @@
 import express from 'express';
 import { prisma } from '../lib/prisma.js';
-import { verifyToken, requireAdmin, optionalAuth } from '../middleware/auth.js';
+import { verifyToken, requireAdmin, requireContentEditor, optionalAuth } from '../middleware/auth.js';
 import { validateBlogPost } from '../middleware/validation.js';
 
 const router = express.Router();
@@ -174,8 +174,8 @@ router.get('/:slug', optionalAuth, async (req, res) => {
   }
 });
 
-// Create new blog post (admin only)
-router.post('/', verifyToken, requireAdmin, validateBlogPost, async (req, res) => {
+// Create new blog post (admin or pastor)
+router.post('/', verifyToken, requireContentEditor, validateBlogPost, async (req, res) => {
   try {
     const postData = {
       ...req.body,
@@ -223,8 +223,8 @@ router.post('/', verifyToken, requireAdmin, validateBlogPost, async (req, res) =
   }
 });
 
-// Update blog post (admin only)
-router.put('/:id', verifyToken, requireAdmin, async (req, res) => {
+// Update blog post (admin or pastor)
+router.put('/:id', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = { ...req.body };
@@ -264,8 +264,8 @@ router.put('/:id', verifyToken, requireAdmin, async (req, res) => {
   }
 });
 
-// Delete blog post (admin only)
-router.delete('/:id', verifyToken, requireAdmin, async (req, res) => {
+// Delete blog post (admin or pastor)
+router.delete('/:id', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const { id } = req.params;
     await prisma.blogPost.delete({ where: { id } });
@@ -326,8 +326,8 @@ router.get('/admin/stats', verifyToken, requireAdmin, async (req, res) => {
   }
 });
 
-// Get all blog posts (admin only)
-router.get('/admin/all', verifyToken, requireAdmin, async (req, res) => {
+// Get all blog posts (admin or pastor)
+router.get('/admin/all', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -414,8 +414,8 @@ router.get('/admin/comments', verifyToken, requireAdmin, async (req, res) => {
   }
 });
 
-// Get single blog post by id (admin only)
-router.get('/admin/:id', verifyToken, requireAdmin, async (req, res) => {
+// Get single blog post by id (admin or pastor)
+router.get('/admin/:id', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const { id } = req.params;
     const post = await prisma.blogPost.findUnique({

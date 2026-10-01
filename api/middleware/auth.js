@@ -85,6 +85,20 @@ export const requireAdmin = (req, res, next) => {
   next();
 };
 
+// Content roles: ADMIN has full access everywhere; PASTOR can create/edit/
+// delete blog posts, Bible verses, and audio (morning/evening) episodes,
+// but not users, donations, messages, events, settings, or comment
+// moderation - those stay requireAdmin.
+export const requireContentEditor = (req, res, next) => {
+  if (!['ADMIN', 'PASTOR'].includes(req.user.role)) {
+    return res.status(403).json({
+      success: false,
+      message: 'Access denied. Admin or Pastor privileges required.'
+    });
+  }
+  next();
+};
+
 // Optional auth middleware (doesn't fail if no token)
 export const optionalAuth = async (req, res, next) => {
   try {

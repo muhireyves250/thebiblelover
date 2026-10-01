@@ -143,6 +143,7 @@ const Dashboard = () => {
   console.log('Dashboard component function is executing');
   const { isAuthenticated, user, logout } = useAuth();
   console.log('Dashboard auth state:', { isAuthenticated, user: user?.email });
+  const isPastor = user?.role === 'PASTOR';
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -227,6 +228,14 @@ const Dashboard = () => {
 
     return () => clearTimeout(timer);
   }, [isAuthenticated]);
+
+  // Pastors can't see Overview (its stats need admin-only endpoints), so
+  // send them straight to Posts once we know their role.
+  useEffect(() => {
+    if (isPastor && activeTab === 'overview') {
+      setActiveTab('posts');
+    }
+  }, [isPastor]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -835,7 +844,7 @@ const Dashboard = () => {
         <nav className="flex-1 overflow-y-auto px-3 pt-3 md:pt-4 pb-5 space-y-6">
           <div>
             <div className="space-y-1">
-              {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
+              {(isPastor ? NAV_ITEMS.filter(({ id }) => ['posts', 'bible-verses', 'audio-episodes'].includes(id)) : NAV_ITEMS).map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
                   onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
@@ -851,6 +860,7 @@ const Dashboard = () => {
             </div>
           </div>
 
+          {!isPastor && (
           <div>
             <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Settings</p>
             <div className="space-y-1">
@@ -928,6 +938,7 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
+          )}
         </nav>
 
         {/* Footer actions */}

@@ -1,12 +1,12 @@
 import express from 'express';
 import { prisma } from '../lib/prisma.js';
-import { verifyToken, requireAdmin, optionalAuth } from '../middleware/auth.js';
+import { verifyToken, requireAdmin, requireContentEditor, optionalAuth } from '../middleware/auth.js';
 import { validateAudioEpisode, validateAudioEpisodeUpdate, validateAudioComment } from '../middleware/validation.js';
 
 const router = express.Router();
 
-// Admin: list all episodes (published + unpublished), optional slot filter
-router.get('/admin/all', verifyToken, requireAdmin, async (req, res) => {
+// Admin or pastor: list all episodes (published + unpublished), optional slot filter
+router.get('/admin/all', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const { slot } = req.query;
     const where = {};
@@ -30,8 +30,8 @@ router.get('/admin/all', verifyToken, requireAdmin, async (req, res) => {
   }
 });
 
-// Admin: create episode
-router.post('/', verifyToken, requireAdmin, validateAudioEpisode, async (req, res) => {
+// Admin or pastor: create episode
+router.post('/', verifyToken, requireContentEditor, validateAudioEpisode, async (req, res) => {
   try {
     const { title, description, audioUrl, coverImage, slot, episodeDate, isPublished } = req.body;
 
@@ -59,8 +59,8 @@ router.post('/', verifyToken, requireAdmin, validateAudioEpisode, async (req, re
   }
 });
 
-// Admin: update episode
-router.put('/:id', verifyToken, requireAdmin, validateAudioEpisodeUpdate, async (req, res) => {
+// Admin or pastor: update episode
+router.put('/:id', verifyToken, requireContentEditor, validateAudioEpisodeUpdate, async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = { ...req.body };
@@ -80,8 +80,8 @@ router.put('/:id', verifyToken, requireAdmin, validateAudioEpisodeUpdate, async 
   }
 });
 
-// Admin: delete episode
-router.delete('/:id', verifyToken, requireAdmin, async (req, res) => {
+// Admin or pastor: delete episode
+router.delete('/:id', verifyToken, requireContentEditor, async (req, res) => {
   try {
     const { id } = req.params;
     await prisma.audioEpisode.delete({ where: { id } });

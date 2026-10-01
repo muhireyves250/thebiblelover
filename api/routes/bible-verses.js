@@ -428,11 +428,11 @@ router.get('/:id', async (req, res, next) => {
 // Create Bible verse (admin only)
 router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
   try {
-    // Check if user is admin
-    if (req.user.role !== 'ADMIN') {
+    // Admin or pastor may manage Bible verses
+    if (!['ADMIN', 'PASTOR'].includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'Access denied. Admin privileges required.'
+        message: 'Access denied. Admin or Pastor privileges required.'
       });
     }
 
@@ -468,11 +468,11 @@ router.post('/', verifyToken, validateBibleVerse, async (req, res, next) => {
 // Update Bible verse (admin only)
 router.patch('/:id', verifyToken, validateBibleVerseUpdate, async (req, res, next) => {
   try {
-    // Check if user is admin
-    if (req.user.role !== 'ADMIN') {
+    // Admin or pastor may manage Bible verses
+    if (!['ADMIN', 'PASTOR'].includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'Access denied. Admin privileges required.'
+        message: 'Access denied. Admin or Pastor privileges required.'
       });
     }
 
@@ -511,11 +511,11 @@ router.patch('/:id', verifyToken, validateBibleVerseUpdate, async (req, res, nex
 // Delete Bible verse (admin only)
 router.delete('/:id', verifyToken, async (req, res, next) => {
   try {
-    // Check if user is admin
-    if (req.user.role !== 'ADMIN') {
+    // Admin or pastor may manage Bible verses
+    if (!['ADMIN', 'PASTOR'].includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'Access denied. Admin privileges required.'
+        message: 'Access denied. Admin or Pastor privileges required.'
       });
     }
 
