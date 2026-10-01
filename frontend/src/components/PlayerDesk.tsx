@@ -1,6 +1,14 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ChevronRight, Play, Pause, Heart, MoreVertical } from 'lucide-react';
+
+const cardMotion = {
+  initial: { opacity: 0, y: 28, scale: 0.97 },
+  whileInView: { opacity: 1, y: 0, scale: 1 },
+  viewport: { once: true, margin: '-40px' } as const,
+  transition: { type: 'spring' as const, stiffness: 90, damping: 18, mass: 0.6 },
+};
 import { useAudioEpisodes } from '../hooks/useAudioEpisodes';
 import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
@@ -70,60 +78,66 @@ const LikeButton: React.FC<{ episode: AudioEpisode }> = ({ episode }) => {
 };
 
 const BigCard: React.FC<{ episode: AudioEpisode; playingId: string | null; onToggle: (e: AudioEpisode) => void }> = ({ episode, playingId, onToggle }) => (
-  <Link to={`/players/${episode.id}`} className="block bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm hover:border-gray-400 hover:shadow-md transition-all">
-    <div className="relative h-40 md:h-64 bg-gray-100 dark:bg-white/10">
-      <img src={episode.coverImage} alt={episode.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
-      <button
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(episode); }}
-        className="absolute bottom-2.5 right-2.5 md:bottom-4 md:right-4 w-9 h-9 md:w-12 md:h-12 rounded-full bg-white/90 flex items-center justify-center shadow-md hover:bg-white"
-      >
-        {playingId === episode.id ? <Pause className="w-4 h-4 md:w-5 md:h-5 text-gray-900 dark:text-white" /> : <Play className="w-4 h-4 md:w-5 md:h-5 text-gray-900 dark:text-white ml-0.5" />}
-      </button>
-    </div>
-    <div className="p-3 md:p-5">
-      <h4 className="text-sm md:text-base font-bold text-gray-900 dark:text-white leading-snug line-clamp-2 mb-1.5 md:mb-2">{episode.title}</h4>
-      <p className="hidden md:block text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">{episode.description}</p>
-      <div className="flex items-center justify-between">
-        <span className="text-[11px] md:text-xs text-gray-400 dark:text-gray-500">{formatDate(episode.episodeDate)}</span>
-        <LikeButton episode={episode} />
+  <motion.div {...cardMotion}>
+    <Link to={`/players/${episode.id}`} className="block bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm hover:border-gray-400 hover:shadow-md transition-colors">
+      <div className="relative h-40 md:h-64 bg-gray-100 dark:bg-white/10">
+        <img src={episode.coverImage} alt={episode.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+        <button
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(episode); }}
+          className="absolute bottom-2.5 right-2.5 md:bottom-4 md:right-4 w-9 h-9 md:w-12 md:h-12 rounded-full bg-white/90 flex items-center justify-center shadow-md hover:bg-white"
+        >
+          {playingId === episode.id ? <Pause className="w-4 h-4 md:w-5 md:h-5 text-gray-900 dark:text-white" /> : <Play className="w-4 h-4 md:w-5 md:h-5 text-gray-900 dark:text-white ml-0.5" />}
+        </button>
       </div>
-    </div>
-  </Link>
+      <div className="p-3 md:p-5">
+        <h4 className="text-sm md:text-base font-bold text-gray-900 dark:text-white leading-snug line-clamp-2 mb-1.5 md:mb-2">{episode.title}</h4>
+        <p className="hidden md:block text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-4">{episode.description}</p>
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] md:text-xs text-gray-400 dark:text-gray-500">{formatDate(episode.episodeDate)}</span>
+          <LikeButton episode={episode} />
+        </div>
+      </div>
+    </Link>
+  </motion.div>
 );
 
 const SmallCard: React.FC<{ episode: AudioEpisode }> = ({ episode }) => (
-  <Link to={`/players/${episode.id}`} className="flex items-center gap-2.5 md:gap-4 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg p-2.5 md:p-3 shadow-sm hover:border-gray-400 hover:shadow-md transition-all">
-    <img src={episode.coverImage} alt={episode.title} className="w-14 h-14 md:w-20 md:h-20 rounded object-cover shrink-0" loading="lazy" />
-    <div className="min-w-0">
-      <p className="text-xs md:text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2">{episode.title}</p>
-      <p className="text-[10px] md:text-xs text-gray-400 dark:text-gray-500 mt-0.5 md:mt-1">{formatDate(episode.episodeDate)}</p>
-    </div>
-  </Link>
+  <motion.div {...cardMotion}>
+    <Link to={`/players/${episode.id}`} className="flex items-center gap-2.5 md:gap-4 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg p-2.5 md:p-3 shadow-sm hover:border-gray-400 hover:shadow-md transition-colors">
+      <img src={episode.coverImage} alt={episode.title} className="w-14 h-14 md:w-20 md:h-20 rounded object-cover shrink-0" loading="lazy" />
+      <div className="min-w-0">
+        <p className="text-xs md:text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2">{episode.title}</p>
+        <p className="text-[10px] md:text-xs text-gray-400 dark:text-gray-500 mt-0.5 md:mt-1">{formatDate(episode.episodeDate)}</p>
+      </div>
+    </Link>
+  </motion.div>
 );
 
 const AudioRow: React.FC<{ episode: AudioEpisode; playingId: string | null; onToggle: (e: AudioEpisode) => void }> = ({ episode, playingId, onToggle }) => {
   const isPlaying = playingId === episode.id;
   return (
-    <Link
-      to={`/players/${episode.id}`}
-      className="flex items-center gap-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-2xl p-2.5 shadow-sm hover:border-gray-400 hover:shadow-md transition-all"
-    >
-      <img src={episode.coverImage} alt={episode.title} className="w-14 h-14 rounded-xl object-cover shrink-0" loading="lazy" />
-      <div className="min-w-0 flex-1">
-        <p className="font-sans text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2">{episode.title}</p>
-        <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">{formatDate(episode.episodeDate)} &middot; {formatTime(episode.episodeDate)}</p>
-      </div>
-      <button
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(episode); }}
-        className="shrink-0 w-9 h-9 rounded-full border border-amber-200 bg-amber-50 flex items-center justify-center text-amber-700 hover:bg-amber-700 hover:text-white hover:border-amber-700 transition-colors"
-        aria-label={isPlaying ? 'Pause' : 'Play'}
+    <motion.div {...cardMotion}>
+      <Link
+        to={`/players/${episode.id}`}
+        className="flex items-center gap-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-2xl p-2.5 shadow-sm hover:border-gray-400 hover:shadow-md transition-colors"
       >
-        {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
-      </button>
-      <span className="shrink-0 text-gray-400 dark:text-gray-500">
-        <MoreVertical className="w-4 h-4" />
-      </span>
-    </Link>
+        <img src={episode.coverImage} alt={episode.title} className="w-14 h-14 rounded-xl object-cover shrink-0" loading="lazy" />
+        <div className="min-w-0 flex-1">
+          <p className="font-sans text-sm font-bold text-gray-900 dark:text-white leading-snug line-clamp-2">{episode.title}</p>
+          <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5">{formatDate(episode.episodeDate)} &middot; {formatTime(episode.episodeDate)}</p>
+        </div>
+        <button
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onToggle(episode); }}
+          className="shrink-0 w-9 h-9 rounded-full border border-amber-200 bg-amber-50 flex items-center justify-center text-amber-700 hover:bg-amber-700 hover:text-white hover:border-amber-700 transition-colors"
+          aria-label={isPlaying ? 'Pause' : 'Play'}
+        >
+          {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
+        </button>
+        <span className="shrink-0 text-gray-400 dark:text-gray-500">
+          <MoreVertical className="w-4 h-4" />
+        </span>
+      </Link>
+    </motion.div>
   );
 };
 

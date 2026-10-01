@@ -14,7 +14,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({ children, className, delay 
     initial={{ opacity: 0, y: 32 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '-80px' }}
-    transition={{ duration: 0.6, ease: 'easeOut', delay }}
+    transition={{ type: 'spring', stiffness: 80, damping: 20, mass: 0.7, delay }}
     className={className}
   >
     {children}

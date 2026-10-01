@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ChevronRight, Share2 } from 'lucide-react';
 import { useVerseArchive, type VerseArchiveItem } from '../hooks/useVerseArchive';
 import { useBibleVerse } from '../hooks/useBibleVerse';
@@ -49,7 +50,12 @@ const MetaRow: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
 );
 
 const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void }> = ({ item, onShare }) => (
-  <div className="h-full flex flex-col sm:flex-row bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm">
+  <motion.div
+    initial={{ opacity: 0, y: 28, scale: 0.97 }}
+    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+    viewport={{ once: true, margin: '-40px' }}
+    transition={{ type: 'spring', stiffness: 90, damping: 18, mass: 0.6 }}
+    className="h-full flex flex-col sm:flex-row bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm">
     <Link to={`/verses/${item.id}`} className="relative w-full sm:w-[45%] shrink-0 min-h-[220px] bg-gray-100 dark:bg-white/10 overflow-hidden block">
       <img
         src={item.image || '/images/about.png'}
@@ -81,28 +87,36 @@ const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void 
         </button>
       </div>
     </div>
-  </div>
+  </motion.div>
 );
 
-const VerseCard: React.FC<{ item: VerseArchiveItem }> = ({ item }) => (
-  <Link to={`/verses/${item.id}`} className="flex flex-1 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm hover:border-gray-400 hover:shadow-md transition-all">
-    <div className="relative w-28 sm:w-36 shrink-0 bg-gray-100 dark:bg-white/10 overflow-hidden">
-      <img
-        src={item.image || '/images/about.png'}
-        alt={item.reference}
-        className="absolute inset-0 w-full h-full object-cover"
-        loading="lazy"
-      />
-    </div>
-    <div className="flex-1 p-4 min-w-0">
-      <CategoryTag item={item} />
-      <h4 className="text-sm font-bold text-gray-900 dark:text-white uppercase leading-snug line-clamp-2 mb-1 hover:text-amber-700 transition-colors">
-        "{item.text}"
-      </h4>
-      <p className="text-xs text-gray-400 dark:text-gray-500">{item.reference}</p>
-      <MetaRow item={item} />
-    </div>
-  </Link>
+const VerseCard: React.FC<{ item: VerseArchiveItem; index?: number }> = ({ item, index = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 28, scale: 0.97 }}
+    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+    viewport={{ once: true, margin: '-40px' }}
+    transition={{ type: 'spring', stiffness: 90, damping: 18, mass: 0.6, delay: (index % 4) * 0.07 }}
+    className="flex flex-1"
+  >
+    <Link to={`/verses/${item.id}`} className="flex flex-1 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm hover:border-gray-400 hover:shadow-md transition-colors">
+      <div className="relative w-28 sm:w-36 shrink-0 bg-gray-100 dark:bg-white/10 overflow-hidden">
+        <img
+          src={item.image || '/images/about.png'}
+          alt={item.reference}
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div className="flex-1 p-4 min-w-0">
+        <CategoryTag item={item} />
+        <h4 className="text-sm font-bold text-gray-900 dark:text-white uppercase leading-snug line-clamp-2 mb-1 hover:text-amber-700 transition-colors">
+          "{item.text}"
+        </h4>
+        <p className="text-xs text-gray-400 dark:text-gray-500">{item.reference}</p>
+        <MetaRow item={item} />
+      </div>
+    </Link>
+  </motion.div>
 );
 
 const VerseCardSkeleton: React.FC = () => (
@@ -261,7 +275,7 @@ const VerseDesk: React.FC = () => {
             ) : displayedList.length === 0 ? (
               <NoVersesYet />
             ) : (
-              displayedList.map(item => <VerseCard key={item.id} item={item} />)
+              displayedList.map((item, idx) => <VerseCard key={item.id} item={item} index={idx} />)
             )}
           </div>
         </div>
