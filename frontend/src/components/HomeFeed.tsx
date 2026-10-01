@@ -8,7 +8,6 @@ import { homeFeedAPI } from '../services/api';
 import type { HomeFeedVideo } from '../services/api.d';
 import ShareModal from './ShareModal';
 import AutoText from './AutoText';
-import { useTilt } from '../hooks/useTilt';
 
 const shareUrlFor = (item: HomeFeedItem) => {
   const href = item.type === 'POST' ? `/blog/${item.slug}` : item.url;
@@ -156,34 +155,25 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
 // top of the grid's own AnimatePresence fade is what caused the
 // choppiness, so those cards just use a plain staggered mount
 // animation (variants inherited from the parent) instead.
-// Alternating entrance direction (even cards drift in from the left,
-// odd from the right) instead of every card sliding up from the exact
-// same place - a small touch that keeps a 4-up grid from feeling like
-// one repeated animation playing four times.
-const cardVariants = (idx: number) => ({
-  hidden: { opacity: 0, y: 28, x: idx % 2 === 0 ? -14 : 14, scale: 0.97 },
-  visible: { opacity: 1, y: 0, x: 0, scale: 1 },
-});
+const cardVariants = {
+  hidden: { opacity: 0, y: 28, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1 },
+};
 
 const ReportCard: React.FC<{ item: HomeFeedItem; index?: number; animateOnScroll?: boolean }> = ({ item, index = 0, animateOnScroll = true }) => {
   const video = isVideoLike(item);
-  const tilt = useTilt();
   const motionProps = animateOnScroll
     ? {
-      initial: { opacity: 0, y: 28, x: index % 2 === 0 ? -14 : 14, scale: 0.97 },
-      whileInView: { opacity: 1, y: 0, x: 0, scale: 1 },
+      initial: { opacity: 0, y: 28, scale: 0.97 },
+      whileInView: { opacity: 1, y: 0, scale: 1 },
       viewport: { once: true, margin: '-40px' },
       transition: { type: 'spring' as const, stiffness: 90, damping: 18, mass: 0.6, delay: (index % 4) * 0.07 },
     }
-    : { variants: cardVariants(index) };
+    : { variants: cardVariants };
   const card = (
     <motion.div
       {...motionProps}
-      ref={tilt.ref}
-      onMouseMove={tilt.onMouseMove}
-      onMouseLeave={tilt.onMouseLeave}
-      style={{ rotateX: tilt.style.rotateX, rotateY: tilt.style.rotateY, transformPerspective: tilt.style.transformPerspective }}
-      whileHover={{ y: -4, scale: 1.015, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
+      whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
       className="bg-white dark:bg-[#141417] rounded-lg overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-colors group">
       <div className="relative h-24 md:h-36 bg-gray-100 dark:bg-white/10 overflow-hidden">
         <img

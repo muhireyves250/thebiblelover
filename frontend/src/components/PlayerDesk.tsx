@@ -13,7 +13,6 @@ import { useAudioEpisodes } from '../hooks/useAudioEpisodes';
 import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
 import AutoText from './AutoText';
-import { useTilt } from '../hooks/useTilt';
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -78,17 +77,8 @@ const LikeButton: React.FC<{ episode: AudioEpisode }> = ({ episode }) => {
   );
 };
 
-const BigCard: React.FC<{ episode: AudioEpisode; playingId: string | null; onToggle: (e: AudioEpisode) => void }> = ({ episode, playingId, onToggle }) => {
-  const tilt = useTilt();
-  return (
-  <motion.div
-    {...cardMotion}
-    whileHover={{ scale: 1.015, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
-    ref={tilt.ref}
-    onMouseMove={tilt.onMouseMove}
-    onMouseLeave={tilt.onMouseLeave}
-    style={{ rotateX: tilt.style.rotateX, rotateY: tilt.style.rotateY, transformPerspective: tilt.style.transformPerspective }}
-  >
+const BigCard: React.FC<{ episode: AudioEpisode; playingId: string | null; onToggle: (e: AudioEpisode) => void }> = ({ episode, playingId, onToggle }) => (
+  <motion.div {...cardMotion}>
     <Link to={`/players/${episode.id}`} className="block bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm hover:border-gray-400 hover:shadow-md transition-colors">
       <div className="relative h-40 md:h-64 bg-gray-100 dark:bg-white/10">
         <img src={episode.coverImage} alt={episode.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
@@ -109,8 +99,7 @@ const BigCard: React.FC<{ episode: AudioEpisode; playingId: string | null; onTog
       </div>
     </Link>
   </motion.div>
-  );
-};
+);
 
 const SmallCard: React.FC<{ episode: AudioEpisode }> = ({ episode }) => (
   <motion.div {...cardMotion}>
