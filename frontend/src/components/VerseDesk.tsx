@@ -6,6 +6,7 @@ import { useVerseArchive, type VerseArchiveItem } from '../hooks/useVerseArchive
 import { useBibleVerse } from '../hooks/useBibleVerse';
 import ShareModal from './ShareModal';
 import AutoText from './AutoText';
+import { useTilt } from '../hooks/useTilt';
 
 const DAY_TABS: { label: string; day: number | null }[] = [
   { label: 'All', day: null },
@@ -90,12 +91,19 @@ const FeaturedVerseCard: React.FC<{ item: VerseArchiveItem; onShare: () => void 
   </motion.div>
 );
 
-const VerseCard: React.FC<{ item: VerseArchiveItem; index?: number }> = ({ item, index = 0 }) => (
+const VerseCard: React.FC<{ item: VerseArchiveItem; index?: number }> = ({ item, index = 0 }) => {
+  const tilt = useTilt();
+  return (
   <motion.div
-    initial={{ opacity: 0, y: 28, scale: 0.97 }}
-    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+    initial={{ opacity: 0, y: 28, x: index % 2 === 0 ? -14 : 14, scale: 0.97 }}
+    whileInView={{ opacity: 1, y: 0, x: 0, scale: 1 }}
     viewport={{ once: true, margin: '-40px' }}
     transition={{ type: 'spring', stiffness: 90, damping: 18, mass: 0.6, delay: (index % 4) * 0.07 }}
+    whileHover={{ scale: 1.015, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
+    ref={tilt.ref}
+    onMouseMove={tilt.onMouseMove}
+    onMouseLeave={tilt.onMouseLeave}
+    style={{ rotateX: tilt.style.rotateX, rotateY: tilt.style.rotateY, transformPerspective: tilt.style.transformPerspective }}
     className="flex flex-1"
   >
     <Link to={`/verses/${item.id}`} className="flex flex-1 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm hover:border-gray-400 hover:shadow-md transition-colors">
@@ -117,7 +125,8 @@ const VerseCard: React.FC<{ item: VerseArchiveItem; index?: number }> = ({ item,
       </div>
     </Link>
   </motion.div>
-);
+  );
+};
 
 const VerseCardSkeleton: React.FC = () => (
   <div className="flex flex-1 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg overflow-hidden shadow-sm">
