@@ -10,14 +10,15 @@ import SEO from '../components/SEO';
 import AutoText from '../components/AutoText';
 import SlideUpSection from '../components/SlideUpSection';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
-import { useKeyboardSectionNav } from '../hooks/useKeyboardSectionNav';
+import { useSectionNavigation } from '../hooks/useSectionNavigation';
 
 const Home = () => {
   const { getBackgroundStyle } = useBackgroundSettings();
 
-  // ArrowUp/ArrowDown move one section at a time; see the hook for why
-  // this is key-press-only rather than reacting to scroll/wheel.
-  useKeyboardSectionNav(true);
+  // ArrowUp/ArrowDown and mouse/trackpad wheel each move one section at
+  // a time - see the hook for why wheel events are intercepted directly
+  // rather than reacting to scroll position after the fact.
+  useSectionNavigation(true);
 
   return (
     <>
