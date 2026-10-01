@@ -9,14 +9,9 @@ import InstallAppButton from '../components/InstallAppButton';
 import SEO from '../components/SEO';
 import AutoText from '../components/AutoText';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
-import { useSectionSnap } from '../hooks/useSectionSnap';
 
 const Home = () => {
   const { getBackgroundStyle } = useBackgroundSettings();
-
-  // Spring-animated section-to-section snapping, scoped to Home only -
-  // see useSectionSnap for why this is JS-driven rather than CSS scroll-snap.
-  useSectionSnap(true);
 
   return (
     <>
@@ -24,7 +19,7 @@ const Home = () => {
         title="Home"
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
-      <div className="md:hidden px-4 pt-4 snap-section">
+      <div className="md:hidden px-4 pt-4">
         <div className="relative isolate overflow-hidden rounded-3xl border border-gray-300 dark:border-white/10 shadow-sm min-h-[200px] flex flex-col">
           <div className="absolute inset-0 bg-cover bg-center" style={getBackgroundStyle()} />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/60 to-gray-950/90" />
@@ -51,20 +46,20 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="snap-section"><HomeFeed /></div>
-      <div className="snap-section"><PlayerDesk /></div>
-      <div className="snap-section"><VerseDesk /></div>
-      <div className="snap-section"><AboutDesk /></div>
+      <HomeFeed />
+      <PlayerDesk />
+      <VerseDesk />
+      <AboutDesk />
 
-      <div className="md:hidden mt-6 snap-section">
+      <div className="md:hidden mt-6">
         <NewsletterSubscribe />
       </div>
 
-      <div className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8 snap-section">
+      <div className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8">
         <InstallAppButton />
       </div>
 
-      <div className="hidden md:block snap-section"><Announcements /></div>
+      <div className="hidden md:block"><Announcements /></div>
     </>
   );
 };

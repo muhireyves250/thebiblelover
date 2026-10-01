@@ -238,19 +238,6 @@
   scroll-behavior: smooth;
 }
 
-/* Section-to-section snapping on the Home page is driven by JS
-   (useSectionSnap, a real spring animation) instead of native CSS
-   scroll-snap - the native settle timing/easing isn't controllable and
-   varies by browser, which is why it kept feeling "not smooth" no
-   matter how scroll-snap-type was tuned. .snap-section here is just a
-   marker class the hook queries for; it carries no scroll-snap CSS. */
-
-@media (min-width: 768px) {
-  html.snap-sections .snap-section {
-    scroll-margin-top: 6.5rem;
-  }
-}
-
 /* Professional hover effects */
 .hover-lift {
   transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
