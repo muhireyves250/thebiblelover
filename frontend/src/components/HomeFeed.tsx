@@ -151,7 +151,12 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
 const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
   const video = isVideoLike(item);
   const card = (
-    <div className="bg-white dark:bg-[#141417] rounded-lg overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-all group">
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className="bg-white dark:bg-[#141417] rounded-lg overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-all group">
       <div className="relative h-24 md:h-36 bg-gray-100 dark:bg-white/10 overflow-hidden">
         <img
           src={item.thumbnail}
@@ -176,7 +181,7 @@ const ReportCard: React.FC<{ item: HomeFeedItem }> = ({ item }) => {
         </h4>
         <StatsRow item={item} />
       </div>
-    </div>
+    </motion.div>
   );
 
   return video ? (
