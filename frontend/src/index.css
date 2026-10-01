@@ -240,12 +240,13 @@
 
 /* Section scroll-snap, scoped to the Home page only (toggled via a class
    on <html> so it never affects Dashboard or other pages' own scrolling).
-   "proximity" rather than "mandatory" so it settles sections into place
-   when a scroll comes to rest near a boundary, without trapping the user
-   mid-scroll through a long section. */
+   "mandatory" so the snap is decisively visible - "proximity" only
+   triggers when a scroll happens to come to rest very close to a
+   boundary, which on tall sections barely ever happens and just reads
+   as "nothing is happening". */
 html.snap-sections {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: y mandatory;
 }
 
 html.snap-sections .snap-section {
