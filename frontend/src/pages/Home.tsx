@@ -8,6 +8,7 @@ import NewsletterSubscribe from '../components/NewsletterSubscribe';
 import InstallAppButton from '../components/InstallAppButton';
 import SEO from '../components/SEO';
 import AutoText from '../components/AutoText';
+import ScrollReveal from '../components/ScrollReveal';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
 
 const Home = () => {
@@ -46,20 +47,20 @@ const Home = () => {
         </div>
       </div>
 
-      <HomeFeed />
-      <PlayerDesk />
-      <VerseDesk />
-      <AboutDesk />
+      <ScrollReveal><HomeFeed /></ScrollReveal>
+      <ScrollReveal><PlayerDesk /></ScrollReveal>
+      <ScrollReveal><VerseDesk /></ScrollReveal>
+      <ScrollReveal><AboutDesk /></ScrollReveal>
 
       <div className="md:hidden mt-6">
-        <NewsletterSubscribe />
+        <ScrollReveal><NewsletterSubscribe /></ScrollReveal>
       </div>
 
-      <div className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8">
+      <ScrollReveal className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8">
         <InstallAppButton />
-      </div>
+      </ScrollReveal>
 
-      <div className="hidden md:block"><Announcements /></div>
+      <div className="hidden md:block"><ScrollReveal><Announcements /></ScrollReveal></div>
     </>
   );
 };
