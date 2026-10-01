@@ -140,7 +140,7 @@ function AppContent() {
           was). Desktop keeps its per-page placement (inline on Home/
           About, just above the footer everywhere else). */}
       {!isBareLayout && <div className="md:hidden sticky top-[66px] z-40"><Announcements /></div>}
-      {location.pathname === '/' && <div className="hidden md:block"><Hero /></div>}
+      {location.pathname === '/' && <div className="hidden md:block snap-section"><Hero /></div>}
       {pageHeader && (
         pageHeaderDesktopOnly
           ? <div className="hidden md:block"><PageHeader title={pageHeader.title} subtitle={pageHeader.subtitle} /></div>

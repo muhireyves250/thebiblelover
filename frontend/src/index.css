@@ -238,21 +238,12 @@
   scroll-behavior: smooth;
 }
 
-/* Section scroll-snap, scoped to the Home page only (toggled via a class
-   on <html> so it never affects Dashboard or other pages' own scrolling).
-   "mandatory" so the snap is decisively visible - "proximity" only
-   triggers when a scroll happens to come to rest very close to a
-   boundary, which on tall sections barely ever happens and just reads
-   as "nothing is happening". */
-html.snap-sections {
-  scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
-}
-
-html.snap-sections .snap-section {
-  scroll-snap-align: start;
-  scroll-margin-top: 4rem;
-}
+/* Section-to-section snapping on the Home page is driven by JS
+   (useSectionSnap, a real spring animation) instead of native CSS
+   scroll-snap - the native settle timing/easing isn't controllable and
+   varies by browser, which is why it kept feeling "not smooth" no
+   matter how scroll-snap-type was tuned. .snap-section here is just a
+   marker class the hook queries for; it carries no scroll-snap CSS. */
 
 @media (min-width: 768px) {
   html.snap-sections .snap-section {

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Bell, Star } from 'lucide-react';
 import HomeFeed from '../components/HomeFeed';
 import PlayerDesk from '../components/PlayerDesk';
@@ -10,17 +9,14 @@ import InstallAppButton from '../components/InstallAppButton';
 import SEO from '../components/SEO';
 import AutoText from '../components/AutoText';
 import { useBackgroundSettings } from '../hooks/useBackgroundSettings';
+import { useSectionSnap } from '../hooks/useSectionSnap';
 
 const Home = () => {
   const { getBackgroundStyle } = useBackgroundSettings();
 
-  // Scroll-snap is scoped to the Home page only via this class, so
-  // scrolling between sections settles each one smoothly into place
-  // without affecting Dashboard or any other page's own scrolling.
-  useEffect(() => {
-    document.documentElement.classList.add('snap-sections');
-    return () => document.documentElement.classList.remove('snap-sections');
-  }, []);
+  // Spring-animated section-to-section snapping, scoped to Home only -
+  // see useSectionSnap for why this is JS-driven rather than CSS scroll-snap.
+  useSectionSnap(true);
 
   return (
     <>
@@ -28,7 +24,7 @@ const Home = () => {
         title="Home"
         description="A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible. Explore reflections and spiritual growth resources."
       />
-      <div className="md:hidden px-4 pt-4">
+      <div className="md:hidden px-4 pt-4 snap-section">
         <div className="relative isolate overflow-hidden rounded-3xl border border-gray-300 dark:border-white/10 shadow-sm min-h-[200px] flex flex-col">
           <div className="absolute inset-0 bg-cover bg-center" style={getBackgroundStyle()} />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/60 to-gray-950/90" />
