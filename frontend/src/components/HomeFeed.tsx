@@ -148,14 +148,31 @@ const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: b
   );
 };
 
-const ReportCard: React.FC<{ item: HomeFeedItem; index?: number }> = ({ item, index = 0 }) => {
+// animateOnScroll: the mobile carousel's cards mount once and should
+// reveal as the user scrolls to them (whileInView). The desktop grid
+// instead remounts a fresh set of cards on every auto-rotation -
+// letting those also run their own whileInView/viewport observer on
+// top of the grid's own AnimatePresence fade is what caused the
+// choppiness, so those cards just use a plain staggered mount
+// animation (variants inherited from the parent) instead.
+const cardVariants = {
+  hidden: { opacity: 0, y: 28, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1 },
+};
+
+const ReportCard: React.FC<{ item: HomeFeedItem; index?: number; animateOnScroll?: boolean }> = ({ item, index = 0, animateOnScroll = true }) => {
   const video = isVideoLike(item);
+  const motionProps = animateOnScroll
+    ? {
+      initial: { opacity: 0, y: 28, scale: 0.97 },
+      whileInView: { opacity: 1, y: 0, scale: 1 },
+      viewport: { once: true, margin: '-40px' },
+      transition: { type: 'spring' as const, stiffness: 90, damping: 18, mass: 0.6, delay: (index % 4) * 0.07 },
+    }
+    : { variants: cardVariants };
   const card = (
     <motion.div
-      initial={{ opacity: 0, y: 28, scale: 0.97 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ type: 'spring', stiffness: 90, damping: 18, mass: 0.6, delay: (index % 4) * 0.07 }}
+      {...motionProps}
       whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
       className="bg-white dark:bg-[#141417] rounded-lg overflow-hidden border border-gray-300 dark:border-white/10 shadow-sm h-full hover:border-gray-400 hover:shadow-md transition-colors group">
       <div className="relative h-24 md:h-36 bg-gray-100 dark:bg-white/10 overflow-hidden">
@@ -485,14 +502,14 @@ const HomeFeed: React.FC = () => {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentPage}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                    initial="hidden"
+                    animate="visible"
+                    exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                    variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
                     className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                   >
                     {visibleItems.map((item, idx) => (
-                      <ReportCard key={`${item.type}-${item.id}`} item={item} index={idx} />
+                      <ReportCard key={`${item.type}-${item.id}`} item={item} index={idx} animateOnScroll={false} />
                     ))}
                   </motion.div>
                 </AnimatePresence>
