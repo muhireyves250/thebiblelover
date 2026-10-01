@@ -327,6 +327,21 @@ const HomeFeed: React.FC = () => {
   const heroVideoUrl = settings?.heroSection?.videoUrl;
   const [page, setPage] = useState(0);
 
+  // The desktop grid auto-rotates pages every few seconds, remounting a
+  // fresh set of ReportCards each time - letting those also run their own
+  // scroll-triggered whileInView on top of the rotation's own transition
+  // is what caused the earlier choppiness. So: only the very first page
+  // this section ever shows (i.e. a genuine scroll-into-view) gets the
+  // scroll-triggered reveal; every rotation after that uses the simple
+  // mount-only animation instead.
+  const hasRevealedOnScroll = useRef(false);
+  useEffect(() => {
+    if (hasLoaded) {
+      const id = requestAnimationFrame(() => { hasRevealedOnScroll.current = true; });
+      return () => cancelAnimationFrame(id);
+    }
+  }, [hasLoaded]);
+
   const pages = useMemo(() => {
     const chunks: HomeFeedItem[][] = [];
     for (let i = 0; i < items.length; i += PAGE_SIZE) {
@@ -509,7 +524,7 @@ const HomeFeed: React.FC = () => {
                     className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                   >
                     {visibleItems.map((item, idx) => (
-                      <ReportCard key={`${item.type}-${item.id}`} item={item} index={idx} animateOnScroll={false} />
+                      <ReportCard key={`${item.type}-${item.id}`} item={item} index={idx} animateOnScroll={!hasRevealedOnScroll.current} />
                     ))}
                   </motion.div>
                 </AnimatePresence>
