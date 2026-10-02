@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   BarChart3,
@@ -144,6 +144,7 @@ const Dashboard = () => {
   const { isAuthenticated, user, logout } = useAuth();
   console.log('Dashboard auth state:', { isAuthenticated, user: user?.email });
   const isPastor = user?.role === 'PASTOR';
+  const canAccessAdminDashboard = user?.role === 'ADMIN' || isPastor;
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -809,6 +810,14 @@ const Dashboard = () => {
         </div>
       </div>
     );
+  }
+
+  // Members (and anyone without Admin/Pastor privileges) don't get this
+  // console - send them to their own dashboard instead. Relying on
+  // client-side role alone is fine here since every actual admin action
+  // is still enforced server-side.
+  if (!canAccessAdminDashboard) {
+    return <Navigate to="/member-dashboard" replace />;
   }
 
   return (

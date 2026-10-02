@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, createContext, useContext } from 'react';
 import { getCached, setCached, dedupedFetch } from '../lib/dataCache';
+import { authAPI } from '../services/api';
 
 // Custom hook for API calls with loading states and error handling
 export const useAPI = <T = any,>() => {
@@ -157,6 +158,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, [checkAuth]);
+
+  // The cached user (localStorage) can go stale the moment an admin changes
+  // someone's role server-side - e.g. approving a pastor request - since
+  // that happens in a different session entirely. Refresh from the server
+  // once per load so a role change takes effect on next visit/reload
+  // instead of requiring a manual logout/login.
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    authAPI.getProfile()
+      .then((res) => {
+        if (res.success && res.data?.user) {
+          const freshUser = res.data.user;
+          localStorage.setItem('user', JSON.stringify(freshUser));
+          setUser(freshUser);
+        }
+      })
+      .catch(() => {
+        // Network hiccup or expired token - keep the cached user, the
+        // normal request flow will handle an actually-invalid token.
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   const login = (userData: any, token: string) => {
     localStorage.setItem('user', JSON.stringify(userData));
