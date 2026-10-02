@@ -20,7 +20,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (isAuthenticated && !hasNavigatedRef.current && user) {
       hasNavigatedRef.current = true;
-      const destination = user.role === 'ADMIN' ? '/dashboard' : '/member-dashboard';
+      const destination = (user.role === 'ADMIN' || user.role === 'PASTOR') ? '/dashboard' : '/member-dashboard';
       navigate(destination, { replace: true });
     }
   }, [isAuthenticated, navigate, user]);
