@@ -227,7 +227,7 @@ export interface BibleVersesAPI {
 
 export interface AuthAPI {
   login: (email: string, password: string) => Promise<ApiResponse<{ token: string; user: any }>>;
-  register: (name: string, email: string, password: string) => Promise<ApiResponse<{ token: string; user: any }>>;
+  register: (name: string, email: string, password: string, requestPastorAccess?: boolean) => Promise<ApiResponse<{ token: string; user: any }>>;
   getProfile: () => Promise<ApiResponse<{ user: any }>>;
   updateProfile: (profileData: any) => Promise<ApiResponse<{ user: any }>>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<ApiResponse>;
@@ -290,6 +290,7 @@ export interface UserAPI {
   adminGetAll: () => Promise<ApiResponse<{ users: any[] }>>;
   adminUpdateRole: (id: string, role: string) => Promise<ApiResponse<any>>;
   adminDelete: (id: string) => Promise<ApiResponse<void>>;
+  adminPastorRequest: (id: string, action: 'approve' | 'deny') => Promise<ApiResponse<any>>;
 }
 
 export interface PrayerRequest {

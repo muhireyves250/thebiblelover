@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Mail, Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { User, Mail, Lock, ArrowRight, CheckCircle2, Church } from 'lucide-react';
 import { authAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
 import AutoText from '../components/AutoText';
@@ -10,6 +10,7 @@ const Register: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [requestPastorAccess, setRequestPastorAccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
@@ -28,7 +29,7 @@ const Register: React.FC = () => {
 
         setIsLoading(true);
         try {
-            const response = await authAPI.register(name, email, password);
+            const response = await authAPI.register(name, email, password, requestPastorAccess);
             if (response.success && response.data) {
                 setIsSuccess(true);
                 // Wait briefly for success animation then login
@@ -56,6 +57,9 @@ const Register: React.FC = () => {
                     <div className="space-y-2">
                         <AutoText as="h2" className="text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Welcome Home!</AutoText>
                         <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-sm">Your spiritual journey with our community begins now.</AutoText>
+                        {requestPastorAccess && (
+                            <AutoText as="p" className="text-amber-700 text-xs font-bold pt-1">Your pastor access request has been submitted for admin review.</AutoText>
+                        )}
                     </div>
                     <div className="pt-2 flex justify-center">
                         <div className="w-6 h-6 border-2 border-amber-700 border-t-transparent animate-spin rounded-full"></div>
@@ -159,6 +163,19 @@ const Register: React.FC = () => {
                                 />
                             </div>
                         </div>
+
+                        <label className="flex items-start gap-2.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-md p-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={requestPastorAccess}
+                                onChange={(e) => setRequestPastorAccess(e.target.checked)}
+                                className="mt-0.5 h-4 w-4 rounded border-gray-300 text-amber-700 focus:ring-amber-600"
+                            />
+                            <span className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                                <Church className="inline h-3.5 w-3.5 -mt-0.5 mr-1 text-amber-700" />
+                                <AutoText as="span">I'm a pastor or preacher and would like to request access to post blogs, Bible verses, and devotionals. An admin will review your request.</AutoText>
+                            </span>
+                        </label>
 
                         <button
                             type="submit"

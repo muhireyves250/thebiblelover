@@ -1225,6 +1225,10 @@ const Dashboard = () => {
                   loadDashboardData();
                 }
               }}
+              onPastorRequest={async (id, action) => {
+                await userAPI.adminPastorRequest(id, action);
+                loadDashboardData();
+              }}
             />
           )}
 

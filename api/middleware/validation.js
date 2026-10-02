@@ -5,7 +5,8 @@ export const validateUserRegistration = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string().min(2).max(50).required(),
     email: Joi.string().email().required(),
-    password: Joi.string().min(6).required()
+    password: Joi.string().min(6).required(),
+    requestPastorAccess: Joi.boolean().optional()
   });
 
   const { error } = schema.validate(req.body);

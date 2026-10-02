@@ -62,9 +62,9 @@ export const authAPI: AuthAPI = {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   }),
-  register: (name, email, password) => apiRequest('/auth/register', {
+  register: (name, email, password, requestPastorAccess) => apiRequest('/auth/register', {
     method: 'POST',
-    body: JSON.stringify({ name, email, password }),
+    body: JSON.stringify({ name, email, password, requestPastorAccess }),
   }),
   getProfile: () => apiRequest('/auth/me'),
   updateProfile: (data) => apiRequest('/auth/profile', {
@@ -290,6 +290,10 @@ export const userAPI: UserAPI = {
     body: JSON.stringify({ role }) 
   }),
   adminDelete: (id) => apiRequest(`/user/admin/${id}`, { method: 'DELETE' }),
+  adminPastorRequest: (id, action) => apiRequest(`/user/admin/${id}/pastor-request`, {
+    method: 'PATCH',
+    body: JSON.stringify({ action })
+  }),
 };
 
 export const prayerAPI: PrayerAPI = {

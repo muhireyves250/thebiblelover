@@ -272,6 +272,7 @@ router.get('/admin/all', verifyToken, requireAdmin, async (req, res) => {
                 email: true,
                 role: true,
                 createdAt: true,
+                pastorRequestStatus: true,
                 _count: {
                     select: {
                         blogPosts: true,
@@ -304,6 +305,25 @@ router.patch('/admin/:id/role', verifyToken, requireAdmin, async (req, res) => {
         const user = await prisma.user.update({
             where: { id: req.params.id },
             data: { role }
+        });
+        res.json({ success: true, user });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Approve or deny a pending pastor access request
+router.patch('/admin/:id/pastor-request', verifyToken, requireAdmin, async (req, res) => {
+    const { action } = req.body; // 'approve' | 'deny'
+    if (!['approve', 'deny'].includes(action)) {
+        return res.status(400).json({ success: false, message: "action must be 'approve' or 'deny'" });
+    }
+    try {
+        const user = await prisma.user.update({
+            where: { id: req.params.id },
+            data: action === 'approve'
+                ? { role: 'PASTOR', pastorRequestStatus: 'APPROVED' }
+                : { pastorRequestStatus: 'DENIED' }
         });
         res.json({ success: true, user });
     } catch (error) {

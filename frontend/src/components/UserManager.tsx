@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, User as UserIcon, Mail, Calendar, ShieldCheck, Church, UserX } from 'lucide-react';
+import { Users, User as UserIcon, Mail, Calendar, ShieldCheck, Church, UserX, Check, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ROLE_BADGE: Record<string, { icon: React.ElementType; label: string; avatarClass: string }> = {
@@ -15,6 +15,7 @@ interface User {
     email: string;
     role: string;
     createdAt: string;
+    pastorRequestStatus?: string | null;
     _count: {
         comments: number;
         posts: number;
@@ -26,9 +27,10 @@ interface UserManagerProps {
     users: User[];
     onUpdateRole: (id: string, role: string) => void;
     onDelete: (id: string) => void;
+    onPastorRequest: (id: string, action: 'approve' | 'deny') => void;
 }
 
-const UserManager: React.FC<UserManagerProps> = ({ users, onUpdateRole, onDelete }) => {
+const UserManager: React.FC<UserManagerProps> = ({ users, onUpdateRole, onDelete, onPastorRequest }) => {
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between flex-wrap gap-3">
@@ -104,6 +106,31 @@ const UserManager: React.FC<UserManagerProps> = ({ users, onUpdateRole, onDelete
                                     Joined {new Date(user.createdAt).toLocaleDateString()}
                                 </span>
                             </div>
+
+                            {user.pastorRequestStatus === 'PENDING' && (
+                                <div className="flex items-center justify-between gap-2 mt-3 p-2.5 bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/40 rounded-md">
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-700 dark:text-blue-400 flex items-center gap-1.5">
+                                        <Church className="h-3.5 w-3.5" /> Pastor Request
+                                    </span>
+                                    <div className="flex items-center gap-1">
+                                        <button
+                                            onClick={() => onPastorRequest(user.id, 'approve')}
+                                            className="p-1.5 text-green-700 hover:bg-green-100 dark:hover:bg-green-900/30 rounded-md transition-colors"
+                                            title="Approve"
+                                        >
+                                            <Check className="h-3.5 w-3.5" />
+                                        </button>
+                                        <button
+                                            onClick={() => onPastorRequest(user.id, 'deny')}
+                                            className="p-1.5 text-red-600 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-md transition-colors"
+                                            title="Deny"
+                                        >
+                                            <X className="h-3.5 w-3.5" />
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
                             <div className="flex items-center justify-between gap-2 mt-3">
                                 <select
                                     value={user.role}

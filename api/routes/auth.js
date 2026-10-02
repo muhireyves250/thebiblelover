@@ -14,15 +14,21 @@ router.get('/health', (_req, res) => {
 // Register
 router.post('/register', validateUserRegistration, async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, requestPastorAccess } = req.body;
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
       return res.status(400).json({ success: false, message: 'Email already in use' });
     }
     const hashed = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
-      data: { name, email, password: hashed, role: 'USER' },
-      select: { id: true, name: true, email: true, role: true, isActive: true, lastLogin: true, profileImage: true, createdAt: true, updatedAt: true }
+      data: {
+        name,
+        email,
+        password: hashed,
+        role: 'USER',
+        pastorRequestStatus: requestPastorAccess ? 'PENDING' : null
+      },
+      select: { id: true, name: true, email: true, role: true, isActive: true, lastLogin: true, profileImage: true, createdAt: true, updatedAt: true, pastorRequestStatus: true }
     });
     const token = generateToken(user.id);
     res.status(201).json({ success: true, message: 'Registration successful', data: { user, token } });

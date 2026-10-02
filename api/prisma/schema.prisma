@@ -31,6 +31,10 @@ model User {
   viewHistory  ViewHistory[]
   receiveNewsletter   Boolean    @default(true)
   receivePrayerAlerts Boolean    @default(true)
+  // Set to "PENDING" at registration when a user checks "I'm a pastor" and
+  // requests content access; an admin then approves (role -> PASTOR) or
+  // denies it. Null means the user never asked.
+  pastorRequestStatus String?
 
   @@map("users")
 }
