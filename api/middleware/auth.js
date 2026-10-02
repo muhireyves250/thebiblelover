@@ -32,10 +32,11 @@ export const verifyToken = async (req, res, next) => {
         lastLogin: true,
         profileImage: true,
         createdAt: true,
-        updatedAt: true
+        updatedAt: true,
+        pastorRequestStatus: true
       }
     });
-    
+
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -47,6 +48,16 @@ export const verifyToken = async (req, res, next) => {
       return res.status(401).json({
         success: false,
         message: 'Account is deactivated.'
+      });
+    }
+
+    // A token issued before the pastor request was filed (or before this
+    // check existed) stays valid for its full lifetime otherwise - revoke
+    // access immediately while the request is pending review.
+    if (user.pastorRequestStatus === 'PENDING') {
+      return res.status(403).json({
+        success: false,
+        message: 'Your pastor access request is pending review. You can sign in once an admin approves or denies it.'
       });
     }
 

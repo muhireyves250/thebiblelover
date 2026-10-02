@@ -32,11 +32,17 @@ const Register: React.FC = () => {
             const response = await authAPI.register(name, email, password, requestPastorAccess);
             if (response.success && response.data) {
                 setIsSuccess(true);
-                // Wait briefly for success animation then login
-                setTimeout(() => {
-                    login(response.data.user, response.data.token);
-                    navigate('/member-dashboard');
-                }, 2000);
+                // A pending pastor request gets no token - they can't sign in
+                // until an admin reviews it, so just show the confirmation
+                // screen and send them to Login instead of auto-logging in.
+                if (response.data.token) {
+                    setTimeout(() => {
+                        login(response.data.user, response.data.token);
+                        navigate('/member-dashboard');
+                    }, 2000);
+                } else {
+                    setTimeout(() => navigate('/login'), 3000);
+                }
             } else {
                 setError(response.message || 'Registration failed');
             }
@@ -55,11 +61,14 @@ const Register: React.FC = () => {
                         <CheckCircle2 className="w-8 h-8" />
                     </div>
                     <div className="space-y-2">
-                        <AutoText as="h2" className="text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Welcome Home!</AutoText>
-                        <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-sm">Your spiritual journey with our community begins now.</AutoText>
-                        {requestPastorAccess && (
-                            <AutoText as="p" className="text-amber-700 text-xs font-bold pt-1">Your pastor access request has been submitted for admin review.</AutoText>
-                        )}
+                        <AutoText as="h2" className="text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">
+                            {requestPastorAccess ? 'Request Submitted' : 'Welcome Home!'}
+                        </AutoText>
+                        <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-sm">
+                            {requestPastorAccess
+                                ? "Your account is created, but you won't be able to sign in until an admin reviews your pastor access request."
+                                : 'Your spiritual journey with our community begins now.'}
+                        </AutoText>
                     </div>
                     <div className="pt-2 flex justify-center">
                         <div className="w-6 h-6 border-2 border-amber-700 border-t-transparent animate-spin rounded-full"></div>

@@ -30,6 +30,17 @@ router.post('/register', validateUserRegistration, async (req, res, next) => {
       },
       select: { id: true, name: true, email: true, role: true, isActive: true, lastLogin: true, profileImage: true, createdAt: true, updatedAt: true, pastorRequestStatus: true }
     });
+
+    // A pending pastor request can't sign in yet - no token issued until an
+    // admin approves or denies it (see /login below for the same check).
+    if (user.pastorRequestStatus === 'PENDING') {
+      return res.status(201).json({
+        success: true,
+        message: 'Registration successful. Your pastor access request is pending review - you can sign in once an admin reviews it.',
+        data: { user, pendingReview: true }
+      });
+    }
+
     const token = generateToken(user.id);
     res.status(201).json({ success: true, message: 'Registration successful', data: { user, token } });
   } catch (err) { next(err); }
@@ -43,6 +54,12 @@ router.post('/login', validateUserLogin, async (req, res, next) => {
     if (!found) return res.status(401).json({ success: false, message: 'Invalid credentials' });
     const ok = await bcrypt.compare(password, found.password);
     if (!ok) return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    if (found.pastorRequestStatus === 'PENDING') {
+      return res.status(403).json({
+        success: false,
+        message: 'Your pastor access request is still pending review. You can sign in once an admin approves or denies it.'
+      });
+    }
     await prisma.user.update({ where: { id: found.id }, data: { lastLogin: new Date() } });
     const user = { id: found.id, name: found.name, email: found.email, role: found.role, isActive: found.isActive, lastLogin: found.lastLogin, profileImage: found.profileImage, createdAt: found.createdAt, updatedAt: found.updatedAt };
     const token = generateToken(found.id);
