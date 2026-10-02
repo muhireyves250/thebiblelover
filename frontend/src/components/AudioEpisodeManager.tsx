@@ -5,8 +5,11 @@ import type { AudioEpisode } from '../services/api.d';
 import AddAudioEpisodeModal from './AddAudioEpisodeModal';
 import EditAudioEpisodeModal from './EditAudioEpisodeModal';
 import AudioCommentsManager from './AudioCommentsManager';
+import { useAuth } from '../hooks/useAPI';
 
 const AudioEpisodeManager: React.FC = () => {
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'ADMIN';
   const [episodes, setEpisodes] = useState<AudioEpisode[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
@@ -143,9 +146,11 @@ const AudioEpisodeManager: React.FC = () => {
         )}
       </div>
 
-      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
-        <AudioCommentsManager />
-      </div>
+      {isAdmin && (
+        <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
+          <AudioCommentsManager />
+        </div>
+      )}
 
       {showAddModal && (
         <AddAudioEpisodeModal

@@ -2,8 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { MessageSquare, Trash2, Check } from 'lucide-react';
 import { audioEpisodesAPI } from '../services/api';
 import type { AudioComment } from '../services/api.d';
+import { useAuth } from '../hooks/useAPI';
 
 const AudioCommentsManager: React.FC = () => {
+  const { user } = useAuth();
+  // Comment moderation stays Admin-only (Pastors can only manage their own
+  // episodes, not moderate anyone's comments) - skip the fetch entirely
+  // instead of letting it 403.
+  const isAdmin = user?.role === 'ADMIN';
   const [comments, setComments] = useState<AudioComment[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
@@ -29,8 +35,11 @@ const AudioCommentsManager: React.FC = () => {
   };
 
   useEffect(() => {
-    loadComments(filter);
-  }, [filter]);
+    if (isAdmin) loadComments(filter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter, isAdmin]);
+
+  if (!isAdmin) return null;
 
   const handleApprove = async (id: string) => {
     const response = await audioEpisodesAPI.approveComment(id);
