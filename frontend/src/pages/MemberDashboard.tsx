@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Heart, Bookmark, ChevronRight, User as UserIcon, LogOut, MessageSquare, Users, Trash2, Sparkles, History, Clock, FileText, Bell, Mail, TrendingUp } from 'lucide-react';
+import { BookOpen, Heart, Bookmark, ChevronRight, User as UserIcon, LogOut, MessageSquare, Users, Trash2, Sparkles, History, Clock, FileText, Bell, Mail } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { userAPI, authAPI, prayerAPI, searchAPI, uploadAPI } from '../services/api';
@@ -178,8 +178,8 @@ const MemberDashboard: React.FC = () => {
         return (
             <div className="min-h-screen bg-gray-50 dark:bg-[#0a0a0c] animate-pulse">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="bg-white/60 dark:bg-white/5 rounded-[2rem] p-10 mb-12 flex flex-col md:flex-row items-center gap-10">
-                        <div className="w-40 h-40 rounded-[2.5rem] bg-gray-200 dark:bg-white/10 shrink-0" />
+                    <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg p-10 mb-12 flex flex-col md:flex-row items-center gap-10">
+                        <div className="w-24 h-24 rounded-lg bg-gray-200 dark:bg-white/10 shrink-0" />
                         <div className="w-full space-y-4 text-center md:text-left">
                             <div className="h-8 w-64 bg-gray-200 dark:bg-white/10 rounded-md mx-auto md:mx-0" />
                             <div className="h-4 w-40 bg-gray-200 dark:bg-white/10 rounded-md mx-auto md:mx-0" />
@@ -187,7 +187,7 @@ const MemberDashboard: React.FC = () => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="h-40 bg-white/60 dark:bg-white/5 rounded-2xl" />
+                            <div key={i} className="h-40 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg" />
                         ))}
                     </div>
                 </div>
@@ -204,93 +204,76 @@ const MemberDashboard: React.FC = () => {
                 className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
             >
                 {/* Profile Header */}
-                <motion.div variants={itemVariants} className="glass-card p-10 mb-12 relative group">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 dark:bg-amber-500/5 rounded-full -mr-48 -mt-48 blur-[100px] group-hover:bg-amber-500/20 transition-all duration-1000"></div>
-
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">
-                        <div className="flex flex-col md:flex-row items-center gap-10">
-                            <motion.div 
-                                whileHover={{ scale: 1.05, rotate: 2 }}
-                                className="w-40 h-40 rounded-[2.5rem] bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/40 dark:to-amber-800/40 flex items-center justify-center shadow-2xl relative overflow-hidden ring-8 ring-white/50 dark:ring-gray-800/50"
-                            >
+                <motion.div variants={itemVariants} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-sm p-8 md:p-10 mb-12">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-10">
+                        <div className="flex flex-col md:flex-row items-center gap-8">
+                            <div className="w-24 h-24 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center overflow-hidden shrink-0">
                                 {user?.profileImage ? (
                                     <img src={user.profileImage} alt={user.name} className="w-full h-full object-cover" />
                                 ) : (
-                                    <UserIcon className="w-20 h-20 text-amber-600 dark:text-amber-500" />
+                                    <UserIcon className="w-10 h-10 text-amber-700" />
                                 )}
-                            </motion.div>
+                            </div>
                             <div className="text-center md:text-left">
-                                <h1 className="text-5xl font-serif text-gray-900 dark:text-gray-100 mb-2 tracking-tight">Welcome back, {user?.name}</h1>
-                                <p className="text-gray-500 dark:text-gray-400 font-medium text-lg mb-6">{user?.email}</p>
-                                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                                    <span className="px-4 py-1.5 bg-amber-500 text-white text-[10px] font-black rounded-full uppercase tracking-widest shadow-lg shadow-amber-500/20">
+                                <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-1">Welcome back, {user?.name}</h1>
+                                <p className="text-gray-500 dark:text-gray-400 font-medium mb-4">{user?.email}</p>
+                                <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                                    <span className="px-3 py-1 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-[10px] font-black rounded-md uppercase tracking-widest border border-amber-200 dark:border-amber-800">
                                         {user?.role || 'Member'}
                                     </span>
                                     {getBadges().map(badge => (
-                                        <motion.span 
+                                        <span
                                             key={badge.id}
-                                            whileHover={{ y: -2 }}
-                                            className={`px-4 py-1.5 ${badge.color} text-[10px] font-black uppercase tracking-widest rounded-full flex items-center gap-2 shadow-sm border border-black/5 dark:border-white/5`}
+                                            className="px-3 py-1 bg-gray-50 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-[10px] font-black uppercase tracking-widest rounded-md flex items-center gap-1.5 border border-gray-300 dark:border-white/15"
                                         >
-                                            <span className="text-sm">{badge.icon}</span> {badge.name}
-                                        </motion.span>
+                                            <span className="text-xs">{badge.icon}</span> {badge.name}
+                                        </span>
                                     ))}
                                 </div>
                             </div>
                         </div>
-                        <motion.div
-                            className="flex flex-col sm:flex-row gap-4"
-                        >
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <button
                                 onClick={() => setIsProfileModalOpen(true)}
-                                className="flex items-center gap-3 px-8 py-4 bg-amber-600 text-white rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs shadow-lg shadow-amber-600/20"
+                                className="flex items-center justify-center gap-2 px-6 py-3 bg-amber-700 text-white rounded-md hover:bg-amber-800 transition-colors font-bold uppercase tracking-widest text-xs"
                             >
-                                <UserIcon className="w-5 h-5" />
+                                <UserIcon className="w-4 h-4" />
                                 Edit Profile
-                            </motion.button>
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
+                            </button>
+                            <button
                                 onClick={handleLogout}
-                                className="flex items-center gap-3 px-8 py-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 rounded-2xl transition-all duration-300 font-black uppercase tracking-widest text-xs"
+                                className="flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md transition-colors font-bold uppercase tracking-widest text-xs"
                             >
-                                <LogOut className="w-5 h-5" />
+                                <LogOut className="w-4 h-4" />
                                 Sign Out
-                            </motion.button>
-                        </motion.div>
+                            </button>
+                        </div>
                     </div>
                 </motion.div>
 
                 {/* Spiritual Growth Journey */}
-                <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-16">
-                    <div className="lg:col-span-3 glass-card p-10 relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-125 transition-transform duration-[2000ms]">
-                            <TrendingUp className="w-48 h-48 text-amber-600" />
-                        </div>
+                <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-16">
+                    <div className="lg:col-span-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-sm p-8">
                         <div className="relative z-10">
                             <div className="flex items-center justify-between mb-10">
-                                <div className="flex items-center gap-4">
-                                    <div className="p-3 bg-amber-500/10 rounded-2xl">
-                                        <Sparkles className="w-6 h-6 text-amber-600" />
-                                    </div>
+                                <div className="flex items-center gap-3">
+                                    <Sparkles className="w-5 h-5 text-amber-700" />
                                     <div>
-                                        <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Spiritual Growth Journey</h2>
-                                        <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mt-1">Consistency Insight</p>
+                                        <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Spiritual Growth Journey</h2>
+                                        <p className="text-[10px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest mt-1">Consistency Insight</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-xs font-black text-amber-600 uppercase tracking-widest">
+                                    <p className="text-[10px] font-black text-amber-700 uppercase tracking-widest">
                                         Level {Math.floor(((data?.stats.posts || 0) + (data?.stats.prayers || 0)) / 5) + 1}
                                     </p>
-                                    <p className="text-2xl font-serif text-gray-900 dark:text-gray-100">
-                                        {((data?.stats.posts || 0) + (data?.stats.prayers || 0)) < 5 ? 'Seeker' : 
+                                    <p className="text-xl font-black text-gray-900 dark:text-white">
+                                        {((data?.stats.posts || 0) + (data?.stats.prayers || 0)) < 5 ? 'Seeker' :
                                          ((data?.stats.posts || 0) + (data?.stats.prayers || 0)) < 15 ? 'Disciple' : 'Elder'}
                                     </p>
                                 </div>
                             </div>
-                            
+
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                                 <div className="md:col-span-2">
                                     <div className="h-64 w-full">
@@ -335,11 +318,11 @@ const MemberDashboard: React.FC = () => {
                                         { label: 'Seeds Sown', value: data?.stats.posts || 0, icon: Sparkles, color: 'text-amber-500' },
                                         { label: 'Gatherings', value: data?.stats.events || 0, icon: Users, color: 'text-blue-500' }
                                     ].map((stat, i) => (
-                                        <div key={i} className="flex items-center gap-4 p-4 bg-gray-50/50 dark:bg-white/5 rounded-2xl border border-black/5 dark:border-white/5">
+                                        <div key={i} className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-white/5 rounded-md border border-gray-200 dark:border-white/10">
                                             <stat.icon className={`w-5 h-5 ${stat.color}`} />
                                             <div>
-                                                <p className="text-xl font-bold text-gray-900 dark:text-gray-100 leading-none">{stat.value}</p>
-                                                <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mt-1">{stat.label}</p>
+                                                <p className="text-xl font-black text-gray-900 dark:text-white leading-none">{stat.value}</p>
+                                                <p className="text-[10px] text-gray-400 dark:text-gray-500 font-black uppercase tracking-widest mt-1">{stat.label}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -349,65 +332,54 @@ const MemberDashboard: React.FC = () => {
                              <div className="mt-10">
                                 <div className="flex justify-between items-end mb-3">
                                     <p className="text-sm font-bold text-gray-600 dark:text-gray-400 italic">"Your roots are deepening in faith..."</p>
-                                    <p className="text-sm font-black text-amber-600">
+                                    <p className="text-sm font-black text-amber-700">
                                         {Math.min(100, Math.round(((data?.stats.posts || 0) + (data?.stats.prayers || 0)) * 6.5))}% Progress
                                     </p>
                                 </div>
                                 <div className="h-2 w-full bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
-                                    <motion.div 
+                                    <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: `${Math.min(100, Math.round(((data?.stats.posts || 0) + (data?.stats.prayers || 0)) * 6.5))}%` }}
                                         transition={{ duration: 1.5, delay: 0.5 }}
-                                        className="h-full bg-gradient-to-r from-amber-400 to-amber-600 rounded-full shadow-[0_0_20px_rgba(245,158,11,0.4)]"
+                                        className="h-full bg-amber-700 rounded-full"
                                     ></motion.div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <motion.div 
-                        whileHover={{ scale: 1.02 }}
-                        className="bg-gradient-to-br from-amber-600 to-amber-800 rounded-[2.5rem] p-10 text-white shadow-2xl flex flex-col justify-between relative overflow-hidden group"
-                    >
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
-                        <div className="w-16 h-16 bg-white/20 rounded-2xl backdrop-blur-md flex items-center justify-center mb-8">
-                            <Heart className="w-8 h-8 fill-current text-white animate-pulse" />
+
+                    <div className="bg-amber-700 rounded-lg p-8 text-white shadow-sm flex flex-col justify-between">
+                        <div className="w-10 h-10 bg-white/15 rounded-md flex items-center justify-center mb-6">
+                            <Heart className="w-5 h-5 fill-current text-white" />
                         </div>
                         <div>
-                            <h3 className="text-2xl font-serif mb-3">Daily Blessing</h3>
-                            <p className="text-amber-50/70 italic leading-relaxed text-lg">
+                            <h3 className="text-lg font-black uppercase tracking-tight mb-3">Daily Blessing</h3>
+                            <p className="text-amber-50/80 italic leading-relaxed">
                                 "May your heart be a sanctuary of peace and your words be seeds of hope today."
                             </p>
                         </div>
-                        <div className="mt-8 pt-8 border-t border-white/20">
+                        <div className="mt-8 pt-6 border-t border-white/20">
                             <p className="text-[10px] font-black uppercase tracking-widest text-amber-200">The Bible Lover Team</p>
                         </div>
-                    </motion.div>
+                    </div>
                 </motion.div>
 
                 {/* Tabs */}
-                <div className="flex items-center gap-8 mb-12 border-b border-gray-100 dark:border-gray-800">
-                    <button
-                        onClick={() => setActiveTab('overview')}
-                        className={`pb-4 text-sm font-bold uppercase tracking-[0.2em] transition-all relative ${activeTab === 'overview' ? 'text-amber-600' : 'text-gray-400 hover:text-gray-600'}`}
-                    >
-                        Overview
-                        {activeTab === 'overview' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-600"></div>}
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('activity')}
-                        className={`pb-4 text-sm font-bold uppercase tracking-[0.2em] transition-all relative ${activeTab === 'activity' ? 'text-amber-600' : 'text-gray-400 hover:text-gray-600'}`}
-                    >
-                        Activity
-                        {activeTab === 'activity' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-600"></div>}
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('events')}
-                        className={`pb-4 text-sm font-bold uppercase tracking-[0.2em] transition-all relative ${activeTab === 'events' ? 'text-amber-600' : 'text-gray-400 hover:text-gray-600'}`}
-                    >
-                        My Events
-                        {activeTab === 'events' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-600"></div>}
-                    </button>
+                <div className="flex items-center gap-2 mb-12 border-b border-gray-300 dark:border-white/15">
+                    {([
+                        { id: 'overview', label: 'Overview' },
+                        { id: 'activity', label: 'Activity' },
+                        { id: 'events', label: 'My Events' },
+                    ] as const).map(tab => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`px-4 py-3 text-xs font-black uppercase tracking-widest transition-colors relative ${activeTab === tab.id ? 'text-amber-700' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                        >
+                            {tab.label}
+                            {activeTab === tab.id && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-amber-700"></div>}
+                        </button>
+                    ))}
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -417,17 +389,15 @@ const MemberDashboard: React.FC = () => {
                             <>
                                 {/** Recommended for You */}
                                 {data && data.recommendations.length > 0 && (
-                                    <section className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                                        <div className="flex items-center justify-between mb-8">
-                                            <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl shadow-lg shadow-amber-200/50">
-                                                    <Sparkles className="w-5 h-5 text-white" />
-                                                </div>
-                                                <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Recommended for You</h2>
+                                    <section>
+                                        <div className="flex items-center justify-between mb-6">
+                                            <div className="flex items-center gap-2">
+                                                <Sparkles className="w-5 h-5 text-amber-700" />
+                                                <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Recommended for You</h2>
                                             </div>
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {data.recommendations.map((post) => (
                                                 <BlogCard
                                                     key={post.id}
@@ -442,25 +412,23 @@ const MemberDashboard: React.FC = () => {
 
                                 {/* Liked Posts */}
                                 <section>
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg">
-                                                <Heart className="w-6 h-6 text-amber-600 dark:text-amber-500" />
-                                            </div>
-                                            <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Liked Reflections</h2>
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <Heart className="w-5 h-5 text-amber-700" />
+                                            <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Liked Reflections</h2>
                                         </div>
-                                        <Link to="/posts" className="text-amber-600 hover:text-amber-700 dark:text-amber-500 dark:hover:text-amber-400 font-bold text-sm flex items-center gap-1 group">
+                                        <Link to="/posts" className="text-amber-700 hover:text-amber-800 dark:text-amber-500 dark:hover:text-amber-400 font-bold text-xs uppercase tracking-widest flex items-center gap-1 group">
                                             Explore More <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                         </Link>
                                     </div>
 
                                     {!data || data.likedPosts.length === 0 ? (
-                                        <div className="glass-card p-16 text-center">
-                                            <Heart className="w-16 h-16 text-gray-300 dark:text-gray-700 mx-auto mb-6" />
-                                            <p className="text-gray-500 dark:text-gray-400 italic font-serif">You haven't liked any reflections yet.</p>
+                                        <div className="bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/20 rounded-lg p-12 text-center">
+                                            <Heart className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                                            <p className="text-sm font-bold text-gray-500 dark:text-gray-400">You haven't liked any reflections yet.</p>
                                         </div>
                                     ) : (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {data.likedPosts.map((post) => (
                                                 <BlogCard
                                                     key={post.id}
@@ -475,31 +443,29 @@ const MemberDashboard: React.FC = () => {
 
                                 {/* Prayer Requests */}
                                 <section>
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg">
-                                                <MessageSquare className="w-6 h-6 text-amber-600 dark:text-amber-500" />
-                                            </div>
-                                            <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">My Prayers</h2>
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <MessageSquare className="w-5 h-5 text-amber-700" />
+                                            <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">My Prayers</h2>
                                         </div>
-                                        <Link to="/prayer-wall" className="text-amber-600 hover:text-amber-700 dark:text-amber-500 dark:hover:text-amber-400 font-bold text-sm flex items-center gap-1 group">
+                                        <Link to="/prayer-wall" className="text-amber-700 hover:text-amber-800 dark:text-amber-500 dark:hover:text-amber-400 font-bold text-xs uppercase tracking-widest flex items-center gap-1 group">
                                             View Wall <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                         </Link>
                                     </div>
 
                                     {!data || data.prayerRequests.length === 0 ? (
-                                        <div className="glass-card p-16 text-center">
-                                            <p className="text-gray-500 dark:text-gray-400 italic font-serif">No prayers shared yet.</p>
+                                        <div className="bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/20 rounded-lg p-12 text-center">
+                                            <p className="text-sm font-bold text-gray-500 dark:text-gray-400">No prayers shared yet.</p>
                                         </div>
                                     ) : (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             {data.prayerRequests.map((request) => (
-                                                <div key={request.id} className="glass-card p-8 group hover:border-amber-500/50">
-                                                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 truncate">{request.title}</h3>
-                                                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-6 leading-relaxed italic">"{request.content}"</p>
-                                                    <div className="flex items-center justify-between pt-6 border-t border-black/5 dark:border-white/5">
-                                                        <div className="flex items-center gap-2 text-xs font-black text-amber-600 uppercase tracking-widest">
-                                                            <Users className="w-4 h-4" />
+                                                <div key={request.id} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-sm p-6">
+                                                    <h3 className="text-base font-black text-gray-900 dark:text-white mb-2 truncate">{request.title}</h3>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 mb-4 leading-relaxed italic">"{request.content}"</p>
+                                                    <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/5">
+                                                        <div className="flex items-center gap-2 text-[10px] font-black text-amber-700 uppercase tracking-widest">
+                                                            <Users className="w-3.5 h-3.5" />
                                                             {request._count?.supports || 0} praying
                                                         </div>
                                                     </div>
@@ -511,36 +477,34 @@ const MemberDashboard: React.FC = () => {
 
                                 {/* Support History */}
                                 <section>
-                                    <div className="flex items-center justify-between mb-8">
-                                        <div className="flex items-center gap-3">
-                                            <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg">
-                                                <Heart className="w-6 h-6 text-amber-600 dark:text-amber-500" />
-                                            </div>
-                                            <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Seed Support History</h2>
+                                    <div className="flex items-center justify-between mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <Heart className="w-5 h-5 text-amber-700" />
+                                            <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Seed Support History</h2>
                                         </div>
                                     </div>
 
                                     {!data || data.donations.length === 0 ? (
-                                        <div className="glass-card p-12 text-center">
-                                            <Sparkles className="w-12 h-12 text-gray-300 dark:text-gray-700 mx-auto mb-4" />
-                                            <p className="text-gray-500 dark:text-gray-400 italic font-serif">No support history recorded yet.</p>
-                                            <Link to="/donate" className="inline-block mt-4 text-amber-600 font-bold text-sm hover:underline underline-offset-4">Plant a seed today</Link>
+                                        <div className="bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/20 rounded-lg p-12 text-center">
+                                            <Sparkles className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                                            <p className="text-sm font-bold text-gray-500 dark:text-gray-400">No support history recorded yet.</p>
+                                            <Link to="/donate" className="inline-block mt-3 text-amber-700 font-bold text-xs uppercase tracking-widest hover:underline underline-offset-4">Plant a seed today</Link>
                                         </div>
                                     ) : (
-                                        <div className="grid grid-cols-1 gap-6">
+                                        <div className="grid grid-cols-1 gap-4">
                                             {data.donations.map((donation: any) => (
-                                                <div key={donation.id} className="glass-card p-6 flex items-center justify-between group">
+                                                <div key={donation.id} className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-sm p-5 flex items-center justify-between">
                                                     <div className="flex items-center gap-4">
-                                                        <div className="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600">
-                                                            <Heart className="w-6 h-6 fill-current" />
+                                                        <div className="w-10 h-10 rounded-md bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-700">
+                                                            <Heart className="w-5 h-5 fill-current" />
                                                         </div>
                                                         <div>
-                                                            <p className="text-sm font-black text-gray-900 dark:text-gray-100">Donation Supported</p>
-                                                            <p className="text-[10px] text-gray-500 uppercase tracking-widest">{new Date(donation.createdAt).toLocaleDateString()}</p>
+                                                            <p className="text-sm font-black text-gray-900 dark:text-white">Donation Supported</p>
+                                                            <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest">{new Date(donation.createdAt).toLocaleDateString()}</p>
                                                         </div>
                                                     </div>
                                                     <div className="text-right">
-                                                        <p className="text-lg font-serif text-amber-600">${donation.amount}</p>
+                                                        <p className="text-lg font-black text-amber-700">${donation.amount}</p>
                                                         <p className="text-[10px] text-green-600 font-black uppercase tracking-widest">Completed</p>
                                                     </div>
                                                 </div>
@@ -556,31 +520,29 @@ const MemberDashboard: React.FC = () => {
                                 <div className="grid grid-cols-1 gap-12">
                                     {/* Recently Viewed */}
                                     <div>
-                                        <div className="flex items-center gap-3 mb-8">
-                                            <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
-                                                <History className="w-6 h-6 text-blue-600 dark:text-blue-500" />
-                                            </div>
-                                            <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Recently Viewed</h2>
+                                        <div className="flex items-center gap-2 mb-6">
+                                            <History className="w-5 h-5 text-amber-700" />
+                                            <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Recently Viewed</h2>
                                         </div>
 
                                         {!data || data.history.length === 0 ? (
-                                            <div className="bg-white dark:bg-gray-900 rounded-2xl p-12 text-center border border-gray-100 dark:border-gray-800">
-                                                <p className="text-gray-500 dark:text-gray-400 italic">History is clear.</p>
+                                            <div className="bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/20 rounded-lg p-12 text-center">
+                                                <p className="text-sm font-bold text-gray-500 dark:text-gray-400">History is clear.</p>
                                             </div>
                                         ) : (
-                                            <div className="space-y-4">
+                                            <div className="space-y-3">
                                                 {data.history.map((item) => (
                                                     <Link
                                                         key={item.id}
                                                         to={item.link}
-                                                        className="flex items-center gap-4 p-4 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 hover:border-blue-200 transition-all group"
+                                                        className="flex items-center gap-4 p-4 bg-white dark:bg-[#141417] rounded-lg border border-gray-300 dark:border-white/20 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group"
                                                     >
-                                                        <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg group-hover:bg-blue-50 transition-colors">
-                                                            {item.type === 'POST' ? <FileText className="w-4 h-4" /> : <MessageSquare className="w-4 h-4" />}
+                                                        <div className="p-2 bg-gray-50 dark:bg-white/10 rounded-md">
+                                                            {item.type === 'POST' ? <FileText className="w-4 h-4 text-gray-500 dark:text-gray-400" /> : <MessageSquare className="w-4 h-4 text-gray-500 dark:text-gray-400" />}
                                                         </div>
                                                         <div className="min-w-0">
-                                                            <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100 truncate">{item.title}</h4>
-                                                            <p className="text-[10px] text-gray-400 flex items-center gap-1 mt-0.5">
+                                                            <h4 className="text-sm font-bold text-gray-900 dark:text-white truncate">{item.title}</h4>
+                                                            <p className="text-[10px] text-gray-400 dark:text-gray-500 flex items-center gap-1 mt-0.5">
                                                                 <Clock className="w-3 h-3" /> {new Date(item.viewedAt).toLocaleDateString()}
                                                             </p>
                                                         </div>
@@ -594,28 +556,26 @@ const MemberDashboard: React.FC = () => {
                         )}
 
                         {activeTab === 'events' && (
-                            <section className="animate-in fade-in slide-in-from-bottom-4">
-                                <div className="flex items-center gap-3 mb-8">
-                                    <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg">
-                                        <BookOpen className="w-6 h-6 text-amber-600 dark:text-amber-500" />
-                                    </div>
-                                    <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Joined Events</h2>
+                            <section>
+                                <div className="flex items-center gap-2 mb-6">
+                                    <BookOpen className="w-5 h-5 text-amber-700" />
+                                    <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Joined Events</h2>
                                 </div>
 
                                 {!data || data.joinedEvents.length === 0 ? (
-                                    <div className="bg-white dark:bg-gray-900 rounded-2xl p-12 text-center border border-gray-100 dark:border-gray-800">
-                                        <p className="text-gray-500 dark:text-gray-400 italic">No upcoming events.</p>
+                                    <div className="bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/20 rounded-lg p-12 text-center">
+                                        <p className="text-sm font-bold text-gray-500 dark:text-gray-400">No upcoming events.</p>
                                     </div>
                                 ) : (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {data.joinedEvents.map((event) => (
-                                            <Link key={event.id} to={`/events/${event.id}`} className="group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-md transition-all">
+                                            <Link key={event.id} to={`/events/${event.id}`} className="group bg-white dark:bg-[#141417] rounded-lg overflow-hidden shadow-sm border border-gray-300 dark:border-white/20 hover:border-gray-400 dark:hover:border-white/30 transition-colors">
                                                 <div className="aspect-video relative overflow-hidden">
                                                     <img src={event.thumbnail || 'https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&q=80'} alt={event.title} className="w-full h-full object-cover" />
                                                 </div>
-                                                <div className="p-6">
-                                                    <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">{event.title}</h3>
-                                                    <p className="text-xs text-gray-500">{new Date(event.date).toLocaleDateString()}</p>
+                                                <div className="p-5">
+                                                    <h3 className="text-base font-black text-gray-900 dark:text-white mb-1">{event.title}</h3>
+                                                    <p className="text-xs text-gray-400 dark:text-gray-500">{new Date(event.date).toLocaleDateString()}</p>
                                                 </div>
                                             </Link>
                                         ))}
@@ -626,35 +586,31 @@ const MemberDashboard: React.FC = () => {
                     </div>
 
                     {/* Sidebar */}
-                    <div className="space-y-12">
+                    <div className="space-y-8">
                         {/* Notification Settings */}
-                        <motion.section variants={itemVariants} className="glass-card p-10 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-48 h-48 bg-amber-500/10 rounded-full -mr-24 -mt-24 blur-3xl"></div>
-
-                            <div className="flex items-center gap-4 mb-10 relative z-10">
-                                <div className="p-3 bg-amber-500/10 rounded-2xl ring-1 ring-amber-500/20">
-                                    <Bell className="w-6 h-6 text-amber-600" />
-                                </div>
-                                <h3 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Preferences</h3>
+                        <section className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-sm p-6">
+                            <div className="flex items-center gap-2 mb-6">
+                                <Bell className="w-5 h-5 text-amber-700" />
+                                <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white">Preferences</h3>
                             </div>
 
-                            <div className="space-y-6 relative z-10">
-                                <div className="flex items-center justify-between group">
+                            <div className="space-y-5">
+                                <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center group-hover:bg-amber-50 dark:group-hover:bg-amber-900/20 transition-colors">
-                                            <Mail className="w-4 h-4 text-gray-400 group-hover:text-amber-600 transition-colors" />
+                                        <div className="w-9 h-9 rounded-md bg-gray-50 dark:bg-white/10 flex items-center justify-center">
+                                            <Mail className="w-4 h-4 text-gray-400" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold text-gray-900 dark:text-gray-100">Newsletter</p>
-                                            <p className="text-[10px] text-gray-500">Weekly grains of wisdom</p>
+                                            <p className="text-sm font-bold text-gray-900 dark:text-white">Newsletter</p>
+                                            <p className="text-[10px] text-gray-400 dark:text-gray-500">Weekly grains of wisdom</p>
                                         </div>
                                     </div>
                                     <button
                                         onClick={() => handlePreferenceChange('receiveNewsletter', !data?.preferences.receiveNewsletter)}
                                         disabled={prefLoading}
-                                        className={`w-12 h-6 rounded-full transition-all relative ${data?.preferences.receiveNewsletter ? 'bg-amber-600' : 'bg-gray-200 dark:bg-gray-800'}`}
+                                        className={`w-11 h-6 rounded-full transition-colors relative ${data?.preferences.receiveNewsletter ? 'bg-amber-700' : 'bg-gray-200 dark:bg-white/15'}`}
                                     >
-                                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${data?.preferences.receiveNewsletter ? 'left-7' : 'left-1'}`}></div>
+                                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${data?.preferences.receiveNewsletter ? 'left-6' : 'left-1'}`}></div>
                                     </button>
                                 </div>
 
@@ -664,50 +620,45 @@ const MemberDashboard: React.FC = () => {
                                             <Sparkles className="w-4 h-4 text-gray-400 group-hover:text-amber-600 transition-colors" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold text-gray-900 dark:text-gray-100">Prayer Alerts</p>
-                                            <p className="text-[10px] text-gray-500">Community prayer updates</p>
+                                            <p className="text-sm font-bold text-gray-900 dark:text-white">Prayer Alerts</p>
+                                            <p className="text-[10px] text-gray-400 dark:text-gray-500">Community prayer updates</p>
                                         </div>
                                     </div>
                                     <button
                                         onClick={() => handlePreferenceChange('receivePrayerAlerts', !data?.preferences.receivePrayerAlerts)}
                                         disabled={prefLoading}
-                                        className={`w-12 h-6 rounded-full transition-all relative ${data?.preferences.receivePrayerAlerts ? 'bg-amber-600' : 'bg-gray-200 dark:bg-gray-800'}`}
+                                        className={`w-11 h-6 rounded-full transition-colors relative ${data?.preferences.receivePrayerAlerts ? 'bg-amber-700' : 'bg-gray-200 dark:bg-white/15'}`}
                                     >
-                                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${data?.preferences.receivePrayerAlerts ? 'left-7' : 'left-1'}`}></div>
+                                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${data?.preferences.receivePrayerAlerts ? 'left-6' : 'left-1'}`}></div>
                                     </button>
                                 </div>
                             </div>
-                        </motion.section>
+                        </section>
 
                         {/* Saved Verses */}
                         <section>
-                            <div className="flex items-center gap-3 mb-8">
-                                <div className="p-2 bg-amber-100 dark:bg-amber-900/40 rounded-lg">
-                                    <Bookmark className="w-6 h-6 text-amber-600 dark:text-amber-500" />
-                                </div>
-                                <h2 className="text-2xl font-serif text-gray-900 dark:text-gray-100">Saved Verses</h2>
+                            <div className="flex items-center gap-2 mb-6">
+                                <Bookmark className="w-5 h-5 text-amber-700" />
+                                <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Saved Verses</h2>
                             </div>
 
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 {!data || data.savedVerses.length === 0 ? (
-                                    <div className="glass-card p-12 text-center">
-                                        <p className="text-gray-500 dark:text-gray-400 text-sm italic font-serif">Save your favorite verses.</p>
+                                    <div className="bg-white dark:bg-[#141417] border border-dashed border-gray-300 dark:border-white/20 rounded-lg p-10 text-center">
+                                        <p className="text-gray-500 dark:text-gray-400 text-sm font-bold">Save your favorite verses.</p>
                                     </div>
                                 ) : (
                                     data.savedVerses.map((verse) => (
-                                        <motion.div 
-                                            key={verse.id} 
-                                            whileHover={{ x: 5 }}
-                                            className="glass-card p-8 group border-transparent hover:border-amber-500/30"
+                                        <div
+                                            key={verse.id}
+                                            className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-sm p-6"
                                         >
-                                            <p className="text-xl text-gray-800 dark:text-gray-200 font-serif leading-relaxed mb-6 italic">"{verse.text}"</p>
+                                            <p className="text-base text-gray-800 dark:text-gray-200 leading-relaxed mb-4 italic">"{verse.text}"</p>
                                             <div className="flex items-center justify-between">
-                                                <span className="text-sm font-black text-amber-600 uppercase tracking-widest">
+                                                <span className="text-xs font-black text-amber-700 uppercase tracking-widest">
                                                     {verse.book} {verse.chapter}:{verse.verse}
                                                 </span>
-                                                <motion.button
-                                                    whileHover={{ scale: 1.1, rotate: 10 }}
-                                                    whileTap={{ scale: 0.9 }}
+                                                <button
                                                     onClick={async () => {
                                                         const response = await userAPI.removeSavedVerse(verse.id);
                                                         if (response.success) {
@@ -717,23 +668,23 @@ const MemberDashboard: React.FC = () => {
                                                             }
                                                         }
                                                     }}
-                                                    className="p-3 bg-red-50 dark:bg-red-900/10 text-gray-400 hover:text-red-500 rounded-2xl transition-all"
+                                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
                                                 >
-                                                    <Trash2 className="w-5 h-5" />
-                                                </motion.button>
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
                                             </div>
-                                        </motion.div>
+                                        </div>
                                     ))
                                 )}
                             </div>
                         </section>
 
                         {/* Quick Links */}
-                        <div className="bg-gradient-to-br from-amber-600 to-amber-700 rounded-3xl p-8 text-white shadow-xl hover:scale-[1.02] transition-transform duration-500">
-                            <BookOpen className="w-10 h-10 mb-6 opacity-30" />
-                            <h3 className="text-2xl font-serif mb-4">Deepen Your Faith</h3>
-                            <p className="text-amber-100 mb-8 leading-relaxed">Continue your journey with our recommended deep-dives.</p>
-                            <Link to="/posts?category=STUDY" className="inline-flex items-center gap-2 bg-white text-amber-700 px-6 py-3 rounded-xl font-bold hover:bg-amber-50 transition-colors">
+                        <div className="bg-amber-700 rounded-lg p-6 text-white shadow-sm">
+                            <BookOpen className="w-8 h-8 mb-4 opacity-40" />
+                            <h3 className="text-lg font-black uppercase tracking-tight mb-2">Deepen Your Faith</h3>
+                            <p className="text-amber-100 text-sm mb-6 leading-relaxed">Continue your journey with our recommended deep-dives.</p>
+                            <Link to="/posts?category=STUDY" className="inline-flex items-center gap-2 bg-white text-amber-700 px-5 py-2.5 rounded-md font-bold text-xs uppercase tracking-widest hover:bg-amber-50 transition-colors">
                                 Start Studying <ChevronRight className="w-4 h-4" />
                             </Link>
                         </div>
@@ -756,27 +707,27 @@ const MemberDashboard: React.FC = () => {
                             initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                            className="relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800"
+                            className="relative w-full max-w-lg bg-white dark:bg-[#141417] rounded-lg shadow-2xl overflow-hidden border border-gray-300 dark:border-white/20"
                         >
-                            <div className="p-8 md:p-12">
-                                <h2 className="text-3xl font-serif text-gray-900 dark:text-gray-100 mb-2">Edit Profile</h2>
-                                <p className="text-gray-500 dark:text-gray-400 mb-8 font-medium">Update your digital identity in the community.</p>
+                            <div className="p-8">
+                                <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-1">Edit Profile</h2>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium">Update your digital identity in the community.</p>
 
-                                <form onSubmit={handleUpdateProfile} className="space-y-6">
+                                <form onSubmit={handleUpdateProfile} className="space-y-5">
                                     <div>
-                                        <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">Full Name</label>
+                                        <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Full Name</label>
                                         <input
                                             type="text"
                                             value={profileForm.name}
                                             onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border-none rounded-2xl px-6 py-4 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-amber-500 transition-all font-medium"
+                                            className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/15 rounded-md px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-amber-700 transition-colors font-medium"
                                             required
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">Profile Image</label>
-                                        <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-                                            <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-amber-100 flex-shrink-0">
+                                        <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Profile Image</label>
+                                        <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/15 rounded-md">
+                                            <div className="relative w-14 h-14 rounded-md overflow-hidden bg-amber-100 flex-shrink-0">
                                                 {profileForm.profileImage ? (
                                                     <img src={profileForm.profileImage} alt="Preview" className="w-full h-full object-cover" />
                                                 ) : (
@@ -802,38 +753,38 @@ const MemberDashboard: React.FC = () => {
                                                     type="button"
                                                     onClick={() => fileInputRef.current?.click()}
                                                     disabled={isUploadingImage}
-                                                    className="w-full py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-600 rounded-xl text-xs font-bold hover:bg-gray-50 transition-all disabled:opacity-50"
+                                                    className="w-full py-2 bg-white dark:bg-[#141417] text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/15 rounded-md text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-colors disabled:opacity-50"
                                                 >
                                                     {isUploadingImage ? 'Uploading...' : 'Upload New Photo'}
                                                 </button>
-                                                <p className="mt-2 text-[10px] text-gray-400 italic text-center">Or provide an external URL below</p>
+                                                <p className="mt-2 text-[10px] text-gray-400 dark:text-gray-500 text-center">Or provide an external URL below</p>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">Image URL</label>
+                                        <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Image URL</label>
                                         <input
                                             type="url"
                                             value={profileForm.profileImage}
                                             onChange={(e) => setProfileForm({ ...profileForm, profileImage: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border-none rounded-2xl px-6 py-4 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-amber-500 transition-all font-medium"
+                                            className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/15 rounded-md px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-amber-700 transition-colors font-medium"
                                             placeholder="https://..."
                                         />
                                     </div>
 
-                                    <div className="pt-4 flex gap-4">
+                                    <div className="pt-2 flex gap-3">
                                         <button
                                             type="button"
                                             onClick={() => setIsProfileModalOpen(false)}
-                                            className="flex-1 py-4 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-gray-200 transition-all"
+                                            className="flex-1 py-3 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 rounded-md font-black uppercase tracking-widest text-xs hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
                                         >
                                             Cancel
                                         </button>
                                         <button
                                             type="submit"
                                             disabled={isUpdatingProfile}
-                                            className="flex-1 py-4 bg-amber-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-amber-600/20 hover:bg-amber-700 transition-all disabled:opacity-50"
+                                            className="flex-1 py-3 bg-amber-700 text-white rounded-md font-black uppercase tracking-widest text-xs hover:bg-amber-800 transition-colors disabled:opacity-50"
                                         >
                                             {isUpdatingProfile ? 'Updating...' : 'Save Changes'}
                                         </button>
