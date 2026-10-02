@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -26,7 +26,8 @@ import {
   Menu,
   X,
   Home,
-  Calendar
+  Calendar,
+  User as UserIcon
 } from 'lucide-react';
 import AddPostModal from '../components/AddPostModal';
 import EditPostModal from '../components/EditPostModal';
@@ -56,7 +57,7 @@ import { useLogoSettings } from '../hooks/useLogoSettings';
 import { useSocialSettings } from '../hooks/useSocialSettings';
 import { getStorageInfo, clearAllBlogData } from '../utils/storageManager';
 // @ts-ignore
-import { blogAPI, contactAPI, donationsAPI, prayerAPI, eventAPI, userAPI, statsAPI, bibleVersesAPI, audioEpisodesAPI, newsletterAPI } from '../services/api';
+import { blogAPI, contactAPI, donationsAPI, prayerAPI, eventAPI, userAPI, statsAPI, bibleVersesAPI, audioEpisodesAPI, newsletterAPI, uploadAPI } from '../services/api';
 // @ts-ignore
 import { useAuth } from '../hooks/useAPI';
 import { useContentSettings } from '../hooks/useContentSettings';
@@ -183,6 +184,11 @@ const Dashboard = () => {
   const [isContentModalOpen, setIsContentModalOpen] = useState(false);
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [isFooterModalOpen, setIsFooterModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [profileForm, setProfileForm] = useState({ name: '', profileImage: '' });
+  const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
+  const [isUploadingProfileImage, setIsUploadingProfileImage] = useState(false);
+  const profileFileInputRef = useRef<HTMLInputElement>(null);
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [deleteConfirmPost, setDeleteConfirmPost] = useState<any>(null);
   const [storageInfo, setStorageInfo] = useState<any>(null);
@@ -237,6 +243,48 @@ const Dashboard = () => {
       setActiveTab('posts');
     }
   }, [isPastor]);
+
+  useEffect(() => {
+    if (user) {
+      setProfileForm({ name: user.name || '', profileImage: user.profileImage || '' });
+    }
+  }, [user]);
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsUpdatingProfile(true);
+    try {
+      const response = await userAPI.updateProfile(profileForm);
+      if (response.success) {
+        setIsProfileModalOpen(false);
+        const updatedUser = { ...user, ...profileForm };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        window.location.reload();
+      }
+    } catch (error: any) {
+      console.error('Failed to update profile:', error);
+      alert(error.message || 'Failed to update profile. Please try again.');
+    } finally {
+      setIsUpdatingProfile(false);
+    }
+  };
+
+  const handleProfileImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setIsUploadingProfileImage(true);
+    try {
+      const response = await uploadAPI.uploadProfileImage(file);
+      if (response.success && response.data) {
+        const url = response.data.url;
+        setProfileForm(prev => ({ ...prev, profileImage: url }));
+      }
+    } catch (error) {
+      console.error('Image upload failed:', error);
+    } finally {
+      setIsUploadingProfileImage(false);
+    }
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -1025,6 +1073,13 @@ const Dashboard = () => {
                     <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
                   </div>
                   <button
+                    onClick={() => { setIsProfileModalOpen(true); setShowUserDropdown(false); }}
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                  >
+                    <UserIcon className="w-4 h-4" />
+                    Edit Profile
+                  </button>
+                  <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                   >
@@ -1086,6 +1141,13 @@ const Dashboard = () => {
                       <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{user?.name || 'Administrator'}</p>
                       <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
                     </div>
+                    <button
+                      onClick={() => { setIsProfileModalOpen(true); setShowUserDropdown(false); }}
+                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                    >
+                      <UserIcon className="w-4 h-4" />
+                      Edit Profile
+                    </button>
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
@@ -1833,6 +1895,89 @@ const Dashboard = () => {
         onSave={loadDashboardData}
         eventToEdit={selectedEvent}
       />
+
+      {/* Edit Profile Modal */}
+      {isProfileModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+          <div
+            onClick={() => setIsProfileModalOpen(false)}
+            className="absolute inset-0 bg-gray-950/60"
+          />
+          <div className="relative w-full max-w-md bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-2xl overflow-hidden">
+            <div className="p-8">
+              <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-1">Edit Profile</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Update your name and profile photo.</p>
+
+              <form onSubmit={handleUpdateProfile} className="space-y-5">
+                <div>
+                  <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Full Name</label>
+                  <input
+                    type="text"
+                    value={profileForm.name}
+                    onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
+                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/15 rounded-md px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-amber-700 transition-colors font-medium"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Profile Image</label>
+                  <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/15 rounded-md">
+                    <div className="relative w-14 h-14 rounded-md overflow-hidden bg-amber-100 flex-shrink-0">
+                      {profileForm.profileImage ? (
+                        <img src={profileForm.profileImage} alt="Preview" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-amber-700 font-bold text-xl">
+                          {profileForm.name.charAt(0) || 'A'}
+                        </div>
+                      )}
+                      {isUploadingProfileImage && (
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <input
+                        type="file"
+                        ref={profileFileInputRef}
+                        onChange={handleProfileImageUpload}
+                        accept="image/*"
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => profileFileInputRef.current?.click()}
+                        disabled={isUploadingProfileImage}
+                        className="w-full py-2 bg-white dark:bg-[#141417] text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/15 rounded-md text-xs font-bold hover:bg-gray-50 dark:hover:bg-white/10 transition-colors disabled:opacity-50"
+                      >
+                        {isUploadingProfileImage ? 'Uploading...' : 'Upload New Photo'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2 flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsProfileModalOpen(false)}
+                    className="flex-1 py-3 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 rounded-md font-black uppercase tracking-widest text-xs hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isUpdatingProfile}
+                    className="flex-1 py-3 bg-amber-700 text-white rounded-md font-black uppercase tracking-widest text-xs hover:bg-amber-800 transition-colors disabled:opacity-50"
+                  >
+                    {isUpdatingProfile ? 'Saving...' : 'Save Changes'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div >
   );
