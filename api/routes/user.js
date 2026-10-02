@@ -291,7 +291,7 @@ router.get('/admin/all', verifyToken, requireAdmin, async (req, res) => {
             }
         }));
 
-        res.json({ success: true, users: formattedUsers });
+        res.json({ success: true, data: { users: formattedUsers } });
     } catch (error) {
         console.error('Error fetching users:', error);
         res.status(500).json({ success: false, message: 'Server error' });
