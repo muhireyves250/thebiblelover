@@ -465,37 +465,42 @@ const Dashboard = () => {
       console.log('Posts response:', postsResponse);
       const postsData = postsResponse.data?.posts || [];
 
-      // Load comments from API (with fallback)
-      console.log('Loading comments...');
+      // Comments/donations/messages are all admin-only endpoints a Pastor
+      // can't use (and never sees, since those tabs are hidden for them) -
+      // skip the requests entirely instead of letting them 403.
       let allComments: any[] = [];
-      try {
-        const commentsResponse = await blogAPI.getAdminComments();
-        console.log('Comments response:', commentsResponse);
-        allComments = commentsResponse.data?.comments || [];
-      } catch (error: any) {
-        console.warn('Comments API failed, using empty array:', error.message);
-        console.log('This is likely a server route issue. The /api/blog/admin/comments endpoint may not be registered.');
-        allComments = [];
-      }
-
-      // Load donations from API (with fallback)
       let donationsData: any[] = [];
-      try {
-        const donationsResponse = await donationsAPI.getDonations();
-        donationsData = donationsResponse.data?.donations || [];
-      } catch (error: any) {
-        console.warn('Donations API failed, using empty array:', error.message);
-        donationsData = [];
-      }
-
-      // Load contact messages from API (with fallback)
       let messagesData: any[] = [];
-      try {
-        const messagesResponse = await contactAPI.getContacts();
-        messagesData = messagesResponse.data?.contacts || [];
-      } catch (error: any) {
-        console.warn('Contact messages API failed, using empty array:', error.message);
-        messagesData = [];
+      if (!isPastor) {
+        // Load comments from API (with fallback)
+        console.log('Loading comments...');
+        try {
+          const commentsResponse = await blogAPI.getAdminComments();
+          console.log('Comments response:', commentsResponse);
+          allComments = commentsResponse.data?.comments || [];
+        } catch (error: any) {
+          console.warn('Comments API failed, using empty array:', error.message);
+          console.log('This is likely a server route issue. The /api/blog/admin/comments endpoint may not be registered.');
+          allComments = [];
+        }
+
+        // Load donations from API (with fallback)
+        try {
+          const donationsResponse = await donationsAPI.getDonations();
+          donationsData = donationsResponse.data?.donations || [];
+        } catch (error: any) {
+          console.warn('Donations API failed, using empty array:', error.message);
+          donationsData = [];
+        }
+
+        // Load contact messages from API (with fallback)
+        try {
+          const messagesResponse = await contactAPI.getContacts();
+          messagesData = messagesResponse.data?.contacts || [];
+        } catch (error: any) {
+          console.warn('Contact messages API failed, using empty array:', error.message);
+          messagesData = [];
+        }
       }
 
       // Transform data to match component interfaces
@@ -546,19 +551,23 @@ const Dashboard = () => {
         status: message.status || 'Pending'
       }));
 
-      // Load Prayers
+      // Load Prayers (admin-only, hidden for Pastors - see comments block above)
       let prayersData: any[] = [];
-      try {
-        const res = await prayerAPI.adminGetAll();
-        prayersData = res.data?.requests || [];
-      } catch (err) { console.warn('Prayers API failed'); }
+      if (!isPastor) {
+        try {
+          const res = await prayerAPI.adminGetAll();
+          prayersData = res.data?.requests || [];
+        } catch (err) { console.warn('Prayers API failed'); }
+      }
 
-      // Load Events
+      // Load Events (hidden for Pastors)
       let eventsData: any[] = [];
-      try {
-        const res = await eventAPI.getEvents();
-        eventsData = res.data || [];
-      } catch (err) { console.warn('Events API failed'); }
+      if (!isPastor) {
+        try {
+          const res = await eventAPI.getEvents();
+          eventsData = res.data || [];
+        } catch (err) { console.warn('Events API failed'); }
+      }
 
       // Load Bible Verses count
       try {
@@ -572,11 +581,13 @@ const Dashboard = () => {
         setEpisodesCount(res.data?.episodes?.length ?? 0);
       } catch (err) { console.warn('Audio episodes API failed'); }
 
-      // Load Newsletter subscribers count
-      try {
-        const res = await newsletterAPI.getSubscribers();
-        setSubscribersCount(res.data?.subscribers?.length ?? 0);
-      } catch (err) { console.warn('Newsletter subscribers API failed'); }
+      // Load Newsletter subscribers count (admin-only, hidden for Pastors)
+      if (!isPastor) {
+        try {
+          const res = await newsletterAPI.getSubscribers();
+          setSubscribersCount(res.data?.subscribers?.length ?? 0);
+        } catch (err) { console.warn('Newsletter subscribers API failed'); }
+      }
 
       setPosts(transformedPosts);
       setComments(transformedComments);
@@ -585,45 +596,49 @@ const Dashboard = () => {
       setPrayers(prayersData);
       setEvents(eventsData);
 
-      // Load Users
+      // Load Users (admin-only, hidden for Pastors)
       let usersData: any[] = [];
-      try {
-        const res = await userAPI.adminGetAll();
-        usersData = res.data?.users || [];
-      } catch (err) { console.warn('Users API failed'); }
+      if (!isPastor) {
+        try {
+          const res = await userAPI.adminGetAll();
+          usersData = res.data?.users || [];
+        } catch (err) { console.warn('Users API failed'); }
+      }
       setAllUsers(usersData);
 
-      // Calculate/Fetch stats
+      // Overview stats are hidden for Pastors - skip the admin-only calls
       let blogStats: any = {};
-      try {
-        const statsRes = await blogAPI.getStats();
-        if (statsRes.success) blogStats = statsRes.data;
-      } catch (err) {
-        console.warn('Blog stats API failed, using calculation fallback');
-      }
-
       let donationStats: any = {};
-      try {
-        const statsRes = await donationsAPI.getStats();
-        if (statsRes.success) donationStats = statsRes.data;
-      } catch (err) {
-        console.warn('Donation stats API failed');
-      }
-
       let platformStats: any = {};
-      try {
-        const statsRes = await statsAPI.getPlatformSummary();
-        if (statsRes.success) platformStats = statsRes.data;
-      } catch (err) {
-        console.warn('Platform stats API failed');
-      }
-
       let contactStats: any = {};
-      try {
-        const statsRes = await contactAPI.getStats();
-        if (statsRes.success) contactStats = statsRes.data;
-      } catch (err) {
-        console.warn('Contact stats API failed');
+      if (!isPastor) {
+        try {
+          const statsRes = await blogAPI.getStats();
+          if (statsRes.success) blogStats = statsRes.data;
+        } catch (err) {
+          console.warn('Blog stats API failed, using calculation fallback');
+        }
+
+        try {
+          const statsRes = await donationsAPI.getStats();
+          if (statsRes.success) donationStats = statsRes.data;
+        } catch (err) {
+          console.warn('Donation stats API failed');
+        }
+
+        try {
+          const statsRes = await statsAPI.getPlatformSummary();
+          if (statsRes.success) platformStats = statsRes.data;
+        } catch (err) {
+          console.warn('Platform stats API failed');
+        }
+
+        try {
+          const statsRes = await contactAPI.getStats();
+          if (statsRes.success) contactStats = statsRes.data;
+        } catch (err) {
+          console.warn('Contact stats API failed');
+        }
       }
 
       setStats({
