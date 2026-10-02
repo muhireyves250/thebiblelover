@@ -230,6 +230,14 @@ const Dashboard = () => {
     return () => clearTimeout(timer);
   }, [isAuthenticated]);
 
+  // Pastors can't see Overview (its stats need admin-only endpoints), so
+  // send them straight to Posts once we know their role.
+  useEffect(() => {
+    if (isPastor && activeTab === 'overview') {
+      setActiveTab('posts');
+    }
+  }, [isPastor]);
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -845,7 +853,7 @@ const Dashboard = () => {
         <nav className="flex-1 overflow-y-auto px-3 pt-3 md:pt-4 pb-5 space-y-6">
           <div>
             <div className="space-y-1">
-              {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
+              {(isPastor ? NAV_ITEMS.filter(({ id }) => ['posts', 'bible-verses', 'audio-episodes'].includes(id)) : NAV_ITEMS).map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
                   onClick={() => { setActiveTab(id); setSidebarOpen(false); }}
@@ -861,6 +869,7 @@ const Dashboard = () => {
             </div>
           </div>
 
+          {!isPastor && (
           <div>
             <p className="px-3 mb-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">Settings</p>
             <div className="space-y-1">
@@ -938,6 +947,7 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
+          )}
         </nav>
 
         {/* Footer actions */}
@@ -1252,12 +1262,16 @@ const Dashboard = () => {
       <nav className="lg:hidden fixed inset-x-3 bottom-0 z-40 pb-[env(safe-area-inset-bottom)]" aria-label="Dashboard">
         <div className="relative flex items-stretch justify-around gap-0.5 px-2 bg-white/95 dark:bg-[#0e0e10]/95 backdrop-blur-xl rounded-t-[2.5rem] rounded-b-none border-2 border-b-0 border-gray-400 dark:border-white/20 shadow-2xl overflow-hidden">
           <span className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
-          {[
+          {(isPastor ? [
+            { id: 'posts', label: 'Posts', icon: BookOpen },
+            { id: 'bible-verses', label: 'Verses', icon: Sparkles },
+            { id: 'audio-episodes', label: 'Audio', icon: Mic },
+          ] : [
             { id: 'overview', label: 'Overview', icon: BarChart3 },
             { id: 'posts', label: 'Posts', icon: BookOpen },
             { id: 'comments', label: 'Comments', icon: MessageSquare },
             { id: 'prayers', label: 'Prayers', icon: Heart },
-          ].map(({ id, label, icon: Icon }) => {
+          ]).map(({ id, label, icon: Icon }) => {
             const isActive = activeTab === id;
             return (
               <button
