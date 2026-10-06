@@ -155,6 +155,7 @@ export const validateBlogPost = (req, res, next) => {
     status: Joi.string().valid('DRAFT', 'PUBLISHED', 'ARCHIVED').default('DRAFT'),
     readTime: Joi.number().integer().min(1).max(60).default(5),
     isFeatured: Joi.boolean().default(false),
+    isPremium: Joi.boolean().default(false),
     seoTitle: Joi.string().max(60).optional(),
     seoDescription: Joi.string().max(160).optional()
   });
@@ -181,6 +182,7 @@ export const validateBlogPostUpdate = (req, res, next) => {
     status: Joi.string().valid('DRAFT', 'PUBLISHED', 'ARCHIVED').optional(),
     readTime: Joi.number().integer().min(1).max(60).optional(),
     isFeatured: Joi.boolean().optional(),
+    isPremium: Joi.boolean().optional(),
     seoTitle: Joi.string().max(60).optional(),
     seoDescription: Joi.string().max(160).optional()
   });
