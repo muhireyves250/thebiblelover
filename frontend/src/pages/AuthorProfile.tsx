@@ -46,7 +46,8 @@ const AuthorProfile: React.FC = () => {
   if (loading) {
     return (
       <section className="py-3 md:py-20 bg-white dark:bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8 animate-pulse">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8 animate-pulse">
           <div className="flex items-center gap-4 mb-6 md:mb-10">
             <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-200 dark:bg-white/10 shrink-0" />
             <div className="space-y-2">
@@ -60,6 +61,7 @@ const AuthorProfile: React.FC = () => {
             ))}
           </div>
         </div>
+        </div>
       </section>
     );
   }
@@ -67,12 +69,14 @@ const AuthorProfile: React.FC = () => {
   if (notFound || !author) {
     return (
       <section className="py-3 md:py-20 bg-white dark:bg-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8">
           <div className="text-center py-16">
             <AutoText as="h1" className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-2">Author Not Found</AutoText>
             <AutoText as="p" className="text-gray-500 dark:text-gray-400 mb-6">This profile doesn't exist or isn't public.</AutoText>
             <Link to="/posts" className="text-amber-700 font-bold text-sm uppercase tracking-widest hover:text-amber-800">Back to Posts</Link>
           </div>
+        </div>
         </div>
       </section>
     );
@@ -83,7 +87,8 @@ const AuthorProfile: React.FC = () => {
 
   return (
     <section className="py-3 md:py-20 bg-white dark:bg-transparent">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8">
         <SEO title={author.name} description={`Posts written by ${author.name} on The Bible Lover.`} />
 
         <div className="mb-6 md:mb-10 pb-6 md:pb-8 border-b border-gray-200 dark:border-white/10">
@@ -133,6 +138,7 @@ const AuthorProfile: React.FC = () => {
             ))}
           </div>
         )}
+      </div>
       </div>
     </section>
   );
