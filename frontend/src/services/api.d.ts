@@ -161,6 +161,11 @@ export interface BlogAPI {
   getAdminPostComments: (postId: string) => Promise<ApiResponse<{ comments: Comment[] }>>;
   approveComment: (commentId: string) => Promise<ApiResponse>;
   deleteCommentAdmin: (commentId: string) => Promise<ApiResponse>;
+  getAuthor: (id: string, params?: any) => Promise<ApiResponse<{
+    author: { id: string; name: string; profileImage?: string; role: string };
+    posts: BlogPost[];
+    pagination: any;
+  }>>;
 }
 
 export interface AudioEpisodesAPI {

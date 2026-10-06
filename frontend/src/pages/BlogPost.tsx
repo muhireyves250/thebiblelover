@@ -288,17 +288,29 @@ const BlogPost: React.FC = () => {
 
             <div className="flex flex-wrap items-center justify-between gap-3 md:gap-4 pb-4 md:pb-6 mb-4 md:mb-6 border-b border-gray-200 dark:border-white/10">
               <div className="flex items-center gap-2.5 md:gap-3">
-                <div className="w-8 h-8 md:w-9 md:h-9 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden flex items-center justify-center shrink-0">
-                  {post.author?.profileImage ? (
-                    <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" decoding="async" />
-                  ) : (
-                    <span className="text-xs font-bold text-gray-600 dark:text-gray-300">
-                      {(post.author?.name || 'A').charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                </div>
+                {(() => {
+                  const isPublicProfile = post.author?.role === 'ADMIN' || post.author?.role === 'PASTOR';
+                  const avatar = (
+                    <div className="w-8 h-8 md:w-9 md:h-9 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+                      {post.author?.profileImage ? (
+                        <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                      ) : (
+                        <span className="text-xs font-bold text-gray-600 dark:text-gray-300">
+                          {(post.author?.name || 'A').charAt(0).toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                  );
+                  return isPublicProfile ? <Link to={`/author/${post.author!.id}`}>{avatar}</Link> : avatar;
+                })()}
                 <div className="text-xs md:text-sm">
-                  <p className="font-bold text-gray-900 dark:text-white">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
+                  {post.author?.role === 'ADMIN' || post.author?.role === 'PASTOR' ? (
+                    <Link to={`/author/${post.author!.id}`} className="font-bold text-gray-900 dark:text-white hover:text-amber-700 dark:hover:text-amber-500 transition-colors">
+                      {post.author?.name}
+                    </Link>
+                  ) : (
+                    <p className="font-bold text-gray-900 dark:text-white">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
+                  )}
                   <p className="text-gray-500 dark:text-gray-400">{formattedDate} &middot; {post.readTime} min read</p>
                 </div>
               </div>
@@ -428,21 +440,31 @@ const BlogPost: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
-                    {post.author?.profileImage ? (
-                      <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" />
-                    ) : (
-                      <span className="text-sm font-bold text-amber-800">{(post.author?.name || 'A').charAt(0).toUpperCase()}</span>
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900 dark:text-white text-sm">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
-                    <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-                      {post.author?.role === 'ADMIN' ? 'Admin' : post.author?.role === 'PASTOR' ? 'Pastor' : 'The Bible Lover Author'}
-                    </AutoText>
-                  </div>
-                </div>
+                (() => {
+                  const isPublicProfile = post.author?.role === 'ADMIN' || post.author?.role === 'PASTOR';
+                  const content = (
+                    <div className={`flex items-center gap-3 ${isPublicProfile ? 'group' : ''}`}>
+                      <div className="w-11 h-11 bg-amber-100 rounded-full overflow-hidden flex items-center justify-center shrink-0">
+                        {post.author?.profileImage ? (
+                          <img src={post.author.profileImage} alt={post.author?.name || 'Author'} className="w-full h-full object-cover" loading="lazy" />
+                        ) : (
+                          <span className="text-sm font-bold text-amber-800">{(post.author?.name || 'A').charAt(0).toUpperCase()}</span>
+                        )}
+                      </div>
+                      <div>
+                        <p className={`font-bold text-gray-900 dark:text-white text-sm ${isPublicProfile ? 'group-hover:text-amber-700 dark:group-hover:text-amber-500' : ''}`}>
+                          {post.author?.name || <AutoText as="span">Unknown author</AutoText>}
+                        </p>
+                        <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                          {post.author?.role === 'ADMIN' ? 'Admin' : post.author?.role === 'PASTOR' ? 'Pastor' : 'The Bible Lover Author'}
+                        </AutoText>
+                      </div>
+                    </div>
+                  );
+                  return isPublicProfile ? (
+                    <Link to={`/author/${post.author!.id}`}>{content}</Link>
+                  ) : content;
+                })()
               )}
             </div>
 

@@ -125,6 +125,60 @@ router.get('/popular', async (req, res, next) => {
   }
 });
 
+// Get a public author profile (Admin/Pastor only - plain Members have no
+// public page) plus their published posts.
+router.get('/authors/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const limit = Math.min(parseInt(req.query.limit) || 12, 50);
+    const skip = (page - 1) * limit;
+
+    const author = await prisma.user.findUnique({
+      where: { id },
+      select: { id: true, name: true, profileImage: true, role: true }
+    });
+
+    if (!author || !['ADMIN', 'PASTOR'].includes(author.role)) {
+      return res.status(404).json({ success: false, message: 'Author not found' });
+    }
+
+    const where = {
+      authorId: id,
+      status: 'PUBLISHED',
+      publishedAt: { lte: new Date() }
+    };
+
+    const [posts, total] = await Promise.all([
+      prisma.blogPost.findMany({
+        where,
+        orderBy: { publishedAt: 'desc' },
+        skip,
+        take: limit,
+        include: { _count: { select: { comments: true } } }
+      }),
+      prisma.blogPost.count({ where })
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        author,
+        posts,
+        pagination: {
+          currentPage: page,
+          totalPages: Math.ceil(total / limit),
+          totalPosts: total,
+          hasNext: page < Math.ceil(total / limit),
+          hasPrev: page > 1
+        }
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Get single blog post by slug (public)
 router.get('/:slug', optionalAuth, async (req, res) => {
   try {
@@ -137,6 +191,7 @@ router.get('/:slug', optionalAuth, async (req, res) => {
       include: {
         author: {
           select: {
+            id: true,
             name: true,
             profileImage: true,
             role: true

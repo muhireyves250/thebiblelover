@@ -132,6 +132,10 @@ export const blogAPI: BlogAPI = {
   getAdminPostComments: (postId) => apiRequest(`/blog/admin/${postId}/comments`),
   approveComment: (commentId) => apiRequest(`/blog/admin/comments/${commentId}/approve`, { method: 'PUT' }),
   deleteCommentAdmin: (commentId) => apiRequest(`/blog/admin/comments/${commentId}`, { method: 'DELETE' }),
+  getAuthor: (id, params) => {
+    const query = new URLSearchParams(params as any).toString();
+    return apiRequest(`/blog/authors/${id}?${query}`);
+  },
 };
 
 export const audioEpisodesAPI: AudioEpisodesAPI = {
