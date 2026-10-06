@@ -438,7 +438,9 @@ const BlogPost: React.FC = () => {
                   </div>
                   <div>
                     <p className="font-bold text-gray-900 dark:text-white text-sm">{post.author?.name || <AutoText as="span">Unknown author</AutoText>}</p>
-                    <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">The Bible Lover Author</AutoText>
+                    <AutoText as="p" className="text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                      {post.author?.role === 'ADMIN' ? 'Admin' : post.author?.role === 'PASTOR' ? 'Pastor' : 'The Bible Lover Author'}
+                    </AutoText>
                   </div>
                 </div>
               )}

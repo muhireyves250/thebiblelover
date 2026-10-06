@@ -42,6 +42,7 @@ export interface BlogPost {
     name: string;
     email: string;
     profileImage?: string;
+    role?: string;
   };
   _count?: {
     comments: number;

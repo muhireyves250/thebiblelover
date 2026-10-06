@@ -138,7 +138,8 @@ router.get('/:slug', optionalAuth, async (req, res) => {
         author: {
           select: {
             name: true,
-            profileImage: true
+            profileImage: true,
+            role: true
           }
         },
         _count: { select: { comments: true } }
