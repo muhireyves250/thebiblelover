@@ -865,31 +865,6 @@ const Dashboard = () => {
   };
 
 
-  // Show loading screen while authentication is being checked
-  if (isLoading) {
-    return (
-      <div className="h-screen bg-white dark:bg-[#0a0a0a] flex overflow-hidden animate-pulse">
-        <div className="hidden lg:flex w-64 bg-white dark:bg-[#0a0a0a] border-r border-gray-300 dark:border-white/15 flex-shrink-0 flex-col p-6 space-y-6">
-          <div className="h-10 w-32 bg-gray-100 dark:bg-white/10 rounded-md" />
-          <div className="space-y-3 pt-6">
-            {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="h-10 bg-gray-100 dark:bg-white/10 rounded-md" />
-            ))}
-          </div>
-        </div>
-        <div className="flex-1 p-6 md:p-10 space-y-6 overflow-hidden">
-          <div className="h-8 w-48 bg-gray-100 dark:bg-white/10 rounded-md" />
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} className="h-24 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
-            ))}
-          </div>
-          <div className="h-64 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
-        </div>
-      </div>
-    );
-  }
-
   // Members (and anyone without Admin/Pastor privileges) don't get this
   // console - send them to their own dashboard instead. Relying on
   // client-side role alone is fine here since every actual admin action
@@ -1180,8 +1155,28 @@ const Dashboard = () => {
         {/* Content Area */}
         <div className="flex-1 px-4 md:px-8 pt-3 md:pt-4 pb-20 lg:pb-8 overflow-auto">
 
+          {/* Content skeleton - shown while loadDashboardData() is still
+              in flight. Sidebar/header stay mounted and interactive the
+              whole time; only this area swaps for a layout matching the
+              Overview tab (what Admin/Pastor land on first). */}
+          {isLoading && (
+            <div className="space-y-4 md:space-y-6 animate-pulse">
+              <div className="h-20 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="h-24 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
+                ))}
+              </div>
+              <div className="h-64 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="h-48 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
+                <div className="h-48 bg-gray-100 dark:bg-white/10 rounded-lg border border-gray-300 dark:border-white/15" />
+              </div>
+            </div>
+          )}
+
           {/* Overview Tab */}
-          {activeTab === 'overview' && (
+          {!isLoading && activeTab === 'overview' && (
             <DashboardOverview
               user={user}
               stats={stats}
@@ -1202,7 +1197,7 @@ const Dashboard = () => {
 
           {/* Posts Tab */}
           {
-            activeTab === 'posts' && (
+            !isLoading && activeTab === 'posts' && (
               <PostsManager
                 posts={posts}
                 setShowAddPostConfirm={setShowAddPostConfirm}
@@ -1216,7 +1211,7 @@ const Dashboard = () => {
 
           {/* Comments Tab */}
           {
-            activeTab === 'comments' && (
+            !isLoading && activeTab === 'comments' && (
               <CommentsManager
                 comments={comments}
                 showAllComments={showAllComments}
@@ -1231,7 +1226,7 @@ const Dashboard = () => {
 
           {/* Donations Tab */}
           {
-            activeTab === 'donations' && (
+            !isLoading && activeTab === 'donations' && (
               <DonationsManager
                 donations={donations}
                 stats={stats}
@@ -1246,7 +1241,7 @@ const Dashboard = () => {
 
           {/* Messages Tab */}
           {
-            activeTab === 'messages' && (
+            !isLoading && activeTab === 'messages' && (
               <MessagesManager
                 messages={messages}
                 showAllMessages={showAllMessages}
@@ -1262,7 +1257,7 @@ const Dashboard = () => {
 
           {/* Storage Management Tab */}
           {
-            activeTab === 'storage' && (
+            !isLoading && activeTab === 'storage' && (
               <StorageManager
                 storageInfo={storageInfo}
                 handleCleanupStorage={handleCleanupStorage}
@@ -1273,7 +1268,7 @@ const Dashboard = () => {
           }
 
           {/* Prayers Tab */}
-          {activeTab === 'prayers' && (
+          {!isLoading && activeTab === 'prayers' && (
             <PrayerManager
               requests={prayers}
               showAll={showAllPrayers}
@@ -1293,7 +1288,7 @@ const Dashboard = () => {
           )}
 
           {/* Events Tab */}
-          {activeTab === 'events' && (
+          {!isLoading && activeTab === 'events' && (
             <EventManager
               events={events}
               onAdd={() => {
@@ -1314,7 +1309,7 @@ const Dashboard = () => {
           )}
 
           {/* Users Tab */}
-          {activeTab === 'users' && (
+          {!isLoading && activeTab === 'users' && (
             <UserManager
               users={allUsers}
               onUpdateRole={async (id, role) => {
@@ -1335,17 +1330,17 @@ const Dashboard = () => {
           )}
 
           {/* Newsletter Tab */}
-          {activeTab === 'newsletter' && (
+          {!isLoading && activeTab === 'newsletter' && (
             <NewsletterManager />
           )}
 
           {/* Bible Verses Tab */}
-          {activeTab === 'bible-verses' && (
+          {!isLoading && activeTab === 'bible-verses' && (
             <BibleVerseManager />
           )}
 
           {/* Audio Episodes Tab */}
-          {activeTab === 'audio-episodes' && (
+          {!isLoading && activeTab === 'audio-episodes' && (
             <AudioEpisodeManager />
           )}
         </div>
