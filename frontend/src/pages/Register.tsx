@@ -80,7 +80,7 @@ const Register: React.FC = () => {
 
     return (
         <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-transparent flex items-center justify-center p-3 sm:p-4">
-            <div className="max-w-2xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden">
+            <div className="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden">
                 {/* Left Side: Branding/Visual */}
                 <div className="hidden lg:block relative">
                     <img
