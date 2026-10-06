@@ -20,9 +20,9 @@ const DonationsManager = ({
     refreshDonations
 }: DonationsManagerProps) => {
     return (
-        <div className="space-y-4">
+        <div className="h-full flex flex-col space-y-4">
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="shrink-0 grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
                     { label: 'Total Raised', value: `$${stats.totalDonations}`, icon: DollarSign },
                     { label: 'Total Count', value: donations.length, icon: TrendingUp },
@@ -43,8 +43,8 @@ const DonationsManager = ({
             </div>
 
             {/* Donations List */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 py-3 border-b border-gray-300 dark:border-white/15 flex items-center justify-between">
+            <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="shrink-0 px-4 py-3 border-b border-gray-300 dark:border-white/15 flex items-center justify-between">
                     <h4 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Recent Donations</h4>
                     {refreshDonations && (
                         <button
@@ -57,7 +57,7 @@ const DonationsManager = ({
                     )}
                 </div>
 
-                <div className="max-h-64 overflow-y-auto">
+                <div className="flex-1 min-h-0 overflow-y-auto">
                     {donations.slice(0, showAllDonations ? donations.length : 5).map((donation) => (
                         <div key={donation.id} className="p-3 border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                             <div className="flex items-start gap-3">

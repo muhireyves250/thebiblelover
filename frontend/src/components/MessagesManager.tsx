@@ -30,9 +30,9 @@ const MessagesManager = ({
     const readCount = messages.length - unreadCount;
 
     return (
-        <div className="space-y-4">
+        <div className="h-full flex flex-col space-y-4">
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="shrink-0 grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
                     { label: 'Total Messages', value: messages.length, icon: Mail },
                     { label: 'This Month', value: thisMonthCount, icon: Calendar },
@@ -53,8 +53,8 @@ const MessagesManager = ({
             </div>
 
             {/* Messages List */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 py-3 border-b border-gray-300 dark:border-white/15 flex items-center justify-between">
+            <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="shrink-0 px-4 py-3 border-b border-gray-300 dark:border-white/15 flex items-center justify-between">
                     <h3 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Contact Messages</h3>
                     <button
                         onClick={() => setShowAllMessages(!showAllMessages)}
@@ -64,7 +64,7 @@ const MessagesManager = ({
                     </button>
                 </div>
 
-                <div className="divide-y divide-gray-300 dark:divide-white/15">
+                <div className="flex-1 min-h-0 overflow-y-auto divide-y divide-gray-300 dark:divide-white/15">
                     {isLoading ? (
                         <div className="p-4 space-y-4 animate-pulse">
                             {[1, 2, 3].map(i => (

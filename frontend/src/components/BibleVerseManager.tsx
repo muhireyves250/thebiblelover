@@ -152,8 +152,8 @@ const BibleVerseManager = () => {
 
   if (loading) {
     return (
-      <div className="space-y-4 animate-pulse">
-        <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
+      <div className="h-full flex flex-col space-y-4 animate-pulse">
+        <div className="shrink-0 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
           <div className="flex items-center justify-between gap-3">
             <div className="space-y-2">
               <div className="h-4 w-32 bg-gray-100 dark:bg-white/10 rounded" />
@@ -162,7 +162,7 @@ const BibleVerseManager = () => {
             <div className="h-9 w-28 bg-gray-100 dark:bg-white/10 rounded-lg" />
           </div>
         </div>
-        <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3">
+        <div className="flex-1 min-h-0 overflow-y-auto bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3">
           {[1, 2, 3, 4].map(i => (
             <div key={i} className="p-3.5 rounded-lg border border-gray-300 dark:border-white/15 flex items-start gap-3">
               <div className="w-14 h-14 bg-gray-100 dark:bg-white/10 rounded-md shrink-0" />
@@ -179,9 +179,9 @@ const BibleVerseManager = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="h-full flex flex-col space-y-4">
       {/* Header */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
+      <div className="shrink-0 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div>
             <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white">Bible Verses</h3>
@@ -198,7 +198,7 @@ const BibleVerseManager = () => {
       </div>
 
       {/* Verses List */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
+      <div className="flex-1 min-h-0 overflow-y-auto bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
         {verses.length === 0 ? (
           <div className="text-center py-10">
             <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-xl flex items-center justify-center mx-auto mb-3">
