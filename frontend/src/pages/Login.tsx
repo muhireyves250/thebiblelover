@@ -176,15 +176,6 @@ const Login: React.FC = () => {
               )}
             </button>
           </form>
-
-          <div className="mt-2 pt-2 md:mt-4 md:pt-4 border-t border-gray-100 dark:border-white/5">
-            <AutoText as="p" className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 text-center mb-2">Demo Credentials</AutoText>
-            <div className="bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 py-1 px-2 md:p-3 rounded-md">
-              <p className="text-[10px] md:text-sm text-gray-600 dark:text-gray-300 text-center leading-snug">
-                <strong className="text-gray-900 dark:text-white">admin@biblelover.com</strong> / <strong className="text-gray-900 dark:text-white">admin123</strong>
-              </p>
-            </div>
-          </div>
         </div>
 
         <div className="mt-2.5 md:mt-4 text-center bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-md p-3">
