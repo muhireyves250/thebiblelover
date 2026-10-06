@@ -736,6 +736,19 @@ const Dashboard = () => {
     setDeleteConfirmPost(post);
   };
 
+  // Quick hide/unhide (DRAFT <-> PUBLISHED) without opening the full edit
+  // form - mainly so Admin can take down a Pastor's post in one click.
+  const handleToggleHidePost = async (post: any) => {
+    try {
+      const newStatus = post.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
+      await blogAPI.updatePost(post.id, { status: newStatus });
+      await loadDashboardData();
+    } catch (error) {
+      console.error('Error toggling post visibility:', error);
+      alert('Failed to update post visibility. Please try again.');
+    }
+  };
+
   const confirmDeletePost = async () => {
     if (deleteConfirmPost) {
       try {
@@ -1194,6 +1207,7 @@ const Dashboard = () => {
                 setSelectedPost={setSelectedPost}
                 setShowEditPostConfirm={setShowEditPostConfirm}
                 handleDeletePost={handleDeletePost}
+                handleToggleHidePost={handleToggleHidePost}
               />
             )
           }

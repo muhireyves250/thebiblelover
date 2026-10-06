@@ -5,6 +5,7 @@ import {
     Edit,
     Trash2,
     Eye,
+    EyeOff,
     Heart,
     MessageSquare
 } from 'lucide-react';
@@ -15,6 +16,7 @@ interface PostsManagerProps {
     setSelectedPost: (post: any) => void;
     setShowEditPostConfirm: (show: boolean) => void;
     handleDeletePost: (post: any) => void;
+    handleToggleHidePost: (post: any) => void;
 }
 
 const PostsManager = ({
@@ -22,7 +24,8 @@ const PostsManager = ({
     setShowAddPostConfirm,
     setSelectedPost,
     setShowEditPostConfirm,
-    handleDeletePost
+    handleDeletePost,
+    handleToggleHidePost
 }: PostsManagerProps) => {
     const publishedCount = posts.filter(p => p.status === 'PUBLISHED').length;
     const draftCount = posts.filter(p => p.status === 'DRAFT').length;
@@ -187,6 +190,13 @@ const PostsManager = ({
                                                 title="Edit post"
                                             >
                                                 <Edit className="h-3.5 w-3.5" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleToggleHidePost(post)}
+                                                className="p-1.5 text-gray-500 dark:text-gray-400 hover:text-amber-700 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-lg transition-colors"
+                                                title={post.status === 'PUBLISHED' ? 'Hide post (set to Draft)' : 'Publish post'}
+                                            >
+                                                {post.status === 'PUBLISHED' ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                                             </button>
                                             <button
                                                 onClick={() => handleDeletePost(post)}
