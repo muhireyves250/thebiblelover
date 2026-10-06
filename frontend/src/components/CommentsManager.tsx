@@ -23,9 +23,9 @@ const CommentsManager = ({
     const pendingCount = comments.filter(c => !c.isApproved).length;
 
     return (
-        <div className="space-y-4">
+        <div className="h-full flex flex-col space-y-4">
             {/* Header */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
+            <div className="shrink-0 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
                 <div className="flex items-center gap-3">
                     <div className="w-9 h-9 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center">
                         <MessageSquare className="h-4 w-4 text-amber-700" />
@@ -35,7 +35,7 @@ const CommentsManager = ({
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="shrink-0 grid grid-cols-3 gap-3">
                 {[
                     { label: 'Total', value: comments.length },
                     { label: 'Approved', value: approvedCount },
@@ -49,12 +49,12 @@ const CommentsManager = ({
             </div>
 
             {/* Comments List */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-4 py-3 border-b border-gray-300 dark:border-white/15">
+            <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="shrink-0 px-4 py-3 border-b border-gray-300 dark:border-white/15">
                     <h4 className="text-sm font-black uppercase tracking-tight text-gray-900 dark:text-white">Recent Comments</h4>
                 </div>
 
-                <div className={`${showAllComments ? 'max-h-64' : 'max-h-48'} overflow-y-auto`}>
+                <div className="flex-1 min-h-0 overflow-y-auto">
                     {comments.slice(0, showAllComments ? comments.length : 2).map((comment) => (
                         <div key={comment.id} className="p-3 border-b border-gray-100 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                             <div className="flex items-start gap-3">
