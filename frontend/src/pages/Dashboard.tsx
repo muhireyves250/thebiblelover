@@ -223,17 +223,14 @@ const Dashboard = () => {
   useEffect(() => {
     console.log('Dashboard useEffect - isAuthenticated:', isAuthenticated, 'user:', user);
 
-    // Set loading to false after a short delay to prevent rapid re-renders
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 100);
-
     if (isAuthenticated) {
       loadDashboardData();
+    } else {
+      // Not authenticated (shouldn't normally happen - ProtectedRoute
+      // handles the redirect) - don't leave the skeleton stuck forever.
+      setIsLoading(false);
     }
     updateStorageInfo();
-
-    return () => clearTimeout(timer);
   }, [isAuthenticated]);
 
   // Pastors can't see Overview (its stats need admin-only endpoints), so
@@ -716,6 +713,11 @@ const Dashboard = () => {
         recentMessages: 0,
         totalScheduled: 0
       });
+    } finally {
+      // Only matters the first time - after that isLoading is already
+      // false, so later refreshes (post save/delete etc.) are a no-op
+      // here instead of re-flashing the full-page skeleton.
+      setIsLoading(false);
     }
   };
 
