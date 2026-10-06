@@ -1391,13 +1391,13 @@ const Dashboard = () => {
       {
         deleteConfirmPost && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Trash2 className="h-8 w-8 text-red-600" />
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Delete Post</h3>
-                <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 mb-6 border border-red-200 dark:border-red-900/30">
+                <div className="bg-red-50 dark:bg-red-900/10 rounded-md p-4 mb-6 border border-red-200 dark:border-red-900/30">
                   <p className="text-sm font-bold text-red-700 dark:text-red-400 mb-2">Post Title:</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium">"{deleteConfirmPost.title}"</p>
                 </div>
@@ -1407,13 +1407,13 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={() => setDeleteConfirmPost(null)}
-                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmDeletePost}
-                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Delete Post
                   </button>
@@ -1428,13 +1428,13 @@ const Dashboard = () => {
       {
         showAddPostConfirm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Plus className="h-8 w-8 text-amber-700" />
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Create New Post</h3>
-                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-md p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-2">Ready to create?</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium">You're about to create a new blog post for your website</p>
                 </div>
@@ -1444,13 +1444,13 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={cancelAddPost}
-                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmAddPost}
-                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Create Post
                   </button>
@@ -1465,13 +1465,13 @@ const Dashboard = () => {
       {
         showEditPostConfirm && selectedPost && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Edit className="h-8 w-8 text-amber-700" />
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Edit Post</h3>
-                <div className="bg-amber-50 dark:bg-amber-900/10 rounded-xl p-4 mb-6 border border-amber-200 dark:border-amber-900/30">
+                <div className="bg-amber-50 dark:bg-amber-900/10 rounded-md p-4 mb-6 border border-amber-200 dark:border-amber-900/30">
                   <p className="text-sm font-bold text-amber-700 dark:text-amber-400 mb-2">Post Title:</p>
                   <p className="text-base text-gray-900 dark:text-white font-medium">"{selectedPost.title}"</p>
                 </div>
@@ -1481,14 +1481,14 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={cancelEditPost}
-                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmEditPost}
                     disabled={isLoadingEditPost}
-                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
                     {isLoadingEditPost ? (
                       <>
@@ -1510,7 +1510,7 @@ const Dashboard = () => {
       {
         showEditSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
@@ -1520,7 +1520,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Post Updated Successfully!</h3>
-                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-md p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                     <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Changes Saved</p>
@@ -1533,7 +1533,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeEditSuccessModal}
-                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Continue
                   </button>
@@ -1548,7 +1548,7 @@ const Dashboard = () => {
       {
         showAddPostSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
@@ -1558,7 +1558,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Post Created Successfully!</h3>
-                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-md p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                     <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Post Published</p>
@@ -1571,7 +1571,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeAddPostSuccessModal}
-                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Continue
                   </button>
@@ -1586,7 +1586,7 @@ const Dashboard = () => {
       {
         showDeleteSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
@@ -1596,7 +1596,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Post Deleted Successfully!</h3>
-                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-md p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                     <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Post Removed</p>
@@ -1610,7 +1610,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeDeleteSuccessModal}
-                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Continue
                   </button>
@@ -1625,7 +1625,7 @@ const Dashboard = () => {
       {
         showDeleteDonationSuccess && deletedDonationDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
@@ -1635,7 +1635,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Donation Deleted Successfully!</h3>
-                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-md p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                     <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Donation Removed</p>
@@ -1654,7 +1654,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeDeleteDonationSuccessModal}
-                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Continue
                   </button>
@@ -1669,7 +1669,7 @@ const Dashboard = () => {
       {
         showDeleteCommentSuccess && deletedCommentDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
@@ -1679,7 +1679,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Comment Deleted Successfully!</h3>
-                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-md p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                     <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Comment Removed</p>
@@ -1698,7 +1698,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeDeleteCommentSuccessModal}
-                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Continue
                   </button>
@@ -1713,7 +1713,7 @@ const Dashboard = () => {
       {
         showDeleteMessageSuccess && deletedMessageDetails && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
@@ -1723,7 +1723,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">Message Deleted Successfully!</h3>
-                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-xl p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
+                <div className="bg-emerald-50 dark:bg-emerald-900/10 rounded-md p-4 mb-6 border border-emerald-200 dark:border-emerald-900/30">
                   <div className="flex items-center justify-center space-x-2 mb-2">
                     <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                     <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Message Removed</p>
@@ -1742,7 +1742,7 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={closeDeleteMessageSuccessModal}
-                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Continue
                   </button>
@@ -1780,7 +1780,7 @@ const Dashboard = () => {
       {
         showLogoutConfirm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
+            <div className="bg-white dark:bg-[#141417] rounded-lg max-w-md w-full p-8 shadow-2xl border border-gray-400 dark:border-white/20">
               <div className="text-center">
                 <div className="w-16 h-16 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <LogOut className="h-8 w-8 text-red-600" />
@@ -1792,13 +1792,13 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={cancelLogout}
-                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-semibold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmLogout}
-                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Sign Out
                   </button>
@@ -1813,7 +1813,7 @@ const Dashboard = () => {
       {
         showDeleteDonationModal && donationToDelete && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl border border-gray-400 dark:border-white/20 max-w-md w-full p-8">
+            <div className="bg-white dark:bg-[#141417] rounded-lg shadow-2xl border border-gray-400 dark:border-white/20 max-w-md w-full p-8">
               <div className="text-center">
                 <div className="w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Trash2 className="h-8 w-8 text-red-600" />
@@ -1822,7 +1822,7 @@ const Dashboard = () => {
                   Delete Donation
                 </h3>
 
-                <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 mb-6 border border-red-200 dark:border-red-900/30 text-left">
+                <div className="bg-red-50 dark:bg-red-900/10 rounded-md p-4 mb-6 border border-red-200 dark:border-red-900/30 text-left">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">Donor</span>
                     <span className="text-sm font-bold text-gray-900 dark:text-white">
@@ -1858,13 +1858,13 @@ const Dashboard = () => {
                 <div className="flex space-x-4">
                   <button
                     onClick={cancelDeleteDonation}
-                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmDeleteDonation}
-                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-xl font-bold transition-all duration-200 hover:shadow-md"
+                    className="flex-1 px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                   >
                     Delete Donation
                   </button>
