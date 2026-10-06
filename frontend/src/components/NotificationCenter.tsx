@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Bell, BellOff, ExternalLink, Calendar, Heart, ShieldCheck } from 'lucide-react';
+import { Bell, BellOff, ExternalLink, Calendar, Heart, ShieldCheck, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { notificationAPI } from '../services/api';
 import type { Notification } from '../services/api.d';
@@ -66,6 +66,7 @@ const NotificationCenter = () => {
             case 'EVENT_UPDATE': return <Calendar className="h-4 w-4 text-emerald-500" />;
             case 'PRAYER_SUPPORT': return <Heart className="h-4 w-4 text-rose-500 fill-rose-500/20" />;
             case 'ADMIN_MESSAGE': return <ShieldCheck className="h-4 w-4 text-amber-500" />;
+            case 'NEW_COMMENT': return <MessageSquare className="h-4 w-4 text-blue-500" />;
             default: return <Bell className="h-4 w-4 text-gray-400 dark:text-gray-500" />;
         }
     };

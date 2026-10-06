@@ -650,6 +650,21 @@ router.post('/:id/comments', async (req, res) => {
     const comment = await prisma.comment.create({
       data: { content, authorName, authorEmail, postId: id, isApproved: true }
     });
+
+    // Let the post's author (admin or pastor) know directly, instead of
+    // leaving comment moderation to only show up as a dashboard list.
+    if (post.authorId) {
+      await prisma.notification.create({
+        data: {
+          userId: post.authorId,
+          type: 'NEW_COMMENT',
+          title: 'New comment on your post',
+          message: `${authorName} commented on "${post.title}": ${content.slice(0, 120)}${content.length > 120 ? '...' : ''}`,
+          link: `/blog/${post.slug}`
+        }
+      });
+    }
+
     res.status(201).json({ success: true, message: 'Comment posted', data: { comment } });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Failed to submit comment' });

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { X, Upload, Save, Image as ImageIcon, Share2 } from 'lucide-react';
+import { X, Upload, Save, Image as ImageIcon, Share2, User as UserIcon } from 'lucide-react';
 import { cleanupOldStorage } from '../utils/storageManager';
 import { blogAPI } from '../services/api';
+import { useAuth } from '../hooks/useAPI';
 
 interface AddPostModalProps {
   isOpen: boolean;
@@ -10,12 +11,12 @@ interface AddPostModalProps {
 }
 
 const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
     excerpt: '',
     content: '',
-    author: 'Admin',
     image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
     readTime: '1 min read',
     publishedAt: '',
@@ -185,7 +186,6 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
         subtitle: '',
         excerpt: '',
         content: '',
-        author: 'Admin',
         image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
         readTime: '1 min read',
         publishedAt: '',
@@ -215,21 +215,21 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 p-8 border-b border-amber-200 dark:border-amber-900/30 rounded-t-2xl">
+      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-300 dark:border-white/15">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-                <Save className="h-6 w-6 text-white" />
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-amber-700 rounded-md flex items-center justify-center">
+                <Save className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Add New Post</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">Create a new blog post for your website</p>
+                <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Add New Post</h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Create a new blog post for your website</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-white dark:hover:bg-white/10 rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20"
+              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md transition-colors border border-gray-300 dark:border-white/15"
             >
               <X className="h-5 w-5" />
             </button>
@@ -239,7 +239,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
         <form onSubmit={handleSubmit} className="p-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="title" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label htmlFor="title" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Post Title *
               </label>
               <input
@@ -256,24 +256,18 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             </div>
 
             <div>
-              <label htmlFor="author" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Author
               </label>
-              <input
-                type="text"
-                id="author"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-                autoComplete="name"
-                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
-                placeholder="Author name"
-              />
+              <div className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-md flex items-center gap-2 text-gray-700 dark:text-gray-200 font-medium">
+                <UserIcon className="h-4 w-4 text-gray-400" />
+                {user?.name || 'You'}
+              </div>
             </div>
           </div>
 
           <div>
-            <label htmlFor="subtitle" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label htmlFor="subtitle" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Subtitle (Optional)
             </label>
             <input
@@ -289,7 +283,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
           </div>
 
           <div>
-            <label htmlFor="excerpt" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label htmlFor="excerpt" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Excerpt *
             </label>
             <textarea
@@ -306,7 +300,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
           </div>
 
           <div>
-            <label htmlFor="image" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label htmlFor="image" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Featured Image
             </label>
 
@@ -327,7 +321,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                   type="button"
                   onClick={handleUploadClick}
                   disabled={isUploading}
-                  className="px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 transition-all duration-200 flex items-center space-x-2 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md"
+                  className="px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-md hover:bg-gray-50 dark:hover:bg-white/10 transition-all duration-200 flex items-center space-x-2 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md"
                 >
                   {isUploading ? (
                     <>
@@ -361,12 +355,12 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
 
             {/* Image Preview */}
             {formData.image && (
-              <div className="relative bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 dark:border-white/10">
+              <div className="relative bg-gray-50 dark:bg-white/5 rounded-md p-4 border border-gray-200 dark:border-white/10">
                 <div className="flex items-start space-x-4">
                   <img
                     src={formData.image}
                     alt="Preview"
-                    className="w-40 h-24 object-cover rounded-xl border-2 border-white shadow-lg"
+                    className="w-40 h-24 object-cover rounded-md border-2 border-white shadow-lg"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                     }}
@@ -397,9 +391,9 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             {!formData.image && (
               <div
                 onClick={handleUploadClick}
-                className="border-2 border-dashed border-gray-300 dark:border-white/10 rounded-xl p-8 text-center hover:border-amber-400 hover:bg-amber-50 transition-all duration-300 cursor-pointer group"
+                className="border-2 border-dashed border-gray-300 dark:border-white/10 rounded-md p-8 text-center hover:border-amber-400 hover:bg-amber-50 transition-all duration-300 cursor-pointer group"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-300">
+                <div className="w-16 h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-md flex items-center justify-center mx-auto mb-4 group-hover:from-amber-100 group-hover:to-amber-200 transition-all duration-300">
                   <ImageIcon className="h-8 w-8 text-gray-500 dark:text-gray-400 group-hover:text-amber-600 transition-colors duration-300" />
                 </div>
                 <p className="text-base font-semibold text-gray-700 dark:text-gray-200 mb-2">Click to upload an image</p>
@@ -409,7 +403,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
           </div>
 
           <div>
-            <label htmlFor="content" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label htmlFor="content" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Content *
             </label>
             <textarea
@@ -430,7 +424,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="readTime" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label htmlFor="readTime" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Read Time
               </label>
               <input
@@ -446,16 +440,16 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Generated Slug
               </label>
-              <div className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border-2 border-gray-200 dark:border-white/10 rounded-xl text-sm font-semibold text-gray-700 dark:text-gray-200">
+              <div className="px-4 py-3 bg-gray-50 dark:bg-white/5 border-2 border-gray-200 dark:border-white/10 rounded-md text-sm font-semibold text-gray-700 dark:text-gray-200">
                 {formData.title ? generateSlug(formData.title) : 'Enter title to generate slug'}
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-md p-6 border border-gray-200 dark:border-white/10">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white">Schedule Post</h3>
@@ -464,7 +458,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               <button
                 type="button"
                 onClick={() => setIsScheduled(!isScheduled)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${isScheduled ? 'bg-amber-600' : 'bg-gray-200 dark:bg-white/10'
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${isScheduled ? 'bg-amber-700' : 'bg-gray-200 dark:bg-white/10'
                   }`}
               >
                 <span
@@ -477,7 +471,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             {isScheduled && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="pt-4 border-t border-gray-200 dark:border-white/10">
-                  <label htmlFor="publishedAt" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+                  <label htmlFor="publishedAt" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                     Publication Date & Time *
                   </label>
                   <input
@@ -486,18 +480,18 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
                     name="publishedAt"
                     value={formData.publishedAt}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-white dark:bg-[#141417] hover:border-gray-300"
+                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-white dark:bg-[#141417] hover:border-gray-300"
                   />
                 </div>
 
                 {formData.publishedAt && (
-                  <div className="p-3 bg-amber-50 border border-amber-100 rounded-lg flex items-center space-x-3">
-                    <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
-                    <p className="text-xs font-semibold text-amber-800">
+                  <div className="p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-md flex items-center space-x-3">
+                    <div className="w-2 h-2 bg-amber-600 rounded-full animate-pulse"></div>
+                    <p className="text-xs font-semibold text-amber-800 dark:text-amber-400">
                       {new Date(formData.publishedAt) > new Date() ? (
                         <>Will publish in {Math.ceil((new Date(formData.publishedAt).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} days</>
                       ) : (
-                        <span className="text-red-600">Selected date is in the past!</span>
+                        <span className="text-red-600 dark:text-red-400">Selected date is in the past!</span>
                       )}
                     </p>
                   </div>
@@ -507,7 +501,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
           </div>
 
           {/* Social Preview Section */}
-          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-md p-6 border border-gray-200 dark:border-white/10">
             <div className="mb-6">
               <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center space-x-2">
                 <Share2 className="h-4 w-4 text-amber-600" />
@@ -516,7 +510,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               <p className="text-sm text-gray-500 dark:text-gray-400">How your post will look when shared on WhatsApp & Facebook</p>
             </div>
 
-            <div className="max-w-sm mx-auto bg-white dark:bg-[#141417] rounded-xl shadow-lg border border-gray-100 dark:border-white/5 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+            <div className="max-w-sm mx-auto bg-white dark:bg-[#141417] rounded-md shadow-lg border border-gray-100 dark:border-white/5 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
               <div className="h-48 overflow-hidden bg-gray-100 dark:bg-white/10">
                 <img
                   src={formData.image || 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
@@ -557,7 +551,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-md p-6 border border-gray-200 dark:border-white/10">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white">Premium Content</h3>
@@ -566,7 +560,7 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
               <button
                 type="button"
                 onClick={() => setFormData(prev => ({ ...prev, isPremium: !prev.isPremium }))}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${formData.isPremium ? 'bg-amber-600' : 'bg-gray-200 dark:bg-white/10'
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${formData.isPremium ? 'bg-amber-700' : 'bg-gray-200 dark:bg-white/10'
                   }`}
               >
                 <span
@@ -577,27 +571,27 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200 dark:border-white/10">
+          <div className="flex justify-end space-x-3 pt-6 border-t border-gray-300 dark:border-white/15">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300"
+              className="px-6 py-3 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-600 hover:to-amber-700 rounded-xl transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors flex items-center space-x-2 disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                   <span>Saving...</span>
                 </>
               ) : (
                 <>
-                  <Save className="h-5 w-5" />
+                  <Save className="h-4 w-4" />
                   <span>Save Post</span>
                 </>
               )}

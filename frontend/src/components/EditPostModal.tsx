@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Upload, Trash2, Edit, Share2 } from 'lucide-react';
+import { X, Upload, Trash2, Edit, Share2, User as UserIcon } from 'lucide-react';
 import { blogAPI } from '../services/api';
 
 interface EditPostModalProps {
@@ -216,37 +216,28 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 p-8 border-b border-amber-200 dark:border-amber-900/30 rounded-t-2xl">
+      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-300 dark:border-white/15">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-                <Edit className="h-6 w-6 text-white" />
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-amber-700 rounded-md flex items-center justify-center">
+                <Edit className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Edit Post</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">Update your blog post content and settings</p>
+                <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Edit Post</h2>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Update your blog post content and settings</p>
                 {post && (
-                  <div className="flex items-center space-x-6 mt-3">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">👁️ {post.views || 0} views</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">❤️ {post.likes || 0} likes</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">💬 {post.comments || 0} comments</span>
-                    </div>
+                  <div className="flex items-center gap-4 mt-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500">
+                    <span>{post.views || 0} Views</span>
+                    <span>{post.likes || 0} Likes</span>
+                    <span>{post.comments || 0} Comments</span>
                   </div>
                 )}
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-3 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-white dark:hover:bg-white/10 rounded-xl transition-all duration-200 hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20"
+              className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md transition-colors border border-gray-300 dark:border-white/15"
             >
               <X className="h-5 w-5" />
             </button>
@@ -256,7 +247,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
         <form onSubmit={handleSubmit} className="p-8 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="title" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label htmlFor="title" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Title *
               </label>
               <input
@@ -272,39 +263,33 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
 
             <div>
-              <label htmlFor="author" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
-                Author *
+              <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
+                Author
               </label>
-              <input
-                type="text"
-                id="author"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
-                placeholder="Author name"
-              />
+              <div className="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-md flex items-center gap-2 text-gray-700 dark:text-gray-200 font-medium">
+                <UserIcon className="h-4 w-4 text-gray-400" />
+                {formData.author || 'Unknown'}
+              </div>
             </div>
           </div>
 
           {/* Slug Preview */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Generated Slug
             </label>
-            <div className="px-4 py-3 bg-gradient-to-r from-gray-50 to-gray-100 border-2 border-gray-200 dark:border-white/10 rounded-xl text-sm font-semibold text-gray-700 dark:text-gray-200">
+            <div className="px-4 py-3 bg-gray-50 dark:bg-white/5 border-2 border-gray-200 dark:border-white/10 rounded-md text-sm font-semibold text-gray-700 dark:text-gray-200">
               {formData.title ? generateSlug(formData.title) : 'Enter title to generate slug'}
             </div>
             {post && formData.title && generateSlug(formData.title) !== post.slug && (
-              <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl">
+              <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 rounded-md">
                 <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-6 h-6 bg-amber-600 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                     <span className="text-white text-xs font-bold">!</span>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-yellow-800 mb-1">URL Change Warning</p>
-                    <p className="text-sm text-yellow-700">
+                    <p className="text-sm font-semibold text-amber-800 dark:text-amber-400 mb-1">URL Change Warning</p>
+                    <p className="text-sm text-amber-700 dark:text-amber-500/90">
                       Changing the title will change the post URL. The old URL will no longer work and statistics (views, likes, comments) will be preserved.
                     </p>
                   </div>
@@ -314,7 +299,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           </div>
 
           <div>
-            <label htmlFor="subtitle" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label htmlFor="subtitle" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Subtitle (Optional)
             </label>
             <input
@@ -329,7 +314,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           </div>
 
           <div>
-            <label htmlFor="excerpt" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label htmlFor="excerpt" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Excerpt *
             </label>
             <textarea
@@ -345,7 +330,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           </div>
 
           <div>
-            <label htmlFor="content" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label htmlFor="content" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Content *
             </label>
             <textarea
@@ -362,7 +347,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <label htmlFor="readTime" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label htmlFor="readTime" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Read Time
               </label>
               <input
@@ -377,7 +362,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
 
             <div>
-              <label htmlFor="date" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label htmlFor="date" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Publication Date
               </label>
               <input
@@ -392,7 +377,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
 
             <div>
-              <label htmlFor="image" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label htmlFor="image" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Image URL
               </label>
               <input
@@ -409,7 +394,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label htmlFor="status" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label htmlFor="status" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Status
               </label>
               <select
@@ -426,7 +411,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
 
             <div>
-              <label htmlFor="category" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label htmlFor="category" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Category
               </label>
               <select
@@ -448,7 +433,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Tags (comma-separated)
             </label>
             <input
@@ -464,7 +449,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           {/* SEO Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 SEO Title
               </label>
               <input
@@ -477,10 +462,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Featured Post
               </label>
-              <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 dark:border-white/10">
+              <div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-white/5 rounded-md border border-gray-200 dark:border-white/10">
                 <input
                   type="checkbox"
                   name="isFeatured"
@@ -497,7 +482,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           {/* SEO Description */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               SEO Description
             </label>
             <textarea
@@ -512,7 +497,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
           {/* Image Upload Section */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+            <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
               Or Upload Image
             </label>
             <div className="flex items-center space-x-4">
@@ -520,7 +505,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 type="button"
                 onClick={handleUploadClick}
                 disabled={isUploading}
-                className="flex items-center space-x-3 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl hover:bg-gray-50 dark:hover:bg-white/10 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md transition-all duration-200"
+                className="flex items-center space-x-3 px-6 py-3 border-2 border-gray-200 dark:border-white/10 rounded-md hover:bg-gray-50 dark:hover:bg-white/10 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 disabled:opacity-50 bg-white dark:bg-[#141417] hover:shadow-md transition-all duration-200"
               >
                 <Upload className="h-5 w-5" />
                 <span className="font-semibold">{isUploading ? 'Uploading...' : 'Upload Image'}</span>
@@ -529,7 +514,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 <button
                   type="button"
                   onClick={removeUploadedImage}
-                  className="flex items-center space-x-3 px-6 py-3 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 rounded-xl transition-all duration-200 border border-red-200 hover:border-red-300"
+                  className="flex items-center space-x-3 px-6 py-3 text-red-600 hover:text-red-800 bg-red-50 hover:bg-red-100 rounded-md transition-all duration-200 border border-red-200 hover:border-red-300"
                 >
                   <Trash2 className="h-5 w-5" />
                   <span className="font-semibold">Remove</span>
@@ -544,11 +529,11 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               className="hidden"
             />
             {uploadedImageUrl && (
-              <div className="mt-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 dark:border-white/10">
+              <div className="mt-6 bg-gray-50 dark:bg-white/5 rounded-md p-4 border border-gray-200 dark:border-white/10">
                 <img
                   src={uploadedImageUrl}
                   alt="Uploaded preview"
-                  className="w-40 h-40 object-cover rounded-xl border-2 border-white shadow-lg"
+                  className="w-40 h-40 object-cover rounded-md border-2 border-white shadow-lg"
                 />
               </div>
             )}
@@ -557,20 +542,20 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           {/* Current Image Preview */}
           {formData.image && !uploadedImageUrl && (
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+              <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                 Current Image
               </label>
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200 dark:border-white/10">
+              <div className="bg-gray-50 dark:bg-white/5 rounded-md p-4 border border-gray-200 dark:border-white/10">
                 <img
                   src={formData.image}
                   alt="Current post image"
-                  className="w-40 h-40 object-cover rounded-xl border-2 border-white shadow-lg"
+                  className="w-40 h-40 object-cover rounded-md border-2 border-white shadow-lg"
                 />
               </div>
             </div>
           )}
 
-          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 mt-8 mb-8">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-md p-6 border border-gray-200 dark:border-white/10 mt-8 mb-8">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white">Schedule Post</h3>
@@ -592,7 +577,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             {isScheduled && (
               <div className="space-y-4 animate-fadeIn">
                 <div className="pt-4 border-t border-gray-200 dark:border-white/10">
-                  <label htmlFor="publishedAt" className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">
+                  <label htmlFor="publishedAt" className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                     Publication Date & Time *
                   </label>
                   <input
@@ -602,7 +587,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                     value={formData.publishedAt}
                     onChange={handleChange}
                     required={isScheduled}
-                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-white dark:bg-[#141417] hover:border-gray-300"
+                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-white/10 rounded-md focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200 bg-white dark:bg-[#141417] hover:border-gray-300"
                   />
                 </div>
 
@@ -623,7 +608,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
           </div>
 
           {/* Social Preview Section */}
-          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 mb-8">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-md p-6 border border-gray-200 dark:border-white/10 mb-8">
             <div className="mb-6">
               <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center space-x-2">
                 <Share2 className="h-4 w-4 text-amber-700" />
@@ -632,7 +617,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               <p className="text-sm text-gray-500 dark:text-gray-400">How your post will look when shared on WhatsApp & Facebook</p>
             </div>
 
-            <div className="max-w-sm mx-auto bg-white dark:bg-[#141417] rounded-xl shadow-lg border border-gray-100 dark:border-white/5 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
+            <div className="max-w-sm mx-auto bg-white dark:bg-[#141417] rounded-md shadow-lg border border-gray-100 dark:border-white/5 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
               <div className="h-48 overflow-hidden bg-gray-100 dark:bg-white/10">
                 <img
                   src={formData.image || 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
@@ -652,7 +637,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-6 border border-gray-200 dark:border-white/10 mt-8 mb-8">
+          <div className="bg-gray-50 dark:bg-white/5 rounded-md p-6 border border-gray-200 dark:border-white/10 mt-8 mb-8">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white">Premium Content</h3>
@@ -672,27 +657,27 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
             </div>
           </div>
 
-          <div className="flex justify-end space-x-4 pt-8 border-t border-gray-200 dark:border-white/10">
+          <div className="flex justify-end space-x-3 pt-6 border-t border-gray-300 dark:border-white/15">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 rounded-xl transition-all duration-200 font-semibold hover:shadow-md border border-gray-200 dark:border-white/10 hover:border-gray-300"
+              className="px-6 py-3 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-700 text-white hover:from-amber-700 hover:to-amber-800 rounded-xl transition-all duration-200 flex items-center space-x-3 disabled:opacity-50 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors flex items-center space-x-2 disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                   <span>Updating...</span>
                 </>
               ) : (
                 <>
-                  <Edit className="h-5 w-5" />
+                  <Edit className="h-4 w-4" />
                   <span>Update Post</span>
                 </>
               )}
