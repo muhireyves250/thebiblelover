@@ -16,6 +16,10 @@ model User {
   isActive     Boolean    @default(true)
   lastLogin    DateTime?
   profileImage String?
+  // Short self-written intro shown on their public author profile
+  // (/author/:id) - only meaningful for ADMIN/PASTOR, who are the only
+  // roles with a public profile at all.
+  bio          String?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   blogPosts    BlogPost[]

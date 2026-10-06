@@ -230,14 +230,17 @@ router.patch('/preferences', verifyToken, async (req, res) => {
 router.patch('/profile', verifyToken, async (req, res) => {
     try {
         const userId = req.user.id;
-        const { name, profileImage } = req.body;
+        const { name, profileImage, bio } = req.body;
         console.log(`[User] Updating profile for ${userId}: name=${name}, img=${profileImage?.substring(0, 50)}...`);
 
         const user = await prisma.user.update({
             where: { id: userId },
             data: {
                 name,
-                profileImage
+                profileImage,
+                // A blank string should clear the bio, not leave it
+                // untouched the way undefined does, so check explicitly.
+                ...(bio !== undefined ? { bio: bio || null } : {})
             }
         });
 
@@ -250,6 +253,7 @@ router.patch('/profile', verifyToken, async (req, res) => {
                 name: user.name,
                 email: user.email,
                 profileImage: user.profileImage,
+                bio: user.bio,
                 role: user.role
             }
         });

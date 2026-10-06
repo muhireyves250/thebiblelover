@@ -83,7 +83,7 @@ const Search = () => {
                 </div>
             </section>
 
-            <div className="max-w-7xl mx-auto px-4 pb-24 relative z-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 relative z-10">
                 {!query ? (
                     /* History & Discovery Mode */
                     <div className="space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-700">

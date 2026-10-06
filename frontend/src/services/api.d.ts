@@ -162,7 +162,7 @@ export interface BlogAPI {
   approveComment: (commentId: string) => Promise<ApiResponse>;
   deleteCommentAdmin: (commentId: string) => Promise<ApiResponse>;
   getAuthor: (id: string, params?: any) => Promise<ApiResponse<{
-    author: { id: string; name: string; profileImage?: string; role: string };
+    author: { id: string; name: string; profileImage?: string; role: string; bio?: string };
     posts: BlogPost[];
     pagination: any;
   }>>;
@@ -292,7 +292,7 @@ export interface UserAPI {
   saveVerse: (verseId: string) => Promise<ApiResponse>;
   removeSavedVerse: (verseId: string) => Promise<ApiResponse>;
   updatePreferences: (preferences: { receiveNewsletter?: boolean; receivePrayerAlerts?: boolean }) => Promise<ApiResponse>;
-  updateProfile: (data: { name?: string; profileImage?: string }) => Promise<ApiResponse>;
+  updateProfile: (data: { name?: string; profileImage?: string; bio?: string }) => Promise<ApiResponse>;
   adminGetAll: () => Promise<ApiResponse<{ users: any[] }>>;
   adminUpdateRole: (id: string, role: string) => Promise<ApiResponse<any>>;
   adminDelete: (id: string) => Promise<ApiResponse<void>>;

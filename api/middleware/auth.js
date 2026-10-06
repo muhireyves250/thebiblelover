@@ -31,6 +31,7 @@ export const verifyToken = async (req, res, next) => {
         isActive: true,
         lastLogin: true,
         profileImage: true,
+        bio: true,
         createdAt: true,
         updatedAt: true,
         pastorRequestStatus: true

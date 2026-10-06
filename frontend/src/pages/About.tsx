@@ -26,7 +26,7 @@ const About = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-white dark:bg-transparent animate-pulse">
-        <div className="md:hidden max-w-7xl mx-auto px-4 pt-3">
+        <div className="md:hidden max-w-7xl mx-auto px-4 sm:px-6 pt-3">
           <div className="h-3 w-16 bg-gray-100 dark:bg-white/10 rounded-sm mb-2" />
           <div className="h-7 w-40 bg-gray-100 dark:bg-white/10 rounded-md" />
         </div>
@@ -46,7 +46,7 @@ const About = () => {
         description="Discover the story and mission of The Bible Lover. Our goal is to provide a spiritual home for everyone seeking wisdom through the Holy Scriptures."
       />
 
-      <div className="md:hidden max-w-7xl mx-auto px-4 pt-3">
+      <div className="md:hidden max-w-7xl mx-auto px-4 sm:px-6 pt-3">
         <div className="flex items-center gap-2 mb-1.5">
           <span className="w-1 h-4 bg-amber-700 rounded-sm" />
           <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">About</AutoText>

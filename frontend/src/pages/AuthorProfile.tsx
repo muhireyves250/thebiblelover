@@ -11,6 +11,7 @@ interface AuthorData {
   name: string;
   profileImage?: string;
   role: string;
+  bio?: string;
 }
 
 const ROLE_LABEL: Record<string, { label: string; icon: React.ElementType }> = {
@@ -85,23 +86,30 @@ const AuthorProfile: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8">
         <SEO title={author.name} description={`Posts written by ${author.name} on The Bible Lover.`} />
 
-        <div className="flex items-center gap-4 mb-6 md:mb-10 pb-6 md:pb-8 border-b border-gray-200 dark:border-white/10">
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-amber-100 dark:bg-amber-900/20 overflow-hidden flex items-center justify-center shrink-0">
-            {author.profileImage ? (
-              <img src={author.profileImage} alt={author.name} className="w-full h-full object-cover" />
-            ) : (
-              <UserIcon className="w-8 h-8 md:w-9 md:h-9 text-amber-700" />
-            )}
+        <div className="mb-6 md:mb-10 pb-6 md:pb-8 border-b border-gray-200 dark:border-white/10">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-amber-100 dark:bg-amber-900/20 overflow-hidden flex items-center justify-center shrink-0">
+              {author.profileImage ? (
+                <img src={author.profileImage} alt={author.name} className="w-full h-full object-cover" />
+              ) : (
+                <UserIcon className="w-8 h-8 md:w-9 md:h-9 text-amber-700" />
+              )}
+            </div>
+            <div>
+              <h1 className="text-xl md:text-3xl font-black uppercase tracking-tight text-gray-900 dark:text-white">{author.name}</h1>
+              {roleInfo && (
+                <span className="inline-flex items-center gap-1.5 mt-1.5 px-3 py-1 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-[10px] font-black rounded-md uppercase tracking-widest border border-amber-200 dark:border-amber-800">
+                  {RoleIcon && <RoleIcon className="h-3.5 w-3.5" />}
+                  {roleInfo.label}
+                </span>
+              )}
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl md:text-3xl font-black uppercase tracking-tight text-gray-900 dark:text-white">{author.name}</h1>
-            {roleInfo && (
-              <span className="inline-flex items-center gap-1.5 mt-1.5 px-3 py-1 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-[10px] font-black rounded-md uppercase tracking-widest border border-amber-200 dark:border-amber-800">
-                {RoleIcon && <RoleIcon className="h-3.5 w-3.5" />}
-                {roleInfo.label}
-              </span>
-            )}
-          </div>
+          {author.bio && (
+            <p className="mt-4 md:mt-6 text-sm md:text-base text-gray-700 dark:text-gray-200 leading-relaxed max-w-2xl">
+              {author.bio}
+            </p>
+          )}
         </div>
 
         <AutoText as="h2" className="text-sm tracking-widest uppercase text-gray-500 dark:text-gray-400 mb-3 md:mb-8">

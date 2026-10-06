@@ -62,7 +62,7 @@ const Home = () => {
         <NewsletterSubscribe />
       </SlideUpSection>
 
-      <SlideUpSection className="mt-4 md:mt-6 max-w-7xl mx-auto md:px-6 lg:px-8 snap-section">
+      <SlideUpSection className="mt-4 md:mt-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 snap-section">
         <InstallAppButton />
       </SlideUpSection>
 

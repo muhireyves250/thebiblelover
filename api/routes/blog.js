@@ -136,7 +136,7 @@ router.get('/authors/:id', async (req, res, next) => {
 
     const author = await prisma.user.findUnique({
       where: { id },
-      select: { id: true, name: true, profileImage: true, role: true }
+      select: { id: true, name: true, profileImage: true, role: true, bio: true }
     });
 
     if (!author || !['ADMIN', 'PASTOR'].includes(author.role)) {

@@ -185,7 +185,7 @@ const Dashboard = () => {
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState(false);
   const [isFooterModalOpen, setIsFooterModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [profileForm, setProfileForm] = useState({ name: '', profileImage: '' });
+  const [profileForm, setProfileForm] = useState({ name: '', profileImage: '', bio: '' });
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [isUploadingProfileImage, setIsUploadingProfileImage] = useState(false);
   const profileFileInputRef = useRef<HTMLInputElement>(null);
@@ -246,7 +246,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (user) {
-      setProfileForm({ name: user.name || '', profileImage: user.profileImage || '' });
+      setProfileForm({ name: user.name || '', profileImage: user.profileImage || '', bio: user.bio || '' });
     }
   }, [user]);
 
@@ -1920,7 +1920,7 @@ const Dashboard = () => {
           <div className="relative w-full max-w-md bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-2xl overflow-hidden">
             <div className="p-8">
               <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-1">Edit Profile</h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Update your name and profile photo.</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Update your name, photo, and public bio.</p>
 
               <form onSubmit={handleUpdateProfile} className="space-y-5">
                 <div>
@@ -1969,6 +1969,21 @@ const Dashboard = () => {
                       </button>
                     </div>
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
+                    Bio <span className="text-gray-300 dark:text-gray-600">(shown on your public profile)</span>
+                  </label>
+                  <textarea
+                    value={profileForm.bio}
+                    onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
+                    rows={3}
+                    maxLength={300}
+                    placeholder="A few sentences introducing yourself..."
+                    className="w-full bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/15 rounded-md px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-amber-700 transition-colors font-medium resize-none"
+                  />
+                  <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1.5">{profileForm.bio.length}/300</p>
                 </div>
 
                 <div className="pt-2 flex gap-3">
