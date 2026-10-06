@@ -89,7 +89,7 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
                     <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-widest">Community Prayers</h3>
                 </div>
 
-                <div className="p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-24rem)]">
+                <div className="p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-20rem)]">
                     <AnimatePresence initial={false}>
                         {requests.slice(0, showAll ? requests.length : 5).map((request) => (
                             <motion.div
