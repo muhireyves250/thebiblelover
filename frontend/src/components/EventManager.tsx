@@ -26,8 +26,8 @@ const EventManager: React.FC<EventManagerProps> = ({ events, onAdd, onEdit, onDe
     const pastEvents = events.filter(e => new Date(e.date) < new Date()).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="h-full flex flex-col space-y-6">
+            <div className="shrink-0 flex items-center justify-between flex-wrap gap-3">
                 <div>
                     <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Events</h2>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-widest font-bold">Manage gatherings & community events</p>
@@ -41,15 +41,15 @@ const EventManager: React.FC<EventManagerProps> = ({ events, onAdd, onEdit, onDe
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Upcoming */}
-                <div className="space-y-3">
-                    <div className="flex items-center gap-2 px-1">
+                <div className="flex flex-col min-h-0 space-y-3">
+                    <div className="shrink-0 flex items-center gap-2 px-1">
                         <Clock className="w-4 h-4 text-emerald-600" />
                         <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Upcoming</h3>
                     </div>
 
-                    <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3">
+                    <div className="flex-1 min-h-0 overflow-y-auto bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3">
                         {upcomingEvents.map(event => (
                             <EventItem key={event.id} event={event} onEdit={() => onEdit(event)} onDelete={() => onDelete(event.id)} />
                         ))}
@@ -60,13 +60,13 @@ const EventManager: React.FC<EventManagerProps> = ({ events, onAdd, onEdit, onDe
                 </div>
 
                 {/* Past */}
-                <div className="space-y-3">
-                    <div className="flex items-center gap-2 px-1">
+                <div className="flex flex-col min-h-0 space-y-3">
+                    <div className="shrink-0 flex items-center gap-2 px-1">
                         <Calendar className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                         <h3 className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Past Events</h3>
                     </div>
 
-                    <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3 opacity-75">
+                    <div className="flex-1 min-h-0 overflow-y-auto bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3 space-y-3 opacity-75">
                         {pastEvents.map(event => (
                             <EventItem key={event.id} event={event} onEdit={() => onEdit(event)} onDelete={() => onDelete(event.id)} isPast />
                         ))}

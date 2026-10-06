@@ -47,9 +47,9 @@ const AudioEpisodeManager: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="h-full flex flex-col space-y-4">
       {/* Header */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
+      <div className="shrink-0 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div>
             <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white">Morning/Evening Episodes</h3>
@@ -66,7 +66,7 @@ const AudioEpisodeManager: React.FC = () => {
       </div>
 
       {/* Episodes List */}
-      <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
+      <div className="flex-1 min-h-0 overflow-y-auto bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
         {loading ? (
           <div className="space-y-3 animate-pulse">
             {[1, 2, 3, 4].map(i => (
@@ -147,7 +147,7 @@ const AudioEpisodeManager: React.FC = () => {
       </div>
 
       {isAdmin && (
-        <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
+        <div className="shrink-0 max-h-[40vh] overflow-y-auto bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
           <AudioCommentsManager />
         </div>
       )}

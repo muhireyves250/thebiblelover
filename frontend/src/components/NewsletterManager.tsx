@@ -49,15 +49,15 @@ const NewsletterManager = () => {
     const inactiveCount = subscribers.length - activeCount;
 
     return (
-        <div className="space-y-4">
+        <div className="h-full flex flex-col space-y-4">
             {/* Header */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
+            <div className="shrink-0 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
                 <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white">Newsletter</h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400">People who have subscribed for updates from your site</p>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="shrink-0 grid grid-cols-3 gap-3">
                 {[
                     { label: 'Total', value: subscribers.length },
                     { label: 'Active', value: activeCount },
@@ -71,7 +71,7 @@ const NewsletterManager = () => {
             </div>
 
             {/* Subscribers List */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
+            <div className="flex-1 min-h-0 overflow-y-auto bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-3">
                 {loading ? (
                     <div className="space-y-3 animate-pulse">
                         {[1, 2, 3].map(i => (

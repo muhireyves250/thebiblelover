@@ -32,8 +32,8 @@ interface UserManagerProps {
 
 const UserManager: React.FC<UserManagerProps> = ({ users, onUpdateRole, onDelete, onPastorRequest }) => {
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="h-full flex flex-col space-y-6">
+            <div className="shrink-0 flex items-center justify-between flex-wrap gap-3">
                 <div>
                     <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Users</h2>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-widest font-bold">Manage registered accounts</p>
@@ -51,7 +51,7 @@ const UserManager: React.FC<UserManagerProps> = ({ users, onUpdateRole, onDelete
                     <p className="text-sm font-bold text-gray-700 dark:text-gray-200">No users yet</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="flex-1 min-h-0 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 content-start">
                     {users.map((user, idx) => (
                         <motion.div
                             key={user.id}
