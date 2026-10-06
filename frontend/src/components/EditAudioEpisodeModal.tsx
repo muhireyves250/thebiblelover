@@ -65,32 +65,32 @@ const EditAudioEpisodeModal: React.FC<EditAudioEpisodeModalProps> = ({ isOpen, e
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-[#141417] rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Edit Episode</h2>
-          <button onClick={onClose} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300">
+      <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6">
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-300 dark:border-white/15">
+          <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Edit Episode</h2>
+          <button onClick={onClose} className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md transition-colors border border-gray-300 dark:border-white/15">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Title</label>
+            <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Description</label>
+            <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Description</label>
             <textarea
               rows={4}
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
             />
           </div>
 
@@ -106,28 +106,28 @@ const EditAudioEpisodeModal: React.FC<EditAudioEpisodeModalProps> = ({ isOpen, e
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Slot</label>
+              <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Slot</label>
               <select
                 value={formData.slot}
                 onChange={(e) => setFormData({ ...formData, slot: e.target.value as 'MORNING' | 'EVENING' })}
-                className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
               >
                 <option value="MORNING">Morning</option>
                 <option value="EVENING">Evening</option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-1">Date</label>
+              <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">Date</label>
               <input
                 type="date"
                 value={formData.episodeDate}
                 onChange={(e) => setFormData({ ...formData, episodeDate: e.target.value })}
-                className="w-full px-4 py-2.5 border-2 border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-white/5 border border-gray-300 dark:border-white/10 rounded-md">
             <label className="text-sm font-bold text-gray-700 dark:text-gray-200">Published</label>
             <button
               type="button"
@@ -138,16 +138,16 @@ const EditAudioEpisodeModal: React.FC<EditAudioEpisodeModalProps> = ({ isOpen, e
             </button>
           </div>
 
-          {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+          {error && <p className="text-sm font-bold text-red-600 dark:text-red-400">{error}</p>}
 
-          <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={onClose} className="px-5 py-2.5 rounded-lg text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-white/10">
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-300 dark:border-white/15">
+            <button type="button" onClick={onClose} className="px-6 py-3 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors">
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2.5 rounded-lg bg-amber-700 text-white font-bold hover:bg-amber-800 disabled:opacity-50"
+              className="px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors disabled:opacity-50"
             >
               {isSubmitting ? 'Saving...' : 'Save Changes'}
             </button>

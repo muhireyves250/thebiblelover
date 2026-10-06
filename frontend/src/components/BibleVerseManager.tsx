@@ -303,20 +303,20 @@ const BibleVerseManager = () => {
       {/* Add/Edit Modal */}
       {(showAddModal || editingVerse) && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">
+          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <h3 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-4">
               {editingVerse ? 'Edit Bible Verse' : 'Add New Bible Verse'}
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                   Bible Verse Text *
                 </label>
                 <textarea
                   value={formData.text}
                   onChange={(e) => setFormData({ ...formData, text: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                   rows={4}
                   placeholder="Enter the Bible verse text..."
                   required
@@ -325,40 +325,40 @@ const BibleVerseManager = () => {
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                  <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                     Book *
                   </label>
                   <input
                     type="text"
                     value={formData.book}
                     onChange={(e) => setFormData({ ...formData, book: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                     placeholder="e.g., John"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                  <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                     Chapter *
                   </label>
                   <input
                     type="number"
                     value={formData.chapter}
                     onChange={(e) => setFormData({ ...formData, chapter: parseInt(e.target.value) || 1 })}
-                    className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                     min="1"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                  <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                     Verse *
                   </label>
                   <input
                     type="number"
                     value={formData.verse}
                     onChange={(e) => setFormData({ ...formData, verse: parseInt(e.target.value) || 1 })}
-                    className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                     min="1"
                     required
                   />
@@ -366,13 +366,13 @@ const BibleVerseManager = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2">
+                <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
                   Translation
                 </label>
                 <select
                   value={formData.translation}
                   onChange={(e) => setFormData({ ...formData, translation: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-400 dark:border-white/20 bg-white dark:bg-white/5 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-white/10 bg-white dark:bg-[#141417] text-gray-900 dark:text-white rounded-md focus:outline-none focus:border-amber-600 transition-colors"
                 >
                   <option value="NIV">NIV</option>
                   <option value="ESV">ESV</option>
@@ -397,22 +397,22 @@ const BibleVerseManager = () => {
                     type="checkbox"
                     checked={formData.isActive}
                     onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                    className="mr-2 accent-amber-700"
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-amber-700 focus:ring-amber-600"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-200">Active</span>
+                  <span className="text-sm font-bold text-gray-700 dark:text-gray-200">Active</span>
                 </label>
                 <label className="flex items-center">
                   <input
                     type="checkbox"
                     checked={formData.isFeatured}
                     onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
-                    className="mr-2 accent-amber-700"
+                    className="mr-2 h-4 w-4 rounded border-gray-300 text-amber-700 focus:ring-amber-600"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-200">Featured</span>
+                  <span className="text-sm font-bold text-gray-700 dark:text-gray-200">Featured</span>
                 </label>
               </div>
 
-              <div className="flex justify-end gap-3 pt-4">
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-300 dark:border-white/15">
                 <button
                   type="button"
                   onClick={() => {
@@ -429,13 +429,13 @@ const BibleVerseManager = () => {
                       isFeatured: false
                     });
                   }}
-                  className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-colors font-semibold"
+                  className="px-6 py-3 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors font-bold"
+                  className="px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
                 >
                   {editingVerse ? 'Update Verse' : 'Add Verse'}
                 </button>
@@ -448,21 +448,21 @@ const BibleVerseManager = () => {
       {/* Delete Confirmation */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-base font-black uppercase tracking-tight text-gray-900 dark:text-white mb-3">Delete Bible Verse</h3>
+          <div className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-2xl p-6 max-w-md w-full">
+            <h3 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-3">Delete Bible Verse</h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
               Are you sure you want to delete this Bible verse? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setDeleteConfirm(null)}
-                className="px-4 py-2 text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-white/10 rounded-lg hover:bg-gray-200 dark:hover:bg-white/20 transition-colors font-semibold"
+                className="px-6 py-3 border border-gray-300 dark:border-white/15 bg-white dark:bg-[#141417] text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDelete(deleteConfirm)}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-bold"
+                className="px-6 py-3 bg-red-600 text-white hover:bg-red-700 rounded-md font-black uppercase tracking-widest text-xs transition-colors"
               >
                 Delete
               </button>

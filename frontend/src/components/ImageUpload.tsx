@@ -102,16 +102,16 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+      <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-0.5">
         Image Upload
       </label>
-      
+
       {value ? (
         <div className="relative">
           <img
             src={`${value}?t=${Date.now()}`}
             alt="Uploaded image"
-            className="w-full h-32 object-cover rounded-md border"
+            className="w-full h-32 object-cover rounded-md border border-gray-300 dark:border-white/10"
             crossOrigin="anonymous"
             onError={(e) => {
               console.error('Image load error:', e);
@@ -122,17 +122,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             type="button"
             onClick={handleRemoveImage}
             disabled={disabled}
-            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+            className="absolute top-2 right-2 p-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
       ) : (
         <div
-          className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+          className={`relative border border-dashed rounded-md p-6 text-center cursor-pointer transition-colors ${
             dragActive
-              ? 'border-blue-400 bg-blue-50'
-              : 'border-gray-300 dark:border-white/10 hover:border-gray-400'
+              ? 'border-amber-500 bg-amber-50 dark:bg-amber-900/10'
+              : 'border-gray-300 dark:border-white/10 hover:border-amber-400'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
@@ -147,19 +147,19 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             className="hidden"
             disabled={disabled}
           />
-          
+
           {uploading ? (
             <div className="flex flex-col items-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-2"></div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Uploading...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700 mb-2"></div>
+              <p className="text-sm font-bold text-gray-600 dark:text-gray-300">Uploading...</p>
             </div>
           ) : (
             <div className="flex flex-col items-center">
               <Upload className="w-8 h-8 text-gray-400 dark:text-gray-500 mb-2" />
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                <span className="text-blue-600 font-medium">Click to upload</span> or drag and drop
+              <p className="text-sm font-bold text-gray-600 dark:text-gray-300">
+                <span className="text-amber-700">Click to upload</span> or drag and drop
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-1">
                 PNG, JPG, GIF up to 5MB
               </p>
             </div>
@@ -168,7 +168,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       )}
 
       {error && (
-        <div className="flex items-center space-x-2 text-red-600 text-sm">
+        <div className="flex items-center gap-2 text-red-600 dark:text-red-400 text-sm font-bold">
           <AlertCircle className="w-4 h-4" />
           <span>{error}</span>
         </div>

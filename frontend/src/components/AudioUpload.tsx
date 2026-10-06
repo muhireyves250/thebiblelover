@@ -120,7 +120,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Audio</label>
+      <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-0.5">Audio</label>
 
       <div className="flex gap-2 mb-2">
         <button
@@ -152,7 +152,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
             type="button"
             onClick={handleRemove}
             disabled={disabled}
-            className="p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+            className="p-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -161,7 +161,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
 
       {mode === 'upload' ? (
         <div
-          className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors border-gray-300 dark:border-white/10 hover:border-gray-400 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`relative border border-dashed rounded-md p-6 text-center cursor-pointer transition-colors border-gray-300 dark:border-white/10 hover:border-amber-400 ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
           onClick={disabled ? undefined : openFileDialog}
         >
           <input
@@ -175,24 +175,24 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
           {uploading ? (
             <div className="flex flex-col items-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700 mb-2"></div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Uploading...</p>
+              <p className="text-sm font-bold text-gray-600 dark:text-gray-300">Uploading...</p>
             </div>
           ) : (
             <div className="flex flex-col items-center">
               <Upload className="w-8 h-8 text-gray-400 dark:text-gray-500 mb-2" />
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                <span className="text-amber-700 font-medium">Click to upload</span> an audio file
+              <p className="text-sm font-bold text-gray-600 dark:text-gray-300">
+                <span className="text-amber-700">Click to upload</span> an audio file
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">MP3, WAV, OGG, M4A up to 50MB</p>
+              <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-1">MP3, WAV, OGG, M4A up to 50MB</p>
             </div>
           )}
         </div>
       ) : (
-        <div className="border-2 border-dashed border-gray-300 dark:border-white/10 rounded-lg p-6 text-center">
+        <div className="border border-dashed border-gray-300 dark:border-white/10 rounded-md p-6 text-center">
           {uploading ? (
             <div className="flex flex-col items-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700 mb-2"></div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Uploading recording...</p>
+              <p className="text-sm font-bold text-gray-600 dark:text-gray-300">Uploading recording...</p>
             </div>
           ) : (
             <button
@@ -211,7 +211,7 @@ const AudioUpload: React.FC<AudioUploadProps> = ({
       )}
 
       {error && (
-        <div className="flex items-center space-x-2 text-red-600 text-sm">
+        <div className="flex items-center gap-2 text-red-600 dark:text-red-400 text-sm font-bold">
           <AlertCircle className="w-4 h-4" />
           <span>{error}</span>
         </div>
