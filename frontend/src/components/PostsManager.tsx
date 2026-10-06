@@ -70,9 +70,9 @@ const PostsManager = ({
 
             {/* Posts Table */}
             <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-22rem)]">
                     <table className="w-full divide-y divide-gray-300 dark:divide-white/15">
-                        <thead className="bg-gray-50 dark:bg-white/5">
+                        <thead className="bg-gray-50 dark:bg-white/5 sticky top-0 z-10">
                             <tr>
                                 <th className="px-3 py-2 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Title</th>
                                 <th className="px-3 py-2 text-left text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest hidden md:table-cell">Author</th>
