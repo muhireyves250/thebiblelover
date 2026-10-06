@@ -18,17 +18,27 @@ const AboutDesk: React.FC = () => {
   ];
 
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     if (isHovering) return;
     const interval = setInterval(() => {
+      setDirection(1);
       setIndex(i => (i + 1) % panels.length);
     }, AUTO_ROTATE_MS);
     return () => clearInterval(interval);
   }, [isHovering, panels.length]);
 
-  const goTo = (i: number) => setIndex((i + panels.length) % panels.length);
+  const goTo = (i: number) => {
+    const target = (i + panels.length) % panels.length;
+    // Shortest-path direction so the slide always feels like it's moving
+    // toward the target, even across the wrap-around (last -> first etc).
+    const forwardDistance = (target - index + panels.length) % panels.length;
+    const backwardDistance = (index - target + panels.length) % panels.length;
+    setDirection(forwardDistance <= backwardDistance ? 1 : -1);
+    setIndex(target);
+  };
   const active = panels[index];
 
   // Mobile: swipe left/right to change panels (app-style), instead of
@@ -81,13 +91,14 @@ const AboutDesk: React.FC = () => {
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" custom={direction} initial={false}>
             <motion.div
               key={active.key}
-              initial={{ opacity: 0, x: 40 }}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 80 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
+              exit={{ opacity: 0, x: direction * -80 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-12 items-center p-4 md:p-10"
             >
               <div className="rounded-lg overflow-hidden border border-gray-200 dark:border-white/10">
