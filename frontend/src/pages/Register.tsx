@@ -79,8 +79,8 @@ const Register: React.FC = () => {
     }
 
     return (
-        <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-transparent flex items-center justify-center p-3 sm:p-4">
-            <div className="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden">
+        <div className="min-h-[75vh] md:min-h-screen bg-white dark:bg-transparent flex items-center justify-center p-2 sm:p-3">
+            <div className="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden">
                 {/* Left Side: Branding/Visual */}
                 <div className="hidden lg:block relative">
                     <img
@@ -102,28 +102,28 @@ const Register: React.FC = () => {
                 </div>
 
                 {/* Right Side: Form */}
-                <div className="p-4 sm:p-6 md:p-8">
-                    <div className="mb-3 sm:mb-4 text-center lg:text-left">
-                        <div className="hidden lg:flex items-center gap-2 mb-1.5">
+                <div className="p-3 sm:p-5 md:p-6">
+                    <div className="mb-2 sm:mb-3 text-center lg:text-left">
+                        <div className="hidden lg:flex items-center gap-2 mb-1">
                             <span className="w-1 h-4 bg-amber-700 rounded-sm" />
                             <AutoText as="span" className="text-xs font-black uppercase tracking-[0.2em] text-amber-700">Register</AutoText>
                         </div>
-                        <div className="lg:hidden flex items-center justify-center gap-2 mb-1">
+                        <div className="lg:hidden flex items-center justify-center gap-2 mb-0.5">
                             <span className="w-1 h-3.5 bg-amber-700 rounded-sm" />
                             <AutoText as="span" className="text-[10px] font-black uppercase tracking-[0.2em] text-amber-700">Register</AutoText>
                         </div>
-                        <AutoText as="h1" className="text-lg sm:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-0.5">Join the Family</AutoText>
+                        <AutoText as="h1" className="text-base sm:text-xl font-black uppercase tracking-tight text-gray-900 dark:text-white mb-0.5">Join the Family</AutoText>
                         <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Create your disciple profile today.</AutoText>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-2.5 sm:space-y-3">
+                    <form onSubmit={handleSubmit} className="space-y-2">
                         {error && (
                             <div className="p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-xs sm:text-sm animate-shake">
                                 {error}
                             </div>
                         )}
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <div className="relative group">
                                 <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500 transition-colors group-focus-within:text-amber-600" />
                                 <input
@@ -132,7 +132,7 @@ const Register: React.FC = () => {
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     required
-                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-1.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
@@ -144,7 +144,7 @@ const Register: React.FC = () => {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-1.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
@@ -156,7 +156,7 @@ const Register: React.FC = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-1.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
 
@@ -168,12 +168,12 @@ const Register: React.FC = () => {
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
-                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-2 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
+                                    className="w-full bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md py-1.5 pl-9 pr-3 text-sm focus:border-amber-600 focus:outline-none transition-colors"
                                 />
                             </div>
                         </div>
 
-                        <label className="flex items-start gap-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-md p-2.5 cursor-pointer">
+                        <label className="flex items-start gap-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-md p-2 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={requestPastorAccess}
@@ -189,7 +189,7 @@ const Register: React.FC = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full bg-amber-700 hover:bg-amber-800 text-white rounded-md py-2 sm:py-2.5 px-6 font-bold text-xs sm:text-sm uppercase tracking-widest transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                            className="w-full bg-amber-700 hover:bg-amber-800 text-white rounded-md py-1.5 sm:py-2 px-6 font-bold text-xs sm:text-sm uppercase tracking-widest transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                             {isLoading ? <AutoText as="span">Creating Profile...</AutoText> : (
                                 <>
@@ -199,14 +199,14 @@ const Register: React.FC = () => {
                         </button>
                     </form>
 
-                    <div className="mt-2.5 sm:mt-3 text-center bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-md p-2 sm:p-2.5">
+                    <div className="mt-2 text-center bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/5 rounded-md p-2">
                         <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                             <AutoText as="span">Already part of the family?</AutoText>{' '}
                             <Link to="/login" className="text-amber-700 font-bold hover:text-amber-800 transition-colors"><AutoText>Sign In</AutoText></Link>
                         </p>
                     </div>
 
-                    <div className="mt-2 sm:mt-3 flex justify-center items-center gap-4 text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest">
+                    <div className="mt-1.5 flex justify-center items-center gap-4 text-[10px] text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest">
                         <Link to="/terms" className="hover:text-amber-700 transition-colors"><AutoText>Terms</AutoText></Link>
                         <div className="w-1 h-1 bg-gray-200 dark:bg-white/10 rounded-full"></div>
                         <Link to="/privacy" className="hover:text-amber-700 transition-colors"><AutoText>Privacy</AutoText></Link>
