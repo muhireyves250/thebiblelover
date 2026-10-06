@@ -13,7 +13,7 @@ interface BackgroundSettings {
 }
 
 const defaultBackgroundSettings: BackgroundSettings = {
-  imageUrl: 'https://res.cloudinary.com/dbuuqmq1j/image/upload/v1789050662/images/site-hero-background.jpg',
+  imageUrl: '/images/hero.png',
   opacity: 0.4,
   overlayColor: '#000000',
   overlayOpacity: 0
