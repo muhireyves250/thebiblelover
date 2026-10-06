@@ -42,9 +42,9 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
     };
 
     return (
-        <div className="space-y-4">
+        <div className="h-full flex flex-col space-y-4">
             {/* Stats Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="shrink-0 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
@@ -81,15 +81,15 @@ const PrayerManager: React.FC<PrayerManagerProps> = ({
             </div>
 
             {/* List Container */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
-                <div className="px-5 py-3.5 border-b border-gray-300 dark:border-white/15 flex items-center gap-3">
+            <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="shrink-0 px-5 py-3.5 border-b border-gray-300 dark:border-white/15 flex items-center gap-3">
                     <div className="w-8 h-8 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center shrink-0">
                         <Sparkles className="w-4 h-4 text-amber-700" />
                     </div>
                     <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-widest">Community Prayers</h3>
                 </div>
 
-                <div className="p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-20rem)]">
+                <div className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3">
                     <AnimatePresence initial={false}>
                         {requests.slice(0, showAll ? requests.length : 5).map((request) => (
                             <motion.div
