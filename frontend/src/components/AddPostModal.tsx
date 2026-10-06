@@ -138,8 +138,8 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
         status: 'PUBLISHED',
         category: 'OTHER',
         tags: [],
-        seoTitle: formData.title,
-        seoDescription: formData.excerpt.trim(),
+        seoTitle: formData.title.slice(0, 60),
+        seoDescription: formData.excerpt.trim().slice(0, 160),
         isFeatured: false,
         isPremium: formData.isPremium
       };

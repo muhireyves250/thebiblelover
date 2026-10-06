@@ -184,8 +184,8 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
         status: formData.status,
         category: formData.category,
         tags: formData.tags ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [],
-        seoTitle: formData.seoTitle || null,
-        seoDescription: formData.seoDescription || null,
+        seoTitle: formData.seoTitle ? formData.seoTitle.slice(0, 60) : null,
+        seoDescription: formData.seoDescription ? formData.seoDescription.slice(0, 160) : null,
         isFeatured: formData.isFeatured,
         isPremium: formData.isPremium
       } as any;
@@ -458,8 +458,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
                 value={formData.seoTitle}
                 onChange={handleChange}
                 placeholder="SEO optimized title"
+                maxLength={60}
                 className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors"
               />
+              <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1.5">{formData.seoTitle.length}/60</p>
             </div>
             <div>
               <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2 ml-0.5">
@@ -491,8 +493,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
               onChange={handleChange}
               placeholder="SEO meta description"
               rows={3}
+              maxLength={160}
               className="w-full px-4 py-3 bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-md focus:outline-none focus:border-amber-600 transition-colors resize-none"
             />
+            <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1.5">{formData.seoDescription.length}/160</p>
           </div>
 
           {/* Image Upload Section */}
