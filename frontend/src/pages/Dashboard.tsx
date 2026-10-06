@@ -500,53 +500,75 @@ const Dashboard = () => {
     console.log('Token exists:', !!token, 'Token preview:', token ? token.substring(0, 20) + '...' : 'No token');
     console.log('User exists:', !!user, 'User:', user);
 
-    try {
-      // Test API connection first
-      console.log('Testing API connection...');
-
-      // Load blog posts from API
-      console.log('Loading blog posts...');
-      const postsResponse = await blogAPI.getAllPosts();
-      console.log('Posts response:', postsResponse);
-      const postsData = postsResponse.data?.posts || [];
-
-      // Comments/donations/messages are all admin-only endpoints a Pastor
-      // can't use (and never sees, since those tabs are hidden for them) -
-      // skip the requests entirely instead of letting them 403.
-      let allComments: any[] = [];
-      let donationsData: any[] = [];
-      let messagesData: any[] = [];
-      if (!isPastor) {
-        // Load comments from API (with fallback)
-        console.log('Loading comments...');
-        try {
-          const commentsResponse = await blogAPI.getAdminComments();
-          console.log('Comments response:', commentsResponse);
-          allComments = commentsResponse.data?.comments || [];
-        } catch (error: any) {
-          console.warn('Comments API failed, using empty array:', error.message);
-          console.log('This is likely a server route issue. The /api/blog/admin/comments endpoint may not be registered.');
-          allComments = [];
-        }
-
-        // Load donations from API (with fallback)
-        try {
-          const donationsResponse = await donationsAPI.getDonations();
-          donationsData = donationsResponse.data?.donations || [];
-        } catch (error: any) {
-          console.warn('Donations API failed, using empty array:', error.message);
-          donationsData = [];
-        }
-
-        // Load contact messages from API (with fallback)
-        try {
-          const messagesResponse = await contactAPI.getContacts();
-          messagesData = messagesResponse.data?.contacts || [];
-        } catch (error: any) {
-          console.warn('Contact messages API failed, using empty array:', error.message);
-          messagesData = [];
-        }
+    // Every call below is independent of every other - they were
+    // previously awaited one at a time, turning ~12 network round trips
+    // into a strictly sequential chain (the actual cause of the long
+    // load). Firing them all at once cuts total wait time down to
+    // whichever single call is slowest, instead of the sum of all of
+    // them. `safe()` preserves the old per-call fallback-on-failure
+    // behavior that the individual try/catch blocks used to provide.
+    const safe = async <T,>(promise: Promise<T>, fallback: T, label: string): Promise<T> => {
+      try {
+        return await promise;
+      } catch (error: any) {
+        console.warn(`${label} API failed:`, error?.message);
+        return fallback;
       }
+    };
+
+    try {
+      const [
+        postsResponse,
+        commentsResponse,
+        donationsResponse,
+        messagesResponse,
+        prayersRes,
+        eventsRes,
+        versesRes,
+        episodesRes,
+        subscribersRes,
+        usersRes,
+        blogStatsRes,
+        donationStatsRes,
+        platformStatsRes,
+        contactStatsRes
+      ] = await Promise.all([
+        safe(blogAPI.getAllPosts(), { success: false } as any, 'Posts'),
+        // Comments/donations/messages/prayers/events/users/stats are all
+        // admin-only endpoints a Pastor can't use (and never sees, since
+        // those tabs are hidden for them) - skip the requests entirely
+        // instead of letting them 403.
+        isPastor ? Promise.resolve({ success: false } as any) : safe(blogAPI.getAdminComments(), { success: false } as any, 'Comments'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(donationsAPI.getDonations(), { success: false } as any, 'Donations'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(contactAPI.getContacts(), { success: false } as any, 'Contact messages'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(prayerAPI.adminGetAll(), { success: false } as any, 'Prayers'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(eventAPI.getEvents(), { success: false } as any, 'Events'),
+        safe(bibleVersesAPI.getVerses({ includeInactive: true }), { success: false } as any, 'Bible verses'),
+        safe(audioEpisodesAPI.getAllEpisodes(), { success: false } as any, 'Audio episodes'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(newsletterAPI.getSubscribers(), { success: false } as any, 'Newsletter subscribers'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(userAPI.adminGetAll(), { success: false } as any, 'Users'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(blogAPI.getStats(), { success: false } as any, 'Blog stats'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(donationsAPI.getStats(), { success: false } as any, 'Donation stats'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(statsAPI.getPlatformSummary(), { success: false } as any, 'Platform stats'),
+        isPastor ? Promise.resolve({ success: false } as any) : safe(contactAPI.getStats(), { success: false } as any, 'Contact stats')
+      ]);
+
+      const postsData = postsResponse.data?.posts || [];
+      const allComments = commentsResponse.data?.comments || [];
+      const donationsData = donationsResponse.data?.donations || [];
+      const messagesData = messagesResponse.data?.contacts || [];
+      const prayersData = prayersRes.data?.requests || [];
+      const eventsData = eventsRes.data || [];
+
+      setVersesCount(versesRes.data?.verses?.length ?? 0);
+      setEpisodesCount(episodesRes.data?.episodes?.length ?? 0);
+      if (!isPastor) setSubscribersCount(subscribersRes.data?.subscribers?.length ?? 0);
+
+      const usersData = usersRes.data?.users || [];
+      const blogStats: any = blogStatsRes.success ? blogStatsRes.data : {};
+      const donationStats: any = donationStatsRes.success ? donationStatsRes.data : {};
+      const platformStats: any = platformStatsRes.success ? platformStatsRes.data : {};
+      const contactStats: any = contactStatsRes.success ? contactStatsRes.data : {};
 
       // Transform data to match component interfaces
       const transformedPosts: BlogPost[] = postsData.map((post: any) => ({
@@ -596,95 +618,13 @@ const Dashboard = () => {
         status: message.status || 'Pending'
       }));
 
-      // Load Prayers (admin-only, hidden for Pastors - see comments block above)
-      let prayersData: any[] = [];
-      if (!isPastor) {
-        try {
-          const res = await prayerAPI.adminGetAll();
-          prayersData = res.data?.requests || [];
-        } catch (err) { console.warn('Prayers API failed'); }
-      }
-
-      // Load Events (hidden for Pastors)
-      let eventsData: any[] = [];
-      if (!isPastor) {
-        try {
-          const res = await eventAPI.getEvents();
-          eventsData = res.data || [];
-        } catch (err) { console.warn('Events API failed'); }
-      }
-
-      // Load Bible Verses count
-      try {
-        const res = await bibleVersesAPI.getVerses({ includeInactive: true });
-        setVersesCount(res.data?.verses?.length ?? 0);
-      } catch (err) { console.warn('Bible verses API failed'); }
-
-      // Load Audio Episodes count
-      try {
-        const res = await audioEpisodesAPI.getAllEpisodes();
-        setEpisodesCount(res.data?.episodes?.length ?? 0);
-      } catch (err) { console.warn('Audio episodes API failed'); }
-
-      // Load Newsletter subscribers count (admin-only, hidden for Pastors)
-      if (!isPastor) {
-        try {
-          const res = await newsletterAPI.getSubscribers();
-          setSubscribersCount(res.data?.subscribers?.length ?? 0);
-        } catch (err) { console.warn('Newsletter subscribers API failed'); }
-      }
-
       setPosts(transformedPosts);
       setComments(transformedComments);
       setDonations(transformedDonations);
       setMessages(transformedMessages);
       setPrayers(prayersData);
       setEvents(eventsData);
-
-      // Load Users (admin-only, hidden for Pastors)
-      let usersData: any[] = [];
-      if (!isPastor) {
-        try {
-          const res = await userAPI.adminGetAll();
-          usersData = res.data?.users || [];
-        } catch (err) { console.warn('Users API failed'); }
-      }
       setAllUsers(usersData);
-
-      // Overview stats are hidden for Pastors - skip the admin-only calls
-      let blogStats: any = {};
-      let donationStats: any = {};
-      let platformStats: any = {};
-      let contactStats: any = {};
-      if (!isPastor) {
-        try {
-          const statsRes = await blogAPI.getStats();
-          if (statsRes.success) blogStats = statsRes.data;
-        } catch (err) {
-          console.warn('Blog stats API failed, using calculation fallback');
-        }
-
-        try {
-          const statsRes = await donationsAPI.getStats();
-          if (statsRes.success) donationStats = statsRes.data;
-        } catch (err) {
-          console.warn('Donation stats API failed');
-        }
-
-        try {
-          const statsRes = await statsAPI.getPlatformSummary();
-          if (statsRes.success) platformStats = statsRes.data;
-        } catch (err) {
-          console.warn('Platform stats API failed');
-        }
-
-        try {
-          const statsRes = await contactAPI.getStats();
-          if (statsRes.success) contactStats = statsRes.data;
-        } catch (err) {
-          console.warn('Contact stats API failed');
-        }
-      }
 
       setStats({
         totalPosts: blogStats.totalPosts || transformedPosts.length,
