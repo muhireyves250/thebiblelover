@@ -31,9 +31,9 @@ const PostsManager = ({
     const draftCount = posts.filter(p => p.status === 'DRAFT').length;
 
     return (
-        <div className="space-y-4">
+        <div className="h-full flex flex-col space-y-4">
             {/* Header */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
+            <div className="shrink-0 bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm p-4 md:p-5">
                 <div className="flex items-center justify-between gap-3 flex-wrap">
                     <div className="flex items-center gap-3">
                         <div className="w-9 h-9 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center">
@@ -55,7 +55,7 @@ const PostsManager = ({
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="shrink-0 grid grid-cols-3 gap-3">
                 {[
                     { label: 'Total', value: posts.length },
                     { label: 'Published', value: publishedCount },
@@ -69,8 +69,8 @@ const PostsManager = ({
             </div>
 
             {/* Posts Table */}
-            <div className="bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
-                <div className="overflow-x-auto overflow-y-auto max-h-[calc(100vh-22rem)]">
+            <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-[#141417] border border-gray-400 dark:border-white/20 rounded-lg shadow-sm overflow-hidden">
+                <div className="flex-1 min-h-0 overflow-x-auto overflow-y-auto">
                     <table className="w-full divide-y divide-gray-300 dark:divide-white/15">
                         <thead className="bg-gray-50 dark:bg-white/5 sticky top-0 z-10">
                             <tr>
