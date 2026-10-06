@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Upload, Trash2, Edit, Share2, User as UserIcon } from 'lucide-react';
-import { blogAPI } from '../services/api';
+import { blogAPI, uploadAPI } from '../services/api';
 
 interface EditPostModalProps {
   isOpen: boolean;
@@ -90,16 +90,21 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ isOpen, onClose, onSave, 
 
     setIsUploading(true);
     try {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result as string;
-        setUploadedImageUrl(result);
-        setFormData(prev => ({ ...prev, image: result }));
-        setIsUploading(false);
-      };
-      reader.readAsDataURL(file);
+      // Upload to the server instead of embedding the file as base64 - a
+      // multi-MB base64 string in the post payload was what made saving
+      // take so long.
+      const response = await uploadAPI.uploadImage(file);
+      if (response.success && response.data) {
+        const url = response.data.fullUrl || response.data.url;
+        setUploadedImageUrl(url);
+        setFormData(prev => ({ ...prev, image: url }));
+      } else {
+        alert(response.message || 'Error uploading image. Please try again.');
+      }
     } catch (error) {
       console.error('Error uploading file:', error);
+      alert('Error uploading image. Please try again.');
+    } finally {
       setIsUploading(false);
     }
   };

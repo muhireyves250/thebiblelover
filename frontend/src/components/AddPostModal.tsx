@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { X, Upload, Save, Image as ImageIcon, Share2, User as UserIcon } from 'lucide-react';
 import { cleanupOldStorage } from '../utils/storageManager';
-import { blogAPI } from '../services/api';
+import { blogAPI, uploadAPI } from '../services/api';
 import { useAuth } from '../hooks/useAPI';
 
 interface AddPostModalProps {
@@ -67,21 +67,21 @@ const AddPostModal: React.FC<AddPostModalProps> = ({ isOpen, onClose, onSave }) 
     setIsUploading(true);
 
     try {
-      // Convert file to base64 for local storage
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64String = event.target?.result as string;
-        setUploadedImageUrl(base64String);
-        setFormData(prev => ({
-          ...prev,
-          image: base64String
-        }));
-        setIsUploading(false);
-      };
-      reader.readAsDataURL(file);
+      // Upload to the server (Cloudinary or local storage fallback) instead
+      // of embedding the file as base64 - a multi-MB base64 string in the
+      // post payload was what made saving take so long.
+      const response = await uploadAPI.uploadImage(file);
+      if (response.success && response.data) {
+        const url = response.data.fullUrl || response.data.url;
+        setUploadedImageUrl(url);
+        setFormData(prev => ({ ...prev, image: url }));
+      } else {
+        alert(response.message || 'Error uploading image. Please try again.');
+      }
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Error uploading image. Please try again.');
+    } finally {
       setIsUploading(false);
     }
   };

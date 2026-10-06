@@ -1,6 +1,6 @@
 import express from 'express';
 import { uploadSingle, uploadVideo, uploadAudio, handleUploadError } from '../middleware/upload.js';
-import { verifyToken, requireAdmin } from '../middleware/auth.js';
+import { verifyToken, requireAdmin, requireContentEditor } from '../middleware/auth.js';
 import { prisma } from '../lib/prisma.js';
 import cloudinary from '../lib/cloudinary.js';
 import streamifier from 'streamifier';
@@ -46,7 +46,7 @@ const getFullUrl = (req, relativeUrl) => {
 };
 
 // Upload single image
-router.post('/image', verifyToken, requireAdmin, uploadSingle, handleUploadError, async (req, res) => {
+router.post('/image', verifyToken, requireContentEditor, uploadSingle, handleUploadError, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No image file provided' });
@@ -188,7 +188,7 @@ router.post('/video', verifyToken, requireAdmin, uploadVideo, handleUploadError,
 });
 
 // Upload single audio file
-router.post('/audio', verifyToken, requireAdmin, uploadAudio, handleUploadError, async (req, res) => {
+router.post('/audio', verifyToken, requireContentEditor, uploadAudio, handleUploadError, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'No audio file provided' });
