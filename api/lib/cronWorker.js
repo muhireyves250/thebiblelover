@@ -41,7 +41,7 @@ export const initCronJobs = () => {
                         type: 'ARTICLE_PUBLISHED',
                         title: 'New Word Available',
                         message: `"${post.title}" by ${post.author.name} is now live!`,
-                        link: `/posts/${post.slug}`
+                        link: `/blog/${post.slug}`
                     }));
 
                     await prisma.notification.createMany({ data: notifications });

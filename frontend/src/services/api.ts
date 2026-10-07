@@ -327,8 +327,8 @@ export const eventAPI: EventAPI = {
 
 export const notificationAPI: NotificationAPI = {
   getNotifications: () => apiRequest('/notifications'),
-  markAsRead: (id) => apiRequest(`/notifications/${id}/read`, { method: 'PUT' }),
-  markAllAsRead: () => apiRequest('/notifications/read-all', { method: 'PUT' }),
+  markAsRead: (id) => apiRequest(`/notifications/${id}/read`, { method: 'PATCH' }),
+  markAllAsRead: () => apiRequest('/notifications/read-all', { method: 'PATCH' }),
   deleteNotification: (id) => apiRequest(`/notifications/${id}`, { method: 'DELETE' }),
 };
 
