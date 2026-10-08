@@ -40,6 +40,37 @@ const convertToApiUrl = (imageUrl, req = null) => {
   return convertedUrl;
 };
 
+// Picks "today's" verse: an admin can explicitly date a verse for today
+// (displayDate), which always wins. Otherwise - and this is the normal
+// case, since nobody posts a fresh verse every single day - rotate
+// deterministically through the pool of active verses using the day
+// count since the epoch, so the featured verse actually changes once
+// a day instead of being frozen on whichever row has the latest
+// displayDate (which, for old seed data, is permanently in the past).
+const getTodaysVerse = async () => {
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+  const startOfTomorrow = new Date(startOfToday);
+  startOfTomorrow.setDate(startOfTomorrow.getDate() + 1);
+
+  const dated = await prisma.bibleVerse.findFirst({
+    where: { isActive: true, displayDate: { gte: startOfToday, lt: startOfTomorrow } },
+    orderBy: { displayDate: 'desc' }
+  });
+  if (dated) return dated;
+
+  const pool = await prisma.bibleVerse.findMany({
+    where: { isActive: true },
+    orderBy: { createdAt: 'asc' },
+    select: { id: true }
+  });
+  if (pool.length === 0) return null;
+
+  const daysSinceEpoch = Math.floor(Date.now() / 86400000);
+  const index = daysSinceEpoch % pool.length;
+  return prisma.bibleVerse.findUnique({ where: { id: pool[index].id } });
+};
+
 // Health check
 router.get('/health', (_req, res) => {
   res.json({ success: true, route: 'bible-verses', status: 'OK' });
@@ -317,39 +348,9 @@ router.get('/featured', async (req, res, next) => {
       });
     }
 
-    const verse = await prisma.bibleVerse.findFirst({
-      where: {
-        isActive: true,
-        isFeatured: true
-      },
-      orderBy: { createdAt: 'desc' }
-    });
+    const verse = await getTodaysVerse();
 
     if (!verse) {
-      // Fallback to latest active verse
-      const fallbackVerse = await prisma.bibleVerse.findFirst({
-        where: { isActive: true },
-        orderBy: { createdAt: 'desc' }
-      });
-
-      if (fallbackVerse) {
-        // Transform the data to match frontend expectations
-        const transformedVerse = {
-          ...fallbackVerse,
-          verse: fallbackVerse.text,
-          reference: `${fallbackVerse.book} ${fallbackVerse.chapter}:${fallbackVerse.verse}`,
-          image: fallbackVerse.image ? convertToApiUrl(fallbackVerse.image, req) : fallbackVerse.image
-        };
-        // Cache the fallback result for 1 hour
-        memoryCache.featuredVerse = transformedVerse;
-        memoryCache.featuredVerseExpiry = Date.now() + (60 * 60 * 1000);
-
-        return res.json({
-          success: true,
-          data: { verse: transformedVerse, source: 'database-fallback' }
-        });
-      }
-
       return res.json({
         success: true,
         data: { verse: null }
@@ -383,22 +384,26 @@ router.get('/archive', async (req, res, next) => {
   try {
     const limit = Math.min(parseInt(req.query.limit) || 13, 50);
 
+    const featuredVerse = await getTodaysVerse();
+
     const verses = await prisma.bibleVerse.findMany({
+      where: featuredVerse ? { id: { not: featuredVerse.id } } : undefined,
       orderBy: { displayDate: 'desc' },
-      take: limit + 1
+      take: limit
     });
 
-    const withExtras = verses.map(v => ({
+    const withExtras = (list) => list.map(v => ({
       ...v,
       image: v.image ? convertToApiUrl(v.image, req) : v.image,
       reference: `${v.book} ${v.chapter}:${v.verse}`
     }));
 
-    const [featured, ...items] = withExtras;
-
     res.json({
       success: true,
-      data: { featured: featured || null, items }
+      data: {
+        featured: featuredVerse ? withExtras([featuredVerse])[0] : null,
+        items: withExtras(verses)
+      }
     });
   } catch (err) {
     next(err);
