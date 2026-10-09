@@ -66,7 +66,10 @@ const VerseCardSkeleton: React.FC = () => (
 
 const Verses: React.FC = () => {
   const { featured, items, hasLoaded } = useVerseArchive(50);
-  const [activeDay, setActiveDay] = useState<number | null>(null);
+  // Default to today's weekday instead of "All" - matches getUtcDay()
+  // below so the tab that lights up actually corresponds to the
+  // verses it filters to.
+  const [activeDay, setActiveDay] = useState<number | null>(() => new Date().getUTCDay());
 
   // Same de-dupe-by-day approach as VerseDesk — the archive has exact
   // duplicate rows for several dates, and `featured` overlaps `items`.
