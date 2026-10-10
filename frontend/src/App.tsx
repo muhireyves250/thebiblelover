@@ -42,6 +42,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import { BlogGridSkeleton } from './components/BlogGrid';
 import ContactSkeleton from './components/ContactSkeleton';
+import DonateSkeleton from './components/DonateSkeleton';
 
 // Lazy load all other pages
 const About = lazy(() => import('./pages/About'));
@@ -156,7 +157,7 @@ function AppContent() {
             <Route path="/about" element={<Suspense fallback={null}><PageTransition><About /></PageTransition></Suspense>} />
             <Route path="/blog/:slug" element={<Suspense fallback={null}><PageTransition><BlogPost /></PageTransition></Suspense>} />
             <Route path="/author/:id" element={<Suspense fallback={null}><PageTransition><AuthorProfile /></PageTransition></Suspense>} />
-            <Route path="/donate" element={<Suspense fallback={null}><PageTransition><Donate /></PageTransition></Suspense>} />
+            <Route path="/donate" element={<Suspense fallback={<DonateSkeleton />}><PageTransition><Donate /></PageTransition></Suspense>} />
             <Route path="/posts" element={<Suspense fallback={<BlogGridSkeleton />}><PageTransition><Posts /></PageTransition></Suspense>} />
             <Route path="/players" element={<Suspense fallback={null}><PageTransition><Players /></PageTransition></Suspense>} />
             <Route path="/players/:id" element={<Suspense fallback={null}><PageTransition><PlayerDetail /></PageTransition></Suspense>} />
