@@ -41,6 +41,7 @@ import MobileBottomNav from './components/MobileBottomNav';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import { BlogGridSkeleton } from './components/BlogGrid';
+import ContactSkeleton from './components/ContactSkeleton';
 
 // Lazy load all other pages
 const About = lazy(() => import('./pages/About'));
@@ -162,7 +163,7 @@ function AppContent() {
             <Route path="/verses" element={<Suspense fallback={null}><PageTransition><Verses /></PageTransition></Suspense>} />
             <Route path="/verses/:id" element={<Suspense fallback={null}><PageTransition><VerseDetail /></PageTransition></Suspense>} />
             <Route path="/search" element={<Suspense fallback={null}><PageTransition><Search /></PageTransition></Suspense>} />
-            <Route path="/contact" element={<Suspense fallback={null}><PageTransition><Contact /></PageTransition></Suspense>} />
+            <Route path="/contact" element={<Suspense fallback={<ContactSkeleton />}><PageTransition><Contact /></PageTransition></Suspense>} />
             <Route path="/prayer-wall" element={<Suspense fallback={null}><PageTransition><PrayerWall /></PageTransition></Suspense>} />
             <Route path="/events" element={<Suspense fallback={null}><PageTransition><Events /></PageTransition></Suspense>} />
             <Route path="/events/:id" element={<Suspense fallback={null}><PageTransition><EventDetail /></PageTransition></Suspense>} />
