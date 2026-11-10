@@ -16,7 +16,7 @@
 - Language codes throughout the stack: `rw`, `en`, `fr`.
 - Generated Bible text JSON ships from `frontend/public/bible-data/<lang>/<bookNumber>.json` + `frontend/public/bible-data/<lang>/manifest.json`.
 - Personalization records key on `(userId, lang, book, chapter, verse)`, never on a translation-specific verse row id.
-- No app-shell service worker is reintroduced. Offline behavior is scoped to Bible content/personalization only, after first online load.
+- The app must be installable and work fully offline from the first launch after install, in all three languages immediately (no later download needed) — this requires a service worker (Task 9), added via `vite-plugin-pwa` so redeploys stay safe (content-hashed, versioned precache — see the spec's "Revision note" and "PWA install & offline app shell" sections for why this avoids the bug that got the previous hand-rolled service worker removed).
 - Existing `BibleVerse`, `VerseOfTheDay`, `SavedVerse` models/routes/pages are not modified.
 - This repo has no DB-backed test harness (no test DB config exists). Route tests mock `../lib/prisma.js` rather than hitting real Postgres; the migration itself is verified by running it, not by an automated test.
 
@@ -641,7 +641,72 @@ git commit -m "feat: add offline Bible reader pages, routes, and navigation entr
 
 ---
 
-## Task 9: Final integration pass
+## Task 9: PWA install & offline app shell
+
+**Files:**
+- Modify: `frontend/vite.config.ts` (add `vite-plugin-pwa`)
+- Modify: `frontend/src/main.tsx` (replace the unregister block with service worker registration)
+- Modify: `frontend/public/manifest.json` (add a "Bible" shortcut, matching the existing "Prayer Wall"/"Donate" entries)
+- Modify: `frontend/package.json` (add `vite-plugin-pwa` to `devDependencies`)
+
+**Interfaces:**
+- Consumes: the generated `frontend/public/bible-data/**` from Task 3 (must exist before `vite-plugin-pwa`'s build-time globbing can precache it).
+- Produces: a build that registers a Workbox service worker precaching the app shell and all `bible-data/**/*.json` files, replacing the old unregister-only behavior in `main.tsx`.
+
+- [ ] **Step 1: Install and configure `vite-plugin-pwa`**
+
+Run `npm install -D vite-plugin-pwa` in `frontend/`. In `vite.config.ts`, add to `plugins`:
+
+```ts
+import { VitePWA } from 'vite-plugin-pwa';
+// ...
+VitePWA({
+  manifest: false, // keep the existing static public/manifest.json as-is
+  registerType: 'autoUpdate',
+  workbox: {
+    cleanupOutdatedCaches: true,
+    globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+  },
+})
+```
+
+- [ ] **Step 2: Add a "Bible" shortcut to `manifest.json`**
+
+Add `{ "name": "Bible", "url": "/bible" }` to the existing `shortcuts` array, alongside "Prayer Wall" and "Donate".
+
+- [ ] **Step 3: Replace the service-worker-unregister block in `main.tsx`**
+
+Remove the `if ('serviceWorker' in navigator) { ... registrations.forEach(unregister) ... }` block (it exists specifically to clear out the old, unversioned service worker — no longer needed once a correctly-versioned one replaces it) and replace it with:
+
+```ts
+import { registerSW } from 'virtual:pwa-register';
+registerSW({ immediate: true });
+```
+
+- [ ] **Step 4: Build and verify precaching**
+
+Run: `cd frontend && npm run build && npm run preview`
+
+In a browser, open the preview URL, open devtools → Application → Service Workers (confirm one is "activated and running") → Cache Storage (confirm a precache entry exists containing `bible-data/rw/1.json`, `bible-data/en/1.json`, and `bible-data/fr/1.json` — spot-check these three key names are present, confirming all three languages precached, not just the default).
+
+- [ ] **Step 5: Verify offline-from-first-launch**
+
+In the same browser tab, open devtools → Network → set to "Offline", then hard-reload the page. Expected: the app shell loads (not a browser offline error page), and navigating to `/bible/en/1/1`, `/bible/fr/1/1`, and `/bible/rw/1/1` each render chapter 1 verse text without needing network — confirming all three languages work offline immediately, with no prior online visit to those specific chapters required.
+
+- [ ] **Step 6: Verify a redeploy doesn't strand returning visitors**
+
+Make a trivial change to any already-built frontend file (e.g. a comment), run `npm run build` again, and reload the preview tab while online. Expected: the new service worker activates (devtools Application tab shows the updated one, old caches removed per `cleanupOutdatedCaches`), and the page loads the new build — not a stale cached chunk error (the exact failure this replaces the old hand-rolled service worker to avoid).
+
+- [ ] **Step 7: Commit**
+
+```bash
+git add frontend/vite.config.ts frontend/src/main.tsx frontend/public/manifest.json frontend/package.json frontend/pnpm-lock.yaml
+git commit -m "feat: add installable offline-first PWA service worker precaching app shell and all 3 Bible languages"
+```
+
+---
+
+## Task 10: Final integration pass
 
 **Files:**
 - None new — this task is verification only, touching nothing unless a gap is found (in which case, fix in the file the gap belongs to and note it in the commit).

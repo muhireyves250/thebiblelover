@@ -10,13 +10,25 @@ new, additive reader.
 
 ## Non-goals / anti-goals
 
-- Not rebuilding the removed app-shell service worker. Offline Bible
-  content works once the app has loaded online at least once; opening the
-  app for the very first time with zero connectivity is out of scope.
 - Not a general offline-sync framework for the rest of the app — only
   Bible text and the new personalization data (bookmarks/highlights/
   notes/reading position) go through this offline path.
 - Not adding more translations than the three XML sources provide.
+
+## Revision note (scope change)
+
+The original version of this design deliberately avoided reintroducing
+a service worker, scoping offline support to "works offline once you've
+opened the app online at least once." The user has since clarified: the
+app needs to be installable (Add to Home Screen) and work fully offline
+from the very first launch after install, in all three languages
+immediately — not just after an online visit. That requires a service
+worker again. See "PWA install & offline app shell" below for how this
+avoids the problem that got the previous service worker removed
+(`frontend/src/main.tsx` currently unregisters any leftover
+installation — see its comment — because that worker cached
+content-hashed JS/CSS without versioning, so redeploys left returning
+visitors stuck loading stale, deleted chunks).
 
 ## Data sources
 
@@ -178,6 +190,38 @@ merge logic needed, since these are single-user, single-value-per-key
 records. Not signed in: everything stays local-only (an existing
 `SavedVerse`-style sign-in prompt pattern can nudge sign-up, but that's
 a UI nicety, not required for v1).
+
+## PWA install & offline app shell
+
+The app already ships `frontend/public/manifest.json` and icons (it's
+already "installable" in the browser sense) but has no service worker —
+`main.tsx` actively unregisters any leftover one. To make the app work
+offline from the first launch after install, in all three languages
+immediately (the user's choice: preload all three languages at install
+time, not just the default), add one back, using `vite-plugin-pwa`
+(Workbox) instead of the old hand-rolled one:
+
+- **Why this avoids the old bug:** `vite-plugin-pwa`'s generated service
+  worker precaches by content hash — every build asset (already
+  content-hashed by Vite) and every static file it globs (including the
+  generated `bible-data/**/*.json`) gets a revision computed from its
+  contents, and `cleanupOutdatedCaches: true` removes the previous
+  version's cached files once the new service worker activates. A
+  redeploy changes the hashes, the old cache entries get dropped, and a
+  returning visitor's next load picks up the new version — the failure
+  mode that got the old service worker removed (stale, deleted chunks
+  served forever) can't recur the same way.
+- **What's precached:** the normal build output (JS/CSS/HTML/icons) plus
+  every `bible-data/<lang>/*.json` file — all three languages, so the
+  app is fully usable offline, in any language, immediately after
+  install, with no later download needed.
+- **Existing `manifest.json` is kept as-is** (referenced statically from
+  `index.html`, as today); `vite-plugin-pwa` is configured only to
+  generate and register the service worker, not to regenerate the
+  manifest.
+- The `main.tsx` service-worker-unregister block is replaced by
+  `vite-plugin-pwa`'s registration call (`virtual:pwa-register`), which
+  handles update activation itself.
 
 ## Frontend structure
 
