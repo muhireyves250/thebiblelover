@@ -9,23 +9,25 @@ type DownloadStatus = { booksComplete: number[]; complete: boolean };
 
 type PersonalRecordKind = 'bookmark' | 'highlight' | 'note';
 
-type BookmarkRecord = { key: string; lang: Lang; book: number; chapter: number; verse: number; synced: boolean };
+type BookmarkRecord = { key: string; lang: Lang; book: number; chapter: number; verse: number; synced: boolean; updatedAt: string };
 type HighlightRecord = BookmarkRecord & { color: string };
 type NoteRecord = BookmarkRecord & { text: string };
-type PositionRecord = { lang: Lang; book: number; chapter: number; synced: boolean };
+type PositionRecord = { lang: Lang; book: number; chapter: number; synced: boolean; updatedAt: string };
+type PendingDelete = { key: string; kind: PersonalRecordKind; lang: Lang; book: number; chapter: number; verse: number };
 
 let dbPromise: Promise<IDBPDatabase> | null = null;
 
 function getDb(): Promise<IDBPDatabase> {
   if (!dbPromise) {
-    dbPromise = openDB('bible-offline', 1, {
+    dbPromise = openDB('bible-offline', 2, {
       upgrade(db) {
-        db.createObjectStore('verses');
-        db.createObjectStore('downloadStatus');
-        db.createObjectStore('bookmarks');
-        db.createObjectStore('highlights');
-        db.createObjectStore('notes');
-        db.createObjectStore('readingPosition');
+        if (!db.objectStoreNames.contains('verses')) db.createObjectStore('verses');
+        if (!db.objectStoreNames.contains('downloadStatus')) db.createObjectStore('downloadStatus');
+        if (!db.objectStoreNames.contains('bookmarks')) db.createObjectStore('bookmarks');
+        if (!db.objectStoreNames.contains('highlights')) db.createObjectStore('highlights');
+        if (!db.objectStoreNames.contains('notes')) db.createObjectStore('notes');
+        if (!db.objectStoreNames.contains('readingPosition')) db.createObjectStore('readingPosition');
+        if (!db.objectStoreNames.contains('pendingDeletes')) db.createObjectStore('pendingDeletes');
       },
     });
   }
@@ -106,7 +108,7 @@ export async function getDownloadStatus(lang: Lang): Promise<DownloadStatus> {
   return (await db.get('downloadStatus', lang)) ?? { booksComplete: [], complete: false };
 }
 
-const normalize = (text: string) => text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const normalize = (text: string) => text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
 export async function searchVerses(lang: Lang, query: string) {
   const db = await getDb();
@@ -133,17 +135,49 @@ async function getRecords<T extends { synced: boolean }>(store: string): Promise
   return (await db.getAll(store)) as T[];
 }
 
+// If a record being deleted was already synced to the server, the server
+// doesn't know about the deletion yet - queue a tombstone so the next sync
+// sends a DELETE. A record that was never synced has nothing to delete
+// remotely, so it's just dropped locally.
+async function deleteWithTombstone(
+  store: string, kind: PersonalRecordKind, lang: Lang, book: number, chapter: number, verse: number
+) {
+  const db = await getDb();
+  const key = verseKey(lang, book, chapter, verse);
+  const existing = await db.get(store, key);
+  if (existing?.synced) {
+    const tombstone: PendingDelete = { key, kind, lang, book, chapter, verse };
+    await db.put('pendingDeletes', tombstone, key);
+  }
+  await db.delete(store, key);
+}
+
+export async function getPendingDeletes(): Promise<PendingDelete[]> {
+  const db = await getDb();
+  return db.getAll('pendingDeletes');
+}
+export async function clearPendingDelete(key: string) {
+  const db = await getDb();
+  await db.delete('pendingDeletes', key);
+}
+
 export async function getBookmarks() {
   return getRecords<BookmarkRecord>('bookmarks');
 }
 export async function setBookmark(lang: Lang, book: number, chapter: number, verse: number) {
   const db = await getDb();
   const key = verseKey(lang, book, chapter, verse);
-  await db.put('bookmarks', { key, lang, book, chapter, verse, synced: false }, key);
+  await db.put('bookmarks', { key, lang, book, chapter, verse, synced: false, updatedAt: new Date().toISOString() }, key);
 }
 export async function deleteBookmark(lang: Lang, book: number, chapter: number, verse: number) {
+  await deleteWithTombstone('bookmarks', 'bookmark', lang, book, chapter, verse);
+}
+export async function applyRemoteBookmark(remote: { lang: Lang; book: number; chapter: number; verse: number }) {
   const db = await getDb();
-  await db.delete('bookmarks', verseKey(lang, book, chapter, verse));
+  const key = verseKey(remote.lang, remote.book, remote.chapter, remote.verse);
+  const existing = await db.get('bookmarks', key);
+  if (existing) return; // local already knows about it either way (synced, or about to be pushed)
+  await db.put('bookmarks', { key, ...remote, synced: true, updatedAt: new Date().toISOString() }, key);
 }
 
 export async function getHighlights() {
@@ -152,11 +186,13 @@ export async function getHighlights() {
 export async function setHighlight(lang: Lang, book: number, chapter: number, verse: number, color: string) {
   const db = await getDb();
   const key = verseKey(lang, book, chapter, verse);
-  await db.put('highlights', { key, lang, book, chapter, verse, color, synced: false }, key);
+  await db.put('highlights', { key, lang, book, chapter, verse, color, synced: false, updatedAt: new Date().toISOString() }, key);
 }
 export async function deleteHighlight(lang: Lang, book: number, chapter: number, verse: number) {
-  const db = await getDb();
-  await db.delete('highlights', verseKey(lang, book, chapter, verse));
+  await deleteWithTombstone('highlights', 'highlight', lang, book, chapter, verse);
+}
+export async function applyRemoteHighlight(remote: { lang: Lang; book: number; chapter: number; verse: number; color: string; updatedAt: string }) {
+  await applyRemoteRecord('highlights', remote);
 }
 
 export async function getNotes() {
@@ -165,11 +201,28 @@ export async function getNotes() {
 export async function setNote(lang: Lang, book: number, chapter: number, verse: number, text: string) {
   const db = await getDb();
   const key = verseKey(lang, book, chapter, verse);
-  await db.put('notes', { key, lang, book, chapter, verse, text, synced: false }, key);
+  await db.put('notes', { key, lang, book, chapter, verse, text, synced: false, updatedAt: new Date().toISOString() }, key);
 }
 export async function deleteNote(lang: Lang, book: number, chapter: number, verse: number) {
+  await deleteWithTombstone('notes', 'note', lang, book, chapter, verse);
+}
+export async function applyRemoteNote(remote: { lang: Lang; book: number; chapter: number; verse: number; text: string; updatedAt: string }) {
+  await applyRemoteRecord('notes', remote);
+}
+
+// Shared last-write-wins merge for stores keyed by lang/book/chapter/verse
+// with an `updatedAt`: the newer side wins outright. A record that doesn't
+// exist locally yet is simply adopted from the server.
+async function applyRemoteRecord(
+  store: string,
+  remote: { lang: Lang; book: number; chapter: number; verse: number; updatedAt: string } & Record<string, unknown>
+) {
   const db = await getDb();
-  await db.delete('notes', verseKey(lang, book, chapter, verse));
+  const key = verseKey(remote.lang, remote.book, remote.chapter, remote.verse);
+  const local = await db.get(store, key);
+  if (!local || new Date(remote.updatedAt) > new Date(local.updatedAt)) {
+    await db.put(store, { ...remote, key, synced: true }, key);
+  }
 }
 
 const READING_POSITION_KEY = 'current';
@@ -180,7 +233,14 @@ export async function getReadingPosition(): Promise<PositionRecord | undefined> 
 }
 export async function setReadingPosition(lang: Lang, book: number, chapter: number) {
   const db = await getDb();
-  await db.put('readingPosition', { lang, book, chapter, synced: false }, READING_POSITION_KEY);
+  await db.put('readingPosition', { lang, book, chapter, synced: false, updatedAt: new Date().toISOString() }, READING_POSITION_KEY);
+}
+export async function applyRemotePosition(remote: { lang: Lang; book: number; chapter: number; updatedAt: string }) {
+  const db = await getDb();
+  const local = await db.get('readingPosition', READING_POSITION_KEY);
+  if (!local || new Date(remote.updatedAt) > new Date(local.updatedAt)) {
+    await db.put('readingPosition', { ...remote, synced: true }, READING_POSITION_KEY);
+  }
 }
 
 export async function getUnsyncedRecords() {
