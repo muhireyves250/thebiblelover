@@ -17,18 +17,36 @@ const ChapterPickerOverlay: React.FC<Props> = ({ lang, isOpen, onClose }) => {
     if (isOpen) setSelectedBook(null);
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const oldTestament = BIBLE_BOOKS.filter((b) => b.testament === 'OT');
   const newTestament = BIBLE_BOOKS.filter((b) => b.testament === 'NT');
 
+  // Reset here too (not only via the isOpen effect) so a reopen never
+  // shows a stale chapter grid for a frame before the effect catches up.
+  const handleClose = () => {
+    setSelectedBook(null);
+    onClose();
+  };
+
   const goToChapter = (book: BibleBookMeta, chapter: number) => {
     navigate(`/bible/${lang}/${book.number}/${chapter}`);
+    setSelectedBook(null);
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={handleClose}>
       <div
         className="bg-white dark:bg-[#141417] rounded-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-5"
         onClick={(e) => e.stopPropagation()}

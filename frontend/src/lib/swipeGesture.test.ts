@@ -21,4 +21,9 @@ describe('detectSwipe', () => {
   it('respects a custom threshold', () => {
     expect(detectSwipe(100, 170, 50, 51, 100)).toBeNull(); // 70px < 100px threshold
   });
+
+  it('returns null for a diagonal flick that clears the threshold but is not clearly horizontal', () => {
+    // 70px horizontal, 60px vertical - a thumb drag while scrolling, not a deliberate swipe
+    expect(detectSwipe(100, 170, 50, 110)).toBeNull();
+  });
 });

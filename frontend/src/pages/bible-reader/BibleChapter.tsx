@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import SEO from '../../components/SEO';
 import AutoText from '../../components/AutoText';
 import { ChevronDown } from 'lucide-react';
@@ -13,6 +13,11 @@ import VerseActionToolbar from './VerseActionToolbar';
 import NoteSheet from './NoteSheet';
 
 type ChapterParams = { lang: Lang; book: string; chapter: string };
+
+const isTypingTarget = (target: EventTarget | null) => {
+  if (!(target instanceof HTMLElement)) return false;
+  return target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable;
+};
 
 const BibleChapter: React.FC = () => {
   const { lang, book: bookParam, chapter: chapterParam } = useParams<ChapterParams>();
@@ -36,9 +41,12 @@ const BibleChapter: React.FC = () => {
   const [selectedVerse, setSelectedVerse] = useState<number | null>(null);
   const [noteSheetOpen, setNoteSheetOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [copiedToast, setCopiedToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const verseListRef = useRef<HTMLDivElement>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const bookMeta = BIBLE_BOOKS.find((b) => b.number === book);
 
@@ -47,6 +55,7 @@ const BibleChapter: React.FC = () => {
     setVerses(null);
     setOfflineMiss(false);
     setSelectedVerse(null);
+    setNoteSheetOpen(false);
 
     getChapter(lang, book, chapter).then((result) => {
       if ('error' in result) {
@@ -112,17 +121,41 @@ const BibleChapter: React.FC = () => {
     }
   };
 
+  const showToast = (message: string) => {
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    setToastMessage(message);
+    toastTimeoutRef.current = setTimeout(() => setToastMessage(null), 2000);
+  };
+
+  const copyVerseLink = async (reference: string, text: string, url: string) => {
+    try {
+      await navigator.clipboard.writeText(`${reference} — "${text}" ${url}`);
+      showToast('Copied to clipboard');
+    } catch {
+      showToast("Couldn't copy — try again");
+    }
+  };
+
   const shareVerse = async (verseNumber: number) => {
     const text = verses?.[verseNumber - 1] ?? '';
     const reference = `${bookMeta?.names[lang!]} ${chapter}:${verseNumber}`;
     const url = `${window.location.origin}/bible/${lang}/${book}/${chapter}`;
+
     if (navigator.share) {
-      await navigator.share({ text: `${reference} — "${text}"`, url });
+      try {
+        await navigator.share({ text: `${reference} — "${text}"`, url });
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') return; // user cancelled - not an error
+        await copyVerseLink(reference, text, url);
+      }
     } else {
-      await navigator.clipboard.writeText(`${reference} — "${text}" ${url}`);
-      setCopiedToast(true);
-      setTimeout(() => setCopiedToast(false), 2000);
+      await copyVerseLink(reference, text, url);
     }
+  };
+
+  const toggleVerseSelection = (verseNumber: number) => {
+    if (noteSheetOpen) return; // editing a note - don't let other verse taps change the selection under it
+    setSelectedVerse((current) => (current === verseNumber ? null : verseNumber));
   };
 
   const prevChapter = chapter > 1 ? chapter - 1 : null;
@@ -135,18 +168,38 @@ const BibleChapter: React.FC = () => {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
+      if (isTypingTarget(e.target) || e.altKey || e.metaKey || e.ctrlKey || e.shiftKey || e.defaultPrevented) return;
+      if (noteSheetOpen || pickerOpen) return;
+
       if (e.key === 'ArrowLeft' && prevChapter) navigate(`/bible/${lang}/${book}/${prevChapter}`);
       if (e.key === 'ArrowRight' && nextChapter) navigate(`/bible/${lang}/${book}/${nextChapter}`);
+      if (e.key === 'Escape' && selectedVerse !== null) setSelectedVerse(null);
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [lang, book, prevChapter, nextChapter, navigate]);
+  }, [lang, book, prevChapter, nextChapter, navigate, noteSheetOpen, pickerOpen, selectedVerse]);
+
+  // Tapping anywhere outside the verse list or the toolbar deselects - but
+  // not while the note sheet is open, so an in-progress edit never gets
+  // discarded by an incidental outside tap.
+  useEffect(() => {
+    if (selectedVerse === null || noteSheetOpen) return;
+    const onPointerDown = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (verseListRef.current?.contains(target) || toolbarRef.current?.contains(target)) return;
+      setSelectedVerse(null);
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    return () => document.removeEventListener('mousedown', onPointerDown);
+  }, [selectedVerse, noteSheetOpen]);
 
   const onTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length > 1) { touchStart.current = null; return; } // pinch/multi-touch - not a swipe
     touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   };
   const onTouchEnd = (e: React.TouchEvent) => {
     if (!touchStart.current) return;
+    if ((window.getSelection()?.toString().length ?? 0) > 0) { touchStart.current = null; return; } // text selection, not a swipe
     const direction = detectSwipe(
       touchStart.current.x, e.changedTouches[0].clientX,
       touchStart.current.y, e.changedTouches[0].clientY
@@ -155,25 +208,29 @@ const BibleChapter: React.FC = () => {
     if (direction === 'right' && prevChapter) navigate(`/bible/${lang}/${book}/${prevChapter}`);
     touchStart.current = null;
   };
+  const onTouchCancel = () => { touchStart.current = null; };
 
   return (
     <>
       <SEO title={title} description={`Read ${title} offline.`} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16 flex gap-8">
-        <div className="hidden md:block">
+        <div className="hidden md:block md:sticky md:top-4 md:self-start">
           {lang && <BibleSidebar lang={lang} currentBook={book} currentChapter={chapter} />}
         </div>
 
         <div className="max-w-3xl mx-auto md:mx-0 flex-1">
           <div className="mb-6 flex items-center justify-between">
-            <button onClick={() => navigate('/bible')} className="text-xs font-bold uppercase tracking-widest text-amber-700 hover:underline">
+            <Link to="/bible" className="text-xs font-bold uppercase tracking-widest text-amber-700 hover:underline">
               &larr; All books
-            </button>
+            </Link>
             <button onClick={() => setPickerOpen(true)} className="flex items-center gap-1">
-              <AutoText as="h1" className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">{title}</AutoText>
+              <AutoText as="span" className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-white">{title}</AutoText>
               <ChevronDown className="w-4 h-4 text-gray-400" />
             </button>
           </div>
+          {/* Visually hidden - keeps a real <h1> for the page's heading
+              structure/SEO without nesting one inside the button above. */}
+          <h1 className="sr-only">{title}</h1>
 
           {offlineMiss && (
             <div className="p-4 rounded-lg bg-gray-100 dark:bg-white/5 text-sm text-gray-600 dark:text-gray-400">
@@ -190,22 +247,31 @@ const BibleChapter: React.FC = () => {
           )}
 
           {verses && (
-            <div className="space-y-1" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+            <div ref={verseListRef} className="space-y-1" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} onTouchCancel={onTouchCancel}>
               {verses.map((text, index) => {
                 const verseNumber = index + 1;
                 const color = highlighted.get(verseNumber);
                 const isSelected = selectedVerse === verseNumber;
                 return (
-                  <p
+                  <div
                     key={verseNumber}
-                    onClick={() => setSelectedVerse(isSelected ? null : verseNumber)}
+                    role="button"
+                    tabIndex={0}
+                    aria-pressed={isSelected}
+                    onClick={() => toggleVerseSelection(verseNumber)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleVerseSelection(verseNumber);
+                      }
+                    }}
                     className={`p-2 rounded-lg cursor-pointer text-sm md:text-base text-gray-800 dark:text-gray-200 leading-7 font-sans transition-all ${
                       color ? 'bg-amber-50 dark:bg-amber-900/10' : ''
                     } ${isSelected ? 'ring-2 ring-amber-400/60' : ''}`}
                   >
                     <sup className="text-amber-700 font-bold mr-1">{verseNumber}</sup>
                     {text}
-                  </p>
+                  </div>
                 );
               })}
             </div>
@@ -213,14 +279,14 @@ const BibleChapter: React.FC = () => {
 
           <div className="flex items-center justify-between mt-8">
             {prevChapter ? (
-              <button onClick={() => navigate(`/bible/${lang}/${book}/${prevChapter}`)} className="text-xs font-bold uppercase tracking-widest text-amber-700 hover:underline">
+              <Link to={`/bible/${lang}/${book}/${prevChapter}`} className="text-xs font-bold uppercase tracking-widest text-amber-700 hover:underline">
                 &larr; Chapter {prevChapter}
-              </button>
+              </Link>
             ) : <span />}
             {nextChapter ? (
-              <button onClick={() => navigate(`/bible/${lang}/${book}/${nextChapter}`)} className="text-xs font-bold uppercase tracking-widest text-amber-700 hover:underline">
+              <Link to={`/bible/${lang}/${book}/${nextChapter}`} className="text-xs font-bold uppercase tracking-widest text-amber-700 hover:underline">
                 Chapter {nextChapter} &rarr;
-              </button>
+              </Link>
             ) : <span />}
           </div>
         </div>
@@ -229,19 +295,22 @@ const BibleChapter: React.FC = () => {
       {lang && <ChapterPickerOverlay lang={lang} isOpen={pickerOpen} onClose={() => setPickerOpen(false)} />}
 
       {selectedVerse !== null && !noteSheetOpen && (
-        <VerseActionToolbar
-          isBookmarked={bookmarked.has(selectedVerse)}
-          isHighlighted={highlighted.has(selectedVerse)}
-          onBookmark={() => toggleBookmark(selectedVerse)}
-          onHighlight={() => toggleHighlight(selectedVerse)}
-          onNote={() => setNoteSheetOpen(true)}
-          onShare={() => shareVerse(selectedVerse)}
-          onClose={() => setSelectedVerse(null)}
-        />
+        <div ref={toolbarRef}>
+          <VerseActionToolbar
+            isBookmarked={bookmarked.has(selectedVerse)}
+            isHighlighted={highlighted.has(selectedVerse)}
+            onBookmark={() => toggleBookmark(selectedVerse)}
+            onHighlight={() => toggleHighlight(selectedVerse)}
+            onNote={() => setNoteSheetOpen(true)}
+            onShare={() => shareVerse(selectedVerse)}
+            onClose={() => setSelectedVerse(null)}
+          />
+        </div>
       )}
 
       {selectedVerse !== null && (
         <NoteSheet
+          key={selectedVerse}
           isOpen={noteSheetOpen}
           initialText={notes.get(selectedVerse) ?? ''}
           onSave={(text) => saveNote(selectedVerse, text)}
@@ -250,9 +319,9 @@ const BibleChapter: React.FC = () => {
         />
       )}
 
-      {copiedToast && (
+      {toastMessage && (
         <div className="fixed inset-x-0 bottom-24 z-50 flex justify-center">
-          <div className="bg-[#111113] text-white text-xs font-bold px-4 py-2 rounded-full shadow-xl">Copied to clipboard</div>
+          <div className="bg-[#111113] text-white text-xs font-bold px-4 py-2 rounded-full shadow-xl">{toastMessage}</div>
         </div>
       )}
     </>

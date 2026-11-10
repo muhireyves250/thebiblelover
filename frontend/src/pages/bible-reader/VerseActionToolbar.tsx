@@ -14,7 +14,10 @@ type Props = {
 const VerseActionToolbar: React.FC<Props> = ({
   isBookmarked, isHighlighted, onBookmark, onHighlight, onNote, onShare, onClose,
 }) => (
-  <div className="fixed inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 flex justify-center">
+  // Offset above MobileBottomNav (≈5.5rem including its own safe-area
+  // padding) on small screens, where it would otherwise paint on top of
+  // this toolbar; no bottom nav exists at md: and up.
+  <div className="fixed inset-x-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] md:bottom-4 z-[60] flex justify-center">
     <div className="flex items-center gap-1 bg-[#111113] rounded-full px-2 py-2 shadow-2xl">
       <button
         onClick={onBookmark}

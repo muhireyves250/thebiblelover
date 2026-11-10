@@ -24,7 +24,7 @@ const NoteSheet: React.FC<Props> = ({ isOpen, initialText, onSave, onDelete, onC
   };
 
   return (
-    <div className="fixed inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-50">
+    <div className="fixed inset-x-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] md:bottom-4 z-[60]">
       <div className="bg-white dark:bg-[#141417] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 p-4 max-w-md mx-auto">
         <textarea
           ref={textareaRef}
