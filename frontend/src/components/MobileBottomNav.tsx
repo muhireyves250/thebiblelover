@@ -31,7 +31,7 @@ const MobileBottomNav = () => {
             >
               <span
                 className={`flex w-full flex-col items-center justify-center gap-1 px-2 py-2 rounded-full border-2 bg-white dark:bg-[#141417] transition-colors ${
-                  isActive ? 'border-amber-700 text-amber-700' : 'border-transparent text-gray-600 dark:text-gray-300'
+                  isActive ? 'border-amber-700 text-amber-700' : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300'
                 }`}
               >
                 <Icon
