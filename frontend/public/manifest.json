@@ -27,6 +27,10 @@
   "description": "Your daily companion for spiritual growth and community fellowship.",
   "shortcuts": [
     {
+      "name": "Bible",
+      "url": "/bible"
+    },
+    {
       "name": "Prayer Wall",
       "url": "/prayer-wall"
     },

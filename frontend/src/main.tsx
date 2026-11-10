@@ -78,17 +78,11 @@ if (container) {
 
 // A previous version of this app registered a cache-first service worker
 // that, on every redeploy, left returning visitors stuck loading a stale
-// index.html referencing deleted (content-hashed) JS/CSS files. We no
-// longer register one — this actively unregisters any leftover
-// installation and clears its caches so those visitors recover.
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.getRegistrations().then(registrations => {
-      registrations.forEach(registration => registration.unregister());
-    }).catch(() => {});
-
-    if ('caches' in window) {
-      caches.keys().then(keys => keys.forEach(key => caches.delete(key))).catch(() => {});
-    }
-  });
-}
+// index.html referencing deleted (content-hashed) JS/CSS files, since it
+// had no cache-busting of its own. vite-plugin-pwa's generated worker
+// (registered below) precaches by content hash and cleans up outdated
+// caches on activation, so a redeploy doesn't repeat that failure, and
+// the Bible reader needs it to make the app work fully offline from the
+// first launch after install.
+import { registerSW } from 'virtual:pwa-register';
+registerSW({ immediate: true });
