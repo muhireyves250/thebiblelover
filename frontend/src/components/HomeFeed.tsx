@@ -16,7 +16,6 @@ const shareUrlFor = (item: HomeFeedItem) => {
 
 const PAGE_SIZE = 4;
 const AUTO_ROTATE_MS = 6000;
-const REPORTS_AUTO_SCROLL_MS = 9000;
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/channel/UCnZWkIVSWJwiFW6RhQLDgaA';
 
 const formatDateTime = (dateString: string) =>
@@ -400,20 +399,6 @@ const HomeFeed: React.FC = () => {
     return () => clearInterval(interval);
   }, [pages.length, isHovering]);
 
-  // Mobile: auto-scroll the reports carousel one screenful (~2 cards) to
-  // the right every 9s, looping back to the start at the end.
-  const reportsScrollRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (items.length === 0) return;
-    const interval = setInterval(() => {
-      const el = reportsScrollRef.current;
-      if (!el) return;
-      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
-      el.scrollTo({ left: atEnd ? 0 : el.scrollLeft + el.clientWidth, behavior: 'smooth' });
-    }, REPORTS_AUTO_SCROLL_MS);
-    return () => clearInterval(interval);
-  }, [items.length]);
-
   return (
     <section className="py-3 md:py-20 bg-white dark:bg-transparent isolate md:border-t md:border-gray-200 md:dark:border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -483,23 +468,16 @@ const HomeFeed: React.FC = () => {
               </Link>
             </div>
 
-            {/* Mobile: horizontal swipe carousel, two cards per view, scrolls
-                left to reveal more - no pagination dots needed since the
-                scroll position itself shows progress. */}
-            <div ref={reportsScrollRef} className="md:hidden pb-1 flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-smooth">
+            {/* Mobile: a plain vertical stack - the page itself scrolls,
+                this section never scrolls on its own. */}
+            <div className="md:hidden grid grid-cols-2 gap-3">
               {!hasLoaded ? (
-                [1, 2, 3, 4].map(i => (
-                  <div key={i} className="w-[47%] shrink-0 snap-start">
-                    <ReportCardSkeleton />
-                  </div>
-                ))
+                [1, 2, 3, 4].map(i => <ReportCardSkeleton key={i} />)
               ) : items.length === 0 ? (
-                <div className="w-full"><NoReflectionsYet /></div>
+                <div className="col-span-2"><NoReflectionsYet /></div>
               ) : (
                 items.map((item, idx) => (
-                  <div key={`${item.type}-${item.id}`} className="w-[47%] shrink-0 snap-start">
-                    <ReportCard item={item} index={idx} />
-                  </div>
+                  <ReportCard key={`${item.type}-${item.id}`} item={item} index={idx} />
                 ))
               )}
             </div>
