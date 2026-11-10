@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../../components/SEO';
 import AutoText from '../../components/AutoText';
@@ -7,24 +7,39 @@ import { useBibleOffline } from '../../hooks/useBibleOffline';
 
 type Result = { book: number; chapter: number; verse: number; text: string };
 
+const SEARCH_DEBOUNCE_MS = 300;
+const MAX_RESULTS = 100;
+
 const BibleSearch: React.FC = () => {
   const { lang, searchVerses, getDownloadStatus } = useBibleOffline();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Result[]>([]);
+  const [totalMatches, setTotalMatches] = useState(0);
   const [stillDownloading, setStillDownloading] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+  const latestQueryRef = useRef('');
 
   useEffect(() => {
     getDownloadStatus(lang).then((status) => setStillDownloading(!status.complete));
   }, [lang, getDownloadStatus]);
 
-  const runSearch = async (value: string) => {
+  const runSearch = (value: string) => {
     setQuery(value);
+    latestQueryRef.current = value;
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
     if (!value.trim()) {
       setResults([]);
+      setTotalMatches(0);
       return;
     }
-    const matches = await searchVerses(lang, value);
-    setResults(matches);
+
+    debounceRef.current = setTimeout(async () => {
+      const matches = await searchVerses(lang, value);
+      if (latestQueryRef.current !== value) return; // a newer search started while this one ran
+      setResults(matches.slice(0, MAX_RESULTS));
+      setTotalMatches(matches.length);
+    }, SEARCH_DEBOUNCE_MS);
   };
 
   return (
@@ -47,6 +62,12 @@ const BibleSearch: React.FC = () => {
           placeholder="Search the Bible..."
           className="w-full px-4 py-2 rounded-md bg-white dark:bg-[#141417] border border-gray-200 dark:border-white/10 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:border-amber-400"
         />
+
+        {totalMatches > MAX_RESULTS && (
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-3">
+            Showing the first {MAX_RESULTS} of {totalMatches} matches — narrow your search to see more.
+          </p>
+        )}
 
         <div className="mt-6 space-y-3">
           {results.map((r) => {

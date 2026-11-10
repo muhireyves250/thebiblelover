@@ -107,3 +107,18 @@ it('applyRemoteBookmark adds a remote bookmark not present locally, marked synce
   const target = (await getBookmarks()).find(b => b.key === 'en-9-1-1')!;
   expect(target).toEqual(expect.objectContaining({ lang: 'en', book: 9, chapter: 1, verse: 1, synced: true }));
 });
+
+it('searchVerses returns results in Bible order (book, then chapter, then verse), not cache-key string order', async () => {
+  (fetch as any).mockImplementation(async (url: string) => {
+    if (url === '/bible-data/en/10.json') return { ok: true, json: async () => [['match in book 10']] };
+    if (url === '/bible-data/en/2.json') return { ok: true, json: async () => [['match in book 2']] };
+    return { ok: false };
+  });
+  // Cache book 10 first, so its key ("en-10-1") would sort before "en-2-1"
+  // as a plain string even though book 2 comes first in the Bible.
+  await getChapter('en', 10, 1);
+  await getChapter('en', 2, 1);
+
+  const results = await searchVerses('en', 'match');
+  expect(results.map(r => r.book)).toEqual([2, 10]);
+});

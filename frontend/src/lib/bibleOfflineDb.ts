@@ -127,6 +127,7 @@ export async function searchVerses(lang: Lang, query: string) {
     });
   }
 
+  results.sort((a, b) => a.book - b.book || a.chapter - b.chapter || a.verse - b.verse);
   return results;
 }
 
