@@ -56,6 +56,9 @@ const Players = lazy(() => import('./pages/Players'));
 const PlayerDetail = lazy(() => import('./pages/PlayerDetail'));
 const Verses = lazy(() => import('./pages/Verses'));
 const VerseDetail = lazy(() => import('./pages/VerseDetail'));
+const BibleHome = lazy(() => import('./pages/bible-reader/BibleHome'));
+const BibleChapter = lazy(() => import('./pages/bible-reader/BibleChapter'));
+const BibleSearch = lazy(() => import('./pages/bible-reader/BibleSearch'));
 const Posts = lazy(() => import('./pages/Posts'));
 const Search = lazy(() => import('./pages/Search'));
 const PrayerWall = lazy(() => import('./pages/PrayerWall'));
@@ -163,6 +166,9 @@ function AppContent() {
             <Route path="/players/:id" element={<Suspense fallback={null}><PageTransition><PlayerDetail /></PageTransition></Suspense>} />
             <Route path="/verses" element={<Suspense fallback={null}><PageTransition><Verses /></PageTransition></Suspense>} />
             <Route path="/verses/:id" element={<Suspense fallback={null}><PageTransition><VerseDetail /></PageTransition></Suspense>} />
+            <Route path="/bible" element={<Suspense fallback={null}><PageTransition><BibleHome /></PageTransition></Suspense>} />
+            <Route path="/bible/search" element={<Suspense fallback={null}><PageTransition><BibleSearch /></PageTransition></Suspense>} />
+            <Route path="/bible/:lang/:book/:chapter" element={<Suspense fallback={null}><PageTransition><BibleChapter /></PageTransition></Suspense>} />
             <Route path="/search" element={<Suspense fallback={null}><PageTransition><Search /></PageTransition></Suspense>} />
             <Route path="/contact" element={<Suspense fallback={<ContactSkeleton />}><PageTransition><Contact /></PageTransition></Suspense>} />
             <Route path="/prayer-wall" element={<Suspense fallback={null}><PageTransition><PrayerWall /></PageTransition></Suspense>} />

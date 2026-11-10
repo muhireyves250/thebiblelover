@@ -227,6 +227,7 @@ const Header = () => {
             {[
               { path: '/', label: t('nav.home') },
               { path: '/about', label: t('nav.about') },
+              { path: '/bible', label: t('nav.bible') },
               { path: '/donate', label: t('nav.donate') },
               { path: '/contact', label: t('nav.contact') },
               { path: '/events', label: t('nav.events') },
@@ -405,6 +406,7 @@ const Header = () => {
                 { path: '/players', label: t('nav.devotionals') },
                 { path: '/watch', label: t('nav.watch') },
                 { path: '/verses', label: t('nav.verses') },
+                { path: '/bible', label: t('nav.bible') },
                 { path: '/prayer-wall', label: t('nav.prayerWall') },
                 { path: '/events', label: t('nav.events') },
                 { path: '/donate', label: t('nav.donate') },
