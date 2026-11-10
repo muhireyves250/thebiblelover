@@ -3,6 +3,8 @@ import { Moon, Sun } from 'lucide-react';
 
 const THEME_KEY = 'theme';
 
+// Light is the default whenever nothing's been saved yet - deliberately
+// not following the OS preference, to match main.tsx's pre-mount logic.
 const getInitialTheme = (): 'light' | 'dark' => {
     try {
         const stored = localStorage.getItem(THEME_KEY);
@@ -10,7 +12,7 @@ const getInitialTheme = (): 'light' | 'dark' => {
     } catch {
         // ignore (e.g. storage disabled)
     }
-    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return 'light';
 };
 
 const ThemeToggle: React.FC = () => {

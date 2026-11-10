@@ -8,12 +8,13 @@ import './index.css';
 
 console.log('Main.tsx is starting');
 
-// Apply the saved (or OS-preferred) theme before React mounts, so the
-// page never flashes light before ThemeToggle's own effect catches up.
+// Apply the saved theme before React mounts, so the page never flashes
+// light before ThemeToggle's own effect catches up. Light is the
+// default whenever nothing's been saved yet - this does not follow the
+// OS preference.
 try {
   const stored = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-  document.documentElement.classList.toggle('dark', stored === 'dark' || (stored !== 'light' && prefersDark));
+  document.documentElement.classList.toggle('dark', stored === 'dark');
 } catch {
   // ignore (e.g. storage disabled)
 }
