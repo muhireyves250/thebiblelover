@@ -30,7 +30,7 @@ const InstallAppButton: React.FC = () => {
       </button>
 
       {showHelp && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowHelp(false)}>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4" onClick={() => setShowHelp(false)}>
           <div
             className="bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/20 rounded-lg shadow-2xl max-w-sm w-full p-6 text-center"
             onClick={(e) => e.stopPropagation()}
