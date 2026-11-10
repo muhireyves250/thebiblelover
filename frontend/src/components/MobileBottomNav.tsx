@@ -6,7 +6,7 @@ const TABS = [
   { path: '/', labelKey: 'nav.home', icon: Home },
   { path: '/posts', labelKey: 'nav.blog', icon: FileText },
   { path: '/prayer-wall', labelKey: 'nav.prayerWall', icon: HandHeart },
-  { path: '/verses', labelKey: 'nav.verses', icon: BookOpenText },
+  { path: '/bible', labelKey: 'nav.bible', icon: BookOpenText },
 ];
 
 const MobileBottomNav = () => {

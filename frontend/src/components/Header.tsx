@@ -405,7 +405,6 @@ const Header = () => {
                 { path: '/posts', label: t('nav.blog') },
                 { path: '/players', label: t('nav.devotionals') },
                 { path: '/watch', label: t('nav.watch') },
-                { path: '/verses', label: t('nav.verses') },
                 { path: '/bible', label: t('nav.bible') },
                 { path: '/prayer-wall', label: t('nav.prayerWall') },
                 { path: '/events', label: t('nav.events') },
