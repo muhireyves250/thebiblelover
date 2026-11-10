@@ -1,5 +1,5 @@
 import 'fake-indexeddb/auto';
-import { beforeEach, describe, it, expect, vi } from 'vitest';
+import { beforeEach, it, expect, vi } from 'vitest';
 import {
   getChapter, startBackgroundFill, getDownloadStatus, searchVerses,
   setBookmark, getBookmarks, deleteBookmark, getUnsyncedRecords, markSynced

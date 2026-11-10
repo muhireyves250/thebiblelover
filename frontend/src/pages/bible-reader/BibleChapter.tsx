@@ -17,7 +17,7 @@ const BibleChapter: React.FC = () => {
     getChapter, setReadingPosition,
     getBookmarks, setBookmark, deleteBookmark,
     getHighlights, setHighlight, deleteHighlight,
-    getNotes, setNote,
+    getNotes, setNote, deleteNote,
   } = useBibleOffline();
 
   const [verses, setVerses] = useState<string[] | null>(null);
@@ -85,8 +85,16 @@ const BibleChapter: React.FC = () => {
 
   const saveNote = (verse: number, text: string) => {
     if (!lang) return;
-    setNote(lang, book, chapter, verse, text);
-    setNotesState((prev) => new Map(prev).set(verse, text));
+    const current = notes.get(verse) ?? '';
+    if (text === current) return; // untouched (or not yet loaded) - never overwrite with a no-op
+
+    if (text === '') {
+      deleteNote(lang, book, chapter, verse);
+      setNotesState((prev) => { const next = new Map(prev); next.delete(verse); return next; });
+    } else {
+      setNote(lang, book, chapter, verse, text);
+      setNotesState((prev) => new Map(prev).set(verse, text));
+    }
   };
 
   const prevChapter = chapter > 1 ? chapter - 1 : null;
@@ -152,7 +160,13 @@ const BibleChapter: React.FC = () => {
                     <input
                       type="text"
                       placeholder="Add a note"
-                      defaultValue={notes.get(verseNumber) || ''}
+                      // Keyed on the loaded value so that once the async getNotes()
+                      // load resolves after this input has already mounted, React
+                      // remounts it with the real defaultValue instead of silently
+                      // keeping an empty uncontrolled input a blur would then save
+                      // over the real note.
+                      key={notes.get(verseNumber) ?? ''}
+                      defaultValue={notes.get(verseNumber) ?? ''}
                       onBlur={(e) => saveNote(verseNumber, e.target.value)}
                       className="text-[11px] flex-1 bg-transparent border-b border-gray-200 dark:border-white/10 focus:outline-none text-gray-500 dark:text-gray-400"
                     />
