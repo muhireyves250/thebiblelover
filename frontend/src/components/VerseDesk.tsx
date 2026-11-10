@@ -203,10 +203,10 @@ const VerseDesk: React.FC = () => {
             <p className="hidden md:block text-sm text-gray-500 dark:text-gray-400 mt-2">Daily encouragement · Scripture · Faith &amp; reflection</p>
           </div>
           <Link
-            to="/verses"
+            to="/bible"
             className="flex items-center gap-1.5 md:gap-2 px-3 py-1.5 md:px-5 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-700 dark:text-gray-200 hover:bg-gray-50 transition-colors shrink-0"
           >
-            All Verses <ChevronRight className="w-3 h-3 md:w-3.5 md:h-3.5" />
+            Read the Bible <ChevronRight className="w-3 h-3 md:w-3.5 md:h-3.5" />
           </Link>
         </div>
 
