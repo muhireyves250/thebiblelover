@@ -18,6 +18,13 @@ const bibleReadingRoutes = require('./bible-reading.cjs');
 const app = express();
 app.use(express.json());
 app.use('/api/bible-reading', bibleReadingRoutes);
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({ success: false, message: err.message || 'Internal server error' });
+});
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 test('PUT /bookmarks/:lang/:book/:chapter/:verse upserts and returns the bookmark', async () => {
   prisma.bibleBookmark.upsert.mockResolvedValue({ id: 'b1', userId: 'user-1', lang: 'en', book: 1, chapter: 1, verse: 1 });
@@ -42,4 +49,23 @@ test('GET /bookmarks returns the signed-in user\'s bookmarks only', async () => 
   expect(res.status).toBe(200);
   expect(res.body.bookmarks).toEqual([{ id: 'b1' }]);
   expect(prisma.bibleBookmark.findMany).toHaveBeenCalledWith({ where: { userId: 'user-1' } });
+});
+
+test('DELETE /bookmarks forwards a Prisma "not found" error as 404 instead of crashing', async () => {
+  const err = new Error('Record not found'); err.code = 'P2025';
+  prisma.bibleBookmark.delete.mockRejectedValue(err);
+  const res = await request(app).delete('/api/bible-reading/bookmarks/en/1/1/999');
+  expect(res.status).toBe(404);
+});
+
+test('PUT /bookmarks forwards an unexpected Prisma error via next(err) instead of crashing the process', async () => {
+  prisma.bibleBookmark.upsert.mockRejectedValue(new Error('connection lost'));
+  const res = await request(app).put('/api/bible-reading/bookmarks/en/1/1/1').send();
+  expect(res.status).toBe(500);
+});
+
+test('PUT /bookmarks with a non-numeric chapter returns 400 instead of writing NaN', async () => {
+  const res = await request(app).put('/api/bible-reading/bookmarks/en/1/abc/1').send();
+  expect(res.status).toBe(400);
+  expect(prisma.bibleBookmark.upsert).not.toHaveBeenCalled();
 });

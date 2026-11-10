@@ -10,6 +10,22 @@ const parser = new XMLParser({
 
 const cleanText = (text) => String(text).trim().replace(/\s+/g, ' ');
 
+// Indexes by the verse's own number (not array position) and fills any
+// gap with '' - a source file can skip a verse number (e.g. Job 21:8 is
+// absent from the Kinyarwanda source), and every later verse in that
+// chapter would otherwise shift down by one.
+function versesByNumber(rawVerses, numberField) {
+  const verses = [];
+  for (const raw of rawVerses) {
+    const number = Number(raw[numberField]);
+    verses[number - 1] = cleanText(raw['#text'] ?? raw);
+  }
+  for (let i = 0; i < verses.length; i++) {
+    if (verses[i] === undefined) verses[i] = '';
+  }
+  return verses;
+}
+
 function parseBibleXml(xml, schema) {
   const doc = parser.parse(xml);
 
@@ -20,7 +36,7 @@ function parseBibleXml(xml, schema) {
       name: book.bname,
       chapters: book.CHAPTER.map((chapter) => ({
         number: Number(chapter.cnumber),
-        verses: chapter.VERS.map((verse) => cleanText(verse['#text'] ?? verse)),
+        verses: versesByNumber(chapter.VERS, 'vnumber'),
       })),
     }));
   }
@@ -32,7 +48,7 @@ function parseBibleXml(xml, schema) {
     name: null,
     chapters: book.chapter.map((chapter) => ({
       number: Number(chapter.number),
-      verses: chapter.verse.map((verse) => cleanText(verse['#text'] ?? verse)),
+      verses: versesByNumber(chapter.verse, 'number'),
     })),
   }));
 }

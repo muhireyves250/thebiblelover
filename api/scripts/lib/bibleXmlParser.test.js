@@ -63,3 +63,18 @@ test('does not collapse a single verse/chapter/book into a non-array', () => {
     { number: 1, name: null, chapters: [ { number: 1, verses: ['Only verse.'] } ] }
   ]);
 });
+
+const gapFixture = `<?xml version="1.0" encoding="UTF-8"?>
+<XMLBIBLE biblename="Test">
+  <BIBLEBOOK bnumber="1" bname="Test">
+    <CHAPTER cnumber="1">
+      <VERS vnumber="1">Verse one.</VERS>
+      <VERS vnumber="3">Verse three.</VERS>
+    </CHAPTER>
+  </BIBLEBOOK>
+</XMLBIBLE>`;
+
+test('indexes verses by their actual number, leaving a gap empty, when the source skips a number', () => {
+  const books = parseBibleXml(gapFixture, 'named');
+  expect(books[0].chapters[0].verses).toEqual(['Verse one.', '', 'Verse three.']);
+});
