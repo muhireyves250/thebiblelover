@@ -38,15 +38,17 @@ const chapterKey = (lang: Lang, book: number, chapter: number) => `${lang}-${boo
 const verseKey = (lang: Lang, book: number, chapter: number, verse: number) => `${lang}-${book}-${chapter}-${verse}`;
 
 async function fetchAndCacheBook(lang: Lang, book: number): Promise<string[][] | null> {
-  let response: { ok: boolean; json?: () => Promise<string[][]> };
+  let chapters: string[][];
   try {
-    response = await fetch(`/bible-data/${lang}/${book}.json`);
+    const response = await fetch(`/bible-data/${lang}/${book}.json`);
+    if (!response.ok) return null;
+    chapters = await response.json();
   } catch {
+    // Network failure, or a response that isn't valid JSON (e.g. a
+    // captive-portal page served with a 200 status) - either way, no data.
     return null;
   }
-  if (!response.ok || !response.json) return null;
 
-  const chapters = await response.json();
   const db = await getDb();
   const tx = db.transaction('verses', 'readwrite');
   chapters.forEach((verses, index) => {

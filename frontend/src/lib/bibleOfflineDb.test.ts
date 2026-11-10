@@ -29,6 +29,17 @@ it('getChapter returns an offline-miss instead of throwing when uncached and fet
   expect(result).toEqual({ error: 'offline-miss' });
 });
 
+it('getChapter returns an offline-miss instead of rejecting when the response body is not valid JSON', async () => {
+  (fetch as any).mockImplementation(async (url: string) => {
+    if (url === '/bible-data/fr/50.json') {
+      return { ok: true, json: async () => { throw new SyntaxError('Unexpected token <'); } };
+    }
+    return { ok: false };
+  });
+  const result = await getChapter('fr', 50, 1);
+  expect(result).toEqual({ error: 'offline-miss' });
+});
+
 it('searchVerses matches accent-insensitively over cached verses', async () => {
   (fetch as any).mockImplementation(async (url: string) => {
     if (url === '/bible-data/fr/1.json') return { ok: true, json: async () => [["Dieu créa les cieux."]] };
