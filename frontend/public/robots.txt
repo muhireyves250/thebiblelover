@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /dashboard
 Disallow: /member-dashboard
 
-Sitemap: https://thebiblelover.com/sitemap.xml
+Sitemap: https://hema.rw/sitemap.xml

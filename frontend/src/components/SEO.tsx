@@ -1,6 +1,13 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
+// The one domain all SEO/OG URLs should ever point at, regardless of
+// which host (hema.rw, www.hema.rw, a Vercel preview alias) actually
+// served the page - otherwise Google sees the exact same content as
+// separate pages under separate hostnames and splits ranking signals
+// between them instead of consolidating onto one indexable URL.
+export const CANONICAL_ORIGIN = 'https://hema.rw';
+
 interface SEOProps {
     title?: string;
     description?: string;
@@ -14,7 +21,7 @@ const SEO: React.FC<SEOProps> = ({
     title,
     description = "A haven for those who seek the wisdom, comfort, and inspiration of the Holy Bible.",
     image = "/og-image.jpg",
-    url = window.location.href,
+    url = `${CANONICAL_ORIGIN}${window.location.pathname}${window.location.search}`,
     type = 'website',
     noindex = false
 }) => {
@@ -26,10 +33,10 @@ const SEO: React.FC<SEOProps> = ({
     // so fall back here too.
     const resolvedImage = image || "/og-image.jpg";
 
-    // Ensure image is an absolute URL
+    // Ensure image is an absolute URL, always under the canonical origin
     const absoluteImage = resolvedImage.startsWith('http')
         ? resolvedImage
-        : `${window.location.origin}${resolvedImage.startsWith('/') ? resolvedImage : `/${resolvedImage}`}`;
+        : `${CANONICAL_ORIGIN}${resolvedImage.startsWith('/') ? resolvedImage : `/${resolvedImage}`}`;
 
     return (
         <Helmet>
@@ -73,7 +80,7 @@ const SEO: React.FC<SEOProps> = ({
                             "name": siteTitle,
                             "logo": {
                                 "@type": "ImageObject",
-                                "url": `${window.location.origin}/logo.png`
+                                "url": `${CANONICAL_ORIGIN}/logo.png`
                             }
                         },
                         "mainEntityOfPage": {

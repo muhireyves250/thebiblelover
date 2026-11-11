@@ -6,18 +6,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Base URL of your site
-const BASE_URL = 'https://thebiblelover.com';
+const BASE_URL = 'https://hema.rw';
 
 // Static routes
 const staticRoutes = [
   '',
   '/about',
+  '/bible',
+  '/bible/search',
+  '/verses',
+  '/posts',
+  '/players',
+  '/watch',
+  '/prayer-wall',
+  '/events',
   '/donate',
   '/contact',
-  '/events',
-  '/posts',
-  '/login',
-  '/signup',
 ];
 
 // In a real scenario, you would fetch dynamic IDs (blog post slugs) from your API
