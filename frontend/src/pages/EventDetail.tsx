@@ -3,7 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { Calendar, MapPin, Clock, Users, ArrowLeft, Share2, Heart, CheckCircle2, User as UserIcon, ExternalLink, X } from 'lucide-react';
 import { eventAPI, authAPI } from '../services/api';
 import type { Event } from '../services/api.d';
+import SEO, { CANONICAL_ORIGIN } from '../components/SEO';
 import AutoText from '../components/AutoText';
+import Toast from '../components/Toast';
+import { useToast } from '../hooks/useToast';
+import { shareOrCopy } from '../lib/share';
 
 const EventDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -18,6 +22,15 @@ const EventDetail = () => {
     const [guestEmail, setGuestEmail] = useState('');
     const [guestSubmitting, setGuestSubmitting] = useState(false);
     const [guestError, setGuestError] = useState('');
+    const { toastMessage, showToast } = useToast();
+
+    const shareEvent = async () => {
+        if (!event) return;
+        const url = `${CANONICAL_ORIGIN}/events/${event.id}`;
+        const result = await shareOrCopy({ text: event.title, url });
+        if (result === 'copied') showToast('Copied to clipboard');
+        if (result === 'failed') showToast("Couldn't copy — try again");
+    };
 
     useEffect(() => {
         loadEvent();
@@ -208,6 +221,7 @@ const EventDetail = () => {
 
     return (
         <div className="min-h-screen bg-white dark:bg-transparent">
+            <SEO title={event.title} description={event.description} image={event.thumbnail} type="article" />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-10">
                 <Link
                     to="/events"
@@ -357,7 +371,7 @@ const EventDetail = () => {
                         </div>
 
                         <div className="flex gap-2.5 md:gap-3">
-                            <button className="flex-1 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 transition-colors">
+                            <button onClick={shareEvent} className="flex-1 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 transition-colors">
                                 <Share2 className="h-3.5 w-3.5 md:h-4 md:w-4" /> <AutoText as="span">Share</AutoText>
                             </button>
                             <button className="flex-1 py-2 md:py-2.5 border border-gray-300 dark:border-white/10 rounded-md flex items-center justify-center gap-1.5 text-xs md:text-sm font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 transition-colors">
@@ -484,6 +498,8 @@ const EventDetail = () => {
                     </div>
                 </div>
             )}
+
+            <Toast message={toastMessage} />
         </div>
     );
 };

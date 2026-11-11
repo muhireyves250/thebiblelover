@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Play, AlertTriangle, Clock, Eye, Share2 } from 'lucide-react';
 import { homeFeedAPI } from '../services/api';
 import type { HomeFeedVideo } from '../services/api.d';
@@ -12,59 +12,35 @@ import { shareOrCopy } from '../lib/share';
 const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-const VideoCard = ({
-    item, isPlaying, onPlay, onShare, cardRef,
-}: {
-    item: HomeFeedVideo;
-    isPlaying: boolean;
-    onPlay: () => void;
-    onShare: () => void;
-    cardRef?: (el: HTMLDivElement | null) => void;
-}) => {
+const VideoCard = ({ item, onShare }: { item: HomeFeedVideo; onShare: () => void }) => {
     const isLive = item.type === 'LIVE';
 
     return (
-        <div ref={cardRef} className="group bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
-            <div className={`relative bg-gray-100 dark:bg-white/10 overflow-hidden ${isPlaying ? 'h-64 md:h-80' : 'h-48 md:h-56'}`}>
-                {isPlaying ? (
-                    <iframe
-                        className="absolute inset-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${item.id}?autoplay=1`}
-                        title={item.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    />
-                ) : (
-                    <>
-                        <img
-                            src={item.thumbnail}
-                            alt={item.title}
-                            className="absolute inset-0 w-full h-full object-cover"
-                            loading="lazy"
-                        />
-                        {isLive && (
-                            <div className="absolute top-2 left-2 md:top-3 md:left-3 flex items-center gap-1.5 px-2 py-0.5 md:px-2.5 md:py-1 bg-red-600 rounded-full shadow-lg">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white dark:bg-[#141417] opacity-75" />
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white dark:bg-[#141417]" />
-                                </span>
-                                <AutoText as="span" className="text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest">Live</AutoText>
-                            </div>
-                        )}
-                        <button
-                            onClick={onPlay}
-                            aria-label="Play video"
-                            className="absolute inset-0 flex items-center justify-center group"
-                        >
-                            <span className="flex items-center justify-center w-11 h-11 md:w-14 md:h-14 rounded-full bg-red-600/90 shadow-xl group-hover:scale-110 group-hover:bg-red-600 transition-all duration-300">
-                                <Play className="w-5 h-5 md:w-6 md:h-6 text-white ml-0.5" fill="currentColor" />
-                            </span>
-                        </button>
-                    </>
+        <div className="group bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
+            <Link to={`/watch/${item.id}`} className="relative h-48 md:h-56 bg-gray-100 dark:bg-white/10 overflow-hidden block">
+                <img
+                    src={item.thumbnail}
+                    alt={item.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                />
+                {isLive && (
+                    <div className="absolute top-2 left-2 md:top-3 md:left-3 flex items-center gap-1.5 px-2 py-0.5 md:px-2.5 md:py-1 bg-red-600 rounded-full shadow-lg">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white dark:bg-[#141417] opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-white dark:bg-[#141417]" />
+                        </span>
+                        <AutoText as="span" className="text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest">Live</AutoText>
+                    </div>
                 )}
-            </div>
+                <span className="absolute inset-0 flex items-center justify-center">
+                    <span className="flex items-center justify-center w-11 h-11 md:w-14 md:h-14 rounded-full bg-red-600/90 shadow-xl group-hover:scale-110 group-hover:bg-red-600 transition-all duration-300">
+                        <Play className="w-5 h-5 md:w-6 md:h-6 text-white ml-0.5" fill="currentColor" />
+                    </span>
+                </span>
+            </Link>
 
-            <div className="p-3 md:p-6 flex-1">
+            <Link to={`/watch/${item.id}`} className="p-3 md:p-6 flex-1 block">
                 <div className="flex items-center justify-between mb-2 md:mb-4">
                     <span className="px-2 py-0.5 md:px-2.5 md:py-1 bg-amber-50 text-amber-700 text-[9px] md:text-[10px] font-black rounded border border-amber-100 uppercase tracking-widest">
                         {isLive ? 'Live' : 'Video'}
@@ -79,7 +55,7 @@ const VideoCard = ({
                     {item.title}
                 </h3>
                 <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-2 md:line-clamp-3">{item.excerpt}</p>
-            </div>
+            </Link>
 
             <div className="px-3 py-2.5 md:px-6 md:py-4 flex items-center justify-between border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5">
                 <button
@@ -128,10 +104,7 @@ const Videos = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [activeFilter, setActiveFilter] = useState<typeof FILTERS[number]['id']>('ALL');
-    const [playingId, setPlayingId] = useState<string | null>(null);
-    const [searchParams] = useSearchParams();
     const { toastMessage, showToast } = useToast();
-    const cardRefs = useRef(new Map<string, HTMLDivElement>());
 
     useEffect(() => {
         setLoading(true);
@@ -145,20 +118,10 @@ const Videos = () => {
         }).catch(() => setError(true)).finally(() => setLoading(false));
     }, []);
 
-    // Honors a shared link's ?v=<videoId> (see VideoCard's share button) -
-    // once that video has loaded, play it and scroll it into view.
-    useEffect(() => {
-        const v = searchParams.get('v');
-        if (!v || items.length === 0) return;
-        if (!items.some((item) => item.id === v)) return;
-        setPlayingId(v);
-        cardRefs.current.get(v)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, [searchParams, items]);
-
     const visibleItems = activeFilter === 'ALL' ? items : items.filter(item => item.type === activeFilter);
 
     const handleShare = async (item: HomeFeedVideo) => {
-        const url = `${CANONICAL_ORIGIN}/watch?v=${item.id}`;
+        const url = `${CANONICAL_ORIGIN}/watch/${item.id}`;
         const result = await shareOrCopy({ text: item.title, url });
         if (result === 'copied') showToast('Copied to clipboard');
         if (result === 'failed') showToast("Couldn't copy — try again");
@@ -212,17 +175,7 @@ const Videos = () => {
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                         {visibleItems.map(item => (
-                            <VideoCard
-                                key={item.id}
-                                item={item}
-                                isPlaying={playingId === item.id}
-                                onPlay={() => setPlayingId(item.id)}
-                                onShare={() => handleShare(item)}
-                                cardRef={(el) => {
-                                    if (el) cardRefs.current.set(item.id, el);
-                                    else cardRefs.current.delete(item.id);
-                                }}
-                            />
+                            <VideoCard key={item.id} item={item} onShare={() => handleShare(item)} />
                         ))}
                     </div>
                 )}

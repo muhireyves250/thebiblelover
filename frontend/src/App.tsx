@@ -64,6 +64,7 @@ const Search = lazy(() => import('./pages/Search'));
 const PrayerWall = lazy(() => import('./pages/PrayerWall'));
 const Events = lazy(() => import('./pages/Events'));
 const Videos = lazy(() => import('./pages/Videos'));
+const VideoDetail = lazy(() => import('./pages/VideoDetail'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Register = lazy(() => import('./pages/Register'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword'));
@@ -120,7 +121,7 @@ function AppContent() {
   // (blog posts, episodes, verses, events), where keying by the full
   // pathname would remount the whole page (sidebar included) every time the
   // dynamic param changes, defeating the sidebar's sticky/in-place behavior.
-  const detailRoutePrefixes = ['/blog/', '/players/', '/verses/', '/events/'];
+  const detailRoutePrefixes = ['/blog/', '/players/', '/verses/', '/events/', '/watch/'];
   const matchedDetailPrefix = detailRoutePrefixes.find(prefix => location.pathname.startsWith(prefix));
   const routeKey = matchedDetailPrefix ? `${matchedDetailPrefix}:id` : location.pathname;
 
@@ -175,6 +176,7 @@ function AppContent() {
             <Route path="/events" element={<Suspense fallback={null}><PageTransition><Events /></PageTransition></Suspense>} />
             <Route path="/events/:id" element={<Suspense fallback={null}><PageTransition><EventDetail /></PageTransition></Suspense>} />
             <Route path="/watch" element={<Suspense fallback={null}><PageTransition><Videos /></PageTransition></Suspense>} />
+            <Route path="/watch/:id" element={<Suspense fallback={null}><PageTransition><VideoDetail /></PageTransition></Suspense>} />
             <Route path="/login" element={<Suspense fallback={null}><PageTransition><Login /></PageTransition></Suspense>} />
             <Route path="/register" element={<Suspense fallback={null}><PageTransition><Register /></PageTransition></Suspense>} />
             <Route path="/forgot-password" element={<Suspense fallback={null}><PageTransition><ForgotPassword /></PageTransition></Suspense>} />
