@@ -211,8 +211,9 @@ const BibleChapter: React.FC = () => {
   return (
     <>
       <SEO title={title} description={seoDescription} lang={lang} alternateUrls={alternateUrls} />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16 flex gap-8">
-        <div className="hidden md:block md:sticky md:top-4 md:self-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
+      <div className="md:border md:border-gray-300 md:dark:border-white/10 md:rounded-lg md:p-8 flex gap-8">
+        <div className="hidden md:block md:sticky md:top-4 md:self-start md:border-r md:border-gray-200 md:dark:border-white/10 md:pr-8">
           {lang && <BibleSidebar lang={lang} currentBook={book} currentChapter={chapter} />}
         </div>
 
@@ -287,6 +288,7 @@ const BibleChapter: React.FC = () => {
               </Link>
             ) : <span />}
           </div>
+        </div>
         </div>
       </div>
 
