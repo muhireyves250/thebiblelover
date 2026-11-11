@@ -166,6 +166,26 @@ const BibleChapter: React.FC = () => {
     [bookMeta, lang, chapter]
   );
 
+  // Localized so the page actually matches a "Bibiliya"/"la Bible" search,
+  // not just an English one - each language gets its own URL
+  // (/bible/rw|en|fr/...), so this is a real, separately-indexable page.
+  const seoDescription = useMemo(() => {
+    if (!bookMeta || !lang) return undefined;
+    const name = bookMeta.names[lang];
+    if (lang === 'rw') return `Soma ${name} ${chapter} muri Bibiliya Yera, ku buntu kandi nta interineti ukeneye.`;
+    if (lang === 'fr') return `Lisez ${name} ${chapter} dans la Sainte Bible, gratuitement et même hors ligne.`;
+    return `Read ${name} ${chapter} in the Holy Bible, free and available offline.`;
+  }, [bookMeta, lang, chapter]);
+
+  const alternateUrls = useMemo(() => {
+    if (!bookMeta) return undefined;
+    return {
+      en: `/bible/en/${book}/${chapter}`,
+      fr: `/bible/fr/${book}/${chapter}`,
+      rw: `/bible/rw/${book}/${chapter}`,
+    };
+  }, [bookMeta, book, chapter]);
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (isTypingTarget(e.target) || e.altKey || e.metaKey || e.ctrlKey || e.shiftKey || e.defaultPrevented) return;
@@ -212,7 +232,7 @@ const BibleChapter: React.FC = () => {
 
   return (
     <>
-      <SEO title={title} description={`Read ${title} offline.`} />
+      <SEO title={title} description={seoDescription} lang={lang} alternateUrls={alternateUrls} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16 flex gap-8">
         <div className="hidden md:block md:sticky md:top-4 md:self-start">
           {lang && <BibleSidebar lang={lang} currentBook={book} currentChapter={chapter} />}

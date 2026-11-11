@@ -44,7 +44,10 @@ const BibleSearch: React.FC = () => {
 
   return (
     <>
-      <SEO title="Search the Bible" description="Search the Bible offline." />
+      <SEO
+        title="Shakisha muri Bibiliya · Search the Bible · Rechercher dans la Bible"
+        description="Shakisha muri Bibiliya Yera — Search the whole Bible — Recherchez dans toute la Bible. Mu Kinyarwanda, mu Cyongereza, no mu Gifaransa."
+      />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
         <div className="mb-6">
           <AutoText as="h1" className="text-2xl md:text-4xl font-black uppercase tracking-tight text-gray-900 dark:text-white">Search</AutoText>

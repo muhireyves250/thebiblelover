@@ -27,7 +27,14 @@ const BibleHome: React.FC = () => {
 
   return (
     <>
-      <SEO title="Bible" description="Read the whole Bible offline in Kinyarwanda, English, or French." />
+      {/* This single page has no per-language URL (language is a client-side
+          choice, not part of the route), so one indexable page has to carry
+          keywords for all three search languages at once - hreflang doesn't
+          apply here the way it does for individual chapters. */}
+      <SEO
+        title="Bibiliya · Bible · La Bible"
+        description="Soma Bibiliya Yera kuri interineti cyangwa nta interineti — Read the Holy Bible online or offline — Lisez la Sainte Bible en ligne ou hors ligne. Mu Kinyarwanda, mu Cyongereza, no mu Gifaransa."
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
         <div className="mb-4 md:mb-6">
           <div className="flex items-center gap-2 mb-2">

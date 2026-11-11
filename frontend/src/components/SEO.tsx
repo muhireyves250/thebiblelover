@@ -15,6 +15,17 @@ interface SEOProps {
     url?: string;
     type?: 'website' | 'article';
     noindex?: boolean;
+    /** BCP-47 language of this page's content (e.g. 'rw', 'en', 'fr') - sets <html lang>. */
+    lang?: string;
+    /**
+     * Other language versions of this exact page, keyed by language code,
+     * absolute or site-relative path. Only meaningful when the page's
+     * content genuinely lives at a distinct URL per language (e.g. the
+     * Bible reader's /bible/:lang/:book/:chapter) - tells Google these
+     * pages are translations of each other instead of three unrelated,
+     * possibly-duplicate pages.
+     */
+    alternateUrls?: Partial<Record<'en' | 'fr' | 'rw', string>>;
 }
 
 const SEO: React.FC<SEOProps> = ({
@@ -23,7 +34,9 @@ const SEO: React.FC<SEOProps> = ({
     image = "/og-image.jpg",
     url = `${CANONICAL_ORIGIN}${window.location.pathname}${window.location.search}`,
     type = 'website',
-    noindex = false
+    noindex = false,
+    lang,
+    alternateUrls,
 }) => {
     const siteTitle = "The Bible Lover";
     const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
@@ -38,13 +51,24 @@ const SEO: React.FC<SEOProps> = ({
         ? resolvedImage
         : `${CANONICAL_ORIGIN}${resolvedImage.startsWith('/') ? resolvedImage : `/${resolvedImage}`}`;
 
+    const absoluteAlternate = (path: string) =>
+        path.startsWith('http') ? path : `${CANONICAL_ORIGIN}${path.startsWith('/') ? path : `/${path}`}`;
+
     return (
         <Helmet>
+            {lang && <html lang={lang} />}
+
             {/* Standard Meta Tags */}
             <title>{fullTitle}</title>
             <meta name="description" content={description} />
             <link rel="canonical" href={url} />
             {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+            {/* Alternate-language versions of this same page */}
+            {alternateUrls && Object.entries(alternateUrls).map(([code, path]) => (
+                <link key={code} rel="alternate" hrefLang={code} href={absoluteAlternate(path as string)} />
+            ))}
+            {alternateUrls?.en && <link rel="alternate" hrefLang="x-default" href={absoluteAlternate(alternateUrls.en)} />}
 
             {/* Open Graph / Facebook */}
             <meta property="og:type" content={type} />
