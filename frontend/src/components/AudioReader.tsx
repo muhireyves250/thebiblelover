@@ -21,7 +21,15 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const keepAliveRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Some WebViews (notably Facebook's and Instagram's in-app browsers)
+  // don't implement the Web Speech API at all, leaving window.speechSynthesis
+  // undefined. Every call below is guarded on this so the page renders
+  // normally there, just without the "Listen" feature, instead of crashing.
+  const isSupported = typeof window !== 'undefined' && !!window.speechSynthesis;
+
   useEffect(() => {
+    if (!isSupported) return;
+
     const loadVoices = () => {
       const availableVoices = window.speechSynthesis.getVoices();
       setVoices(availableVoices.filter(v => v.lang.startsWith('en')));
@@ -38,9 +46,10 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
       if (timerRef.current) clearInterval(timerRef.current);
       if (keepAliveRef.current) clearInterval(keepAliveRef.current);
     };
-  }, []);
+  }, [isSupported]);
 
   const speak = () => {
+    if (!isSupported) return;
     // speechSynthesis.pause()/resume() is unreliable across browsers (can
     // produce overlapping/garbled audio or simply not resume), so "play"
     // always cancels anything in flight and starts fresh from the top
@@ -110,6 +119,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
   };
 
   const pause = () => {
+    if (!isSupported) return;
     // A true pause/resume is unreliable (see note in speak()), so this
     // fully stops playback instead of suspending it - pressing play again
     // starts over from the top.
@@ -122,6 +132,7 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
   };
 
   const reset = () => {
+    if (!isSupported) return;
     window.speechSynthesis.cancel();
     setIsSpeaking(false);
     setIsPaused(false);
@@ -140,6 +151,8 @@ const AudioReader: React.FC<AudioReaderProps> = ({ content, title, compact = fal
       speak();
     }
   };
+
+  if (!isSupported) return null;
 
   if (compact) {
     return (
