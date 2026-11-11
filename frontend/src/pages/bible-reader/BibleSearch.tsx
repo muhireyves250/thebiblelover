@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import SEO from '../../components/SEO';
 import AutoText from '../../components/AutoText';
 import { BIBLE_BOOKS } from '../../data/bibleBooks';
@@ -12,6 +12,7 @@ const MAX_RESULTS = 100;
 
 const BibleSearch: React.FC = () => {
   const { lang, searchVerses, getDownloadStatus } = useBibleOffline();
+  const [searchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Result[]>([]);
   const [totalMatches, setTotalMatches] = useState(0);
@@ -41,6 +42,14 @@ const BibleSearch: React.FC = () => {
       setTotalMatches(matches.length);
     }, SEARCH_DEBOUNCE_MS);
   };
+
+  // Supports Google's Sitelinks Search Box (see the WebSite/SearchAction
+  // structured data in index.html), and lets anyone deep-link a search.
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) runSearch(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
