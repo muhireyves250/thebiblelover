@@ -4,6 +4,7 @@ import { prayerAPI, authAPI } from '../services/api';
 import type { PrayerRequest } from '../services/api.d';
 import { useTranslatedText } from '../hooks/useDynamicTranslation';
 import AutoText from '../components/AutoText';
+import SEO from '../components/SEO';
 
 const PrayerRequestText = ({ title, content }: { title: string; content: string }) => {
     const translatedTitle = useTranslatedText(title);
@@ -135,6 +136,10 @@ const PrayerWall = () => {
 
     return (
         <div className="min-h-screen bg-white dark:bg-transparent">
+            <SEO
+                title="Prayer Wall"
+                description="Share your prayer requests and pray for others in our community. A sacred space to share burdens and lift each other up in prayer."
+            />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
                 <AutoText as="h1" className="md:hidden text-lg font-black uppercase tracking-tight text-gray-900 dark:text-white mb-3">
                     A sacred space to share burdens and lift each other up in prayer.
