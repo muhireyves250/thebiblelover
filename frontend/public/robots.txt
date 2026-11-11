@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /dashboard
 Disallow: /member-dashboard
 
-Sitemap: https://hema.rw/sitemap.xml
+Sitemap: https://www.hema.rw/sitemap.xml

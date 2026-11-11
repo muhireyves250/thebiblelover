@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet-async';
 // served the page - otherwise Google sees the exact same content as
 // separate pages under separate hostnames and splits ranking signals
 // between them instead of consolidating onto one indexable URL.
-export const CANONICAL_ORIGIN = 'https://hema.rw';
+export const CANONICAL_ORIGIN = 'https://www.hema.rw';
 
 interface SEOProps {
     title?: string;

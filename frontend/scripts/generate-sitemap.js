@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Base URL of your site
-const BASE_URL = 'https://hema.rw';
+const BASE_URL = 'https://www.hema.rw';
 
 // Static routes
 const staticRoutes = [
