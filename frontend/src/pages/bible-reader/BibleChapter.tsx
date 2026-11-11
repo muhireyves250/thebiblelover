@@ -10,6 +10,7 @@ import { useToast } from '../../hooks/useToast';
 import type { Lang } from '../../lib/bibleOfflineDb';
 import { detectSwipe } from '../../lib/swipeGesture';
 import { shareOrCopy } from '../../lib/share';
+import { bibleChapterSeoDescription } from '../../lib/bibleChapterSeo';
 import ChapterPickerOverlay from './ChapterPickerOverlay';
 import BibleSidebar from './BibleSidebar';
 import VerseActionToolbar from './VerseActionToolbar';
@@ -151,10 +152,7 @@ const BibleChapter: React.FC = () => {
   // (/bible/rw|en|fr/...), so this is a real, separately-indexable page.
   const seoDescription = useMemo(() => {
     if (!bookMeta || !lang) return undefined;
-    const name = bookMeta.names[lang];
-    if (lang === 'rw') return `Soma ${name} ${chapter} muri Bibiliya Yera, ku buntu kandi nta interineti ukeneye.`;
-    if (lang === 'fr') return `Lisez ${name} ${chapter} dans la Sainte Bible, gratuitement et même hors ligne.`;
-    return `Read ${name} ${chapter} in the Holy Bible, free and available offline.`;
+    return bibleChapterSeoDescription(lang, bookMeta.names[lang], chapter);
   }, [bookMeta, lang, chapter]);
 
   const alternateUrls = useMemo(() => {
