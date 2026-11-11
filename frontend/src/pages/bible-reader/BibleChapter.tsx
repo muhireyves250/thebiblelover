@@ -1,12 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import SEO from '../../components/SEO';
+import SEO, { CANONICAL_ORIGIN } from '../../components/SEO';
 import AutoText from '../../components/AutoText';
+import Toast from '../../components/Toast';
 import { ChevronDown } from 'lucide-react';
 import { BIBLE_BOOKS } from '../../data/bibleBooks';
 import { useBibleOffline } from '../../hooks/useBibleOffline';
+import { useToast } from '../../hooks/useToast';
 import type { Lang } from '../../lib/bibleOfflineDb';
 import { detectSwipe } from '../../lib/swipeGesture';
+import { shareOrCopy } from '../../lib/share';
 import ChapterPickerOverlay from './ChapterPickerOverlay';
 import BibleSidebar from './BibleSidebar';
 import VerseActionToolbar from './VerseActionToolbar';
@@ -41,12 +44,11 @@ const BibleChapter: React.FC = () => {
   const [selectedVerse, setSelectedVerse] = useState<number | null>(null);
   const [noteSheetOpen, setNoteSheetOpen] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const { toastMessage, showToast } = useToast();
 
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const verseListRef = useRef<HTMLDivElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const bookMeta = BIBLE_BOOKS.find((b) => b.number === book);
 
@@ -121,36 +123,14 @@ const BibleChapter: React.FC = () => {
     }
   };
 
-  const showToast = (message: string) => {
-    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
-    setToastMessage(message);
-    toastTimeoutRef.current = setTimeout(() => setToastMessage(null), 2000);
-  };
-
-  const copyVerseLink = async (reference: string, text: string, url: string) => {
-    try {
-      await navigator.clipboard.writeText(`${reference} — "${text}" ${url}`);
-      showToast('Copied to clipboard');
-    } catch {
-      showToast("Couldn't copy — try again");
-    }
-  };
-
   const shareVerse = async (verseNumber: number) => {
     const text = verses?.[verseNumber - 1] ?? '';
     const reference = `${bookMeta?.names[lang!]} ${chapter}:${verseNumber}`;
-    const url = `${window.location.origin}/bible/${lang}/${book}/${chapter}`;
+    const url = `${CANONICAL_ORIGIN}/bible/${lang}/${book}/${chapter}`;
 
-    if (navigator.share) {
-      try {
-        await navigator.share({ text: `${reference} — "${text}"`, url });
-      } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') return; // user cancelled - not an error
-        await copyVerseLink(reference, text, url);
-      }
-    } else {
-      await copyVerseLink(reference, text, url);
-    }
+    const result = await shareOrCopy({ text: `${reference} — "${text}"`, url });
+    if (result === 'copied') showToast('Copied to clipboard');
+    if (result === 'failed') showToast("Couldn't copy — try again");
   };
 
   const toggleVerseSelection = (verseNumber: number) => {
@@ -339,11 +319,7 @@ const BibleChapter: React.FC = () => {
         />
       )}
 
-      {toastMessage && (
-        <div className="fixed inset-x-0 bottom-24 z-50 flex justify-center">
-          <div className="bg-[#111113] text-white text-xs font-bold px-4 py-2 rounded-full shadow-xl">{toastMessage}</div>
-        </div>
-      )}
+      <Toast message={toastMessage} />
     </>
   );
 };

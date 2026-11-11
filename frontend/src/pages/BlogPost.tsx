@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { blogAPI, authAPI, searchAPI } from '../services/api';
 import { useFetch, useCachedFetch } from '../hooks/useAPI';
 import { Heart, Eye, MessageCircle, Tag, Calendar, Clock, ArrowLeft, Share2 } from 'lucide-react';
-import SEO from '../components/SEO';
+import SEO, { CANONICAL_ORIGIN } from '../components/SEO';
 import ShareModal from '../components/ShareModal';
 import AudioReader from '../components/AudioReader';
 import BibleReference from '../components/BibleReference';
@@ -575,6 +575,7 @@ const BlogPost: React.FC = () => {
           onClose={() => setIsShareModalOpen(false)}
           title={post.title}
           excerpt={post.excerpt}
+          url={`${CANONICAL_ORIGIN}/blog/${post.slug}`}
         />
       )}
     </div>

@@ -6,7 +6,7 @@ import { useVerseArchive } from '../hooks/useVerseArchive';
 import { useBibleVerse } from '../hooks/useBibleVerse';
 import { useCachedFetch } from '../hooks/useAPI';
 import { Calendar, BookOpen, Languages, Share2, ArrowLeft } from 'lucide-react';
-import SEO from '../components/SEO';
+import SEO, { CANONICAL_ORIGIN } from '../components/SEO';
 import ShareModal from '../components/ShareModal';
 import AutoText from '../components/AutoText';
 
@@ -238,7 +238,7 @@ const VerseDetail: React.FC = () => {
           isOpen={isShareModalOpen}
           onClose={() => setIsShareModalOpen(false)}
           title={reference(verse)}
-          url={`${window.location.origin}/verses/${verse.id}`}
+          url={`${CANONICAL_ORIGIN}/verses/${verse.id}`}
           excerpt={verse.text}
           heading="Share This Verse"
         />

@@ -1,21 +1,32 @@
-import { useEffect, useState } from 'react';
-import { Play, AlertTriangle, Clock, Eye } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Play, AlertTriangle, Clock, Eye, Share2 } from 'lucide-react';
 import { homeFeedAPI } from '../services/api';
 import type { HomeFeedVideo } from '../services/api.d';
-import SEO from '../components/SEO';
+import SEO, { CANONICAL_ORIGIN } from '../components/SEO';
 import AutoText from '../components/AutoText';
+import Toast from '../components/Toast';
+import { useToast } from '../hooks/useToast';
+import { shareOrCopy } from '../lib/share';
 
 const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
-    const [playing, setPlaying] = useState(false);
+const VideoCard = ({
+    item, isPlaying, onPlay, onShare, cardRef,
+}: {
+    item: HomeFeedVideo;
+    isPlaying: boolean;
+    onPlay: () => void;
+    onShare: () => void;
+    cardRef?: (el: HTMLDivElement | null) => void;
+}) => {
     const isLive = item.type === 'LIVE';
 
     return (
-        <div className="group bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
-            <div className={`relative bg-gray-100 dark:bg-white/10 overflow-hidden ${playing ? 'h-64 md:h-80' : 'h-48 md:h-56'}`}>
-                {playing ? (
+        <div ref={cardRef} className="group bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
+            <div className={`relative bg-gray-100 dark:bg-white/10 overflow-hidden ${isPlaying ? 'h-64 md:h-80' : 'h-48 md:h-56'}`}>
+                {isPlaying ? (
                     <iframe
                         className="absolute inset-0 w-full h-full"
                         src={`https://www.youtube.com/embed/${item.id}?autoplay=1`}
@@ -41,7 +52,7 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
                             </div>
                         )}
                         <button
-                            onClick={() => setPlaying(true)}
+                            onClick={onPlay}
                             aria-label="Play video"
                             className="absolute inset-0 flex items-center justify-center group"
                         >
@@ -70,7 +81,15 @@ const VideoCard = ({ item }: { item: HomeFeedVideo }) => {
                 <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-2 md:line-clamp-3">{item.excerpt}</p>
             </div>
 
-            <div className="px-3 py-2.5 md:px-6 md:py-4 flex items-center justify-end border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5">
+            <div className="px-3 py-2.5 md:px-6 md:py-4 flex items-center justify-between border-t border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-white/5">
+                <button
+                    onClick={onShare}
+                    aria-label="Share"
+                    className="flex items-center gap-1 md:gap-1.5 px-2 py-1 md:px-2.5 md:py-1.5 rounded border border-gray-200 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:border-amber-400 hover:text-amber-700 font-bold text-[10px] md:text-xs uppercase tracking-wider transition-colors"
+                >
+                    <Share2 className="h-3 w-3 md:h-3.5 md:w-3.5" />
+                    Share
+                </button>
                 <div className="flex items-center gap-1 md:gap-1.5 px-2 py-1 md:px-2.5 md:py-1.5 rounded border border-amber-200 bg-amber-50 text-amber-800 font-bold text-[10px] md:text-xs">
                     <Eye className="h-3 w-3 md:h-3.5 md:w-3.5" />
                     <span>{item.views}</span>
@@ -109,6 +128,10 @@ const Videos = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [activeFilter, setActiveFilter] = useState<typeof FILTERS[number]['id']>('ALL');
+    const [playingId, setPlayingId] = useState<string | null>(null);
+    const [searchParams] = useSearchParams();
+    const { toastMessage, showToast } = useToast();
+    const cardRefs = useRef(new Map<string, HTMLDivElement>());
 
     useEffect(() => {
         setLoading(true);
@@ -122,7 +145,24 @@ const Videos = () => {
         }).catch(() => setError(true)).finally(() => setLoading(false));
     }, []);
 
+    // Honors a shared link's ?v=<videoId> (see VideoCard's share button) -
+    // once that video has loaded, play it and scroll it into view.
+    useEffect(() => {
+        const v = searchParams.get('v');
+        if (!v || items.length === 0) return;
+        if (!items.some((item) => item.id === v)) return;
+        setPlayingId(v);
+        cardRefs.current.get(v)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, [searchParams, items]);
+
     const visibleItems = activeFilter === 'ALL' ? items : items.filter(item => item.type === activeFilter);
+
+    const handleShare = async (item: HomeFeedVideo) => {
+        const url = `${CANONICAL_ORIGIN}/watch?v=${item.id}`;
+        const result = await shareOrCopy({ text: item.title, url });
+        if (result === 'copied') showToast('Copied to clipboard');
+        if (result === 'failed') showToast("Couldn't copy — try again");
+    };
 
     return (
         <div className="min-h-screen bg-white dark:bg-transparent">
@@ -172,11 +212,23 @@ const Videos = () => {
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                         {visibleItems.map(item => (
-                            <VideoCard key={item.id} item={item} />
+                            <VideoCard
+                                key={item.id}
+                                item={item}
+                                isPlaying={playingId === item.id}
+                                onPlay={() => setPlayingId(item.id)}
+                                onShare={() => handleShare(item)}
+                                cardRef={(el) => {
+                                    if (el) cardRefs.current.set(item.id, el);
+                                    else cardRefs.current.delete(item.id);
+                                }}
+                            />
                         ))}
                     </div>
                 )}
             </div>
+
+            <Toast message={toastMessage} />
         </div>
     );
 };

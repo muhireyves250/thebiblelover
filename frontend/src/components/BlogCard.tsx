@@ -4,6 +4,7 @@ import { Heart, Share2, Eye } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ShareModal from './ShareModal';
+import { CANONICAL_ORIGIN } from './SEO';
 import { blogAPI } from '../services/api';
 import { useTranslatedText } from '../hooks/useDynamicTranslation';
 
@@ -191,7 +192,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
         title={title}
-        url={`${window.location.origin}/blog/${slug}`}
+        url={`${CANONICAL_ORIGIN}/blog/${slug}`}
         excerpt={excerpt}
       />
     </motion.article>

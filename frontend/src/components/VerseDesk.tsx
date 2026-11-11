@@ -5,6 +5,7 @@ import { ChevronRight, Share2 } from 'lucide-react';
 import { useVerseArchive, type VerseArchiveItem } from '../hooks/useVerseArchive';
 import { useBibleVerse } from '../hooks/useBibleVerse';
 import ShareModal from './ShareModal';
+import { CANONICAL_ORIGIN } from './SEO';
 import AutoText from './AutoText';
 
 const DAY_TABS: { label: string; day: number | null }[] = [
@@ -288,7 +289,7 @@ const VerseDesk: React.FC = () => {
           isOpen={isShareModalOpen}
           onClose={() => setIsShareModalOpen(false)}
           title={displayedFeatured.reference}
-          url={`${window.location.origin}/verses/${displayedFeatured.id}`}
+          url={`${CANONICAL_ORIGIN}/verses/${displayedFeatured.id}`}
           excerpt={displayedFeatured.text}
           heading="Share This Verse"
         />

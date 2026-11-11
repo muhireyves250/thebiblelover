@@ -7,11 +7,12 @@ import { useContentSettings } from '../hooks/useContentSettings';
 import { homeFeedAPI } from '../services/api';
 import type { HomeFeedVideo } from '../services/api.d';
 import ShareModal from './ShareModal';
+import { CANONICAL_ORIGIN } from './SEO';
 import AutoText from './AutoText';
 
 const shareUrlFor = (item: HomeFeedItem) => {
   const href = item.type === 'POST' ? `/blog/${item.slug}` : item.url;
-  return href.startsWith('http') ? href : `${window.location.origin}${href}`;
+  return href.startsWith('http') ? href : `${CANONICAL_ORIGIN}${href}`;
 };
 
 const PAGE_SIZE = 4;

@@ -4,7 +4,7 @@ import { audioEpisodesAPI } from '../services/api';
 import type { AudioEpisode } from '../services/api.d';
 import { useFetch, useCachedFetch } from '../hooks/useAPI';
 import { Heart, MessageCircle, Tag, Calendar, Share2, Download, Play, Pause, SkipBack, SkipForward, RotateCcw, RotateCw, ArrowLeft } from 'lucide-react';
-import SEO from '../components/SEO';
+import SEO, { CANONICAL_ORIGIN } from '../components/SEO';
 import ShareModal from '../components/ShareModal';
 import AutoText from '../components/AutoText';
 
@@ -671,6 +671,7 @@ const PlayerDetail: React.FC = () => {
           onClose={() => setIsShareModalOpen(false)}
           title={episode.title}
           heading="Share This Episode"
+          url={`${CANONICAL_ORIGIN}/players/${id}`}
         />
       )}
     </div>
