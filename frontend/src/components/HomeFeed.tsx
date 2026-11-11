@@ -10,10 +10,11 @@ import ShareModal from './ShareModal';
 import { CANONICAL_ORIGIN } from './SEO';
 import AutoText from './AutoText';
 
-const shareUrlFor = (item: HomeFeedItem) => {
-  const href = item.type === 'POST' ? `/blog/${item.slug}` : item.url;
-  return href.startsWith('http') ? href : `${CANONICAL_ORIGIN}${href}`;
-};
+// Always a link to this site, never the raw youtube.com URL - a shared
+// video link should open /watch here (which plays that exact video via
+// its ?v= param), the same as sharing straight from the Watch page.
+const shareUrlFor = (item: HomeFeedItem) =>
+  item.type === 'POST' ? `${CANONICAL_ORIGIN}/blog/${item.slug}` : `${CANONICAL_ORIGIN}/watch?v=${item.id}`;
 
 const PAGE_SIZE = 4;
 const AUTO_ROTATE_MS = 6000;
