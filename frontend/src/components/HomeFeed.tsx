@@ -53,7 +53,10 @@ const StatsRow: React.FC<{ item: HomeFeedItem; onShare?: () => void }> = ({ item
 const FeaturedCard: React.FC<{ item: HomeFeedItem; onPlayingChange?: (playing: boolean) => void }> = ({ item, onPlayingChange }) => {
   const [playing, setPlaying] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
-  const isLive = item.type === 'LIVE';
+  // `type === 'LIVE'` also covers past recordings of old live streams
+  // (grouped by title, not real-time status) - the pulsing "LIVE" badge
+  // here must only ever claim the single broadcast actually airing now.
+  const isLive = isVideoLike(item) && item.isLiveNow;
   const video = isVideoLike(item);
 
   const changePlaying = (next: boolean) => {

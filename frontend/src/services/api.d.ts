@@ -420,6 +420,8 @@ export interface HomeFeedPost {
 
 export interface HomeFeedVideo {
   type: 'VIDEO' | 'LIVE';
+  /** True only for the single broadcast actually airing right now - `type` alone also groups past recordings of old live streams. */
+  isLiveNow: boolean;
   id: string;
   title: string;
   excerpt: string;

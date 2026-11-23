@@ -13,7 +13,12 @@ const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
 const VideoCard = ({ item, onShare }: { item: HomeFeedVideo; onShare: () => void }) => {
+    // `type === 'LIVE'` groups this with past recordings of old live
+    // streams too (by title, not real-time status) - the pulsing "airing
+    // now" badge on the thumbnail must only ever show for the one
+    // broadcast that's actually live this moment.
     const isLive = item.type === 'LIVE';
+    const isLiveNow = item.isLiveNow;
 
     return (
         <div className="group bg-white dark:bg-[#141417] border border-gray-300 dark:border-white/10 rounded-lg shadow-sm dark:bg-[#141417] dark:border-white/10 overflow-hidden hover:border-gray-400 hover:shadow-md transition-all flex flex-col">
@@ -24,7 +29,7 @@ const VideoCard = ({ item, onShare }: { item: HomeFeedVideo; onShare: () => void
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                 />
-                {isLive && (
+                {isLiveNow && (
                     <div className="absolute top-2 left-2 md:top-3 md:left-3 flex items-center gap-1.5 px-2 py-0.5 md:px-2.5 md:py-1 bg-red-600 rounded-full shadow-lg">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white dark:bg-[#141417] opacity-75" />

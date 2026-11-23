@@ -53,13 +53,28 @@ async function getUploadsPlaylistId() {
   return playlistId || null;
 }
 
+// A finished live stream stays on the channel's uploads playlist as an
+// ordinary video forever - YouTube's playlistItems endpoint gives no signal
+// that it was ever live. The channel's own naming convention ("Live In AG
+// Rwayesu || ...", "Live muri AG Rwayesu || ...") is the only signal
+// available, so a title match is how a past broadcast gets grouped with
+// "Live" content instead of silently becoming indistinguishable from a
+// regular upload.
+const RECORDED_LIVE_TITLE = /\blive\b/i;
+
 function mapPlaylistItem(item) {
   const videoId = item.snippet?.resourceId?.videoId;
   if (!videoId) return null;
+  const title = item.snippet.title;
   return {
-    type: 'VIDEO',
+    type: RECORDED_LIVE_TITLE.test(title) ? 'LIVE' : 'VIDEO',
+    // Unlike `type` (a content category used to group past recordings),
+    // this is only ever true for the single broadcast actually airing
+    // right now - the one thing a "LIVE NOW" pulsing badge may honestly
+    // claim.
+    isLiveNow: false,
     id: videoId,
-    title: item.snippet.title,
+    title,
     excerpt: (item.snippet.description || '').slice(0, 220),
     thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url,
     publishedAt: item.snippet.publishedAt,
@@ -72,6 +87,7 @@ function mapLiveSearchItem(item) {
   if (!videoId) return null;
   return {
     type: 'LIVE',
+    isLiveNow: true,
     id: videoId,
     title: item.snippet.title,
     excerpt: (item.snippet.description || '').slice(0, 220),
