@@ -55,7 +55,7 @@ async function getAllAudioEpisodeUrls() {
 }
 
 async function getAllVideoUrls() {
-  const data = await fetchJson(`${API_BASE}/home-feed/videos?limit=100`);
+  const data = await fetchJson(`${API_BASE}/home-feed/videos?limit=500`);
   const items = data?.data?.items ?? [];
   return items.map((v) => ({ loc: `/watch/${v.id}`, lastmod: v.publishedAt, priority: '0.6' }));
 }

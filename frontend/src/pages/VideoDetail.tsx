@@ -23,7 +23,10 @@ const VideoDetail: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     setError(false);
-    homeFeedAPI.getVideos(50).then((response) => {
+    // Must cover every video the channel has, not just the most recent
+    // ones - otherwise an older video's own page would 404 on a direct
+    // link even though it's still really on the channel.
+    homeFeedAPI.getVideos(500).then((response) => {
       if (response.success && response.data) {
         const items: HomeFeedVideo[] = response.data.items;
         const match = items.find((item) => item.id === id);

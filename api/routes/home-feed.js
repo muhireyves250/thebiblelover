@@ -71,7 +71,7 @@ router.get('/', async (req, res) => {
 // Watch slot which only ever shows the single featured item.
 router.get('/videos', async (req, res) => {
   try {
-    const limit = Math.min(parseInt(req.query.limit) || 20, 50);
+    const limit = Math.min(parseInt(req.query.limit) || 20, 500);
 
     const [videos, live] = await Promise.all([
       getLatestVideos(limit).catch(() => []),

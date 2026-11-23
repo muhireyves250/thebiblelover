@@ -104,17 +104,20 @@ const FILTERS = [
     { id: 'VIDEO', name: 'Videos' },
 ] as const;
 
+const PAGE_SIZE = 24;
+
 const Videos = () => {
     const [items, setItems] = useState<HomeFeedVideo[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [activeFilter, setActiveFilter] = useState<typeof FILTERS[number]['id']>('ALL');
+    const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
     const { toastMessage, showToast } = useToast();
 
     useEffect(() => {
         setLoading(true);
         setError(false);
-        homeFeedAPI.getVideos(24).then((response) => {
+        homeFeedAPI.getVideos(500).then((response) => {
             if (response.success && response.data) {
                 setItems(response.data.items);
             } else {
@@ -123,7 +126,16 @@ const Videos = () => {
         }).catch(() => setError(true)).finally(() => setLoading(false));
     }, []);
 
-    const visibleItems = activeFilter === 'ALL' ? items : items.filter(item => item.type === activeFilter);
+    // Changing the filter should start back at the top of that filter's
+    // own list, not keep whatever "See more" count was reached under the
+    // previous one.
+    useEffect(() => {
+        setVisibleCount(PAGE_SIZE);
+    }, [activeFilter]);
+
+    const filteredItems = activeFilter === 'ALL' ? items : items.filter(item => item.type === activeFilter);
+    const visibleItems = filteredItems.slice(0, visibleCount);
+    const hasMore = visibleCount < filteredItems.length;
 
     const handleShare = async (item: HomeFeedVideo) => {
         const url = `${CANONICAL_ORIGIN}/watch/${item.id}`;
@@ -178,11 +190,24 @@ const Videos = () => {
                 ) : visibleItems.length === 0 ? (
                     <AutoText as="p" className="text-gray-500 dark:text-gray-400 text-center py-16">No videos found.</AutoText>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                        {visibleItems.map(item => (
-                            <VideoCard key={item.id} item={item} onShare={() => handleShare(item)} />
-                        ))}
-                    </div>
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                            {visibleItems.map(item => (
+                                <VideoCard key={item.id} item={item} onShare={() => handleShare(item)} />
+                            ))}
+                        </div>
+
+                        {hasMore && (
+                            <div className="flex justify-center mt-6 md:mt-10">
+                                <button
+                                    onClick={() => setVisibleCount(c => c + PAGE_SIZE)}
+                                    className="px-6 py-2.5 rounded-full border border-gray-300 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:border-amber-600 hover:text-amber-700 font-bold text-xs uppercase tracking-widest transition-colors"
+                                >
+                                    <AutoText as="span">See More</AutoText>
+                                </button>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
 

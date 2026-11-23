@@ -97,18 +97,23 @@ function mapLiveSearchItem(item) {
   };
 }
 
-// videos.list only costs 1 quota unit regardless of how many IDs/parts are
-// requested, so batching view/like/comment counts onto already-fetched
-// videos is essentially free compared to the calls that found them.
+// videos.list only costs 1 quota unit per call regardless of how many IDs
+// are requested, but the id param isn't documented for unlimited length, so
+// lookups are batched in groups of 50 (YouTube's own per-call item cap
+// elsewhere in this API) rather than joined into one unbounded list.
 async function attachStatistics(videos) {
   if (videos.length === 0) return videos;
 
-  const data = await ytFetch('videos', {
-    part: 'statistics',
-    id: videos.map(v => v.id).join(',')
-  });
+  const statsById = new Map();
+  for (let i = 0; i < videos.length; i += 50) {
+    const batch = videos.slice(i, i + 50);
+    const data = await ytFetch('videos', {
+      part: 'statistics',
+      id: batch.map(v => v.id).join(',')
+    });
+    for (const item of data.items || []) statsById.set(item.id, item.statistics);
+  }
 
-  const statsById = new Map((data.items || []).map(i => [i.id, i.statistics]));
   return videos.map(v => {
     const stats = statsById.get(v.id);
     return {
@@ -120,6 +125,13 @@ async function attachStatistics(videos) {
   });
 }
 
+// playlistItems caps each call at 50 results, so getting "all" of a channel's
+// uploads (not just the most recent 50) means paging through with
+// nextPageToken. HARD_CAP guards against an extreme-sized channel burning
+// the day's quota on one request - 500 uploads is far beyond what this
+// church channel realistically needs to show at once.
+const HARD_CAP = 500;
+
 export async function getLatestVideos(maxResults = 8) {
   if (!isConfigured()) return [];
 
@@ -130,13 +142,21 @@ export async function getLatestVideos(maxResults = 8) {
   const playlistId = await getUploadsPlaylistId();
   if (!playlistId) return [];
 
-  const data = await ytFetch('playlistItems', {
-    part: 'snippet',
-    playlistId,
-    maxResults: String(maxResults)
-  });
+  const target = Math.min(maxResults, HARD_CAP);
+  const items = [];
+  let pageToken;
+  do {
+    const data = await ytFetch('playlistItems', {
+      part: 'snippet',
+      playlistId,
+      maxResults: String(Math.min(target - items.length, 50)),
+      ...(pageToken ? { pageToken } : {})
+    });
+    items.push(...(data.items || []));
+    pageToken = data.nextPageToken;
+  } while (pageToken && items.length < target);
 
-  const videos = await attachStatistics((data.items || []).map(mapPlaylistItem).filter(Boolean));
+  const videos = await attachStatistics(items.map(mapPlaylistItem).filter(Boolean));
   setCached(cacheKey, videos, 5 * 60 * 1000); // 5 minutes
   return videos;
 }
