@@ -58,7 +58,7 @@ const VideoDetail: React.FC = () => {
         />
       )}
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-16">
         <Link to="/watch" className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-amber-700 hover:underline mb-4 md:mb-6">
           <ArrowLeft className="h-3.5 w-3.5" /> All videos
         </Link>
