@@ -86,4 +86,16 @@ if (container) {
 // the Bible reader needs it to make the app work fully offline from the
 // first launch after install.
 import { registerSW } from 'virtual:pwa-register';
-registerSW({ immediate: true });
+import { announceUpdateAvailable } from './lib/pwaUpdate';
+
+const updateSW = registerSW({
+  immediate: true,
+  // registerType is 'prompt', not 'autoUpdate' (see note above), so the
+  // new worker installs and waits rather than taking over mid-session -
+  // this is the other half: tell UpdateAvailableBanner it's ready, so the
+  // visitor gets an actual way to pick it up instead of being silently
+  // stuck on old cached code until they clear storage by hand.
+  onNeedRefresh() {
+    announceUpdateAvailable(updateSW);
+  },
+});

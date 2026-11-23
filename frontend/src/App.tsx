@@ -72,6 +72,7 @@ const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const Terms = lazy(() => import('./pages/Terms'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 import WhatsAppWidget from './components/WhatsAppWidget';
+import UpdateAvailableBanner from './components/UpdateAvailableBanner';
 
 // Lazy load heavy components
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -203,6 +204,7 @@ function AppContent() {
       {!isBareLayout && <div className="md:hidden h-20" aria-hidden="true" />}
       {!isBareLayout && <MobileBottomNav />}
       <div className="hidden md:block"><WhatsAppWidget /></div>
+      <UpdateAvailableBanner />
     </div>
   );
 }
